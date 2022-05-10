@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	[은영] test
+	[은영] test...
 </body>
 </html>
