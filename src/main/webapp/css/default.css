@@ -49,7 +49,7 @@ a {
   text-decoration: none;
 }
 header {
-  background-color: #252a34;
+  background-color: #fff;
   padding: 32px;
   display: flex;
   min-width: 1200px;
@@ -61,7 +61,8 @@ header > .site-logo {
   padding: 0px 20px;
 }
 header > .site-logo > a {
-  color: #fff;
+  color: #1e90ff;
+  font-weight: bold;
   font-family: ns-bold;
   font-size: 24px;
   line-height: 60px;
@@ -79,14 +80,14 @@ header > nav > .navi > li {
 }
 header > nav > .navi > li > a {
   display: block;
-  color: rgba(255, 255, 255, 0.6);
+  color: #191f28;
   padding: 5px 20px;
   transition-duration: 0.5s;
   line-height: 60px;
 }
 header > nav > .navi > li:hover > a,
 header > nav > .navi > li:hover > a + span {
-  color: rgba(255, 255, 255, 1);
+  font-weight: bold;
 }
 header > nav > .navi > li:hover > .sub-navi {
   display : block;
@@ -133,7 +134,7 @@ header > nav .sub-navi > li:hover {
 }
 footer {
   padding: 50px;
-  border-top: 1px solid #252a34;
+  background-color: #191f28;
 }
 footer > .footer-content {
   width: 1200px;
@@ -142,6 +143,7 @@ footer > .footer-content {
 }
 footer > .footer-content * {
   font-size: 14px;
+  color: white;
 }
 footer > .footer-content > ul {
   list-style-type: none;
@@ -292,36 +294,32 @@ footer > .footer-content > ul > li > a {
   font-family: ns-light;
 }
 .bc1 {
-  background-color: rgba(37, 42, 52, 0.9);
+  background-color: rgb(30,144,255);
   color: #fff;
-  border: 2px solid rgba(37, 42, 52, 0.9);
 }
 .bc1:hover {
   background-color: rgba(37, 42, 52, 1);
   cursor: pointer;
 }
 .bc2 {
-  background-color: rgba(57, 62, 70, 0.9);
+  background-color: rgb(255,130,171);
   color: #fff;
-  border: 2px solid rgba(57, 62, 70, 0.9);
 }
 .bc2:hover {
   background-color: rgba(57, 62, 70, 1);
   cursor: pointer;
 }
 .bc3 {
-  background-color: rgba(238, 238, 238, 0.9);
+  background-color: rgb(139,149,161);
   color: #252a34;
-  border: 2px solid rgba(238, 238, 238, 0.9);
 }
 .bc3:hover {
   background-color: rgba(238, 238, 238, 1);
   cursor: pointer;
 }
 .bc4 {
-  background-color: rgba(0, 173, 181, 0.9);
+  background-color: rgb(25,31,40);
   color: #fff;
-  border: 2px solid rgba(0, 173, 181, 0.9);
 }
 .bc4:hover {
   background-color: rgba(0, 173, 181, 1);
