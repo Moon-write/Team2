@@ -36,79 +36,17 @@
 * {
   margin: 0;
   padding: 0;
-  color: #252a34;
   font-family: ns-m;
 }
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 880px;
 }
 /* 기본화면 레이아웃 */
 a {
   text-decoration: none;
-}
-header {
-  background-color: #fff;
-  padding: 32px;
-  display: flex;
-  min-width: 1200px;
-}
-header > *:not(.header-link) {
-  float: left;
-}
-header > .site-logo {
-  padding: 0px 20px;
-}
-header > .site-logo > a {
-  color: #1e90ff;
-  font-weight: bold;
-  font-family: ns-bold;
-  font-size: 24px;
-  line-height: 60px;
-}
-header > nav {
-  flex-grow: 1;
-}
-
-header > nav > .navi {
-  list-style-type: none;
-}
-header > nav > .navi > li {
-  float: left;
-  position: relative;
-}
-header > nav > .navi > li > a {
-  display: block;
-  color: #191f28;
-  padding: 5px 20px;
-  transition-duration: 0.5s;
-  line-height: 60px;
-}
-header > nav > .navi > li:hover > a,
-header > nav > .navi > li:hover > a + span {
-  font-weight: bold;
-}
-header > nav > .navi > li:hover > .sub-navi {
-  display : block;
-}
-header > nav .sub-navi {
-  position: absolute;
-  background-color: #fff;
-  list-style-type: none;
-  display: none;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  left: 10px;
-  min-width: 10rem;
-}
-header > nav .sub-navi > li {
-  padding: 0.25rem 1rem;
-}
-header > nav .sub-navi > li > a {
-  display: block;
-}
-header > nav .sub-navi > li:hover {
-  background-color: rgba(0, 0, 0, 0.05);
 }
 .material-icons.dropdown {
   font-size: 20px;
@@ -142,21 +80,9 @@ footer > .footer-content {
   padding: 0px 10px;
 }
 footer > .footer-content * {
-  font-size: 14px;
   color: white;
+  font-family: ns-light;
 }
-footer > .footer-content > ul {
-  list-style-type: none;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-footer > .footer-content > ul > li {
-  float: left;
-}
-footer > .footer-content > ul > li > a {
-  padding-right: 20px;
-}
-
 /* font 클래스*/
 .f-thin {
   font-family: ns-thin;
@@ -234,17 +160,21 @@ footer > .footer-content > ul > li > a {
 }
 .tbl th,
 .tbl td {
-  padding: 1rem;
+  padding: 0.7rem;
   text-align: center;
 }
 .tbl .tr-1 {
-  background-color: rgba(255, 255, 255, 1);
+  border-top : 2px solid rgb(30,144,255);
+  border-bottom : 2px solid rgb(30,144,255);
+  background-color: #fff;
+  color : #000;
 }
 .tbl .tr-2 {
-  background-color: rgba(57, 62, 70, 0.1);
+  color : #fff;
+  background-color: rgb(30,144,255);
 }
 .tbl .tr-3 {
-  background-color: rgba(0, 173, 181, 0.1);
+  background-color: rgba(30, 144, 255, 0.5);
 }
 .tbl .tr-4 {
   background-color: rgba(137, 44, 220, 0.1);
@@ -268,13 +198,15 @@ footer > .footer-content > ul > li > a {
   background-color: rgba(255, 46, 999, 0.1);
 }
 .tbl.tbl-hover .tr-1:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s;
+  background-color: rgba(30, 144, 255, 0.1);
 }
 .tbl.tbl-hover .tr-2:hover {
-  background-color: rgba(57, 62, 70, 0.15);
+  background-color: rgba(24, 116, 205, 1);
 }
 .tbl.tbl-hover .tr-3:hover {
-  background-color: rgba(0, 173, 181, 0.15);
+  background-color: rgba(30,144,255,0.7);
+  color : #fff;
 }
 .tbl.tbl-hover .tr-4:hover {
   background-color: rgba(137, 44, 220, 0.15);
@@ -286,19 +218,21 @@ footer > .footer-content > ul > li > a {
 /* 버튼 디자인 */
 .btn {
   border: none;
-  padding: 1rem;
+  padding: 0.5rem 1rem ;
   display: inline-block;
   box-sizing: border-box;
   transition-duration: 0.5s;
   font-size: 16px;
   font-family: ns-light;
+  border-radius: 5px;
+    
 }
 .bc1 {
   background-color: rgb(30,144,255);
   color: #fff;
 }
 .bc1:hover {
-  background-color: rgba(37, 42, 52, 1);
+  background-color: rgba(24, 116, 205, 1);
   cursor: pointer;
 }
 .bc2 {
@@ -306,15 +240,15 @@ footer > .footer-content > ul > li > a {
   color: #fff;
 }
 .bc2:hover {
-  background-color: rgba(57, 62, 70, 1);
+  background-color: rgba(204, 104, 137, 1);
   cursor: pointer;
 }
 .bc3 {
   background-color: rgb(139,149,161);
-  color: #252a34;
+  color: #fff;
 }
 .bc3:hover {
-  background-color: rgba(238, 238, 238, 1);
+  background-color: rgba(111,119,129, 1);
   cursor: pointer;
 }
 .bc4 {
@@ -322,7 +256,7 @@ footer > .footer-content > ul > li > a {
   color: #fff;
 }
 .bc4:hover {
-  background-color: rgba(0, 173, 181, 1);
+  background-color: rgba(0, 0, 0, 1);
   cursor: pointer;
 }
 .bc5 {
@@ -362,49 +296,49 @@ footer > .footer-content > ul > li > a {
   cursor: pointer;
 }
 .bc11 {
-  color: rgba(37, 42, 52, 1);
+  color: rgb(30,144,255);
   background-color: #fff;
-  border: 2px solid rgba(37, 42, 52, 1);
+  border: 1px solid rgba(30, 144, 255, 1);
 }
 .bc11:hover {
-  background-color: rgba(37, 42, 52, 1);
+  background-color: rgb(30,144,255);
   cursor: pointer;
   color: #fff;
 }
 .bc22 {
-  color: rgba(57, 62, 70, 1);
+  color: rgb(255,130,171);
   background-color: #fff;
-  border: 2px solid rgba(57, 62, 70, 1);
+  border: 1px solid rgb(255,130,171);
 }
 .bc22:hover {
-  background-color: rgba(57, 62, 70, 1);
+  background-color: rgb(255,130,171);
   cursor: pointer;
   color: #fff;
 }
 .bc33 {
-  color: rgba(37, 42, 52, 1);
+  color: rgb(139,149,161);
   background-color: #fff;
-  border: 2px solid rgba(238, 238, 238, 1);
+  border: 1px solid rgb(139,149,161);
 }
 .bc33:hover {
-  background-color: rgba(238, 238, 238, 1);
+  background-color: rgb(139,149,161);
   cursor: pointer;
-  color: rgba(37, 42, 52, 1);
+  color: #fff;
 }
 .bc44 {
-  color: rgba(0, 173, 181, 1);
+  color: rgb(25,31,40);
   background-color: #fff;
-  border: 2px solid rgba(0, 173, 181, 1);
+  border: 1px solid rgb(25,31,40);
 }
 .bc44:hover {
-  background-color: rgba(0, 173, 181, 1);
+  background-color: rgb(25,31,40);
   color: #fff;
   cursor: pointer;
 }
 .bc55 {
   color: rgba(8, 217, 214, 1);
   background-color: #fff;
-  border: 2px solid rgba(8, 217, 214, 1);
+  border: 1px solid rgba(8, 217, 214, 1);
 }
 .bc55:hover {
   background-color: rgba(8, 217, 214, 1);
@@ -414,7 +348,7 @@ footer > .footer-content > ul > li > a {
 .bc66 {
   color: rgba(255, 46, 99, 1);
   background-color: #fff;
-  border: 2px solid rgba(255, 46, 99, 1);
+  border: 1px solid rgba(255, 46, 99, 1);
 }
 .bc66:hover {
   background-color: rgba(255, 46, 99, 1);
@@ -424,7 +358,7 @@ footer > .footer-content > ul > li > a {
 .bc77 {
   color: rgba(248, 95, 115, 1);
   background-color: #fff;
-  border: 2px solid rgba(248, 95, 115, 1);
+  border: 1px solid rgba(248, 95, 115, 1);
 }
 .bc77:hover {
   background-color: rgba(248, 95, 115, 1);
@@ -434,7 +368,7 @@ footer > .footer-content > ul > li > a {
 .bc88 {
   color: rgba(137, 44, 220, 1);
   background-color: #fff;
-  border: 2px solid rgba(137, 44, 220, 1);
+  border: 1px solid rgba(137, 44, 220, 1);
 }
 .bc88:hover {
   background-color: rgba(137, 44, 220, 1);
@@ -442,14 +376,14 @@ footer > .footer-content > ul > li > a {
   cursor: pointer;
 }
 .bs1 {
-  padding: 1rem;
+  padding: 0.5rem 1rem;
 }
 .bs2 {
-  padding: 1.5rem;
+  padding: 0.75rem 1.5rem;
   font-size: 1.1em;
 }
 .bs3 {
-  padding: 2rem;
+  padding: 1rem 2rem;
   font-size: 1.2em;
 }
 .bs4 {
@@ -486,6 +420,7 @@ textarea.input-form {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 .pagination > li {
   width: 40px;
@@ -493,6 +428,7 @@ textarea.input-form {
   text-align: center;
   line-height: 40px;
   overflow: hidden;
+  
 }
 .pagination.circle-style > li {
   border-radius: 50%;
@@ -502,15 +438,17 @@ textarea.input-form {
   width: 100%;
   height: 100%;
   font-size: 18px;
+  color : #191F28;
 }
 .pagination > li > a.page-item > span.material-icons {
   display: block;
   width: 100%;
   height: 100%;
   line-height: 40px;
+  color : #191F28;
 }
 .pagination .page-item.active-page {
-  background-color: #252a34;
+  background-color: rgb(30,144,255);
   color: #fff;
 }
 /*게시물 표현*/
@@ -597,8 +535,87 @@ textarea.input-form {
   text-decoration: underline;
 }
 
+.badge{
+	padding: 2px 8px;
+	display: inline-block;
+	background-color: rgb(30,144,255);
+	color: #fff;
+	font-size: 0.8em;
+	border-radius: 8px;
+}
+.badge-pink{
+	padding: 2px 8px;
+	display: inline-block;
+	background-color: rgb(255,130,171);
+	color: #fff;
+	font-size: 0.8em;
+	border-radius: 8px;
+}
+input[type=checkbox]{
+	display : inline-block;
+	width: 20px; height: 20px;
+	margin-right : 10px;
+	border-radius : 2px;
+	accent-color: rgb(30,144,255);
+}
+input[type=checkbox]+label, input[type=radio]+label{
+  vertical-align: 4px;
+  display: inline-block;
+	line-height: 20px;
+	height: 20px;
+}
+input[type=radio]{
+	display : inline-block;
+	width: 20px; height: 20px;
+	margin-right : 10px;
+	accent-color: rgb(30,144,255);
+}
+.likeB-pink{
+	color : rgb(255,130,171);
+}
+.likeB-yellow{
+	color : #ffd400;
+}
+.likeB-blue{
+	color:  rgb(30,144,255);
+}
+.likeB{
+	color : #E7E9EC;
+}
+.plusB{
+	width: 20px;
+	color: #fff;
+	background-color: rgb(25,31,40);
+	border-radius : 5px;		
+}
+.amountB{
+	width: 30px; height: 30px;
+	color: rgb(25,31,40);
+	background-color : #fff;
+	border : 1px solid rgb(25,31,40);
+	border-radius : 5px;
+	position: relative;
+}
+.amountB:active{
+	color: #fff;
+	background-color: rgb(25,31,40);
+}
+.amountB+span{
+	font-size: 1.1em;
+	margin: 0px 10px;
+	vertical-align: -5.5px;
+	
+}
+.amountB>span{
+	font-size: 1.5em;
+	font-weight: 900;
+	position: absolute;
+	top: 4px; left: 4px;
+}
+
+
 /*모달*/
-.modal-bg {
+.modal-bg {	
   background-color: rgba(0, 0, 0, 0.3);
   position: fixed;
   width: 100%;
@@ -608,10 +625,12 @@ textarea.input-form {
   flex-direction: column;
 }
 .modal-wrap {
+	border-radius: 15px;
   margin-top: 150px;
   width: 600px;
   background: #fff;
   height: auto;
+  overflow: hidden;
 }
 .modal-wrap div {
   padding: 1rem;
@@ -624,12 +643,16 @@ textarea.input-form {
 }
 .modal-wrap div.modal-head {
   position: relative;
+  background-color : rgb(30,144,255);
+  color: #fff;
+  font-family: ns-light;
 }
 .close-icon {
   position: absolute;
   top: 16px;
   right: 16px;
   font-size: 30px;
+  color: #fff;
 }
 .close-icon:hover {
   cursor: pointer;
