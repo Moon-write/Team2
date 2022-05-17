@@ -11,6 +11,7 @@
 	<%@include file="/WEB-INF/views/common/header_.jsp" %>
 		<div class="page-content">
 			?????
+			깃허브~~테스트~~~
 		</div>
 	<%@include file="/WEB-INF/views/common/footer_.jsp"%>
 </body>
