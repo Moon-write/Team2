@@ -10,8 +10,7 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header_.jsp" %>
 		<div class="page-content">
-			<div class="flex-wrap">
-			</div>
+			?????
 		</div>
 	<%@include file="/WEB-INF/views/common/footer_.jsp"%>
 </body>
