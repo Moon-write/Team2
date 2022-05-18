@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="shop">
+  <select id="selectShopInfo" parameterType="int" resultType="s">
+		select distinct
+		    biz_name as shopName, 
+		    biz_no as bizNo,
+		    shop_no as shopNo,
+		    shop_intro as shopIntro,
+		    shop_birth as shopBirth,
+		    (select sum(order_price) from order_tbl where seller_no=100) as grossIncome
+		    from shop s 
+		    right join member m on (m.member_no=s.member_no)
+		    right join order_tbl o on(seller_no=m.member_no)
+	    where m.member_no=#{memberNo}
+	</select>
+	
+	<select id="selectCategory" parameterType="int" resultType="sc">
+		select category from shop_category where shop_no=#{i}
+	</select>	
+	
+	<select id="selectShopPic" parameterType="int" resultType="sp">
+		select shop_no as shopNo, shop_filename as shopeFilename, shop_filepath as shopFilepath from shop_pic where shop_no=#{shopNo}
+	</select>
+	
+	<insert id="insertFile" parameterType="sp">
+		insert into shop_pic
+		values(shop_pic_seq.nextval,#{shopNo},#{shopFilename},#{shopFilepath})
+	</insert>
+	
+	
+</mapper>

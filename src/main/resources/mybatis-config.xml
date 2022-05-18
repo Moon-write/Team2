@@ -17,6 +17,7 @@
 		<!-- 용욱 -->
 		<typeAlias type="kr.or.shop.model.vo.Shop" alias="s"/>
 		<typeAlias type="kr.or.shop.model.vo.ShopCategory" alias="sc"/>
+		<typeAlias type="kr.or.shop.model.vo.ShopPic" alias="sp"/>
 		<typeAlias type="kr.or.business.model.vo.Business" alias="b"/>
 		
 		<!-- 세호 -->

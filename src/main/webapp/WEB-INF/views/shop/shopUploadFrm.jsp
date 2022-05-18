@@ -53,6 +53,11 @@
 .page-content {
 	float: left;
 }
+.show-content{
+	float:left;
+	margin-top:50px;
+	margin-left:305px;
+}
 </style>
 
 </head>
@@ -109,16 +114,39 @@
 				</li>
 			</ul>
 		</div>
+		<h2 style="margin-top:50px;margin-left:520px;">사업자 정보 관리</h1>
 		<div class="show-content">
-			<div></div>
+			<form action="/shopUpload.kh" method="post" enctype="multipart/form-data">
+				<fieldset style="border:0px solid black;">				
+						<div>
+						<div style="float:left;">
+		                	<div>사업자 번호</div>
+		                	<div>상호명</div>		                
+		                	<div>주소</div>
+		                	<div>상세주소</div>
+		                	<div>휴대폰번호</div>
+		                	<div>배경사진</div>
+		                </div>
+		                <div style="float:left; margin-left:40px;">
+		                	<div><input type="text" name="bizNo" disabled value="${shop.bizNo }"></div>		                	
+		                	<div><input type="text" name="shopName" disabled value="${shop.shopName }"></div>
+		                	<div>주소</div>
+		                	<div>상세주소</div>
+		                	<div>휴대폰번호</div>
+		                	<div><input type="file" name="upfile" multiple></div>
+		                </div>
+		                </div>
+		                <input type="hidden" name="memberNo" value="100">
+		                <input type="hidden" name="shopNo" value="${shop.shopNo }">
+						<div><input type="submit" value="등록" style="float:none;"></div>
+				</fieldset>
+			</form>
 		</div>
 	</div>
 	<script>
 		$(function() {
 			$(".sub-menu").prev().append("<span class='more'></span>")
-			$(".more").parent().parent().on(
-					"click",
-					function(e) {
+			$(".more").parent().parent().on("click", function(e) {
 						$(this).children().last().slideToggle();
 						$(this).children().first().children(".more")
 								.toggleClass("menu-active");
