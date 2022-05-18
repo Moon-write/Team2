@@ -1,18 +1,15 @@
-package kr.or.iei.model.vo;
-
-
+package kr.or.funding.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class FundingOption {
+public class FundingOptionPrice {
+	private int fundingOptionPriceNo;
+	private int fundingOptionPrice;
 	private int fundingOptionNo;
-	private String fundingOptionName;
-	private String fundingOptionValue;
 	private int fundingNo;
 }
