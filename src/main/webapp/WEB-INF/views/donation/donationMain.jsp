@@ -8,12 +8,10 @@
 </head>
 <style>
 	.slider{
-		
 	    width: 640px;
 	    height: 480px;
 	    position: relative;
 	    margin: 30px auto;
-	    
 	}
 	.slider input[type=radio]{
 	    display: none;
@@ -90,6 +88,24 @@
 		height:100%;
 		
 	}
+	.hash-tag{
+		text-align: center;
+	}
+	.hash-tag>button{
+		margin-bottom:10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.row-img>div{
+		width:200px;
+		height:200px;
+		background-color: black;
+		display: inline-block;
+		text-align: center;
+	}
+	.main-content>div{
+		
+	}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -111,6 +127,29 @@
 		        <label for="slide3">&nbsp;</label>
 		        <label for="slide4">&nbsp;</label>
 		    </div>
+		</div>
+		<div class="hash-tag">
+			<button class="btn bc1">#임시</button>
+			<button class="btn bc1">#임시</button>
+			<button class="btn bc1">#임시</button>
+			<button class="btn bc1">#임시</button>
+			<button class="btn bc1">#임시</button>
+		</div>
+		<div class="main-content">
+			<div class="row-img">
+			<h3>상품구입기부펀딩</h3>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+			<div class="row-img">
+			<h3>일반기부펀딩</h3>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

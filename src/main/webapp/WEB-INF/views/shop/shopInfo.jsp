@@ -80,7 +80,7 @@ flex-wrap: wrap;
 </style>
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header_.jsp" %>
+	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="shop-content">
 				<div class="shop-pic">
@@ -182,6 +182,6 @@ flex-wrap: wrap;
 			    tabs.first().click();
 			})
 		</script>
-	<%@include file="/WEB-INF/views/common/footer_.jsp"%>
+	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>
