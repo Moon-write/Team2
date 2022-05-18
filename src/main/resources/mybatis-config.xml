@@ -6,7 +6,33 @@
 
 	</settings>
 	<typeAliases> <!-- 별칭정리 -->
+		<typeAlias type="kr.or.common.model.vo.Comment" alias="c"/>
+		<typeAlias type="kr.or.common.model.vo.Order" alias="o"/>
+		<typeAlias type="kr.or.common.model.vo.OrderProduct" alias="op"/>
+		<typeAlias type="kr.or.common.model.vo.Qna" alias="q"/>
+
+		<!-- 신영 -->		
+		<typeAlias type="kr.or.member.model.vo.Member" alias="m"/>
+
+		<!-- 용욱 -->
+		<typeAlias type="kr.or.shop.model.vo.Shop" alias="s"/>
+		<typeAlias type="kr.or.shop.model.vo.ShopCategory" alias="sc"/>
+		<typeAlias type="kr.or.business.model.vo.Business" alias="b"/>
 		
+		<!-- 세호 -->
+		<typeAlias type="kr.or.shop.model.vo.Funding" alias="f"/>
+		<typeAlias type="kr.or.shop.model.vo.FundingOption" alias="fo"/>
+		<typeAlias type="kr.or.shop.model.vo.FundingOptionPrice" alias="fop"/>
+		
+		<!-- 재형 -->
+		<typeAlias type="kr.or.donation.model.vo.Donation" alias="d"/>
+		
+		<!-- 은영 -->
+		<typeAlias type="kr.or.group.model.vo.Group" alias="g"/>
+		<typeAlias type="kr.or.group.model.vo.GroupOption" alias="go"/>
+		
+		<!-- 지음 -->
+		<typeAlias type="kr.or.auction.model.vo.Auction" alias="a"/>
 	</typeAliases>
 
 </configuration>
