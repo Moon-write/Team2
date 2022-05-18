@@ -1,4 +1,4 @@
-package kr.or.donation.vo;
+package kr.or.donation.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
