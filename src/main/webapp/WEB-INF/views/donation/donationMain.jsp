@@ -116,10 +116,10 @@
 		    <input type="radio" name="slide" id="slide3">
 		    <input type="radio" name="slide" id="slide4">
 		    <ul id="imgholder" class="imgs">
-		        <li><img src="/upload/donation/donationSlide001.png"></li>
-		        <li><img src="/upload/donation/donationSlide002.png"></li>
-		        <li><img src="/upload/donation/donationSlide003.png"></li>
-		        <li><img src="/upload/donation/donationSlide004.png"></li>
+		        <li><img src="/resources/upload/donation/donationSlide001.png"></li>
+		        <li><img src="/resources/upload/donation/donationSlide002.png"></li>
+		        <li><img src="/resources/upload/donation/donationSlide003.png"></li>
+		        <li><img src="/resources/upload/donation/donationSlide004.png"></li>
 		    </ul>
 		    <div class="bullets">
 		        <label for="slide1">&nbsp;</label>
