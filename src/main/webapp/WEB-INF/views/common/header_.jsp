@@ -36,23 +36,23 @@
 		<a href="#">로그인</a>
 		<a href="#">회원가입</a>
 		<a href="#">관리자 페이지로 이동</a>
-		<a href="#">사업자 페이지로 이동</a>
+		<a href="/business.kh">사업자 페이지로 이동</a>
 		<a href="#">마이페이지</a>
 		<a href="#">로그아웃</a>
 	</div>
 	<div class="menu-wrap">
 		<ul>
-			<li><a href="#">펀딩</a>
+			<li><a href="/fundingList.kh">펀딩</a>
 				<ul class="sub-menu-wrap">
 					<li><a href="#">소메뉴1</a></li>
 					<li><a href="#">소메뉴2</a></li>
 					<li><a href="#">소메뉴3</a></li>
 				</ul>
 			</li>
-			<li><a href="#">기부</a></li>
-			<li><a href="#">공동구매</a>
+			<li><a href="/donationList.kh">기부</a></li>
+			<li><a href="/groupList.kh">공동구매</a>
 			</li>
-			<li><a href="#">경매</a></li>
+			<li><a href="/auctionList.kh">경매</a></li>
 			<li>
 				<input type="text" id="site-search">
 				<span class="material-symbols-outlined">search</span>
