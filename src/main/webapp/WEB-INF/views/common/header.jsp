@@ -33,7 +33,7 @@
 		<a href="/"><img src="../../../resources/img/logo/WNYlogo1.png"></a>
 	</div>
 	<div class="login-wrap">
-		<a href="#">로그인</a>
+		<a href="/loginFrm.kh">로그인</a>
 		<a href="#">회원가입</a>
 		<a href="#">관리자 페이지로 이동</a>
 		<a href="/business.kh">사업자 페이지로 이동</a>
