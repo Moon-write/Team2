@@ -57,7 +57,7 @@
 
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header_.jsp"%>
+	<%@include file="/WEB-INF/views/common/header.jsp"%>
 	<div class="page-content">
 		<div class="menu">
 			<ul class="main-menu">
@@ -126,6 +126,6 @@
 					})
 		})
 	</script>
-	<%@include file="/WEB-INF/views/common/footer_.jsp"%>
+	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>

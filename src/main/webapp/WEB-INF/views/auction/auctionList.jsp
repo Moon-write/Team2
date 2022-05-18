@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>경매</title>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
-			?????
-			깃허브~~테스트~~~한번더~~한번마넏~~~
+			<div class="page-title">경매</div>
+			<a href="/addAuction.kh">경매 등록</a>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

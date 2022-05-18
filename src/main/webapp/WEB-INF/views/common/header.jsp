@@ -1,81 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+<!-- 기본 CSS -->
+<link rel="stylesheet" href="../../../resources/css/default.css" />
+<link rel="stylesheet" href="../../../resources/css/header_.css" />
 
-<!-- 구글 폰트-->
+    
+<!-- 구글 아이콘 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+<!-- 구글 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-	href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Rubik+Moonrocks&display=swap"
-	rel="stylesheet">
-<!-- 구글 아이콘 -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<!-- jquery -->
-<script src="js/jquery-3.6.0.js"></script>
-<!-- 기본 CSS -->
-<link rel="stylesheet" href="css/default_city.css" />
-<link rel="stylesheet" href="css/sweetalert2.min.css" />
-<!-- 기본 js -->
-<script src="js/default.js"></script>
-<script src="js/sweetalert2.all.min.js"></script>
-<script src="https://kit.fontawesome.com/2fade9eaba.js" crossorigin="anonymous"></script>
-<script src="./summernote/summernote-lite.js"></script>
-<script src="./summernote/lang/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="./summernote/summernote-lite.css">
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.7/slick.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.8/slick-theme.min.css">
-<style>
-.flex-wrap {
-	display: flex;
-	flex-wrap: wrap;
-}
-.bg {
-	color: #fff;
-}
-.searchIcon{
-	margin-right: 10px; 
-}
-.header-link{
-	margin-right:40px;
-}
-.header-link>li{
-	text-align: center;
-	margin-right:20px;
-}
-</style>
-</head>
-  <div class="con">
-	<header>
-		<div class="header-top">
-			<div class="site-logo">
-				<a href="/"> <img src="./img/javadice_logo.png"
-					style="width: 280px;">
-				</a>
-			</div>
-			<div class="header-link">
-					<li><a href="#" class="f-light fc-1">회원가입</a></li>
-					<li><a href="#" class="f-light fc-1">로그인</a></li>
-			</div>
-		</div>
-		 <div class="header-bottom" style="z-index:20;">
-         <nav>
-            <ul class="navi">
-               <li>
-                  <a href="#"><i class="fa-solid fa-magnifying-glass searchIcon"></i>객실예약</a>
-               </li>
-               <li><a href="#">객실정보</a></li>
-               <li><a href="#">프로모션</a></li>
-               <li><a href="#">오시는길</a></li>
-               <li><a href="#">게시판<span class="material-icons">expand_more</span>
-               </a>
-                  <ul class="sub-navi">
-                     <li><a href="#">공지사항</a></li>
-                     <li><a href="#">문의사항</a></li>
-                     <li><a href="#">자주묻는 질문</a></li>
-                     <li><a href="#">고객후기</a></li>
-                  </ul></li>
-            </ul>
-         </nav>
-      </div>
-   </header>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- jstl -->
+
+<!-- jQuery -->
+<script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
+
+<!-- sweetalarm.js -->
+<script src="../../../resources/js/sweetalert2.min.js"></script>
+
+
+<!-- -- -- -- -- -- html 시작 -- -- -- -- --  -->
+<div class="msg-banner">
+	<span>메세지 전달용 배너</span>
+	<span class="material-symbols-outlined" id="bannerClose">close</span>
+</div>
+<header>
+	<div class="logo-wrap">
+		<a href="/"><img src="../../../resources/img/logo/WNYlogo1.png"></a>
+	</div>
+	<div class="login-wrap">
+		<a href="#">로그인</a>
+		<a href="#">회원가입</a>
+		<a href="#">관리자 페이지로 이동</a>
+		<a href="/business.kh">사업자 페이지로 이동</a>
+		<a href="#">마이페이지</a>
+		<a href="#">로그아웃</a>
+	</div>
+	<div class="menu-wrap">
+		<ul>
+			<li><a href="/fundingList.kh">펀딩</a>
+				<ul class="sub-menu-wrap">
+					<li><a href="#">소메뉴1</a></li>
+					<li><a href="#">소메뉴2</a></li>
+					<li><a href="#">소메뉴3</a></li>
+				</ul>
+			</li>
+			<li><a href="/donationList.kh">기부</a></li>
+			<li><a href="/groupList.kh">공동구매</a>
+			</li>
+			<li><a href="/auctionList.kh">경매</a></li>
+			<li>
+				<input type="text" id="site-search">
+				<span class="material-symbols-outlined">search</span>
+			</li>
+		</ul>
+	</div>
+
+
+</header>
+<script>
+	$("#bannerClose").on("click",function(){
+		$(this).parent().slideUp();
+	})
+</script>
