@@ -1,5 +1,12 @@
 package kr.or.member.controller;
 
-public class MemberController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import kr.or.member.model.service.MemberService;
+
+@Controller
+public class MemberController {
+	@Autowired
+	private MemberService service;
 }
