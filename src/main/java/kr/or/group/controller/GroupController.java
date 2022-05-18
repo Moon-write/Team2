@@ -1,5 +1,12 @@
 package kr.or.group.controller;
 
-public class GroupController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import kr.or.group.model.service.GroupService;
+
+@Controller
+public class GroupController {
+	@Autowired
+	private GroupService service;
 }
