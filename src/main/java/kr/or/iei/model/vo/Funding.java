@@ -1,0 +1,22 @@
+package kr.or.iei.model.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Funding {
+	private int fundingNo;
+	private String fundingName;
+	private String fundingCategory;
+	private String fundingDetail;
+	private String fundingFilepath;
+	private String fundingStartDate;
+	private String fundingEndDate;
+	private int fundingSum;
+	private int fundingSumRate;
+	private int memberNo;
+}
