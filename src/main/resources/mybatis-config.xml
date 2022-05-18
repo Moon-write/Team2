@@ -20,9 +20,9 @@
 		<typeAlias type="kr.or.business.model.vo.Business" alias="b"/>
 		
 		<!-- 세호 -->
-		<typeAlias type="kr.or.shop.model.vo.Funding" alias="f"/>
-		<typeAlias type="kr.or.shop.model.vo.FundingOption" alias="fo"/>
-		<typeAlias type="kr.or.shop.model.vo.FundingOptionPrice" alias="fop"/>
+		<typeAlias type="kr.or.funding.model.vo.Funding" alias="f"/>
+		<typeAlias type="kr.or.funding.model.vo.FundingOption" alias="fo"/>
+		<typeAlias type="kr.or.funding.model.vo.FundingOptionPrice" alias="fop"/>
 		
 		<!-- 재형 -->
 		<typeAlias type="kr.or.donation.model.vo.Donation" alias="d"/>

@@ -30,6 +30,14 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="kr.or.iei" />
+	<context:component-scan base-package="kr.or.auction" />
+	<context:component-scan base-package="kr.or.business" />
+	<context:component-scan base-package="kr.or.common" />
+	<context:component-scan base-package="kr.or.donation" />
+	<context:component-scan base-package="kr.or.group" />
+	<context:component-scan base-package="kr.or.funding" />
+	<context:component-scan base-package="kr.or.member" />
+	<context:component-scan base-package="kr.or.shop" />
 	
 	<!-- DB접속정보 -->
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
