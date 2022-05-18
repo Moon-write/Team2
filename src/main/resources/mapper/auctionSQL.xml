@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="auction">
+  <insert id="insertAuction" parameterType="a">
+  	INSERT INTO AUCTION_TBL VALUES(
+  		AUCTION_SEQ.NEXTVAL, #{projectName}, #{auctionItem}, #{auctionCategory}, #{auctionAmount},
+  		TO_DATE(#{auctionStart}, 'YYYY-MM-DD"T"HH24:MI'),
+  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD"T"HH24:MI'), 100, #{auctionPrice}, #{auctionPic}, #{auctionContent} 
+  	)  	
+  </insert>
   
+  <!-- 리스트 불러오기용, 약식으로 불러옴 -->
+  <select id="selectAuctionList" parameterType="int" resultType="a">
+  	SELECT
+  		PROJECT_NO AS projectNo,
+  		PROJECT_NAME AS projectName,
+  		AUCTION_ITEM AS auctionItem,
+  		AUCTION_CATEGORY AS auctionCategory,
+  		MEMBER_NO AS memberNo,
+  		AUCTION_PRICE AS auctionPrice,
+  		AUCTION_PIC AS auctionPic,
+  		AUCTION_CONTENT AS auctionContent
+  		FROM AUCTION_TBL WHERE MEMBER_NO= #{memberNo}
+  </select>
+  
+  <!-- 자세히 불러오기용 -->
+  <select id="selectAuction" parameterType="int" resultType="a">
+  	SELECT
+  		PROJECT_NO AS projectNo,
+  		PROJECT_NAME AS projectName,
+  		AUCTION_ITEM AS auctionItem,
+  		AUCTION_CATEGORY AS auctionCategory,
+  		AUCTION_AMOUNT AS auctionAmount,
+  		AUCTION_START AS auctionStart,
+  		AUCTION_END AS auctionEnd,
+  		MEMBER_NO AS memberNo,
+  		AUCTION_PRICE AS auctionPrice,
+  		AUCTION_PIC AS auctionPic,
+  		AUCTION_CONTENT AS auctionContent
+  		FROM AUCTION_TBL
+  </select>
 </mapper>
