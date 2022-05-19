@@ -1,6 +1,7 @@
 package kr.or.shop.model.service;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,6 @@ public class ShopService {
 		// TODO Auto-generated method stub
 		Shop s=dao.selectShopInfo(memberNo);
 		ArrayList<ShopPic> fileList=dao.selectShopPic(s.getShopNo());
-		System.out.println(s.getShopNo());
-		System.out.println(fileList);
 		s.setFileList(fileList);
 		return s;
 	}
@@ -38,4 +37,30 @@ public class ShopService {
 		}
 		return result;
 	}
+
+	public ArrayList<ShopPic> selectShopPicList(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectShopPicList(memberNo);
+	}
+
+	public ArrayList<ShopPic> selectDelPicList(String shopPicNos) {
+		StringTokenizer sT = new StringTokenizer(shopPicNos, "/");
+		ArrayList<ShopPic> spList=new ArrayList<ShopPic>();
+		while (sT.hasMoreTokens()) {
+			int shopPicNo = Integer.parseInt(sT.nextToken());
+			ShopPic sp = dao.selectDelPic(shopPicNo);
+			spList.add(sp);
+		}
+		return spList;
+	}
+
+	public int deleteShopPic(String shopPicNos) {
+		StringTokenizer sT = new StringTokenizer(shopPicNos, "/");
+		int result=1;
+		while (sT.hasMoreTokens()) {
+			int shopPicNo = Integer.parseInt(sT.nextToken());
+			int deleteResult = dao.deleteShopPic(shopPicNo);
+		}
+		return result;
+	}	
 }

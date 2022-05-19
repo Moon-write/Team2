@@ -26,29 +26,29 @@ import kr.or.shop.model.vo.ShopPic;
 public class ShopController {
 	@Autowired
 	private ShopService service;
-	
+
 	@Autowired
 	private MemberService mService;
-	
-	@RequestMapping(value="/shopInfo.kh")
+
+	@RequestMapping(value = "/shopInfo.kh")
 	public String shopInfo(int memberNo, Model model) {
 		Shop shop = service.selectShopInfo(memberNo);
-		ArrayList<ShopCategory> category=service.selectCategory(shop.getShopNo());
+		ArrayList<ShopCategory> category = service.selectCategory(shop.getShopNo());
 
 		model.addAttribute("shop", shop);
 		model.addAttribute("category", category);
-		
-		System.out.println(shop);
+
 		return "shop/shopInfo";
 	}
-	@RequestMapping(value="/shopUploadFrm.kh")
+
+	@RequestMapping(value = "/shopUploadFrm.kh")
 	public String shopUploadFrm(int memberNo, Model model) {
 		Shop shop = service.selectShopInfo(memberNo);
 		model.addAttribute("shop", shop);
 		return "shop/shopUploadFrm";
 	}
-	
-	@RequestMapping(value="/shopUpload.kh")
+
+	@RequestMapping(value = "/shopUpload.kh")
 	public String shopUpload(Shop shop, MultipartFile[] upfile, HttpServletRequest request) {
 		ArrayList<ShopPic> fileList = new ArrayList<ShopPic>();
 		if (upfile[0].isEmpty()) {
@@ -91,6 +91,30 @@ public class ShopController {
 			}
 		}
 		int result = service.insertShopPic(shop, fileList);
+		return "business/business";
+	}
+
+	@RequestMapping(value = "/deletePicPage.kh")
+	public String deletePicPage(int memberNo, Model model) {
+		ArrayList<ShopPic> sp = service.selectShopPicList(memberNo);
+		model.addAttribute("sp", sp);
+		return "shop/deletePicPage";
+	}
+
+	@RequestMapping(value="/deleteShopPic.kh")
+	public String deleteShopPic(String shopPicNos,HttpServletRequest request) {
+		/*
+		ArrayList<ShopPic> sp = service.selectDelPicList(shopPicNos);
+		for(int i=0;i<sp.size();i++) {
+			String path="C:\\Users\\A\\git\\Team2\\src\\main\\webapp\\resources\\upload\\shopPic"+sp.get(i).getShopFilepath();
+			File file = new File(path);
+			if(file.exists()){
+				System.out.println("파일을 삭제하였습니다");
+				file.delete();
+			}
+		}
+		*/
+		int result = service.deleteShopPic(shopPicNos);
 		return "business/business";
 	}
 }

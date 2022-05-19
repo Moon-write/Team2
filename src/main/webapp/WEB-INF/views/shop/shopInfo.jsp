@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 <style>
 .shop-content{
 	width:700px;
@@ -15,7 +16,9 @@
 }
 .shop-pic>img{
 	height:350px;
-	background-size:contain;
+	max-width:700px;
+	display: block; 
+	margin: 0px auto;
 }
 .info-detail{
 	width:640px;
@@ -83,11 +86,12 @@ flex-wrap: wrap;
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="shop-content">
-				<div class="shop-pic">
+				<div class="shop-pic" style="text-align: center;">
 					<c:forEach var="sp" items="${shop.fileList }">												
-						<img src="/resources/upload/shopPic/${sp.shopFilepath}">												
+						<img class="mySlides" src="/resources/upload/shopPic/${sp.shopFilepath}">												
 					</c:forEach>									
 				</div>
+				<button style="background-color:rgb(30,144,255); padding-left:5px; padding-right:5px; border:0 solid white; border-radius:5px;"><a href="/deletePicPage.kh?memberNo=100" style="color:white;">배경사진 삭제</a></button>
 				<div class="info-detail">
 					<h1>${shop.shopName}</h1>
 					<c:forEach var="c" items="${category }">
@@ -181,6 +185,20 @@ flex-wrap: wrap;
 			    })
 			    tabs.first().click();
 			})
+			var slideIndex = 0;
+			carousel();
+			
+			function carousel() {
+			  var i;
+			  var x = document.getElementsByClassName("mySlides");
+			  for (i = 0; i < x.length; i++) {
+			    x[i].style.display = "none";
+			  }
+			  slideIndex++;
+			  if (slideIndex > x.length) {slideIndex = 1}
+			  x[slideIndex-1].style.display = "block";
+			  setTimeout(carousel, 4000); // Change image every 2 seconds
+			}
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

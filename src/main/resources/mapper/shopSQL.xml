@@ -20,13 +20,28 @@
 	</select>	
 	
 	<select id="selectShopPic" parameterType="int" resultType="sp">
-		select shop_no as shopNo, shop_filename as shopeFilename, shop_filepath as shopFilepath from shop_pic where shop_no=#{shopNo}
+		select shop_no as shopNo, shop_filename as shopFilename, shop_filepath as shopFilepath from shop_pic where shop_no=#{shopNo}
 	</select>
-	
+	<select id="selectShopPicList" parameterType="int" resultType="sp">
+		select 
+			shop_pic_no as shopPicNo, s.shop_no as shopNo, shop_filename as shopFilename, shop_filepath as shopFilepath 
+			from shop s 
+			join shop_pic sp on (s.shop_no=sp.shop_no) 
+		where member_no=#{memberNo}
+	</select>
 	<insert id="insertFile" parameterType="sp">
 		insert into shop_pic
 		values(shop_pic_seq.nextval,#{shopNo},#{shopFilename},#{shopFilepath})
 	</insert>
 	
+	<select id="selectDelPic" parameterType="int" resultType="sp">
+		select 
+			shop_filepath as shopFilepath from shop_pic 
+		where shop_pic_no=#{shopPicNo}
+	</select>
+	
+	<delete id="deleteShopPic" parameterType="int">
+		delete from shop_pic where shop_pic_no=#{shopPicNo}
+	</delete>
 	
 </mapper>

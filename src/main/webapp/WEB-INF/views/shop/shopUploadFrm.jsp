@@ -138,7 +138,7 @@
 		                </div>
 		                <input type="hidden" name="memberNo" value="100">
 		                <input type="hidden" name="shopNo" value="${shop.shopNo }">
-						<div><input type="submit" value="등록" style="float:none;"></div>
+						<div><input type="submit" value="등록" style="float:none;" class="btn bc11"></div>
 				</fieldset>
 			</form>
 		</div>

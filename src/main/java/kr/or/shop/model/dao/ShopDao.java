@@ -29,7 +29,6 @@ public class ShopDao {
 
 	public ArrayList<ShopPic> selectShopPic(int shopNo) {
 		// TODO Auto-generated method stub
-		System.out.println(shopNo);
 		List list=sqlSession.selectList("shop.selectShopPic", shopNo);
 		return (ArrayList<ShopPic>)list;
 	}
@@ -37,6 +36,22 @@ public class ShopDao {
 	public int insertFile(ShopPic file) {
 		int result = sqlSession.insert("shop.insertFile", file);
 		return result;
+	}
+
+	public ArrayList<ShopPic> selectShopPicList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list=sqlSession.selectList("shop.selectShopPicList", memberNo);
+		return (ArrayList<ShopPic>)list;
+	}
+
+	public ShopPic selectDelPic(int shopPicNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectDelPic", shopPicNo);
+	}
+
+	public int deleteShopPic(int shopPicNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("shop.deleteShopPic",shopPicNo);
 	}
 
 }
