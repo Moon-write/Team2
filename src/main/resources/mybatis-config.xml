@@ -35,5 +35,8 @@
 		<!-- 지음 -->
 		<typeAlias type="kr.or.auction.model.vo.Auction" alias="a"/>
 	</typeAliases>
+	<typeHandlers>
+        <typeHandler handler="kr.or.common.model.service.CLOBHandler" javaType="String" jdbcType="LONGVARCHAR"/>
+    </typeHandlers>
 
 </configuration>
