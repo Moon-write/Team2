@@ -6,7 +6,7 @@
 		let msg = $("#msgAlert").val();
 		if(msg!=""){
 			$("div.msg-banner>span:first-child").text(msg);
-			$("div.msg-banner").show();
+			$("div.msg-banner").slideDown();
 		}
 	})
 </script>

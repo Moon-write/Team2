@@ -10,7 +10,7 @@
   </insert>
   
   <!-- 리스트 불러오기용, 약식으로 불러옴 -->
-  <select id="selectAuctionList" parameterType="int" resultType="a">
+  <select id="selectAuctionList" resultType="a" >
   	SELECT
   		PROJECT_NO AS projectNo,
   		PROJECT_NAME AS projectName,
@@ -19,8 +19,10 @@
   		MEMBER_NO AS memberNo,
   		AUCTION_PRICE AS auctionPrice,
   		AUCTION_PIC AS auctionPic,
-  		AUCTION_CONTENT AS auctionContent
-  		FROM AUCTION_TBL WHERE MEMBER_NO= #{memberNo}
+        LASTDAY AS lastDay,
+        LASTHOUR AS lastHour,
+        LASTMIN AS lastMin
+  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
   </select>
   
   <!-- 자세히 불러오기용 -->
@@ -31,12 +33,26 @@
   		AUCTION_ITEM AS auctionItem,
   		AUCTION_CATEGORY AS auctionCategory,
   		AUCTION_AMOUNT AS auctionAmount,
-  		AUCTION_START AS auctionStart,
-  		AUCTION_END AS auctionEnd,
+  		TO_CHAR(AUCTION_START, 'YYYY-MM-DD HH24:MI') AS auctionStart,
+  		TO_CHAR(AUCTION_END, 'YYYY-MM-DD HH24:MI') AS auctionEnd,
   		MEMBER_NO AS memberNo,
   		AUCTION_PRICE AS auctionPrice,
   		AUCTION_PIC AS auctionPic,
-  		AUCTION_CONTENT AS auctionContent
-  		FROM AUCTION_TBL
+  		AUCTION_CONTENT AS auctionContent,
+        LASTDAY AS lastDay,
+        LASTHOUR AS lastHour,
+        LASTMIN AS lastMin,
+        LASTSEC AS lastSec
+  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE PROJECT_NO= #{projectNo}
   </select>
+  
+  <select id="getLike" parameterType="map" resultType="int">
+  		SELECT ROWNUM from LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} AND MEMBER_NO=#{memberNo} UNION SELECT 9999 FROM DUAL
+  </select>
+  
+  <insert id="insertBid" parameterType="bid">
+  	INSERT INTO BID_TBL VALUES(
+  		BID_SEQ.NEXTVAL, #{projectNo}, #{memberNo}, #{bidAmount}, #{bidPrice}, #{bidMsg}, SYSDATE, 0 
+  	)  	
+  </insert>
 </mapper>

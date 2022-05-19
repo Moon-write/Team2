@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,6 +71,9 @@
 	}
 	.auctionList-wrap{
 		margin-bottom: 20px;
+	}
+	.auctionList-wrap>a{
+		color: black;
 	}
 	.auction-content{
 		display: flex;
@@ -160,27 +164,68 @@
 					<input type="text" id="listSearch" placeholder="상품명 입력" class="input-form">
 					<button class="btn bc11" id="searchBtn"><span class="material-symbols-outlined" >search</span></button>
 				</div>
-				<div class="auction-content">
-					<div class="auction-pic">
-						<img src="../../../resources/img/auction/preview.jpg">
-					</div>
-					<div class="auction-info">
-						<div class="auction-title">
-							<h3>[프로젝트명]</h3>
-							<h4>상품명</h4>
-							<span class="material-symbols-rounded likeB">star</span>
-						</div>
-						<h4>입찰 0회</h4>
-						<div class="auction-time">
-							<h3><span id="last-hour">3</span>시간 <span id="last-minute">00</span>분 뒤 종료</h3>
-							<span class="badge">유기동물 구조</span><span class="badge-pink">입찰 10건 이상</span><span class="badge-pink">오늘마감</span>
-						</div>
-						<div class="auction-price">
-							<s>시작가 5,000원</s>
-							<h2 style="font-family: ns-light;">현재가 <span style="color: red;">10000</span> 원</h2>
-						</div>
-					</div>
-				</div>
+				<c:forEach items="${list }" var="l">
+					<a href="/auctionView.kh?projectNo=${l.projectNo }">
+						<div class="auction-content">
+							<div class="auction-pic">
+								<img src="../../../resources/img/auction/${l.auctionPic }">
+							</div>
+							<div class="auction-info">
+								<div class="auction-title">
+									<h3>${l.projectName }</h3>
+									<h4>${l.auctionItem }</h4>
+									<c:choose>
+										<c:when test="${l.like eq 0 }">
+											<span class="material-symbols-rounded likeB">star</span>									
+										</c:when>
+										<c:when test="${l.like eq 1 }">
+											<span class="material-symbols-rounded likeB-yellow">star</span>									
+										</c:when>
+									</c:choose>
+								</div>
+								<h4>입찰 ${l.bidCount }회</h4>
+								<div class="auction-time">
+									<h3>
+										<c:if test="${l.lastDay ne 0 }">
+											<span id="last-day">${l.lastDay }</span>일 
+										</c:if>
+										<c:if test="${l.lastHour ne 0 }">
+											<span id="last-hour">${l.lastHour }</span>시간 
+										</c:if>
+										<span id="last-minute">${l.lastMin }</span>분 뒤 종료
+									</h3>
+									<c:choose>
+										<c:when test="${l.auctionCategory eq 0}">
+											<span class="badge">재난구호모금</span>
+										</c:when>
+										<c:when test="${l.auctionCategory eq 1}">
+											<span class="badge">유기동물 구조</span>
+										</c:when>
+										<c:when test="${l.auctionCategory eq 2}">
+											<span class="badge">미혼모 지원</span>
+										</c:when>
+										<c:when test="${l.auctionCategory eq 3}">
+											<span class="badge">장애인 지원</span>
+										</c:when>
+										<c:when test="${l.auctionCategory eq 4}">
+											<span class="badge">소년가장 후원</span>
+										</c:when>
+									</c:choose>
+									<c:if test="${l.bidCount ge 10 }">
+										<span class="badge-pink">입찰 10건 이상</span>
+									</c:if>
+									<c:if test="${l.lastDay eq 0 }">
+										<span class="badge-pink">오늘마감</span>
+									</c:if>
+								</div>
+								<div class="auction-price">
+									<s>시작가 ${l.auctionPrice }원</s>
+									<h2 style="font-family: ns-light;">현재가 <span style="color: red;">${l.bestPrice }</span> 원</h2>
+								</div>
+							</div>
+						</div>			
+					</a>	
+				</c:forEach>
 			</div>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

@@ -15,7 +15,9 @@
 		<c:when test="${direct eq 2}">
 			<jsp:forward page="/addAuction.kh"/>
 		</c:when>
-	
+		<c:when test="${direct eq 3}">
+			<jsp:forward page="/auctionView.kh?projectNo=${projectNo}"/>
+		</c:when>	
 	</c:choose>
 </body>
 </html>

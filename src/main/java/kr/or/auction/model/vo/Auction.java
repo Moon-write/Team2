@@ -1,6 +1,5 @@
 package kr.or.auction.model.vo;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
@@ -29,10 +28,14 @@ public class Auction {
 	// 테이블 외 내용
 	// 최고가
 	private int bestPrice;
+	// 입찰건수
+	private int bidCount;
 	// 남은시간
-	private String dDate;
-	// 입찰리스트
-	private ArrayList<Bid> bidList;
-	
+	private int lastDay;
+	private int lastHour;
+	private int lastMin;
+	private int lastSec;
+	// 좋아요여부
+	private int like;
 	
 }

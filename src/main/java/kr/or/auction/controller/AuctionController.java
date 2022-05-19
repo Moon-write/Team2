@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.auction.model.service.AuctionService;
 import kr.or.auction.model.vo.Auction;
+import kr.or.auction.model.vo.AuctionInfo;
+import kr.or.auction.model.vo.Bid;
 import kr.or.member.model.vo.Member;
 
 @Controller
@@ -31,10 +33,14 @@ public class AuctionController {
 	// 이동
 	
 	@RequestMapping(value="auctionList.kh")
-	public String auctionList(@SessionAttribute(required=false) Member m) {
-		// 진행중인 경매리스트 불러오기 + 페이지순
-		// int memberNo = m.getMemberNo();
-		ArrayList<Auction> auctionList = service.selectAuctionList(100); // 로그인 완료되면 변수수정
+	public String auctionList(@SessionAttribute(required=false) Member m, Model model) {
+		// 로그인한 회원이 없을 경우 변수 0으로 셋팅
+		if(m==null) {
+			m = new Member();
+			m.setMemberNo(0);
+		}
+		ArrayList<Auction> list = service.selectAuctionList(m.getMemberNo()); // 로그인 완료되면 변수수정
+		model.addAttribute("list", list);
 		return "auction/auctionList";
 	}
 	
@@ -43,8 +49,45 @@ public class AuctionController {
 		return "auction/addAuction";
 	}
 	
+	@RequestMapping(value="auctionView.kh")
+	public String auctionView(@SessionAttribute(required=false) Member m, int projectNo, Model model) {
+		// 로그인한 사람의 좋아요여부 가져오기
+		if(m==null) {
+			m = new Member();
+			m.setMemberNo(0);
+		}
+		AuctionInfo info = service.selectAuctionInfo(projectNo);		
+		Auction auction = service.selectAuction(projectNo, m.getMemberNo());
+		// 최고가와 입찰건수 가져오기
+//		auction.setBestPrice(info.getBidList().get(0).getBidPrice());
+//		auction.setBidCount(info.getBidList().size());
+		
+		if(auction!=null) {
+			model.addAttribute("auction", auction);
+			model.addAttribute("info", info);
+			return "auction/auctionView";
+		}else {
+			model.addAttribute("direct", 1);
+			model.addAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
+			return "auction/auctionRedirect";		
+		}
+		
+	}
 	
 	// 등록 insert
+	@RequestMapping(value="/insertBid.kh")
+	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, Model model) {
+		b.setMemberNo(m.getMemberNo());
+		int result = service.insertBid(b);
+		if(result>0) {
+			model.addAttribute("msg", "입찰이 완료되었습니다!");
+		}else {
+			model.addAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
+		}
+		model.addAttribute("direct", 3);
+		model.addAttribute("projectNo", b.getProjectNo());
+		return "auction/auctionRedirect";
+	}
 	@ResponseBody
 	@RequestMapping(value="/auctionImgUpload.kh")
 	public String auctionImgUpload(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
@@ -87,10 +130,7 @@ public class AuctionController {
 			model.addAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
 			return "auction/auctionRedirect";
 		}
-	}
-	
-	
-	
+	}	
 	
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {
