@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import kr.or.donation.model.service.DonationService;
@@ -17,11 +19,15 @@ public class DonationController {
 	@Autowired
 	private DonationService service;
 	
+	//main
 	@RequestMapping(value="/donationList.kh")
-	public String donationList() {
+	public String donationList(Model model) {
+		ArrayList<Donation> dl = service.selectDonationList();
+		model.addAttribute("list",dl);
 		return "donation/donationMain";
 	}
 	
+	//insert
 	@RequestMapping(value="/donationWriter.kh") //기부신규등록 버튼 클릭 시 이동할 form
 	public String donationWriter() {
 		return "donation/donationWriterForm";
@@ -41,7 +47,28 @@ public class DonationController {
 			d.setMemberNo(m.getMemberNo());
 			
 			int result = service.insertDonation(d);
-			return "donation/donationWriterForm";
+			return "donation/donationMain";
 		}
 	}
+	
+	//update
+	@RequestMapping(value="/donationUpdateWriter.kh")
+	public String updateDonation() {
+		return "donation/donationUpdateWriterForm";
+	}
+	
+	@RequestMapping(value="/updateDonation.kh")
+	public String updateDonation(Donation d) {
+		int result = service.updateDonation(d);
+		return "donation/donationMain";
+	}
+	
+	//select
+	@RequestMapping(value="/donationView")
+	public String donationView(){
+		return null;
+	}
+	
+	
+	
 }
