@@ -88,6 +88,8 @@
 		height:100%;
 		
 	}
+	
+	
 	.hash-tag{
 		text-align: center;
 	}
@@ -96,15 +98,52 @@
 		margin-left: 10px;
 		margin-right: 10px;
 	}
+	
+	
+	
+	.row-img{
+		width:100%;
+		text-align: center;
+	}
+	.row-img>h3{
+		text-align: left;
+	}
 	.row-img>div{
 		width:200px;
 		height:200px;
 		background-color: black;
 		display: inline-block;
+		
+	}
+	.main-content{
+		width:70%;
+		display: inline-block;
+	}
+	
+	.page-content{
 		text-align: center;
 	}
-	.main-content>div{
+	.row-img>h3{
+		margin-top:15px;
+		margin-bottom: 15px;
 		
+	}
+	
+	
+	.footer-content{
+		width: 70%;
+		margin: 0 0;
+		display: inline-block;
+	}
+	.footer-content>div{
+		width: 40%;
+		height: 400px;
+		background-color: black;
+		display: inline-block;
+		margin: 10px;
+	}
+	.footer-content>div>h3{
+		display: inline-block;
 	}
 </style>
 <body>
@@ -150,6 +189,10 @@
 				<div></div>
 				<div></div>
 			</div>
+		</div>
+		<div class="footer-content">
+			<div></div>
+			<div></div>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

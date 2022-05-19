@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="donation">
-  
+    <insert id="insertDonation" parameterType="d">
+  	INSERT INTO DONATION VALUES(
+  		DONATION_SEQ.NEXTVAL, #{memberNo}, #{donationDivision}, #{donationTitle}, #{donationImgname}, #{donationImgpath},
+  		#{donationCategory}, #{donationContent}, #{donationTarget}, #{donationCash},
+  		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD")
+  	)
+  </insert>
 </mapper>
