@@ -30,8 +30,24 @@
 		where member_no=#{memberNo}
 	</select>
 	<insert id="insertFile" parameterType="sp">
-		insert into shop_pic
-		values(shop_pic_seq.nextval,#{shopNo},#{shopFilename},#{shopFilepath})
+		declare 
+			pic_count number;
+			too_many_num_exception exception;
+		begin
+			select count(shop_no) 
+			into pic_count 
+			from shop_pic where shop_no = #{shopNo};
+		if(pic_count = 4)
+		Then
+		    raise too_many_num_exception;
+		end if;
+		
+			insert into shop_pic
+			values(shop_pic_seq.nextval,#{shopNo},#{shopFilename},#{shopFilepath});
+		exception
+		    when too_many_num_exception then
+		         null;  
+		end;
 	</insert>
 	
 	<select id="selectDelPic" parameterType="int" resultType="sp">

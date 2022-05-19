@@ -125,7 +125,7 @@
 		                	<div>주소</div>
 		                	<div>상세주소</div>
 		                	<div>휴대폰번호</div>
-		                	<div>배경사진</div>
+		                	<div>배경사진(최대 4개)</div>		                	
 		                </div>
 		                <div style="float:left; margin-left:40px;">
 		                	<div><input type="text" name="bizNo" disabled value="${shop.bizNo }"></div>		                	

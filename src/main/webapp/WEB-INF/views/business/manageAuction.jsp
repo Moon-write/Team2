@@ -110,7 +110,32 @@
 			</ul>
 		</div>
 		<div class="show-content">
-			<div></div>
+			<div>
+				<h3>진행중인 경매</h3>
+				<table border="1">
+					<tr>
+						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>현재가</th><th>판매상태</th>
+					</tr>
+					<c:forEach var="au" items="${au }">
+						<tr>
+							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
+							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td><td></td>
+						</tr>
+					</c:forEach>									
+				</table>
+				<h3>종료된 경매</h3>
+				<table border="1">
+					<tr>
+						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>낙찰가</th><th>판매상태</th>
+					</tr>
+					<c:forEach var="au" items="${expiredAu }">
+						<tr>
+							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
+							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td><td></td>
+						</tr>
+					</c:forEach>									
+				</table>
+			</div>
 		</div>
 	</div>
 	<script>

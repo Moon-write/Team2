@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="business">
+	<select id="selectAucList" parameterType="int" resultType="a">
+		select distinct 
+			a.project_no as projectNo, 
+			project_name as projectName, 
+			auction_item as auctionItem, 
+			auction_category as auctionCategory, 
+			auction_amount as auctionAmount, 
+			to_char(auction_start,'yyyy/mm/dd') as auctionStart, 
+			to_char(auction_end,'yyyy/mm/dd') as auctionEnd, 
+			a.member_no as memberNo, 
+			auction_price as auctionPrice
+		from auction_tbl a 
+		left join bid_tbl b on (b.project_no=a.project_no) 
+		where a.member_no=100 and to_number(to_char(auction_end,'yymmdd')) <![CDATA[ > ]]> to_number(to_char(sysdate,'yymmdd'))
+	</select>
+	<select id="selectExpiredAucList" parameterType="int" resultType="a">
+		select distinct 
+			a.project_no as projectNo, 
+			project_name as projectName, 
+			auction_item as auctionItem, 
+			auction_category as auctionCategory, 
+			auction_amount as auctionAmount, 
+			to_char(auction_start,'yyyy/mm/dd') as auctionStart, 
+			to_char(auction_end,'yyyy/mm/dd') as auctionEnd, 
+			a.member_no as memberNo, 
+			auction_price as auctionPrice
+		from auction_tbl a 
+		left join bid_tbl b on (b.project_no=a.project_no) 
+		where a.member_no=100 and to_number(to_char(auction_end,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd'))
+	</select>
+	<select id="selectBestPrice" parameterType="map" resultType="a">
+		select 
+			max(bid_price) as bestPrice
+		from bid_tbl b 
+		join auction_tbl a on(a.project_no=b.project_no) 
+		where a.member_no=#{memberNo} and a.project_no=#{projectNo}
+	</select>
+</mapper>
