@@ -38,7 +38,7 @@
 		<a href="#">관리자 페이지로 이동</a>
 		<a href="/business.kh">사업자 페이지로 이동</a>
 		<a href="#">마이페이지</a>
-		<a href="#">로그아웃</a>
+		<a href="/logout.kh">로그아웃</a>
 	</div>
 	<div class="menu-wrap">
 		<ul>
