@@ -52,6 +52,7 @@
 		align-items: center;
 		width: 80%;
 		margin: 0 auto;
+		margin-top: 30px;
 	}
 	.input-form{
 		width: 150px !important; height: 30px;
@@ -94,17 +95,21 @@
 		top: 0px; right: 0px;
 		font-size: 2.5em;
 	}
+	.auction-title>h4{
+		margin-top: 5px;
+	}
 	.auction-info{
 		width: 65%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		padding: 10px 0px;
 	}
 	.auction-info>h4{
 		font-family: ns-light;
 	}
-	.auction-time>h2{
-		margin: 10px 0px;
+	.auction-time>h3{
+		margin-bottom: 10px;
 		color: #ff82ab;
 	}
 	.auction-time>span{
@@ -161,18 +166,18 @@
 					</div>
 					<div class="auction-info">
 						<div class="auction-title">
-							<h2>[프로젝트명]</h2>
-							<h3>상품명</h3>
+							<h3>[프로젝트명]</h3>
+							<h4>상품명</h4>
 							<span class="material-symbols-rounded likeB">star</span>
 						</div>
 						<h4>입찰 0회</h4>
 						<div class="auction-time">
-							<h2><span id="last-hour">3</span>시간 <span id="last-minute">00</span>분 뒤 종료</h2>
+							<h3><span id="last-hour">3</span>시간 <span id="last-minute">00</span>분 뒤 종료</h3>
 							<span class="badge">유기동물 구조</span><span class="badge-pink">입찰 10건 이상</span><span class="badge-pink">오늘마감</span>
 						</div>
 						<div class="auction-price">
 							<s>시작가 5,000원</s>
-							<h1>현재가 <span style="color: red;">10000</span>원</h1>
+							<h2 style="font-family: ns-light;">현재가 <span style="color: red;">10000</span> 원</h2>
 						</div>
 					</div>
 				</div>

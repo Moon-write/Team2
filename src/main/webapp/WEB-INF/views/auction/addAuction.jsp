@@ -100,7 +100,7 @@
 						<tr>
 							<th>카테고리</th>
 							<td>
-								<select name="auction-category" class="input-form">
+								<select name="auctionCategory" class="input-form">
 									<option>카테고리 선택</option>
 									<option value="1">유기동물 구조</option>
 									<option value="2">미혼모 지원</option>
@@ -131,7 +131,7 @@
 						</tr>
 						<tr>
 							<th>시작 가격</th>
-							<td><input type="text" name="startPrice" class="input-form" style="text-align: right;" placeholder="개당 시작가격"><span style="width: 40px;">원 ~</span></td>
+							<td><input type="text" name="auctionPrice" class="input-form" style="text-align: right;" placeholder="개당 시작가격"><span style="width: 40px;">원 ~</span></td>
 						</tr>
 					</table>
 				</div>
@@ -277,7 +277,7 @@
 		function submit(){
 			let regExp = /^[0-9]+$/;
 			// 유효성검사 실행 
-			const category = $("select[name=auction-category]");
+			const category = $("select[name=auctionCategory]");
 			if(category.val()!="카테고리 선택"){
 				const name = $("input[name=projectName]");
 				if(name.val()!=""){
@@ -289,7 +289,7 @@
 							const start = $("input[name=auctionStart]");
 							const end = $("input[name=auctionEnd]")
 							if(start.val()!=""&&end.val()!=""&&checkDate()){
-								const price = $("input[name=startPrice]");								
+								const price = $("input[name=auctionPrice]");								
 								if(price.val()!=""&&regExp.test(price.val())){
 									// 금액도 전부 숫자여야함 - 유효성검사 거치기
 									const form = $("<form action='/insertAuction.kh' method='post' enctype='multipart/form-data'>");
