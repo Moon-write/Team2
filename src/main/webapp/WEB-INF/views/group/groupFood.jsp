@@ -56,7 +56,6 @@
  		justify-content: center; 
 		display: flex;
 	}
-	
 	.category {
 		margin-left: 30px;
 	}
@@ -110,25 +109,14 @@
 		width: 300px;
 		margin: 15px;
 	}
-	.project1 div{
+	.project1>*{
 		margin: 10px;
-	}
-	.project1 a{
-		text-decoration: none;
-		color: #191F28;
-	}
-	.prj-name {
-		font-weight:600;
-	}
-	.prj-caption {
-		font-weight: 100;
-		font-size: small;
+		background-color: bisque;
 	}
 	.prj-img{
-		height: 150px;
+		height: 100px;
 		background-color: aqua;
 	}
-	
 	.content-bar {
 		margin-top: 20px;
 		padding-bottom: 10px;
@@ -171,14 +159,14 @@
 					<span class="sub">참여기간이 얼마 남지 않았어요!</span>
 				</div>
 				<div class="due-wrap">
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">제주산 당근씨오일</div><div class="prj-caption">냄새를 참으면 강력한 보습효과를 맛볼 수 있어요</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
 				</div>
 			</div>
 			<div class="content-main">
 				<div class="content-bar">
-					<span class="title">전체상품</span>
+					<span class="title">식품·영양제</span>
 					<span class="array-list">
 						<select>
 							<option value="pop">진행중</option>
@@ -191,14 +179,15 @@
 					</span>
 				</div>
 				<div class="content-list-wrap">
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
 					   
 				</div>
 			

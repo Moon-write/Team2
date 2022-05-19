@@ -11,8 +11,37 @@ public class GroupController {
 	@Autowired
 	private GroupService service;
 	
+	//메인
 	@RequestMapping(value="/groupList.kh")
 	public String groupList() {
 		return "group/groupMain";
+	}
+	
+	//다섯 카테고리
+	@RequestMapping(value="/groupTech.kh")
+	public String groupTech() {
+		return "group/groupTech";
+	}
+	@RequestMapping(value="/groupFashion.kh")
+	public String groupFashion() {
+		return "group/groupFashion";
+	}
+	@RequestMapping(value="/groupLiving.kh")
+	public String groupLiving() {
+		return "group/groupLiving";
+	}
+	@RequestMapping(value="/groupFood.kh")
+	public String groupFood() {
+		return "group/groupFood";
+	}
+	@RequestMapping(value="/groupBeauty.kh")
+	public String groupBeauty() {
+		return "group/groupBeauty";
+	}
+	
+	//상세페이지
+	@RequestMapping(value="/groupView.kh")
+	public String groupView() {
+		return "group/groupView";
 	}
 }
