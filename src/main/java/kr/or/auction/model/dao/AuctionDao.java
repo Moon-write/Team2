@@ -40,4 +40,29 @@ public class AuctionDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("auction.insertBid", b);
 	}
+
+	public int checkEndTime(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.checkEndTime", projectNo);
+	}
+
+	public int checkViewCount(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("auction.checkViewCount", projectNo);
+	}
+
+	public ArrayList<Bid> getBidList(int projectNo) {
+		List<Bid> list = sqlSession.selectList("auction.getBidList", projectNo);
+		return (ArrayList<Bid>) list;
+	}
+
+	public int getTotalLike(int projectNo) {
+		int result = sqlSession.selectOne("auction.getTotalLike", projectNo);
+		return result;
+	}
+
+	public int updateBidRank(HashMap<String, Object> map) {
+		
+		return sqlSession.update("auction.updateBidRank", map);
+	}
 }

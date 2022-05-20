@@ -42,8 +42,9 @@
         LASTDAY AS lastDay,
         LASTHOUR AS lastHour,
         LASTMIN AS lastMin,
-        LASTSEC AS lastSec
-  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE PROJECT_NO= #{projectNo}
+        LASTSEC AS lastSec,
+        BIZ_NAME AS bizName
+  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO= #{projectNo}
   </select>
   
   <select id="getLike" parameterType="map" resultType="int">
@@ -52,7 +53,35 @@
   
   <insert id="insertBid" parameterType="bid">
   	INSERT INTO BID_TBL VALUES(
-  		BID_SEQ.NEXTVAL, #{projectNo}, #{memberNo}, #{bidAmount}, #{bidPrice}, #{bidMsg}, SYSDATE, 0 
+  		BID_SEQ.NEXTVAL, #{projectNo}, #{memberNo}, #{bidAmount}, #{bidPrice}, #{bidMsg}, SYSDATE, 1
   	)  	
   </insert>
+  
+  <select id="checkEndTime" parameterType="int" resultType="int">
+  	SELECT AUCTION_END-SYSDATE FROM AUCTION_TBL WHERE PROJECT_NO=#{projectNo}
+  </select>
+  
+  <insert id="checkViewCount" parameterType="int">
+	CALL VIEWCOUNT(#{projectNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
+  </insert>
+  
+  <select id="getBidList" parameterType="int" resultType="bid">
+  	SELECT BID_NO AS bidNo,
+    PROJECT_NO AS projectNo,
+    MEMBER_NO AS memberNo,
+    BID_AMOUNT AS bidAmount,
+    BID_PRICE AS bidPrice,
+    BID_MSG AS bidMsg,
+    TO_CHAR(BID_DATE,'YYYY-MM-DD HH24:MI:SS') AS bidDate,
+    BID_SUCCESS AS bidSuccess
+    FROM BID_TBL WHERE PROJECT_NO = #{projectNo} ORDER BY BID_PRICE DESC, BID_DATE
+  </select>
+  
+  <select id="getTotalLike" parameterType="int" resultType="int">
+  	SELECT COUNT(*) FROM LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo}
+  </select>
+  
+  <update id="updateBidRank" parameterType="map">
+  	UPDATE BID_TBL SET BID_SUCCESS=#{successRange} WHERE BID_NO=#{bidNo}
+  </update>
 </mapper>

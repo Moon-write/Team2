@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.auction.model.service.AuctionService;
 import kr.or.auction.model.vo.Auction;
-import kr.or.auction.model.vo.AuctionInfo;
 import kr.or.auction.model.vo.Bid;
 import kr.or.member.model.vo.Member;
 
@@ -55,23 +54,17 @@ public class AuctionController {
 		if(m==null) {
 			m = new Member();
 			m.setMemberNo(0);
-		}
-		AuctionInfo info = service.selectAuctionInfo(projectNo);		
+		}		
 		Auction auction = service.selectAuction(projectNo, m.getMemberNo());
-		// 최고가와 입찰건수 가져오기
-//		auction.setBestPrice(info.getBidList().get(0).getBidPrice());
-//		auction.setBidCount(info.getBidList().size());
-		
+				
 		if(auction!=null) {
 			model.addAttribute("auction", auction);
-			model.addAttribute("info", info);
 			return "auction/auctionView";
 		}else {
 			model.addAttribute("direct", 1);
 			model.addAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
 			return "auction/auctionRedirect";		
-		}
-		
+		}		
 	}
 	
 	// 등록 insert
