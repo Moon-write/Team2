@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="donation">
    <insert id="insertDonation" parameterType="d">
-   	INSERT INTO DONATION VALUES(
+   	insert into donation values(
   		DONATION_SEQ.NEXTVAL, #{memberNo}, #{donationDivision}, #{donationTitle}, #{donationImgname}, #{donationImgpath},
   		#{donationCategory}, #{donationContent}, #{donationTarget}, #{donationCash},
   		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD")
@@ -10,14 +10,44 @@
   </insert>
   
   <update id="updateDonation" parameterType="d">
-  	UPDATE DONATION
-  		SET DONATION_CATEGORY = #{donationCategory},
+  	update donation
+  		set DONATION_CATEGORY = #{donationCategory},
   			DONATION_ENDDATE = #{donationEnddate},
   			DONATION_CONTENT = #{donationContent}
-  		WHERE MEMBER_NO = #{memberNo}
+  		where MEMBER_NO = #{memberNo}
   </update>
   
-  <select id="selectDonationList">
+  <select id="selectDonationList" resultType="d">
+  	select
+  		PROJECT_NO as projectNo,
+  		MEMBER_NO as memberNo,
+  		DONATION_DIVISION as donationDivision,
+  		DONATION_TITLE as donationTitle,
+  		DONATION_IMGNAME as donationImgname,
+  		DONATION_IMGPATH as donationImgpath,
+  		DONATION_CATEGORY as donationCategory,
+  		DONATION_CONTENT as donationContent,
+  		DONATION_TARGET as donationTarget,
+  		DONATION_CASH as donationCash,
+  		DONATION_STARTDATE as donationStartdate,
+  		DONATION_ENDDATE as donationEnddate
+  	from donation
+  </select>
   
+  <select id="selectOneDonation" resultType="d" parameterType="d">
+  	  	select
+  		PROJECT_NO as projectNo,
+  		MEMBER_NO as memberNo,
+  		DONATION_DIVISION as donationDivision,
+  		DONATION_TITLE as donationTitle,
+  		DONATION_IMGNAME as donationImgname,
+  		DONATION_IMGPATH as donationImgpath,
+  		DONATION_CATEGORY as donationCategory,
+  		DONATION_CONTENT as donationContent,
+  		DONATION_TARGET as donationTarget,
+  		DONATION_CASH as donationCash,
+  		DONATION_STARTDATE as donationStartdate,
+  		DONATION_ENDDATE as donationEnddate
+  	from donation where PROJECT_NO = #{projectNo}
   </select>
 </mapper>

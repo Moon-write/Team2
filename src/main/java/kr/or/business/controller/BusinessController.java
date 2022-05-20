@@ -36,12 +36,16 @@ public class BusinessController {
 	}
 	@RequestMapping(value="/manageDonation.kh")
 	public String manageDonation(int memberNo, Model model) {
-		//ArrayList<Donation> dn=service.selectDnList(memberNo);
+		ArrayList<Donation> d=service.selectDnList(memberNo);
+		ArrayList<Donation> expiredD=service.selectExpiredDnList(memberNo);
+		model.addAttribute("d",d);
+		model.addAttribute("expiredD",expiredD);
 		return "business/manageDonation";
 	}
 	@RequestMapping(value="/manageGroup.kh")
 	public String manageGroup(int memberNo, Model model) {
 		ArrayList<Group> gr=service.selectGrList(memberNo);
+		model.addAttribute("gr",gr);
 		return "business/manageGroup";
 	}
 	@RequestMapping(value="/manageAuction.kh")

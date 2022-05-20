@@ -19,11 +19,11 @@ public class DonationController {
 	@Autowired
 	private DonationService service;
 	
-	//main
+	//mainAllList
 	@RequestMapping(value="/donationList.kh")
 	public String donationList(Model model) {
-		ArrayList<Donation> dl = service.selectDonationList();
-		model.addAttribute("list",dl);
+		ArrayList<Donation> list = service.selectDonationList();
+		model.addAttribute("list",list);
 		return "donation/donationMain";
 	}
 	
@@ -65,8 +65,10 @@ public class DonationController {
 	
 	//select
 	@RequestMapping(value="/donationView")
-	public String donationView(){
-		return null;
+	public String donationView(Donation d, Model model){
+		Donation donation = service.selectOneDonation(d);
+		model.addAttribute("donation",d);
+		return "donation/donationView";
 	}
 	
 	
