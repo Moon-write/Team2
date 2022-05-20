@@ -27,9 +27,14 @@ public class DonationDao {
 	}
 
 	public ArrayList<Donation> selectDonationList() {
-		// TODO Auto-generated method stub
 		List list = sqlSession.selectList("donation.selectDonationList");
 		return (ArrayList<Donation>)list;
+	}
+
+	public Donation selectOneDonation(Donation d) {
+		// TODO Auto-generated method stub
+		Donation donation = sqlSession.selectOne("donation.selectOneDonation",d);
+		return donation;
 	}
 
 

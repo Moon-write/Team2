@@ -31,4 +31,9 @@ public class DonationService {
 		// TODO Auto-generated method stub
 		return dao.selectDonationList();
 	}
+
+	public Donation selectOneDonation(Donation d) {
+		// TODO Auto-generated method stub
+		return dao.selectOneDonation(d);
+	}
 }
