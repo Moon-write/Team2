@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,41 +111,28 @@
 		</div>
 		<div class="show-content">
 			<div>
-				<h3>진행중인 경매</h3>
+				<h3>진행중인 기부</h3>
 				<table border="1">
 					<tr>
-						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>현재가</th>
+						<th>프로젝트명</th><th>목표기부금액</th><th>상품가격</th><th>시작일</th><th>종료일</th>
 					</tr>
-					<c:forEach var="au" items="${au }">
+					<c:forEach var="d" items="${d }">
 						<tr>
-							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
-							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td>
+							<td>${d.donationTitle }</td><td>${d.donationTarget }</td><td>${d.donationCash }</td><td>${d.donationStartdate }</td><td>${d.donationEnddate }</td>
 							<td><button><a href="#">수정하기</a></button></td>
 						</tr>
 					</c:forEach>									
 				</table>
-				<h3>종료된 경매</h3>
 			</div>
-			
 			<div>
+				<h3>종료된 기부</h3>
 				<table border="1">
 					<tr>
-						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>낙찰가</th><th>판매상태</th>
+						<th>프로젝트명</th><th>목표기부금액</th><th>상품가격</th><th>시작일</th><th>종료일</th>
 					</tr>
-					<c:forEach var="au" items="${expiredAu }">
+					<c:forEach var="d" items="${expiredD }">
 						<tr>
-							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
-							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td>
-							<td>
-								<c:choose>
-								<c:when test="${au.bestPrice == 0}">
-									판매기간만료
-								</c:when>
-								<c:otherwise>
-									낙찰완료
-								</c:otherwise>
-								</c:choose>
-							</td>
+							<td>${d.donationTitle }</td><td>${d.donationTarget }</td><td>${d.donationCash }</td><td>${d.donationStartdate }</td><td>${d.donationEnddate }</td>
 							<td><button><a href="#">수정하기</a></button></td>
 						</tr>
 					</c:forEach>									

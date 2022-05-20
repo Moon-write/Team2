@@ -2,40 +2,78 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="business">
 	<select id="selectAucList" parameterType="int" resultType="a">
-		select distinct 
-			a.project_no as projectNo, 
-			project_name as projectName, 
-			auction_item as auctionItem, 
-			auction_category as auctionCategory, 
-			auction_amount as auctionAmount, 
-			to_char(auction_start,'yyyy/mm/dd') as auctionStart, 
-			to_char(auction_end,'yyyy/mm/dd') as auctionEnd, 
-			a.member_no as memberNo, 
+		select distinct
+			a.project_no as projectNo,
+			project_name as projectName,
+			auction_item as auctionItem,
+			auction_category as auctionCategory,
+			auction_amount as auctionAmount,
+			to_char(auction_start,'yyyy/mm/dd') as auctionStart,
+			to_char(auction_end,'yyyy/mm/dd') as auctionEnd,
+			a.member_no as memberNo,
 			auction_price as auctionPrice
-		from auction_tbl a 
-		left join bid_tbl b on (b.project_no=a.project_no) 
-		where a.member_no=100 and to_number(to_char(auction_end,'yymmdd')) <![CDATA[ > ]]> to_number(to_char(sysdate,'yymmdd'))
+		from auction_tbl a
+		left join bid_tbl b on (b.project_no=a.project_no)
+		where a.member_no=100 and 
+		to_number(to_char(auction_end,'yymmdd')) <![CDATA[ >= ]]> to_number(to_char(sysdate,'yymmdd')) 
+		order by a.project_no desc
 	</select>
-	<select id="selectExpiredAucList" parameterType="int" resultType="a">
-		select distinct 
-			a.project_no as projectNo, 
-			project_name as projectName, 
-			auction_item as auctionItem, 
-			auction_category as auctionCategory, 
-			auction_amount as auctionAmount, 
-			to_char(auction_start,'yyyy/mm/dd') as auctionStart, 
-			to_char(auction_end,'yyyy/mm/dd') as auctionEnd, 
-			a.member_no as memberNo, 
+	<select id="selectExpiredAucList" parameterType="int"
+		resultType="a">
+		select distinct
+			a.project_no as projectNo,
+			project_name as projectName,
+			auction_item as auctionItem,
+			auction_category as auctionCategory,
+			auction_amount as auctionAmount,
+			to_char(auction_start,'yyyy/mm/dd') as auctionStart,
+			to_char(auction_end,'yyyy/mm/dd') as auctionEnd,
+			a.member_no as memberNo,
 			auction_price as auctionPrice
-		from auction_tbl a 
-		left join bid_tbl b on (b.project_no=a.project_no) 
-		where a.member_no=100 and to_number(to_char(auction_end,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd'))
+		from auction_tbl a
+		left join bid_tbl b on (b.project_no=a.project_no)
+		where a.member_no=100 and 
+		to_number(to_char(auction_end,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd')) 
+		order by a.project_no desc
 	</select>
 	<select id="selectBestPrice" parameterType="map" resultType="a">
-		select 
+		select
 			max(bid_price) as bestPrice
-		from bid_tbl b 
-		join auction_tbl a on(a.project_no=b.project_no) 
+		from bid_tbl b
+		join auction_tbl a on(a.project_no=b.project_no)
 		where a.member_no=#{memberNo} and a.project_no=#{projectNo}
+	</select>
+
+	<select id="selectDnList" parameterType="int" resultType="d">
+		select 
+			project_no as projectNo, 
+			member_no as memberNo,
+			donation_division as donationDivision,
+			donation_title as donationTitle, 
+			donation_category as donationCategory,
+			donation_target as donationTarget, 
+			donation_cash as donationCash,
+			to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
+			to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate 
+		from donation 
+		where member_no=#{memberNo} and
+		to_number(to_char(donation_enddate,'yymmdd')) <![CDATA[ >= ]]> to_number(to_char(sysdate,'yymmdd')) 
+		order by project_no desc
+	</select>
+	<select id="selectExpiredDnList" parameterType="int" resultType="d">
+		select 
+			project_no as projectNo, 
+			member_no as memberNo,
+			donation_division as donationDivision,
+			donation_title as donationTitle, 
+			donation_category as donationCategory,
+			donation_target as donationTarget, 
+			donation_cash as donationCash,
+			to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
+			to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate 
+		from donation 
+		where member_no=#{memberNo} and
+		to_number(to_char(donation_enddate,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd')) 
+		order by project_no desc
 	</select>
 </mapper>

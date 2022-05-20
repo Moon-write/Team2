@@ -30,6 +30,12 @@ public class BusinessDao {
 		return (ArrayList<Donation>) list;
 	}
 
+	public ArrayList<Donation> selectExpiredDnList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectExpiredDnList", memberNo);
+		return (ArrayList<Donation>) list;
+	}
+	
 	public ArrayList<Group> selectGrList(int memberNo) {
 		// TODO Auto-generated method stub
 		List list = sqlSession.selectList("business.selectGrList", memberNo);
@@ -52,4 +58,6 @@ public class BusinessDao {
 		List list = sqlSession.selectList("business.selectExpiredAucList", memberNo);
 		return (ArrayList<Auction>) list;
 	}
+
+	
 }
