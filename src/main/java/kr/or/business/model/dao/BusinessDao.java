@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.auction.model.vo.Auction;
+import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
@@ -57,6 +58,21 @@ public class BusinessDao {
 		// TODO Auto-generated method stub
 		List list = sqlSession.selectList("business.selectExpiredAucList", memberNo);
 		return (ArrayList<Auction>) list;
+	}
+
+	public int deleteAuction(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteAuction",projectNo);
+	}
+
+	public int checkDnOrder(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("business.checkDnOrder",projectNo);
+	}
+
+	public int deleteDonation(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteDonation",projectNo);
 	}
 
 	

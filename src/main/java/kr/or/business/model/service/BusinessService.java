@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
 import kr.or.business.model.dao.BusinessDao;
+import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
@@ -63,6 +64,21 @@ public class BusinessService {
 			bp.setBestPrice(bestPrice.getBestPrice());
 		}
 		return au;
+	}
+
+	public int deleteAuction(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteAuction(projectNo);
+	}
+
+	public int checkDnOrder(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.checkDnOrder(projectNo);
+	}
+
+	public int deleteDonation(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteDonation(projectNo);
 	}
 
 }

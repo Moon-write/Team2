@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
 import kr.or.business.model.service.BusinessService;
+import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
@@ -55,6 +57,25 @@ public class BusinessController {
 		model.addAttribute("au",au);
 		model.addAttribute("expiredAu",expiredAu);
 		return "business/manageAuction";
+	}
+	
+	@RequestMapping(value="/deleteAuction.kh")
+	public String deleteAuction(int projectNo) {
+		int result=service.deleteAuction(projectNo);
+		return "business/business";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/checkDnOrder.kh")
+	public int checkDnOrder(int projectNo) {
+		int cdo=service.checkDnOrder(projectNo);
+		return cdo;
+	}
+	
+	@RequestMapping(value="/deleteDonation.kh")
+	public String deleteDonation(int projectNo) {
+		int result=service.deleteDonation(projectNo);
+		return "business/business";
 	}
 	
 	/*@RequestMapping(value="/checkCount.kh")

@@ -111,7 +111,7 @@
 		</div>
 		<div class="show-content">
 			<div>
-				<h3>진행중인 기부</h3>
+				<h3>진행중인 기부</h3><a href="#">더보기</a>
 				<table border="1">
 					<tr>
 						<th>프로젝트명</th><th>목표기부금액</th><th>상품가격</th><th>시작일</th><th>종료일</th>
@@ -120,20 +120,20 @@
 						<tr>
 							<td>${d.donationTitle }</td><td>${d.donationTarget }</td><td>${d.donationCash }</td><td>${d.donationStartdate }</td><td>${d.donationEnddate }</td>
 							<td><button><a href="#">수정하기</a></button></td>
+							<td><button id="delete">삭제<div style="display:none;"><input type="hidden" name="projectNo" value="${d.projectNo }">${d.projectNo }</div></button></td>
 						</tr>
 					</c:forEach>									
 				</table>
 			</div>
 			<div>
-				<h3>종료된 기부</h3>
+				<h3>종료된 기부</h3><a href="#">더보기</a>
 				<table border="1">
 					<tr>
 						<th>프로젝트명</th><th>목표기부금액</th><th>상품가격</th><th>시작일</th><th>종료일</th>
 					</tr>
 					<c:forEach var="d" items="${expiredD }">
 						<tr>
-							<td>${d.donationTitle }</td><td>${d.donationTarget }</td><td>${d.donationCash }</td><td>${d.donationStartdate }</td><td>${d.donationEnddate }</td>
-							<td><button><a href="#">수정하기</a></button></td>
+							<td>${d.donationTitle }</td><td>${d.donationTarget }</td><td>${d.donationCash }</td><td>${d.donationStartdate }</td><td>${d.donationEnddate }</td>							
 						</tr>
 					</c:forEach>									
 				</table>
@@ -151,6 +151,35 @@
 								.toggleClass("menu-active");
 						e.stopPropagation();
 					})
+			$("#delete").on("click",function(event){
+				const projectNo=$("#delete").children().text();
+				console.log(projectNo);
+				confirm("삭제하시겠습니까?");
+				if(true){						
+					$.ajax({
+						url : "/checkDnOrder.kh",
+						type:"get",
+						data:{projectNo:projectNo},
+						success:function(cdo){
+							if(cdo==0){
+								$.ajax({
+									url:"/deleteDonation.kh",
+									data:{projectNo:projectNo},
+									success:function(){
+										alert("삭제되었습니다.");
+										location.href="/manageDonation.kh?memberNo=100";
+									}
+								})
+							}else{
+								alert("이미 구매자가 있습니다.");
+							}						
+						},
+						error : function(){
+							alert("error");
+						}
+					});
+				}								
+			})
 		})
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
