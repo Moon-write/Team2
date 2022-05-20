@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +58,7 @@
 
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header.jsp"%>
+	<%@include file="/WEB-INF/views/common/bizHeader.jsp"%>
 	<div class="page-content">
 		<div class="menu">
 			<ul class="main-menu">
@@ -114,12 +115,12 @@
 				<h3>진행중인 경매</h3>
 				<table border="1">
 					<tr>
-						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>현재가</th><th>판매상태</th>
+						<th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>현재가</th>
 					</tr>
 					<c:forEach var="au" items="${au }">
 						<tr>
 							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
-							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td><td></td>
+							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td>
 						</tr>
 					</c:forEach>									
 				</table>
@@ -131,7 +132,17 @@
 					<c:forEach var="au" items="${expiredAu }">
 						<tr>
 							<td>${au.projectName }</td><td>${au.auctionItem }</td><td>${au.auctionAmount }</td>
-							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td><td></td>
+							<td>${au.auctionStart }</td><td>${au.auctionEnd }</td><td>${au.auctionPrice }</td><td>${au.bestPrice }</td>
+							<td>
+								<c:choose>
+								<c:when test="${au.bestPrice == 0}">
+									판매기간만료
+								</c:when>
+								<c:otherwise>
+									낙찰완료
+								</c:otherwise>
+								</c:choose>
+							</td>
 						</tr>
 					</c:forEach>									
 				</table>

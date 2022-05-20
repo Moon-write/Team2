@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header.jsp" %>
+	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
 		<div class="page-content">
 			<div class="photoWrapper posting-wrap">
 				<c:forEach var="sp" items="${sp }">

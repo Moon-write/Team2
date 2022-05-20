@@ -83,7 +83,8 @@ flex-wrap: wrap;
 </style>
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header.jsp" %>
+	<%-- <c:if test="${sessionScope.memberLevel = 2 }"></c:if> --%>
+	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
 		<div class="page-content">
 			<div class="shop-content">
 				<div class="shop-pic" style="text-align: center;">

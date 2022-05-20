@@ -36,7 +36,7 @@ public class BusinessController {
 	}
 	@RequestMapping(value="/manageDonation.kh")
 	public String manageDonation(int memberNo, Model model) {
-		ArrayList<Donation> dn=service.selectDnList(memberNo);
+		//ArrayList<Donation> dn=service.selectDnList(memberNo);
 		return "business/manageDonation";
 	}
 	@RequestMapping(value="/manageGroup.kh")

@@ -62,7 +62,7 @@
 
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header.jsp"%>
+	<%@include file="/WEB-INF/views/common/bizHeader.jsp"%>
 	<div class="page-content">
 		<div class="menu">
 			<ul class="main-menu">
@@ -70,28 +70,28 @@
 					<a href="#">펀딩</a>
 					<ul class="sub-menu">
 						<li><a href="#">펀딩 등록</a></li>
-						<li><a href="#">펀딩 관리</a></li>
+						<li><a href="/manageFunding.kh?memberNo=100">펀딩 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">기부</a>
 					<ul class="sub-menu">
 						<li><a href="#">기부 등록</a></li>
-						<li><a href="#">기부 관리</a></li>
+						<li><a href="/manageDonation.kh?memberNo=100">기부 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">공동구매</a>
 					<ul class="sub-menu">
 						<li><a href="#">공동구매 등록</a></li>
-						<li><a href="#">공동구매 관리</a></li>
+						<li><a href="/manageGroup.kh?memberNo=100">공동구매 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">경매</a>
 					<ul class="sub-menu">
 						<li><a href="#">경매 등록</a></li>
-						<li><a href="#">경매 관리</a></li>
+						<li><a href="/manageAuction.kh?memberNo=100">경매 관리</a></li>
 					</ul>
 				</li>
 				<li>
