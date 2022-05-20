@@ -12,6 +12,7 @@
 		font-size: 0.8em;
 	}
 	.likeList-wrap{
+		height: 360px;
 		display: flex;
 		justify-content: center;
 		margin: 30px;
@@ -19,9 +20,13 @@
 	.likeList-content{
 		width: 20%;
 		margin: 0px 10px;
-		border: 1px solid #ccc;
 		padding: 20px;
 		position: relative;
+		box-shadow: 1px 1px 1px 1px #eee;
+		transition: box-shadow 0.5s;
+	}
+	.likeList-content:hover{
+		box-shadow: 1px 1px 2px 2px #ccc;
 	}
 	.likeList-content>span{
 		position: absolute;
@@ -72,9 +77,6 @@
 	.auctionList-wrap{
 		margin-bottom: 20px;
 	}
-	.auctionList-wrap>a{
-		color: black;
-	}
 	.auction-content{
 		display: flex;
 		padding: 30px;
@@ -82,8 +84,14 @@
 		margin: 0px auto;
 		border-bottom: 1px solid #ccc;
 	}
+	.auction-content>a{
+		display: block;
+		width: 95%;
+		display: flex;
+		color: black;
+	}
 	.auction-pic{
-		width: 35%; height: 250px;
+		width: 40%; height: 250px;
 		text-align: center;
 	}
 	.auction-pic>img{
@@ -94,16 +102,11 @@
 	.auction-title{
 		position: relative;
 	}
-	.auction-title>span{
-		position: absolute;
-		top: 0px; right: 0px;
-		font-size: 2.5em;
-	}
 	.auction-title>h4{
 		margin-top: 5px;
 	}
 	.auction-info{
-		width: 65%;
+		width: 60%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
@@ -127,46 +130,50 @@
 	.auction-price>h1{
 		text-align: right;
 	}
+	.auction-like{
+		width: 5%
+	}
+	span.likeB , span.likeB-yellow{
+		font-size: 2.5em;
+	}
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 		<div class="page-content">
+		<c:if test="${not empty sessionScope.m}">
 			<div class="page-title">관심상품 모아보기</div>
 			<a href="/addAuction.kh">경매 등록</a>
 			<div class="likeList-wrap">
-				<div class="likeList-content">
-					<span class="material-symbols-rounded likeB">star</span>
-					<div>
-						<img src="../../../resources/img/auction/preview.jpg">
-					</div>
-					<div class="likeList-title">
-						<h4>[프로젝트명]</h4>
-						<h5 style="font-family: ns-light;">상품명</h5>
-					</div>
-					<div class="likeList-price">
-						<h5 style="font-family: ns-light;">판매마감</h5>
-						<h4>현재가 10,000원</h4>
-					</div>
-				</div>
+
 			</div>
-			<hr>
+			<hr>		
+		</c:if>
 			<div class="page-title">전체 경매상품</div>
 			<div class="auctionList-wrap">
 				<div class="array-wrap">
-					<input type="checkbox" id="endItem"><label for="endItem">종료 프로젝트 제외하기</label>
+					<input type="checkbox" id="endItem"<c:if test="${endFlag eq 1}">checked</c:if>><label for="endItem">종료 프로젝트 제외하기</label>
 					<select id="listArray" class="input-form">
-						<option value="1">최근등록순</option>
-						<option value="2">마감임박순</option>
-						<option value="3">관심순</option>
+						<option value="1" <c:if test='${order eq 1}'>selected="selected"</c:if>>최근등록순</option>
+						<option value="2" <c:if test='${order eq 2}'>selected="selected"</c:if>>마감임박순</option>
+						<option value="3" <c:if test='${order eq 3}'>selected="selected"</c:if>>관심순</option>
 					</select>
-					<input type="text" id="listSearch" placeholder="상품명 입력" class="input-form">
+					<input type="text" id="listSearch" name="searchKeyword" class="input-form"
+						<c:choose>
+							<c:when test='${empty keyword}'>
+								placeholder="상품명 입력"
+							</c:when>
+							<c:otherwise>
+								value="${keyword}"
+							</c:otherwise>
+						</c:choose>
+						>
 					<button class="btn bc11" id="searchBtn"><span class="material-symbols-outlined" >search</span></button>
 				</div>
 				<c:forEach items="${list }" var="l">
-					<a href="/auctionView.kh?projectNo=${l.projectNo }">
-						<div class="auction-content">
+					<div class="auction-content">
+						<a href="/auctionView.kh?projectNo=${l.projectNo }">
 							<div class="auction-pic">
 								<img src="../../../resources/img/auction/${l.auctionPic }">
 							</div>
@@ -174,25 +181,26 @@
 								<div class="auction-title">
 									<h3>${l.projectName }</h3>
 									<h4>${l.auctionItem }</h4>
-									<c:choose>
-										<c:when test="${l.like eq 0 }">
-											<span class="material-symbols-rounded likeB">star</span>									
-										</c:when>
-										<c:when test="${l.like eq 1 }">
-											<span class="material-symbols-rounded likeB-yellow">star</span>									
-										</c:when>
-									</c:choose>
 								</div>
 								<h4>입찰 ${l.bidCount }회</h4>
+
 								<div class="auction-time">
 									<h3>
-										<c:if test="${l.lastDay ne 0 }">
-											<span id="last-day">${l.lastDay }</span>일 
-										</c:if>
-										<c:if test="${l.lastHour ne 0 }">
-											<span id="last-hour">${l.lastHour }</span>시간 
-										</c:if>
-										<span id="last-minute">${l.lastMin }</span>분 뒤 종료
+										<c:choose>
+											<c:when test="${l.lastDay ge 0 }">
+												<c:if test="${l.lastDay ne 0 }">
+													<span id="last-day">${l.lastDay }</span>일 
+												</c:if>
+												<c:if test="${l.lastHour ne 0 }">
+													<span id="last-hour">${l.lastHour }</span>시간 
+												</c:if>
+												<span id="last-minute">${l.lastMin }</span>분
+												뒤 종료
+											</c:when>
+											<c:otherwise>
+												<span style="color: #ff2e63;">경매 마감</span>
+											</c:otherwise>
+										</c:choose>
 									</h3>
 									<c:choose>
 										<c:when test="${l.auctionCategory eq 0}">
@@ -219,15 +227,165 @@
 									</c:if>
 								</div>
 								<div class="auction-price">
-									<s>시작가 ${l.auctionPrice }원</s>
-									<h2 style="font-family: ns-light;">현재가 <span style="color: red;">${l.bestPrice }</span> 원</h2>
+									<s>시작가 ${l.auctionPrice} 원</s>
+									<h2 style="font-family: ns-light;">
+										<c:choose>
+											<c:when test="${l.lastDay ge 0}">
+												현재가
+											</c:when>
+											<c:otherwise>최종가</c:otherwise>
+										</c:choose>
+										<span style="color: red;">${l.bestPrice }</span> 원</h2>
 								</div>
 							</div>
-						</div>			
-					</a>	
+						</a>	
+						<div class="auction-like">
+							<c:if test="${not empty sessionScope.m}">
+								<c:choose>
+									<c:when test="${l.like eq 0 }">
+										<span class="material-symbols-rounded likeB">star</span>									
+									</c:when>
+									<c:when test="${l.like eq 1 }">
+										<span class="material-symbols-rounded likeB-yellow">star</span>									
+									</c:when>
+								</c:choose>
+								<input type="hidden" value="${l.projectNo}" class="likeNo">
+							</c:if>
+						</div>
+					</div>			
 				</c:forEach>
+				<!-- 한 콘텐츠 끝 -->
+				<div class="page">
+					${page}
+				</div>
 			</div>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<script type="text/javascript">
+		// 기본셋팅
+		$(function(){
+			$("input#endItem").on("click",function(){
+				keywordLink();	
+			})
+
+			$("select#listArray").on("change",function(){
+				keywordLink()
+			})
+			
+		})
+		function keywordLink(){
+			if($("input#endItem").prop("checked")==true){
+					// 종료프로젝트 제외
+					location.href = "/auctionList.kh?endFlag=1&searchKeyword="+$("input#listSearch").val()+"&order="+$("select#listArray").val()+"&reqPage=1";
+				}else{
+					// 종료프로젝트 해제
+					location.href = "/auctionList.kh?endFlag=0&searchKeyword="+$("input#listSearch").val()+"&order="+$("select#listArray").val()+"&reqPage=1";
+				}
+		}
+
+		$(document).on("click","span.likeB",function(){
+			const value = $(this).parent().children("input").val();			
+
+			$(this).addClass("likeB-yellow").removeClass("likeB");
+			
+			$.ajax({
+				url: "/addLike.kh",
+				data : {
+					projectNo : value
+				},
+				type : "post",
+				success: function(data){
+					if(data!=1){
+						alert("관심상품 업데이트 실패!");
+					}
+					selectLikeList(1);
+				}
+			})			
+		})
+		$(document).on("click","span.likeB-yellow",function(){
+			const value = $(this).parent().children("input").val();		
+			$(this).removeClass("likeB-yellow").addClass("likeB");			
+			
+			$.ajax({
+				url: "/removeLike.kh",
+				data : {
+					projectNo : value
+				},
+				type : "post",
+				success: function(data){
+					if(data!=1){
+						alert("관심상품 업데이트 실패!");
+					}else{				
+						selectLikeList(1);					
+					}
+				}
+			})			
+		})
+
+		function selectLikeList(pageNo){
+			$(".likeList-wrap").empty();
+			
+			$.ajax({
+				url : "/selectLikeList.kh",
+				type : "post",
+				data : {
+					pageNo : pageNo
+				},
+				success : function(list){
+					
+					if(list==null){
+						return;
+					}
+					
+					for(let i=0;i<list.length;i++){
+						let lastDay ="";
+						let lastHour ="";
+						let lastMin ="";
+						let lastTime ;
+
+						let priceName = "현재가";
+						if(list[i].lastDay<0){
+							lastTime = "경매마감";
+							priceName = "최종가";
+						}else{							
+							if(list[i].lastDay!=0){
+								lastDay = list[i].lastDay+"일 ";
+							}
+							if(list[i].lastHour!=0){								
+								lastHour = list[i].lastHour.toString()+"시간 ";
+							}
+							if(list[i].lastMin){
+								lastMin = list[i].lastMin.toString()+"분 ";
+							}
+							lastTime = lastDay + lastHour + lastMin +"뒤 종료";							
+						} 
+
+						const content = "<div class='likeList-content'>"+
+										"<input type='hidden' value='"+list[i].projectNo+"'>"+
+										"<span class='material-symbols-rounded likeB-yellow'>star</span>"+
+										"<div>"+
+										"<img src='../../../resources/img/auction/"+list[i].auctionPic+"'>"+
+										"</div>"+
+										"<div class='likeList-title'>"+
+											"<h4>"+list[i].projectName+"</h4>"+
+											"<h5 style='font-family: ns-light;'>"+list[i].auctionItem+"</h5>"+
+										"</div>"+
+										"<div class='likeList-price'>"+
+										"<h5 style='font-family: ns-light;'>"+lastTime+"</h5>"+
+											"<h4>"+priceName+" : "+list[i].bestPrice+"</h4>"+
+										"</div>"+
+									"</div>";
+						$(".likeList-wrap").append(content);
+					}
+				},
+				error : function(){
+					console.log("데이터 없음");
+				}
+			})						
+		}
+		$(function(){
+			selectLikeList(1);
+		})
+	 </script>
 </body>
 </html>

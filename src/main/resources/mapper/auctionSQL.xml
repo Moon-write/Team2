@@ -10,19 +10,42 @@
   </insert>
   
   <!-- 리스트 불러오기용, 약식으로 불러옴 -->
-  <select id="selectAuctionList" resultType="a" >
-  	SELECT
-  		PROJECT_NO AS projectNo,
-  		PROJECT_NAME AS projectName,
-  		AUCTION_ITEM AS auctionItem,
-  		AUCTION_CATEGORY AS auctionCategory,
-  		MEMBER_NO AS memberNo,
-  		AUCTION_PRICE AS auctionPrice,
-  		AUCTION_PIC AS auctionPic,
-        LASTDAY AS lastDay,
-        LASTHOUR AS lastHour,
-        LASTMIN AS lastMin
+  <select id="selectAuctionList" resultType="a" parameterType="map">
+ 		SELECT * FROM (
+			SELECT ROWNUM AS RNUM, N.* FROM (
+  				SELECT
+			  		PROJECT_NO AS projectNo,
+			  		PROJECT_NAME AS projectName,
+			  		AUCTION_ITEM AS auctionItem,
+			  		AUCTION_CATEGORY AS auctionCategory,
+			  		MEMBER_NO AS memberNo,
+			  		AUCTION_PRICE AS auctionPrice,
+			  		AUCTION_PIC AS auctionPic,
+			        LASTDAY AS lastDay,
+			        LASTHOUR AS lastHour,
+			        LASTMIN AS lastMin        
   		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
+  		
+  		<trim prefix="WHERE" prefixOverrides="AND">
+  			<if test="endFlag==1">
+		  		<![CDATA[LASTDAY>=0]]>  			
+  			</if>
+  			<if test="!keyword.equals('')">
+		  		(PROJECT_NAME LIKE '%'||${keyword}||'%' OR AUCTION_ITEM LIKE '%'||${keyword}||'%')  			
+  			</if>  		
+  		</trim>
+  		
+  		<choose>
+  			<when test="order==1">
+		  		ORDER BY PROJECT_NO DESC  			
+  			</when>
+  			<otherwise>
+		  		ORDER BY LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC  			
+  			</otherwise>
+  		</choose>
+  		
+  		<![CDATA[)N ) WHERE RNUM>=#{startNum} AND RNUM<=#{endNum}]]>
+  		
   </select>
   
   <!-- 자세히 불러오기용 -->
@@ -48,7 +71,7 @@
   </select>
   
   <select id="getLike" parameterType="map" resultType="int">
-  		SELECT ROWNUM from LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} AND MEMBER_NO=#{memberNo} UNION SELECT 9999 FROM DUAL
+  		SELECT * FROM (SELECT 1 from LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} AND MEMBER_NO=#{memberNo} UNION SELECT 9999 FROM DUAL) WHERE ROWNUM=1
   </select>
   
   <insert id="insertBid" parameterType="bid">
@@ -73,8 +96,9 @@
     BID_PRICE AS bidPrice,
     BID_MSG AS bidMsg,
     TO_CHAR(BID_DATE,'YYYY-MM-DD HH24:MI:SS') AS bidDate,
-    BID_SUCCESS AS bidSuccess
-    FROM BID_TBL WHERE PROJECT_NO = #{projectNo} ORDER BY BID_PRICE DESC, BID_DATE
+    BID_SUCCESS AS bidSuccess,
+    MEMBER_NAME as memberName
+    FROM BID_TBL JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO = #{projectNo} ORDER BY BID_PRICE DESC, BID_DATE
   </select>
   
   <select id="getTotalLike" parameterType="int" resultType="int">
@@ -84,4 +108,47 @@
   <update id="updateBidRank" parameterType="map">
   	UPDATE BID_TBL SET BID_SUCCESS=#{successRange} WHERE BID_NO=#{bidNo}
   </update>
+  
+  <insert id="addLike" parameterType="map">
+  	INSERT INTO LIKE_TBL VALUES(4, #{projectNo}, #{memberNo})
+  </insert>
+  <delete id="removeLike" parameterType="map">
+  	DELETE LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO =#{projectNo} AND MEMBER_NO= #{memberNo}
+  </delete>
+  
+  <select id="selectLikeList" parameterType="map" resultType="int">
+  	<![CDATA[SELECT PROJECT_NO FROM (SELECT ROWNUM AS RNUM, PROJECT_NO FROM LIKE_TBL WHERE DIV_NO=4 AND MEMBER_NO=#{memberNo}) WHERE RNUM>=#{startNum} AND RNUM<=#{endNum}]]> 
+  </select>
+  
+  <select id="getLikeAuction" parameterType="list" resultType="a">
+  	SELECT PROJECT_NO AS projectNo,
+	    PROJECT_NAME AS projectName,
+	    AUCTION_ITEM AS auctionItem,
+	    AUCTION_PIC AS auctionPic,
+	    LASTDAY AS lastDay,
+	    LASTHOUR AS lastHour,
+	    LASTMIN AS lastMin,
+	    LASTSEC AS lastSec
+	FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE PROJECT_NO IN <foreach collection="list" item="num" open="(" separator="," close=")">#{num}</foreach>
+  </select>
+  
+  <select id="checkPageCount" parameterType="map" resultType="int">
+  		SELECT COUNT(*) FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) 
+   		<trim prefix="WHERE" prefixOverrides="AND">
+  			<if test="endFlag==1">
+		  		<![CDATA[LASTDAY>=0]]>  			
+  			</if>
+  			<if test="!keyword.equals('')">
+		  		(PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
+  			</if>  		
+  		</trim>
+  </select>
+  
+  <select id="getMinBidPrice" parameterType="int" resultType="int">
+  	SELECT MIN(BID_PRICE) FROM BID_TBL WHERE BID_SUCCESS IN (1,2) AND PROJECT_NO = #{projectNo}
+  </select>
+  
+  <select id="getBidCount" parameterType="int" resultType="int">
+  	SELECT COUNT(*) AS BIDCOUNT FROM BID_TBL WHERE PROJECT_NO=#{projectNo}
+  </select>
 </mapper>

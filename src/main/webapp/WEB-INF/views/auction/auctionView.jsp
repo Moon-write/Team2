@@ -12,13 +12,13 @@
 		font-size: 0.8em;
 	}
 	.auction-setting{
-		padding: 30px 0px;
+		padding: 30px;
 		border-bottom: 1px solid #ccc;
 		position: relative;
 	}
 	.auction-like{
 		position: absolute;
-		right: 10px; top: 30px;
+		right: 40px; top: 30px;
 		border: 1px solid #ccc;
 		border-radius: 15px;
 		width: 25px;
@@ -66,19 +66,19 @@
 		margin-top: 10px;
 		display: flex;
 		height: 50px;
-		justify-content: center;
+		padding: 0px 30px;
 	}
 	.info-seller>span{
 		font-size: 3em;
 		text-align: right;
-		margin-right: 20px;
+		margin: 0px 20px;
 	}
 	.auction-right>h1{
 		text-align: right;
 	}
-	.info-history>h3{
+	.info-history>h4{
 		font-family: ns-light;
-		margin: 10px 0px;
+		margin: 40px 0px 10px 0px;
 	}
 	.info-history>table{
 		width: 100%;
@@ -86,9 +86,15 @@
 	}
 
 	.auction-notice{
-		padding: 30px 20px;
+		padding: 30px;
 		border-top: 1px solid #ccc;
 		border-bottom: 1px solid #ccc;
+	}
+	.auction-notice>h4{
+		margin-bottom: 10px;
+	}
+	.auction-notice>p{
+		font-family: ns-light;
 	}
 	.auction-content{
 		padding: 30px 20px;
@@ -111,6 +117,9 @@
 	}
 	#bidding-modal .modal-wrap{
 		width: 400px;
+	}
+	#history-modal .modal-wrap{
+		width: 800px;
 	}
 	input[name=bidAmount]{
 		width: 100px; height: 40px;
@@ -136,6 +145,17 @@
 		font-family: ns-light;
 		margin: 5px 0px;
 	}
+	#bid-rank th, #bid-rank td{
+		font-family: ns-light;
+		padding: 0.5rem;
+	}
+	
+	table#bid-history tr{
+		border-top : 1px solid rgb(30,144,255); border-bottom:1px solid rgb(30,144,255);
+	}
+	table#bid-history td{
+		font-family: ns-light
+	}
 </style>
 </head>
 <body>
@@ -154,10 +174,10 @@
 							<span class="material-symbols-rounded likeB-yellow">star</span>									
 						</c:when>
 					</c:choose>
-					<span id="likeCount">30</span>
+					<span id="likeCount">${auction.totallike}</span>
 				</div>
 				<h3>${auction.auctionItem }</h3>
-				<h4>프로젝트 기간 ${auction.auctionStart } ~ ${auction.auctionEnd }</h4>
+				<h4>프로젝트 기간 <span id="auctionStart">${auction.auctionStart }</span> ~ <span id="auctionEnd">${auction.auctionEnd }</span></h4>
 				<span>수량 <span id="amountVal">${auction.auctionAmount }</span>개 | 시작가 ${auction.auctionPrice }원</span>
 				<c:choose>
 					<c:when test="${auction.auctionCategory eq 0}">
@@ -189,30 +209,36 @@
 						<img src="../../../resources/upload/auction/${auction.auctionPic}">
 					</div>
 					<div class="info-seller">
-						<span class="material-symbols-rounded">storefront</span>
+						<span class="material-symbols-rounded" style="color: rgb(30,144,255)">storefront</span>
 						<div>
 							<h5>판매자 정보</h5>
-							${info.sellerName}주시고히사 왑왑
+							${auction.bizName}
 						</div>
 					</div>				
 				</div>
 				<div class="auction-right">
 					<div class="info-time">
 						<h2>
-							<c:if test="${l.lastDay ne 0 }">
-								<span id="last-day">${auction.lastDay }</span>일 
-							</c:if>
-							<c:if test="${l.lastHour ne 0 }">
-								<span id="last-hour">${auction.lastHour }</span>시간 
-							</c:if>
-							<span id="last-minute">${auction.lastMin }</span>분
-							<span id="last-sec">${auction.lastSec }</span>초
-							뒤 종료
+								<c:if test="${auction.lastDay ge 0 }">
+									<c:if test="${auction.lastDay ne 0 }">
+										<span id="last-day">${auction.lastDay }</span>일 
+									</c:if>
+									<c:if test="${auction.lastHour ne 0 }">
+										<span id="last-hour">${auction.lastHour }</span>시간 
+									</c:if>
+									<span id="last-min">${auction.lastMin }</span>분
+									<span id="last-sec">${auction.lastSec }</span>초 뒤 종료
+								</c:if>
 						</h2>
 					</div>
-					<h1>현재가  <span id="bestPrice">${auction.bestPrice }</span> 원</h1>
+					<h1>
+						<c:choose>
+							<c:when test="${auction.lastDay ge 0}">현재가</c:when>
+							<c:otherwise>최종가</c:otherwise>
+						</c:choose>
+						<span id="bestPrice">${auction.bestPrice }</span>원</h1>
 					<div class="info-history">
-						<h3 id="historyBtn">입찰 <span>${auction.bidCount }</span>회 (전체 기록 보기)</h3>
+						<h4 id="historyBtn">입찰 <span>${auction.bidCount }</span>회 (전체 기록 보기)</h4>
 						<table id="bid-rank" class="tbl">
 							<tbody>
 								<tr class="tr-2">
@@ -220,21 +246,30 @@
 									<th>입찰자명</th>
 									<th>수량</th>
 									<th>입찰액</th>
-								</tr>
-								<tr class="tr-3">
-									<td>dd</td>
-								</tr>
-								<tr class="tr-1">
-									<td>dd</td>
-								</tr>
+								</tr>								
+								<c:forEach begin="0" end="4" step="1" varStatus="i">
+									<c:choose>
+										<c:when test="${auction.bidList[i.index].bidSuccess gt 0 }">
+											<tr class="tr-3">
+										</c:when>
+										<c:otherwise>
+											<tr class="tr-1">
+										</c:otherwise>
+									</c:choose>
+												<td>${i.count}</td>
+												<td>${auction.bidList[i.index].memberName}</td>
+												<td>${auction.bidList[i.index].bidAmount}</td>
+												<td>${auction.bidList[i.index].bidPrice}</td>
+											</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 						<c:choose>
 							<c:when test="${empty sessionScope.m}">
-								<button class="btn bc1" style="width:100%;">로그인 후 참여해 주세요!</button>
+								<button class="btn bc22" style="width:100%;">로그인 후 참여해 주세요!</button>
 							</c:when>
 							<c:when test="${not empty sessionScope.m}">
-								<button class="btn bc1" style="width:100%;" id="bidBtn">입찰하기</button>
+								<button class="btn bc2" style="width:100%;" id="bidBtn">입찰하기</button>
 							</c:when>
 						</c:choose>
 					</div>
@@ -242,7 +277,12 @@
 			</div>
 			<div class="auction-notice">
 				<h4>경매 참여 과정 안내</h4>
-				<p>어쩌구저쩌구 규칙</p>
+				<p>
+(1) 입찰 시 상품 구매 화면으로 이동됩니다. 주문완료 상태로 유지되며 실 결제는 되지 않습니다.<br>
+(2) 이벤트 종료 후 낙찰이 확정되면 주문완료에서 결제대기로 이동합니다. 마이페이지에서 주문내역을 확인해 주세요.<br>
+(3) 낙찰 확정일부터 다음날 23시 59분 전까지 결제를 완료하지 않을 경우 주문이 취소됩니다.<br>
+(4) 한번 입찰 시 주문취소가 불가능하니 신중하게 선택해 주세요.<br>
+				</p>
 			</div>
 			<div class="auction-content">
 				${auction.auctionContent }
@@ -293,14 +333,38 @@
 					<span class="material-symbols-rounded close-icon modal-close">close</span>
 				</div>
 				<div class="modal-content">
-					<p>모달내용</p>
-					<p>모달내용</p>
-					<p>모달내용</p>
-					<p>모달내용</p>
+					<table id="bid-history" class="tbl">
+						<tbody>
+							<tr class="tr-3">
+								<th style="width:5%">No.</th>
+								<th style="width:20%">입찰시각</th>
+								<th style="width:15%">입찰자명</th>
+								<th style="width:15%">입찰수량</th>
+								<th style="width:15%">입찰액</th>
+								<th style="width:20%">한마디</th>
+							</tr>								
+							<c:forEach items="${auction.bidList}" var="b" varStatus="i">
+								<c:choose>
+									<c:when test="${b.bidSuccess gt 0 }">
+										<tr class="tr-1" style="color: rgb(30,144,255)">
+									</c:when>
+									<c:otherwise>
+										<tr class="tr-1">
+									</c:otherwise>
+								</c:choose>
+											<td>${i.index+1}</td>
+											<td>${b.bidDate}</td>
+											<td>${b.memberName}</td>
+											<td>${b.bidAmount}</td>
+											<td>${b.bidPrice}</td>
+											<td>${b.bidMsg}</td>
+										</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 				</div>
 				<div class="modal-foot">
-					<button class="btn bc1">확인</button>
-					<button class="btn bc11 modal-close">취소</button>
+					<button class="btn bc11 modal-close">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -349,6 +413,56 @@
 				$(this).parents(".modal-wrap").parent().css("display", "none");
 			});  
 		});
+
+		$(function(){
+			// 오늘이 참여가능한 날짜인지 계산
+			const today = new Date();
+			const start = new Date($("#auctionStart").text());
+			const end = new Date($("#auctionEnd").text());
+			if(today<start){
+				//시작이 더 크면 뒤면
+				$(".info-time>h2").text("경매 오픈 전");
+				$("button#bidBtn").text("경매 시작 후 참여해 주세요!").prop("disabled","true").toggleClass("bc2").toggleClass("bc4");
+			}else if(end<today){
+				$(".info-time>h2").text("경매 마감");
+				$("button#bidBtn").text("경매 마감").prop("disabled","true").toggleClass("bc2").toggleClass("bc4");
+			}else{
+				const stopWatch = setInterval(function(){
+			let sec = $("#last-sec").text();
+						
+			if(sec-1<0){
+				let min = $("#last-min").text();
+				if(min-1<0){
+					let hour = $("#last-hour").text();
+					if(hour-1<0||hour==null){
+						let day = $("#last-day").text();
+						if(day-1<0||day==null){
+							$(".info-time>h2").text("경매 마감");
+							clearInterval(stopWatch);							
+						}else{
+							$("#last-day").text(day-1);
+							$("#last-hour").text(23);
+							$("#last-min").text(59);
+							$("#last-sec").text(59);
+						}
+						
+					}else{
+						$("#last-hour").text(hour-1);
+						$("#last-min").text(59);
+						$("#last-sec").text(59);
+					}
+					
+				}else{
+					$("#last-min").text(min-1);
+					$("#last-sec").text(59);	
+				}
+				
+			}else{
+				$("#last-sec").text(sec-1);				
+			}
+		},1000)
+			}
+		})
 	</script>
 </body>
 </html>

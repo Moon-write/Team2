@@ -21,8 +21,8 @@ public class AuctionDao {
 		return sqlSession.insert("auction.insertAuction", auction);
 	}
 
-	public ArrayList<Auction> selectAuctionList() {
-		List<Auction> list = sqlSession.selectList("auction.selectAuctionList");
+	public ArrayList<Auction> selectAuctionList(HashMap<String, Object> map) {
+		List<Auction> list = sqlSession.selectList("auction.selectAuctionList", map);
 		return (ArrayList<Auction>) list;
 	}
 
@@ -64,5 +64,40 @@ public class AuctionDao {
 	public int updateBidRank(HashMap<String, Object> map) {
 		
 		return sqlSession.update("auction.updateBidRank", map);
+	}
+
+	public int addLike(HashMap<String, Object> map) {
+		
+		return sqlSession.insert("auction.addLike",map);
+	}
+
+	public int removeLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("auction.removeLike",map);
+	}
+
+	public List<Integer> selectLikeList(HashMap<String, Object> map) {
+		List<Integer> list = sqlSession.selectList("auction.selectLikeList", map);
+		return list; 
+	}
+
+	public ArrayList<Auction> getLikeAuction(List<Integer> projectlist) {
+		List<Auction> list= sqlSession.selectList("auction.getLikeAuction", projectlist);
+		return (ArrayList<Auction>) list;
+	}
+
+	public int checkPageCount(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.checkPageCount", map);
+	}
+
+	public int getBidCount(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.getBidCount", projectNo);
+	}
+
+	public int getMinBidPrice(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.getMinBidPrice", projectNo);
 	}
 }

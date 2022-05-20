@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
 import kr.or.auction.model.service.AuctionService;
 import kr.or.auction.model.vo.Auction;
+import kr.or.auction.model.vo.AuctionList;
 import kr.or.auction.model.vo.Bid;
 import kr.or.member.model.vo.Member;
 
@@ -31,21 +34,35 @@ public class AuctionController {
 	
 	// 이동
 	
+	@RequestMapping(value="addAuction.kh")
+	public String addAuction() {
+		return "auction/addAuction";
+	}
+
 	@RequestMapping(value="auctionList.kh")
-	public String auctionList(@SessionAttribute(required=false) Member m, Model model) {
+	public String auctionList(@SessionAttribute(required=false) Member m, Model model, int reqPage, int endFlag, int order, String searchKeyword) { // 추후 reqPage 변수넣을것
 		// 로그인한 회원이 없을 경우 변수 0으로 셋팅
 		if(m==null) {
 			m = new Member();
 			m.setMemberNo(0);
 		}
-		ArrayList<Auction> list = service.selectAuctionList(m.getMemberNo()); // 로그인 완료되면 변수수정
-		model.addAttribute("list", list);
+		// 현재페이지
+		
+		// 종료 프로젝트 제외여부
+		// 1이제외한다
+		// 순서
+		// 1최근등록순 2마감임박순 3관심순
+		// 검색어
+		
+				
+		AuctionList auctionList = service.selectAuctionList(m.getMemberNo(), reqPage, endFlag, order, searchKeyword); // 로그인 완료되면 변수수정
+		
+		model.addAttribute("order", order);
+		model.addAttribute("endFlag", endFlag);
+		model.addAttribute("keyword", searchKeyword);
+		model.addAttribute("page", auctionList.getPagination());
+		model.addAttribute("list", auctionList.getAuctionList());
 		return "auction/auctionList";
-	}
-	
-	@RequestMapping(value="addAuction.kh")
-	public String addAuction() {
-		return "auction/addAuction";
 	}
 	
 	@RequestMapping(value="auctionView.kh")
@@ -65,36 +82,6 @@ public class AuctionController {
 			model.addAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
 			return "auction/auctionRedirect";		
 		}		
-	}
-	
-	// 등록 insert
-	@RequestMapping(value="/insertBid.kh")
-	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, Model model) {
-		b.setMemberNo(m.getMemberNo());
-		int result = service.insertBid(b);
-		if(result>0) {
-			model.addAttribute("msg", "입찰이 완료되었습니다!");
-		}else {
-			model.addAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
-		}
-		model.addAttribute("direct", 3);
-		model.addAttribute("projectNo", b.getProjectNo());
-		return "auction/auctionRedirect";
-	}
-	@ResponseBody
-	@RequestMapping(value="/auctionImgUpload.kh")
-	public String auctionImgUpload(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
-		String filepath = null;
-		
-		if(!file[0].isEmpty()) {
-			// 사진이 있을때만 로직 실행
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
-			
-			MultipartFile onefile = file[0];
-			
-			filepath = fileIo(onefile, savePath);
-		}
-		return "../../../resources/upload/auction/"+filepath;
 	}
 	
 	@RequestMapping(value="/insertAuction.kh")
@@ -123,8 +110,67 @@ public class AuctionController {
 			model.addAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
 			return "auction/auctionRedirect";
 		}
-	}	
+	}
+
+	// 등록 insert
+	@RequestMapping(value="/insertBid.kh")
+	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, Model model) {
+		b.setMemberNo(m.getMemberNo());
+		int result = service.insertBid(b);
+		if(result>0) {
+			model.addAttribute("msg", "입찰이 완료되었습니다!");
+		}else {
+			model.addAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
+		}
+		model.addAttribute("direct", 3);
+		model.addAttribute("projectNo", b.getProjectNo());
+		return "auction/auctionRedirect";
+	}
 	
+	@ResponseBody
+	@RequestMapping(value="/addLike.kh")
+	public String addLike(@SessionAttribute(required=false) Member m, String projectNo) {
+		int result = service.addLike(m.getMemberNo(), Integer.parseInt(projectNo));
+		
+		return Integer.toString(result);
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/removeLike.kh")
+	public String removeLike(@SessionAttribute(required=false) Member m, int projectNo) {
+		int result = service.removeLike(m.getMemberNo(), projectNo);
+		
+		return Integer.toString(result);
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/selectLikeList.kh", produces="application/json; charset=utf-8")
+	public String selectLikeList(@SessionAttribute(required=false) Member m, int pageNo) {
+		if(m==null) {
+			return null;
+		}
+		ArrayList<Auction> list = service.selectLikeList(m.getMemberNo(), pageNo);		
+		
+		return new Gson().toJson(list);
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/auctionImgUpload.kh")
+	public String auctionImgUpload(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
+		String filepath = null;
+		
+		if(!file[0].isEmpty()) {
+			// 사진이 있을때만 로직 실행
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
+			
+			MultipartFile onefile = file[0];
+			
+			filepath = fileIo(onefile, savePath);
+		}
+		return "../../../resources/upload/auction/"+filepath;
+	}
+
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {
 		String filepath = null;

@@ -19,4 +19,7 @@ public class Bid {
 	private String bidMsg;
 	private String bidDate;
 	private int bidSuccess;
+	
+	// 추가정보
+	private String memberName;
 }
