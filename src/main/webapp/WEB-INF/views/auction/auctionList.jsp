@@ -39,7 +39,10 @@
 		width: 100%;
 		margin-bottom: 20px;
 	}
-	.likeList-content>div>img{
+	.likeList-content a{
+		color : black;	
+	}
+	.likeList-content div>img{
 		width: 100%;
 		object-fit: cover;
 		border-radius: 10px;
@@ -120,7 +123,7 @@
 		color: #ff82ab;
 	}
 	.auction-time>span{
-		margin-right: 10px;
+		margin-right: 5px;
 		font-family: ns-light;
 	}
 	.auction-price{
@@ -136,11 +139,24 @@
 	span.likeB , span.likeB-yellow{
 		font-size: 2.5em;
 	}
+	.page{
+		padding: 50px 0px;
+	}
+	.pageArrow{
+		width: 4%; height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;		
+	}
+	.pageArrow>span{
+		font-size: 2em;
+	}
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
+	<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
 		<div class="page-content">
 		<c:if test="${not empty sessionScope.m}">
 			<div class="page-title">관심상품 모아보기</div>
@@ -158,6 +174,7 @@
 						<option value="1" <c:if test='${order eq 1}'>selected="selected"</c:if>>최근등록순</option>
 						<option value="2" <c:if test='${order eq 2}'>selected="selected"</c:if>>마감임박순</option>
 						<option value="3" <c:if test='${order eq 3}'>selected="selected"</c:if>>관심순</option>
+						<option value="4" <c:if test='${order eq 4}'>selected="selected"</c:if>>조회수순</option>
 					</select>
 					<input type="text" id="listSearch" name="searchKeyword" class="input-form"
 						<c:choose>
@@ -171,6 +188,11 @@
 						>
 					<button class="btn bc11" id="searchBtn"><span class="material-symbols-outlined" >search</span></button>
 				</div>
+				<c:if test='${empty list }'>
+					<div class="auction-content" style="height: 300px; align-items: center;">
+						<h4 style="width: 100%; text-align: center;">조건에 맞는 경매물품이 없습니다!</h4>
+					</div>
+				</c:if>
 				<c:forEach items="${list }" var="l">
 					<div class="auction-content">
 						<a href="/auctionView.kh?projectNo=${l.projectNo }">
@@ -269,7 +291,10 @@
 			})
 
 			$("select#listArray").on("change",function(){
-				keywordLink()
+				keywordLink();
+			})
+			$("button#searchBtn").on("click",function(){
+				keywordLink();
 			})
 			
 		})
@@ -295,10 +320,10 @@
 				},
 				type : "post",
 				success: function(data){
-					if(data!=1){
+					if(data==-1){
 						alert("관심상품 업데이트 실패!");
 					}
-					selectLikeList(1);
+					checkMyLikeCount(1);
 				}
 			})			
 		})
@@ -313,15 +338,39 @@
 				},
 				type : "post",
 				success: function(data){
-					if(data!=1){
+					if(data==-1){
 						alert("관심상품 업데이트 실패!");
 					}else{				
-						selectLikeList(1);					
+						keywordLink();
 					}
 				}
 			})			
 		})
-
+		$(function(){
+			// 좋아요 갯수 세기
+			const id = $("input#memberNo").val();
+			if(id!=""){
+				checkMyLikeCount(1);				
+			}
+		})
+		
+		function checkMyLikeCount(pageNo){
+			$.ajax({
+				url : "/checkMyLikeCount.kh",
+				type :  "post",
+				success : function(size){
+					if(size==0){
+						console.log("관심글 없음!");
+						return;
+					}else if(size<=pageNo*3){
+						selectLikeList(pageNo);
+					}else if(size>pageNo*3){
+						selectLikeList(pageNo);
+						putNextArrow(pageNo);
+					}
+				}
+			})
+		}
 		function selectLikeList(pageNo){
 			$(".likeList-wrap").empty();
 			
@@ -336,8 +385,7 @@
 					if(list==null){
 						return;
 					}
-					
-					for(let i=0;i<list.length;i++){
+					for(let i=list.length-1;i>=0;i--){
 						let lastDay ="";
 						let lastHour ="";
 						let lastMin ="";
@@ -363,6 +411,7 @@
 						const content = "<div class='likeList-content'>"+
 										"<input type='hidden' value='"+list[i].projectNo+"'>"+
 										"<span class='material-symbols-rounded likeB-yellow'>star</span>"+
+										"<a href='/auctionView.kh?projectNo="+list[i].projectNo+"'>"+
 										"<div>"+
 										"<img src='../../../resources/img/auction/"+list[i].auctionPic+"'>"+
 										"</div>"+
@@ -373,9 +422,12 @@
 										"<div class='likeList-price'>"+
 										"<h5 style='font-family: ns-light;'>"+lastTime+"</h5>"+
 											"<h4>"+priceName+" : "+list[i].bestPrice+"</h4>"+
-										"</div>"+
+										"</div></a>"+
 									"</div>";
-						$(".likeList-wrap").append(content);
+						$(".likeList-wrap").prepend(content);
+					}
+					if(pageNo>1){
+						putPrevArrow(pageNo);
 					}
 				},
 				error : function(){
@@ -383,8 +435,21 @@
 				}
 			})						
 		}
-		$(function(){
-			selectLikeList(1);
+		function putPrevArrow(pageNo){
+			const prev = $("<div class='pageArrow'>");
+			prev.val(parseInt(pageNo)-1);
+			prev.html("<span class='material-symbols-outlined'>arrow_back_ios_new</span>");
+			$(".likeList-wrap").prepend(prev);
+		};
+		
+		function putNextArrow(pageNo){
+			const next = $("<div class='pageArrow'>");
+			next.val(parseInt(pageNo)+1);
+			next.html("<span class='material-symbols-outlined'>arrow_forward_ios</span>");
+			$(".likeList-wrap").append(next);
+		}
+		$(document).on("click",".pageArrow",function(){
+			checkMyLikeCount($(this).val());
 		})
 	 </script>
 </body>

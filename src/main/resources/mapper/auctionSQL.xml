@@ -31,7 +31,7 @@
 		  		<![CDATA[LASTDAY>=0]]>  			
   			</if>
   			<if test="!keyword.equals('')">
-		  		(PROJECT_NAME LIKE '%'||${keyword}||'%' OR AUCTION_ITEM LIKE '%'||${keyword}||'%')  			
+		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
   			</if>  		
   		</trim>
   		
@@ -71,7 +71,7 @@
   </select>
   
   <select id="getLike" parameterType="map" resultType="int">
-  		SELECT * FROM (SELECT 1 from LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} AND MEMBER_NO=#{memberNo} UNION SELECT 9999 FROM DUAL) WHERE ROWNUM=1
+  		SELECT CASE WHEN EXISTS(SELECT * FROM LIKE_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} AND MEMBER_NO=#{memberNo}) THEN 1 ELSE 2 END AS RESULT FROM DUAL
   </select>
   
   <insert id="insertBid" parameterType="bid">
@@ -139,7 +139,7 @@
 		  		<![CDATA[LASTDAY>=0]]>  			
   			</if>
   			<if test="!keyword.equals('')">
-		  		(PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
+		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
   			</if>  		
   		</trim>
   </select>
@@ -150,5 +150,50 @@
   
   <select id="getBidCount" parameterType="int" resultType="int">
   	SELECT COUNT(*) AS BIDCOUNT FROM BID_TBL WHERE PROJECT_NO=#{projectNo}
+  </select>
+  
+  <select id="checkMyLikeCount" parameterType="int" resultType="int">
+  	SELECT COUNT(*) FROM LIKE_TBL WHERE DIV_NO=4 AND MEMBER_NO=#{memberNo}
+  </select>
+  
+  <select id="selectAuctionListbyLike" parameterType="map" resultType="a">
+  	SELECT * FROM (
+		SELECT ROWNUM AS RNUM, N.* FROM(
+			SELECT 
+		  		PROJECT_NO AS projectNo,
+		  		PROJECT_NAME AS projectName,
+		  		AUCTION_ITEM AS auctionItem,
+		  		AUCTION_CATEGORY AS auctionCategory,
+		  		MEMBER_NO AS memberNo,
+		  		AUCTION_PRICE AS auctionPrice,
+		  		AUCTION_PIC AS auctionPic,
+		        LASTDAY AS lastDay,
+		        LASTHOUR AS lastHour,
+		        LASTMIN AS lastMin,
+		        LIKEC
+			FROM(
+				SELECT PROJECT_NO, 
+			<choose>
+				<when test="order==3">
+					COUNT(*) AS LIKEC FROM LIKE_TBL 			
+				</when>
+				<otherwise>
+					SUM(VIEW_COUNT) AS LIKEC FROM VIEW_TBL
+				</otherwise>
+			</choose>
+				WHERE DIV_NO=4 GROUP BY PROJECT_NO)	
+				JOIN AUCTION_TBL USING(PROJECT_NO)
+				JOIN LASTTIME USING(PROJECT_NO)
+				
+		<trim prefix="WHERE" prefixOverrides="AND">
+  			<if test="endFlag==1">
+		  		<![CDATA[LASTDAY>=0]]>  			
+  			</if>
+  			<if test="!keyword.equals('')">
+		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
+  			</if>  		
+  		</trim>
+			ORDER BY LIKEC DESC, PROJECTNO DESC)N )
+			<![CDATA[WHERE RNUM >=#{startNum} AND RNUM<=${endNum}]]>  
   </select>
 </mapper>

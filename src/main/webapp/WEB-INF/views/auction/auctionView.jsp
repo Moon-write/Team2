@@ -162,6 +162,7 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 	<input type="hidden" id="projectNo" value="${auction.projectNo}">
+	<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
 		<div class="page-content">
 			<div class="page-title">${auction.projectName }</div>
 			<div class="auction-setting">
@@ -250,10 +251,10 @@
 								<c:forEach begin="0" end="4" step="1" varStatus="i">
 									<c:choose>
 										<c:when test="${auction.bidList[i.index].bidSuccess gt 0 }">
-											<tr class="tr-3">
+											<tr class="tr-3" style="border-top : 2px solid rgb(30,144,255)" title="${auction.bidList[i.index].bidMsg }">
 										</c:when>
 										<c:otherwise>
-											<tr class="tr-1">
+											<tr class="tr-1"  title="${auction.bidList[i.index].bidMsg }">
 										</c:otherwise>
 									</c:choose>
 												<td>${i.count}</td>
@@ -266,7 +267,7 @@
 						</table>
 						<c:choose>
 							<c:when test="${empty sessionScope.m}">
-								<button class="btn bc22" style="width:100%;">로그인 후 참여해 주세요!</button>
+								<button class="btn bc22" style="width:100%;" onclick="login()">로그인 후 참여해 주세요!</button>
 							</c:when>
 							<c:when test="${not empty sessionScope.m}">
 								<button class="btn bc2" style="width:100%;" id="bidBtn">입찰하기</button>
@@ -342,7 +343,7 @@
 								<th style="width:15%">입찰수량</th>
 								<th style="width:15%">입찰액</th>
 								<th style="width:20%">한마디</th>
-							</tr>								
+							</tr>
 							<c:forEach items="${auction.bidList}" var="b" varStatus="i">
 								<c:choose>
 									<c:when test="${b.bidSuccess gt 0 }">
@@ -463,6 +464,65 @@
 		},1000)
 			}
 		})
+		
+		$(document).on("click","span.likeB",function(){
+			if(checkLogin()){
+				const value = $("input#projectNo").val();			
+	
+				$(this).addClass("likeB-yellow").removeClass("likeB");
+				
+				$.ajax({
+					url: "/addLike.kh",
+					data : {
+						projectNo : value
+					},
+					type : "post",
+					success: function(data){
+						if(data==-1){
+							alert("관심상품 업데이트 실패!");
+						}
+						$("#likeCount").text(data);
+					}
+				})							
+			}else{
+				return false;
+			}
+		})
+		$(document).on("click","span.likeB-yellow",function(){
+			if(checkLogin()){
+				const value = $("input#projectNo").val();		
+				$(this).removeClass("likeB-yellow").addClass("likeB");			
+				
+				$.ajax({
+					url: "/removeLike.kh",
+					data : {
+						projectNo : value
+					},
+					type : "post",
+					success: function(data){
+						if(data==-1){
+							alert("관심상품 업데이트 실패!");
+						}else{				
+							$("#likeCount").text(data);					
+						}
+					}
+				})			
+			}else{
+				return false;
+			}
+		})
+		function checkLogin(){
+			const id = $("input#memberNo").val();
+			if(id==""){
+				location.href = "/loginFrm.kh";
+				return false;
+			}else{
+				return true;
+			}
+		}
+		function login(){
+			location.href = "/loginFrm.kh";
+		}
 	</script>
 </body>
 </html>

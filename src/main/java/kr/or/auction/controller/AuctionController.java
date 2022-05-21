@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 
@@ -66,7 +67,7 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="auctionView.kh")
-	public String auctionView(@SessionAttribute(required=false) Member m, int projectNo, Model model) {
+	public String auctionView(@SessionAttribute(required=false) Member m, int projectNo, Model model, RedirectAttributes redirect) {
 		// 로그인한 사람의 좋아요여부 가져오기
 		if(m==null) {
 			m = new Member();
@@ -78,14 +79,13 @@ public class AuctionController {
 			model.addAttribute("auction", auction);
 			return "auction/auctionView";
 		}else {
-			model.addAttribute("direct", 1);
-			model.addAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
-			return "auction/auctionRedirect";		
+			redirect.addFlashAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
+			return "redirect:/auctionList.kh?endFlag=1&searchKeyword=&order=1&reqPage=1";		
 		}		
 	}
 	
 	@RequestMapping(value="/insertAuction.kh")
-	public String insertAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, Model model) {
+	public String insertAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
 		auction.setMemberNo(0); // 세션 적용완료되면 로그인객체에서 로그인정보 가져오기
 		String filepath = null;
 		
@@ -102,29 +102,25 @@ public class AuctionController {
 		int result = service.insertAuction(auction);
 		
 		if(result>0) {
-			model.addAttribute("direct", 1);
-			model.addAttribute("msg", "경매 등록이 완료되었습니다!");
-			return "auction/auctionRedirect"; // 추후 사업자 내 경매리스트 보는페이지로 변경			
+			redirect.addFlashAttribute("msg", "경매 등록이 완료되었습니다!");
+			return "redirect:/auctionList.kh?endFlag=1&searchKeyword=&order=1&reqPage=1";		 // 추후 사업자 내 경매리스트 보는페이지로 변경			
 		}else {			
-			model.addAttribute("direct", 2);
-			model.addAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
-			return "auction/auctionRedirect";
+			redirect.addFlashAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
+			return "redirect:/addAuction.kh";
 		}
 	}
 
 	// 등록 insert
 	@RequestMapping(value="/insertBid.kh")
-	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, Model model) {
+	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, RedirectAttributes redirect) {
 		b.setMemberNo(m.getMemberNo());
 		int result = service.insertBid(b);
 		if(result>0) {
-			model.addAttribute("msg", "입찰이 완료되었습니다!");
+			redirect.addFlashAttribute("msg", "입찰이 완료되었습니다!");
 		}else {
-			model.addAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
+			redirect.addFlashAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
 		}
-		model.addAttribute("direct", 3);
-		model.addAttribute("projectNo", b.getProjectNo());
-		return "auction/auctionRedirect";
+		return "redirect:/auctionView.kh?projectNo="+b.getProjectNo();
 	}
 	
 	@ResponseBody
@@ -139,6 +135,15 @@ public class AuctionController {
 	@RequestMapping(value="/removeLike.kh")
 	public String removeLike(@SessionAttribute(required=false) Member m, int projectNo) {
 		int result = service.removeLike(m.getMemberNo(), projectNo);
+		
+		return Integer.toString(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/checkMyLikeCount.kh")
+	public String checkMyLikeCount(@SessionAttribute(required=false) Member m) {
+		int	result  = service.checkMyLikeCount(m.getMemberNo());
+		
 		
 		return Integer.toString(result);
 	}

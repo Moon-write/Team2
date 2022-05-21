@@ -43,5 +43,4 @@ public class Auction {
 	private ArrayList<Bid> bidList;
 	// 좋아요갯수
 	private int totallike;
-	
 }

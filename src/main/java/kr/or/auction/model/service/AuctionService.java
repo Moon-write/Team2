@@ -56,8 +56,8 @@ public class AuctionService {
 		map.put("endFlag", endFlag);
 		
 		ArrayList<Auction> list = new ArrayList<Auction>();
-		if(order==3) { // 관심순일땐 쿼리문 따로짜기
-			
+		if(order==3||order==4) { // 관심순, 조회수순
+			list = dao.selectAuctionListbyLike(map);
 		}else { // 이외 (마감임박순, 최근등록순)
 			list = dao.selectAuctionList(map);			
 		}			
@@ -119,13 +119,16 @@ public class AuctionService {
 			// 3. 내 좋아요 여부 구하기
 			if(memberNo!=0) {
 				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map.put("projectNo", a.getProjectNo());
-				map.put("memberNo", memberNo);
-								
+				map2.put("projectNo", a.getProjectNo());
+				map2.put("memberNo", memberNo);
+				
 				int	result = dao.getLike(map2);
-				if(result!=9999) {
+				
+				if(result==1) {
 					// 좋아요가 있으면
 					a.setLike(1);
+				}else {
+					a.setLike(0);
 				}
 			}			
 		}
@@ -215,9 +218,6 @@ public class AuctionService {
 						notifyMemberList.add(bidList.get(i).getMemberNo());
 					}
 				}
-			}else {
-				// 원래 안정권이 아니었다면 - 그 이후로는 그대로 넘어감
-				break;
 			}
 		} // for문 종료
 		// 알림보내는 웹소켓 낄려면 여기
@@ -237,14 +237,28 @@ public class AuctionService {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", memberNo);
 		map.put("projectNo", projectNo);
-		return dao.addLike(map);
+		int result = dao.addLike(map);
+		
+		if(result>0) {
+			result = dao.getTotalLike(projectNo);
+		}else {
+			return -1;
+		}
+		return result;
 	}
 
 	public int removeLike(int memberNo, int projectNo) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", memberNo);
 		map.put("projectNo", projectNo);
-		return dao.removeLike(map);
+		int result = dao.removeLike(map);
+		
+		if(result>0) {
+			result = dao.getTotalLike(projectNo);
+		}else {
+			return -1;
+		}
+		return result;
 	}
 
 	public ArrayList<Auction> selectLikeList(int memberNo, int pageNo) {
@@ -267,9 +281,25 @@ public class AuctionService {
 			ArrayList<Auction> list = dao.getLikeAuction(projectlist);
 			
 			for(Auction a : list) {
-				a = getMoreInfo(a, memberNo);
+				// 1. 입찰횟수 구하기
+				int bidCount = dao.getBidCount(a.getProjectNo());
+				a.setBidCount(bidCount);
+				
+				// 2. 현재 낙찰가능금액 구하기
+				int bestPrice;
+				if(bidCount==0) {
+					bestPrice = a.getAuctionPrice();
+				}else {
+					bestPrice = dao.getMinBidPrice(a.getProjectNo());			
+				}
+				a.setBestPrice(bestPrice);
 			}
 			return list;			
 		}
+	}
+
+	public int checkMyLikeCount(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.checkMyLikeCount(memberNo);
 	}
 }

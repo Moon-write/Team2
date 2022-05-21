@@ -100,4 +100,14 @@ public class AuctionDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("auction.getMinBidPrice", projectNo);
 	}
+
+	public int checkMyLikeCount(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.checkMyLikeCount", memberNo);
+	}
+
+	public ArrayList<Auction> selectAuctionListbyLike(HashMap<String, Object> map) {
+		List<Auction> list = sqlSession.selectList("auction.selectAuctionListbyLike", map);
+		return (ArrayList<Auction>) list;
+	}
 }

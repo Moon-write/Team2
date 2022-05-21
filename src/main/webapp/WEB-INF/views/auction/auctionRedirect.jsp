@@ -10,7 +10,7 @@
 <body>
 	<c:choose>
 		<c:when test="${direct eq 1}">
-			<jsp:forward page="/auctionList.kh"/>
+			<jsp:forward page="/auctionList.kh?endFlag=1&searchKeyword=&order=1&reqPage=1"/>
 		</c:when>
 		<c:when test="${direct eq 2}">
 			<jsp:forward page="/addAuction.kh"/>
