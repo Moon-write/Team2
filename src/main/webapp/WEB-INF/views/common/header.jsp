@@ -4,8 +4,7 @@
 	    
 <!-- 기본 CSS -->
 <link rel="stylesheet" href="../../../resources/css/default.css" />
-<link rel="stylesheet" href="../../../resources/css/header_.css" />
-
+<link rel="stylesheet" href="../../../resources/css/header.css" />
     
 <!-- 구글 아이콘 -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
