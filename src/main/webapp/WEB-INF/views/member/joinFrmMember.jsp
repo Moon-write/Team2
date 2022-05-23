@@ -90,9 +90,9 @@
 		<div class="belt">회원가입</div>
 		<div class="index-wrap">
 		<ul class= "index">
-			<li class="selected">───<span>1</span>객실 선택</li>
-			<li>───<span>2</span>예약 정보 입력</li>
-			<li>───<span>3</span>결제하기</li>
+			<li class="selected">───<span>1</span>회원 선택</li>
+			<li>───<span>2</span>회원 정보 입력</li>
+			<li>───<span>3</span>회원 가입 완료</li>
 		</ul>
 		</div>
 		<div class="join-wrap">

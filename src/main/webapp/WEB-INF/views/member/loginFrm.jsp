@@ -63,24 +63,27 @@
 		text-align: center;
 		font-size: 18px;
 	}
+	.login-title{
+		text-align: center;
+		font-size: 36px;
+	}
 </style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<div class="belt">LOG IN</div>
-		<br><br><hr>
+		<span class="login-title">로그인</span>
+		<br><br>
 		<form action="/login.kh" method="post">
 			<div class=input-wrap>
+				<span class="login-title">로그인</span>
 				<div class="login-input">
-					<div class="flex-wrap"><span class="material-icons">person</span></div>
 					<input type="text" name="memberId" id="memberId" class="input-form" placeholder="이메일(ID)">
 				</div>
 				<div class="login-input">
-					<div class="flex-wrap"><span class="material-icons">lock_open</span></div>
 					<input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
 				</div>
-				<div class="login-button"><button type="submit" class="bc1 bs4">로그인</button></div>
+				<div class="login-button"><button type="submit" class="bc1 bs4">로그인하기</button></div>
 			</div>
 		</form>
 		<br><br><br>
@@ -89,7 +92,7 @@
 		회원은 결제 금액의 10%가 적립됩니다.
 		</p>
 		<br><br>
-		<p class="login-p" ><a href="#" style="color:#ccc;">회원 가입 하러 가기</a></p>
+		<p class="login-p" ><a href="/joinSelect.kh" style="color:#ccc;">회원 가입 하러 가기</a></p>
 		<br><br><br><br>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

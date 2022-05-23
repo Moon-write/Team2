@@ -58,11 +58,43 @@
 		text-align: center;
 		font-size: 18px;
 }
+.index-wrap{
+	width: 565px;
+	padding-top: 20px;
+	padding-bottom: 80px;
+	margin: 0 auto;
+}
+.index{
+	display: flex;
+}
+.index>li{
+	margin-right: 30px;
+}
+.index>li>span{
+	display: inline-block;
+	background-color: rgb(224, 224, 224);
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	border-radius: 15px;
+	margin-right: 5px;
+}
+.index>.selected>span{
+	background-color: rgb(172, 158, 137);
+}
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="belt">회원가입</div>
+		<div class="index-wrap">
+			<ul class= "index">
+				<li class="selected">───<span>1</span>회원 선택</li>
+				<li>───<span>2</span>회원 정보 입력</li>
+				<li>───<span>3</span>회원 가입 완료</li>
+			</ul>
+		</div>
 		<div class="join-wrap">
 			<hr><br><br>
 			<form action="join.do" method="post">

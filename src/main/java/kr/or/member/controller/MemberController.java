@@ -33,4 +33,24 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value = "/joinSelect.kh")
+	public String joinSelect() {
+		return "member/joinSelect";
+	}
+	
+	@RequestMapping(value="/joinFrmMember.kh")
+	public String joinFrmMember() {
+		return "member/joinFrmMember";
+	}
+	
+	@RequestMapping(value="/joinFrmBiz.kh")
+	public String joinFrmMe() {
+		return "member/joinFrmMember";
+	}
+	
+	@RequestMapping(value="/mypageMain.kh")
+	public String mypageMain() {
+		return "member/mypageMain";
+	}
 }

@@ -89,7 +89,7 @@
  -->
 </head>
         <header>
-          <div class="mypage-header">
+          <div class="mypage-header"></div>
         </header>
         <div class="left-menu">
           <ul>
