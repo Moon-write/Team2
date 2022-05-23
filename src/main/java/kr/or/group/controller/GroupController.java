@@ -44,4 +44,10 @@ public class GroupController {
 	public String groupView() {
 		return "group/groupView";
 	}
+	
+	//공동구매 등록
+	@RequestMapping(value="/groupAdd.kh")
+	public String groupAdd() {
+		return "group/groupAdd";
+	}
 }
