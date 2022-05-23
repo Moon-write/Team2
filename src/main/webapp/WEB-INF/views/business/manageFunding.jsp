@@ -116,10 +116,10 @@
 		<div class="show-content">
 			<div>
 				<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-				<h3>기부 관리</h3>
+				<h3>펀딩 관리</h3>
 				<select onchange="divChange(this)">				
-                    <option value="selling">진행중인 기부</option>
-                    <option value="end">종료된 기부</option>
+                    <option value="selling">진행중인 펀딩</option>
+                    <option value="end">종료된 펀딩</option>
                 </select>
 				<table border="1"></table>				
 			</div>	
@@ -141,38 +141,42 @@
 		const table=$("table");
 		const sTr=$("<tr>");
 		const eTr=$("<tr>");
-		const sTh=$("<th>번호</th><th>프로젝트명</th><th>상품가격</th><th>목표기부금액</th><th>현재모인금액</th><th>시작일</th><th>종료일</th>");
-		const eTh=$("<th>번호</th><th>프로젝트명</th><th>상품가격</th><th>목표기부금액</th><th>총모인금액</th><th>시작일</th><th>종료일</th>");
+		const sTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>현재모인금액</th><th>목표달성률</th>");
+		const eTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>총모인금액</th><th>목표달성률</th>");
 		sTr.append(sTh);
 		eTr.append(eTh);
+		
 		window.onload=init();
+		
 		function divChange(e) {
 			if(e.value=="selling"){
-				window.location.replace("manageDonation.kh");
+				window.location.replace("manageFunding.kh");
 			}else if(e.value="end"){
 				table.empty();
 				table.append(eTr);
 				$.ajax({
-					url : "/selectExpiredDList.kh",
+					url : "/selectExpiredFList.kh",
 					data:{memberNo:memberNo},					
 					success : function(list){
 						for(let i=0;i<list.length;i++){
 							const tr=$("<tr>");
 							const noTd=$("<td>");
 							const pNameTd=$("<td>");
-							const cashTd=$("<td>");
-							const targetTd=$("<td>");
-							const sumTd=$("<td>");
+							const cTd=$("<td>");
 							const sdTd=$("<td>");
 							const edTd=$("<td>");
+							const fsTd=$("<td>");
+							const fcsTd=$("<td>");
+							const fsmTd=$("<td>");
 							noTd.append(i+1);
-							pNameTd.append(list[i].DONATIONTITLE);
-							cashTd.append(list[i].DONATIONCASH);
-							targetTd.append(list[i].DONATIONTARGET);
-							sumTd.append(list[i].DONATIONSUM);
-							sdTd.append(list[i].DONATIONSTARTDATE);
-							edTd.append(list[i].DONATIONENDDATE);
-							tr.append(noTd).append(pNameTd).append(cashTd).append(targetTd).append(sumTd).append(sdTd).append(edTd);
+							pNameTd.append(list[i].FUNDINGNAME);
+							cTd.append(list[i].FUNDINGCATEGORY);
+							sdTd.append(list[i].FUNDINGSTARTDATE);
+							edTd.append(list[i].FUNDINGENDDATE);
+							fsTd.append(list[i].FUNDINGSUM);
+							fcsTd.append(list[i].FUNDINGCURRENTSUM);
+							fsmTd.append(list[i].FUNDINGSUMRATE);
+							tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd);
 							table.append(tr);						
 			            }
 					}
@@ -183,57 +187,51 @@
 			table.empty();
 			table.append(sTr);
 			$.ajax({
-				url : "/selectDList.kh",
+				url : "/selectFList.kh",
 				data:{memberNo:memberNo},					
 				success : function(list){
+					console.log(list);
 					for(let i=0;i<list.length;i++){
 						const tr=$("<tr>");
 						const noTd=$("<td>");
 						const pNameTd=$("<td>");
-						const cashTd=$("<td>");
-						const targetTd=$("<td>");
-						const sumTd=$("<td>");
+						const cTd=$("<td>");
 						const sdTd=$("<td>");
 						const edTd=$("<td>");
+						const fsTd=$("<td>");
+						const fcsTd=$("<td>");
+						const fsmTd=$("<td>");
 						const modiTd=$("<td><button><a href=\"#\">수정하기</a></button></td>");
 						const delTd=$("<td><button id=\"delete\">삭제</button></td>");
-						const projectNo="<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>";
+						const fundingNo="<div style=\"display:none;\">"+list[i].FUNDINGNO+"</div>";
 						noTd.append(i+1);
-						pNameTd.append(list[i].DONATIONTITLE);
-						cashTd.append(list[i].DONATIONCASH);
-						targetTd.append(list[i].DONATIONTARGET);
-						sumTd.append(list[i].DONATIONSUM);
-						sdTd.append(list[i].DONATIONSTARTDATE);
-						edTd.append(list[i].DONATIONENDDATE);
-						tr.append(noTd).append(pNameTd).append(cashTd).append(targetTd).append(sumTd).append(sdTd).append(edTd).append(modiTd).append(delTd).append(projectNo);
+						pNameTd.append(list[i].FUNDINGNAME);
+						cTd.append(list[i].FUNDINGCATEGORY);
+						sdTd.append(list[i].FUNDINGSTARTDATE);
+						edTd.append(list[i].FUNDINGENDDATE);
+						fsTd.append(list[i].FUNDINGSUM);
+						fcsTd.append(list[i].FUNDINGCURRENTSUM);
+						fsmTd.append(list[i].FUNDINGSUMRATE);
+						tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd).append(modiTd).append(delTd).append(fundingNo);
 						table.append(tr);						
 		            }
 				
 					$(document).on("click", "td #delete",function(event){					
-						const projectNo=$(this).parent().next().text();
-						$.ajax({
-							url : "/checkDnOrder.kh",
-							type:"get",
-							data:{projectNo:projectNo},
-							success:function(cdo){
-								if(cdo==0){
-									if(confirm("삭제하시겠습니까?")==true){	
-										$.ajax({
-											url:"/deleteDonation.kh",
-											data:{projectNo:projectNo},
-											success : function(result){
-												window.location.replace(result);					
-											}
-										});
-									}
-								}else{
-									alert("삭제할 수 없습니다.");
-								}						
-							},
-							error : function(){
-								alert("error");
-							}
-						});											
+						const fundingNo=$(this).parent().next().text();
+						const fcs=$(this).parent().prev().prev().prev().text();
+						if(fcs!=0){
+							alert("삭제할 수 없습니다.");
+							return;
+						}
+						if(confirm("삭제하시겠습니까?")==true){						
+							$.ajax({
+								url : "/deleteFunding.kh",
+								data:{fundingNo:fundingNo},
+								success: function(result){
+									window.location.replace(result);
+								}
+							});
+						}									
 					});
 				}
 			});

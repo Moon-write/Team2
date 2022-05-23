@@ -20,6 +20,7 @@
 		<typeAlias type="kr.or.shop.model.vo.ShopCategory" alias="sc"/>
 		<typeAlias type="kr.or.shop.model.vo.ShopPic" alias="sp"/>
 		<typeAlias type="kr.or.business.model.vo.Business" alias="b"/>
+		<typeAlias type="kr.or.business.model.vo.View" alias="v"/>
 		
 		<!-- 세호 -->
 		<typeAlias type="kr.or.funding.model.vo.Funding" alias="f"/>

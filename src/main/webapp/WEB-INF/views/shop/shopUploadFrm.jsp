@@ -70,28 +70,28 @@
 					<a href="#">펀딩</a>
 					<ul class="sub-menu">
 						<li><a href="#">펀딩 등록</a></li>
-						<li><a href="/manageFunding.kh?memberNo=100">펀딩 관리</a></li>
+						<li><a href="/manageFunding.kh">펀딩 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">기부</a>
 					<ul class="sub-menu">
 						<li><a href="#">기부 등록</a></li>
-						<li><a href="/manageDonation.kh?memberNo=100">기부 관리</a></li>
+						<li><a href="/manageDonation.kh">기부 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">공동구매</a>
 					<ul class="sub-menu">
 						<li><a href="#">공동구매 등록</a></li>
-						<li><a href="/manageGroup.kh?memberNo=100">공동구매 관리</a></li>
+						<li><a href="/manageGroup.kh">공동구매 관리</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="#">경매</a>
 					<ul class="sub-menu">
-						<li><a href="#">경매 등록</a></li>
-						<li><a href="/manageAuction.kh?memberNo=100">경매 관리</a></li>
+						<li><a href="addAuction.kh">경매 등록</a></li>
+						<li><a href="/manageAuction.kh">경매 관리</a></li>
 					</ul>
 				</li>
 				<li>
@@ -103,14 +103,17 @@
 					<ul class="sub-menu">
 						<li><a href="#">누적 금액</a></li>
 						<li><a href="#">성별/연령별</a></li>
-						<li><a href="#">일별 카운트</a></li>
+						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
 				<li>
-					<a href="/shopUploadFrm.kh?memberNo=100">상호등록</a>
+					<a href="/shopUploadFrm.kh?memberNo=${sessionScope.m.memberNo }">상호등록</a>
 				</li>
 				<li>
-					<a href="/shopInfo.kh?memberNo=100">마이페이지</a>
+					<a href="/updateInfo.kh?memberNo=${sessionScope.m.memberNo }">마이페이지</a>
+				</li>
+				<li>
+					<a href="/shopInfo.kh?memberNo=${sessionScope.m.memberNo }">샵</a>
 				</li>
 			</ul>
 		</div>
@@ -124,16 +127,14 @@
 		                	<div>상호명</div>		                
 		                	<div>주소</div>
 		                	<div>상세주소</div>
-		                	<div>휴대폰번호</div>
-		                	<div>배경사진(최대 4개)</div>		                	
+		                	<div>휴대폰번호</div>                	
 		                </div>
 		                <div style="float:left; margin-left:40px;">
 		                	<div><input type="text" name="bizNo" disabled value="${shop.bizNo }"></div>		                	
 		                	<div><input type="text" name="shopName" disabled value="${shop.shopName }"></div>
 		                	<div>주소</div>
 		                	<div>상세주소</div>
-		                	<div>휴대폰번호</div>
-		                	<div><input type="file" name="upfile" multiple></div>
+		                	<div>휴대폰번호</div>		                	
 		                </div>
 		                </div>
 		                <input type="hidden" name="memberNo" value="100">

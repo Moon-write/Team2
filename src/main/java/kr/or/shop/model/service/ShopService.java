@@ -1,6 +1,7 @@
 package kr.or.shop.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,10 @@ public class ShopService {
 		s.setFileList(fileList);
 		return s;
 	}
-
-	public ArrayList<ShopCategory> selectCategory(int i) {
+	
+	public ArrayList<ShopCategory> selectCategory(int shopNo) {
 		// TODO Auto-generated method stub
-		return dao.selectCategory(i);
+		return dao.selectCategory(shopNo);
 	}
 	
 	public int insertShopPic(Shop shop, ArrayList<ShopPic> fileList) {
@@ -60,6 +61,39 @@ public class ShopService {
 		while (sT.hasMoreTokens()) {
 			int shopPicNo = Integer.parseInt(sT.nextToken());
 			int deleteResult = dao.deleteShopPic(shopPicNo);
+		}
+		return result;
+	}
+
+	public int insertShopIntro(int shopNo, String shopIntro) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("shopNo", shopNo);
+		map.put("shopIntro", shopIntro);
+		return dao.insertShopIntro(map);
+	}
+
+	public int deleteCategory(String categories) {
+		// TODO Auto-generated method stub
+		StringTokenizer sT = new StringTokenizer(categories, "/");
+		int result=1;
+		while (sT.hasMoreTokens()) {
+			int shopCategoryNo = Integer.parseInt(sT.nextToken());
+			int deleteResult = dao.deleteCategory(shopCategoryNo);
+		}
+		return result;
+	}
+
+	public int insertCategory(int shopNo, String categories) {
+		// TODO Auto-generated method stub
+		StringTokenizer sT = new StringTokenizer(categories, "/");
+		int result=1;
+		while (sT.hasMoreTokens()) {
+			String category =sT.nextToken();
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("shopNo", shopNo);
+			map.put("category", category);
+			int insertResult = dao.insertCategory(map);
 		}
 		return result;
 	}	

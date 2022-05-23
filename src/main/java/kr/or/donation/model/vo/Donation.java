@@ -20,4 +20,5 @@ public class Donation {
 	private int donationCash;
 	private String donationStartdate;
 	private String donationEnddate;
+	private int donationSum;
 }

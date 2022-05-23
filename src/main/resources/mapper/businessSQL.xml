@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="business">
-	<select id="selectAucList" parameterType="int" resultType="a">
+	<select id="selectShopNo" parameterType="int" resultType="s">
+		select shop_no as shopNo from shop where member_no=#{memberNo}
+	</select>
+	<select id="selectAList" parameterType="int" resultType="HashMap">
 		select * from (select rownum as rnum,n.* from (
 			select distinct
 				a.project_no as projectNo,
@@ -15,13 +18,12 @@
 				auction_price as auctionPrice
 			from auction_tbl a
 			left join bid_tbl b on (b.project_no=a.project_no)
-			where a.member_no=100 and 
+			where a.member_no=#{memberNo} and 
 			to_number(to_char(auction_end,'yymmdd')) <![CDATA[ >= ]]> to_number(to_char(sysdate,'yymmdd')) 
 			order by a.project_no desc
-		)n) where rnum between 1 and 5
+		)n)
 	</select>
-	<select id="selectExpiredAucList" parameterType="int"
-		resultType="a">
+	<select id="selectExpiredAList" parameterType="int" resultType="HashMap">
 		select * from (select rownum as rnum,n.* from (
 			select distinct
 				a.project_no as projectNo,
@@ -35,12 +37,12 @@
 				auction_price as auctionPrice
 			from auction_tbl a
 			left join bid_tbl b on (b.project_no=a.project_no)
-			where a.member_no=100 and 
+			where a.member_no=#{memberNo} and 
 			to_number(to_char(auction_end,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd')) 
-			order by a.project_no desc
-		)n) where rnum between 1 and 5
+			order by a.project_no asc
+		)n)
 	</select>
-	<select id="selectBestPrice" parameterType="map" resultType="a">
+	<select id="selectBestPrice" parameterType="map" resultType="String">
 		select
 			max(bid_price) as bestPrice
 		from bid_tbl b
@@ -48,51 +50,153 @@
 		where a.member_no=#{memberNo} and a.project_no=#{projectNo}
 	</select>
 
-	<select id="selectDnList" parameterType="int" resultType="d">
+	<select id="selectDList" parameterType="int" resultType="HashMap">
 		select * from (select rownum as rnum,n.* from (
-			select 
-				project_no as projectNo, 
-				member_no as memberNo,
+			select distinct
+				d.project_no as projectNo, 
+				d.member_no as memberNo,
 				donation_division as donationDivision,
 				donation_title as donationTitle, 
 				donation_category as donationCategory,
 				donation_target as donationTarget, 
 				donation_cash as donationCash,
 				to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
-				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate 
-			from donation 
-			where member_no=#{memberNo} and
+				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate,
+                (select sum(order_price) from order_tbl where project_no=d.project_no and div_no=2 and seller_no=d.member_no) as donationSum
+			from donation d
+            join order_tbl o on(seller_no=d.member_no)
+			where d.member_no=#{memberNo} and
 			to_number(to_char(donation_enddate,'yymmdd')) <![CDATA[ >= ]]> to_number(to_char(sysdate,'yymmdd')) 
-			order by project_no desc
-		)n) where rnum between 1 and 5
+			order by d.project_no desc
+		)n)
 	</select>
-	<select id="selectExpiredDnList" parameterType="int" resultType="d">
+	<select id="selectExpiredDList" parameterType="int" resultType="HashMap">
 		select * from (select rownum as rnum,n.* from (
-			select 
-				project_no as projectNo, 
-				member_no as memberNo,
+			select distinct
+				d.project_no as projectNo, 
+				d.member_no as memberNo,
 				donation_division as donationDivision,
 				donation_title as donationTitle, 
 				donation_category as donationCategory,
 				donation_target as donationTarget, 
 				donation_cash as donationCash,
 				to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
-				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate 
-			from donation 
-			where member_no=#{memberNo} and
+				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate,
+                nvl((select sum(order_price) from order_tbl where project_no=d.project_no and div_no=2 and seller_no=d.member_no),0) as donationSum
+			from donation d
+            join order_tbl o on(seller_no=d.member_no)
+			where d.member_no=#{memberNo} and
 			to_number(to_char(donation_enddate,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd')) 
-			order by project_no desc
-		)n) where rnum between 1 and 5
+			order by d.project_no desc
+		)n)
+	</select>
+	
+	<select id="selectFList" parameterType="int" resultType="HashMap">
+		select * from (select rownum as rnum,n.* from (
+		    select distinct
+		        funding_no as fundingNo,
+		        funding_name as fundingName,
+		        funding_category as fundingCategory,
+		        funding_detail as fundingDetail,
+		        funding_filepath as fundingFilepath,
+		        to_char(funding_start_date,'yyyy/mm/dd') as fundingStartDate, 
+		        to_char(funding_end_date,'yyyy/mm/dd') as fundingEndDate,
+		        funding_sum as fundingSum,
+		        (select sum(order_price) from order_tbl where seller_no=f.member_no and project_no=funding_no) as fundingCurrentSum,
+		        trunc(funding_sum_rate*100,0) as fundingSumRate,
+		        f.member_no as memberNo
+		    from funding f 
+		    join order_tbl o on (f.member_no=o.seller_no)
+		    where f.member_no=#{memberNo} and
+		    to_number(to_char(funding_end_date,'yymmdd')) <![CDATA[ >= ]]> to_number(to_char(sysdate,'yymmdd'))
+		    order by funding_no desc
+		)n)
+	</select>
+	<select id="selectExpiredFList" parameterType="int" resultType="HashMap">
+		select * from (select rownum as rnum,n.* from (
+		    select distinct
+		        funding_no as fundingNo,
+		        funding_name as fundingName,
+		        funding_category as fundingCategory,
+		        funding_detail as fundingDetail,
+		        funding_filepath as fundingFilepath,
+		        to_char(funding_start_date,'yyyy/mm/dd') as fundingStartDate, 
+		        to_char(funding_end_date,'yyyy/mm/dd') as fundingEndDate,
+		        funding_sum as fundingSum,
+		        (select sum(order_price) from order_tbl where seller_no=f.member_no and project_no=funding_no) as fundingCurrentSum,
+		        trunc(funding_sum_rate*100,0) as fundingSumRate,
+		        f.member_no as memberNo
+		    from funding f 
+		    join order_tbl o on (f.member_no=o.seller_no)
+		    where f.member_no=#{memberNo} and
+		    to_number(to_char(funding_end_date,'yymmdd')) <![CDATA[ < ]]> to_number(to_char(sysdate,'yymmdd'))
+		    order by funding_no desc
+		)n)
 	</select>
 	
 	<delete id="deleteAuction" parameterType="int">
 		delete from auction_tbl where project_no=#{projectNo}		
 	</delete>
-	
+	<delete id="deleteFunding" parameterType="int">
+		delete from funding where funding_no=#{fundingNo}
+	</delete>
 	<select id="checkDnOrder" parameterType="int" resultType="int">
 		select count(project_no) from order_tbl where project_no=#{projectNo} and div_no=2
 	</select>
 	<delete id="deleteDonation" parameterType="int">
 		delete from donation where project_no=#{projectNo}		
 	</delete>
+	
+	<select id="selectAcList" parameterType="int" resultType="HashMap">
+		select distinct
+			div_no as divNo,
+			a.project_no as projectNo,
+			project_name as projectName, 
+			nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
+	   		-(select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) 
+	    	as viewDif,
+	    	nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
+	    	nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
+		from view_tbl v join auction_tbl a on (a.project_no=v.project_no)
+		where member_no=#{memberNo} and div_no=4
+	</select>
+	<select id="selectFcList" parameterType="int" resultType="HashMap">
+		select distinct
+			div_no as divNo,
+			funding_no as projectNo,
+			funding_name as projectName, 
+			nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
+	   		-(select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) 
+	    	as viewDif,
+	    	nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
+	    	nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
+		from view_tbl v join funding a on (funding_no=v.project_no)
+		where member_no=#{memberNo} and div_no=1
+	</select>
+	<select id="selectGcList" parameterType="int" resultType="HashMap">
+		select distinct
+			div_no as divNo,
+			a.project_no as projectNo,
+			project_name as projectName, 
+			nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
+	   		-(select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) 
+	    	as viewDif,
+	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
+	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
+		from view_tbl v join group_tbl a on (a.project_no=v.project_no)
+		where member_no=#{memberNo} and div_no=3
+	</select>
+	<select id="selectDcList" parameterType="int" resultType="HashMap">
+		select distinct
+			div_no as divNo,
+			a.project_no as projectNo,
+			donation_title as projectName, 
+			nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
+	   		-(select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) 
+	    	as viewDif,
+	    	nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
+	    	nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
+		from view_tbl v join donation a on (a.project_no=v.project_no)
+		where member_no=#{memberNo} and div_no=2
+	</select>
 </mapper>

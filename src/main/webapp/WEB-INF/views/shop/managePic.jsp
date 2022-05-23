@@ -32,7 +32,18 @@
 					</div>
 				</c:forEach>
 			</div>
-			<button class="btn bc1 bs1 deleteShopPic">삭제</button>
+			<div style="width:500px; text-align:center;margin:0 auto;">
+				<button class="btn bc3 deleteShopPic">삭제</button>
+			</div>
+			<form action="/picUpload.kh" method="post" enctype="multipart/form-data">
+				<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
+					<input type="file" name="upfile" id="imgUpload" style="display:none;" multiple></input>
+					<label for="imgUpload">배경사진 업로드 (최대 4개)</label>
+	                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
+	                <input type="hidden" name="shopNo" value="${shop.shopNo }">
+	                <span><input type="submit" name="submit" value="등록" style="float:none;"></span>	               
+				</fieldset>
+			</form>
 		</div>
 		<script>
 			$(".deleteShopPic").on("click",function(){
@@ -47,6 +58,13 @@
 				});
 				console.log(shopPicNos);
 				location.href="/deleteShopPic.kh?shopPicNos="+shopPicNos.join("/");
+			});
+			$("input[name=submit]").on("click",function(e){
+				const file=$("input[name=upfile]").val();
+				if(file.length==0){
+					alert("선택된 사진이 없습니다.");
+					e.preventDefault();
+				}
 			});
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
