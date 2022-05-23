@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.auction.model.vo.Auction;
+import kr.or.business.model.vo.View;
 import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
+import kr.or.shop.model.vo.Shop;
 
 @Repository
 public class BusinessDao {
@@ -25,16 +27,22 @@ public class BusinessDao {
 		return (ArrayList<Funding>) list;
 	}
 
-	public ArrayList<Donation> selectDnList(int memberNo) {
+	public ArrayList<Funding> selectExpiredFdList(int memberNo) {
 		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.selectDnList", memberNo);
-		return (ArrayList<Donation>) list;
+		List list = sqlSession.selectList("business.selectExpiredFdList", memberNo);
+		return (ArrayList<Funding>) list;
+	}
+	
+	public ArrayList<String> selectDList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectDList", memberNo);
+		return (ArrayList<String>) list;
 	}
 
-	public ArrayList<Donation> selectExpiredDnList(int memberNo) {
+	public ArrayList<String> selectExpiredDList(int memberNo) {
 		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.selectExpiredDnList", memberNo);
-		return (ArrayList<Donation>) list;
+		List list = sqlSession.selectList("business.selectExpiredDList", memberNo);
+		return (ArrayList<String>) list;
 	}
 	
 	public ArrayList<Group> selectGrList(int memberNo) {
@@ -49,7 +57,7 @@ public class BusinessDao {
 		return (ArrayList<Auction>) list;
 	}
 
-	public Auction selectBestPrice(HashMap<String, Object> map) {
+	public String selectBestPrice(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("business.selectBestPrice", map);
 	}
@@ -75,5 +83,58 @@ public class BusinessDao {
 		return sqlSession.delete("business.deleteDonation",projectNo);
 	}
 
-	
+	public ArrayList<String> selectAcList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectAcList", memberNo);
+		return (ArrayList<String>) list;
+	}
+	public ArrayList<String> selectDcList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectDcList", memberNo);
+		return (ArrayList<String>) list;
+	}
+	public ArrayList<String> selectFcList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectFcList", memberNo);
+		return (ArrayList<String>) list;
+	}
+	public ArrayList<String> selectGcList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectGcList", memberNo);
+		return (ArrayList<String>) list;
+	}
+
+	public Shop selectShopNo(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("business.selectShopNo",memberNo);
+	}
+
+	public ArrayList<String> selectAList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectAList", memberNo);
+		return (ArrayList<String>) list;	
+	}
+
+	public ArrayList<String> selectExpiredAList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectExpiredAList", memberNo);
+		return (ArrayList<String>) list;
+	}
+
+	public int deleteFunding(int fundingNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteFunding",fundingNo);
+	}
+
+	public ArrayList<String> selectFList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectFList", memberNo);
+		return (ArrayList<String>) list;	
+	}
+
+	public ArrayList<String> selectExpiredFList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectExpiredFList", memberNo);
+		return (ArrayList<String>) list;
+	}
 }

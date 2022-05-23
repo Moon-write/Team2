@@ -83,8 +83,10 @@ flex-wrap: wrap;
 </style>
 </head>
 <body>
-	<%-- <c:if test="${sessionScope.memberLevel = 2 }"></c:if> --%>
-	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
+	<c:choose>
+		<c:when test="${sessionScope.m.memberLevel == 1 }"><%@include file="/WEB-INF/views/common/bizHeader.jsp" %></c:when>
+		<c:otherwise><%@include file="/WEB-INF/views/common/header.jsp" %></c:otherwise>
+	</c:choose>
 		<div class="page-content">
 			<div class="shop-content">
 				<div class="shop-pic" style="text-align: center;">
@@ -92,7 +94,6 @@ flex-wrap: wrap;
 						<img class="mySlides" src="/resources/upload/shopPic/${sp.shopFilepath}">												
 					</c:forEach>									
 				</div>
-				<button style="background-color:rgb(30,144,255); padding-left:5px; padding-right:5px; border:0 solid white; border-radius:5px;"><a href="/deletePicPage.kh?memberNo=100" style="color:white;">배경사진 삭제</a></button>
 				<div class="info-detail">
 					<h1>${shop.shopName}</h1>
 					<c:forEach var="c" items="${category }">
@@ -198,7 +199,7 @@ flex-wrap: wrap;
 			  slideIndex++;
 			  if (slideIndex > x.length) {slideIndex = 1}
 			  x[slideIndex-1].style.display = "block";
-			  setTimeout(carousel, 4000); // Change image every 2 seconds
+			  setTimeout(carousel, 2000); // Change image every 2 seconds
 			}
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

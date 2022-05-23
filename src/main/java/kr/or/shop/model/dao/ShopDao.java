@@ -1,6 +1,7 @@
 package kr.or.shop.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,10 +21,11 @@ public class ShopDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("shop.selectShopInfo", memberNo);
 	}
+	
 
-	public ArrayList<ShopCategory> selectCategory(int i) {
+	public ArrayList<ShopCategory> selectCategory(int shopNo) {
 		// TODO Auto-generated method stub
-		List list=sqlSession.selectList("shop.selectCategory", i);
+		List list=sqlSession.selectList("shop.selectCategory", shopNo);
 		return (ArrayList<ShopCategory>)list;
 	}
 
@@ -54,4 +56,21 @@ public class ShopDao {
 		return sqlSession.delete("shop.deleteShopPic",shopPicNo);
 	}
 
+
+	public int insertShopIntro(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("shop.insertShopIntro", map);
+	}
+
+
+	public int deleteCategory(int shopCategoryNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("shop.deleteCategory",shopCategoryNo);		
+	}
+
+
+	public int insertCategory(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("shop.insertCategory",map);		
+	}
 }

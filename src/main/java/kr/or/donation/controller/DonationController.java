@@ -64,7 +64,7 @@ public class DonationController {
 	}
 	
 	//select
-	@RequestMapping(value="/donationView")
+	@RequestMapping(value="/donationView.kh")
 	public String donationView(Donation d, Model model){
 		Donation donation = service.selectOneDonation(d);
 		model.addAttribute("donation",d);

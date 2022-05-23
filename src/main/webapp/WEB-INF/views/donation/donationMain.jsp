@@ -8,10 +8,11 @@
 </head>
 <style>
 	.slider{
-	    width: 640px;
+	    width: 100%;
 	    height: 480px;
 	    position: relative;
 	    margin: 30px auto;
+	    
 	}
 	.slider input[type=radio]{
 	    display: none;
@@ -27,6 +28,8 @@
 	    list-style: none;
 	    padding: 0;
 	    margin: 0;
+	    text-align: center;
+	    width: 100%;
 	}
 	.bullets{
 	    position: absolute;
@@ -82,10 +85,12 @@
 	    padding: 0;
 	    margin: 0;
 	    transition-delay: 0.9s; /* 트랜지션 지연 시간 지정 */
+	   	
 	}
 	.imgs li>img{
-		width:100%;
-		height:100%;
+		width:1000px;
+		height:480px;
+		border-radius: 15px;
 		
 	}
 	
@@ -122,6 +127,7 @@
 	
 	.page-content{
 		text-align: center;
+		width: 1200px;
 	}
 	.row-img>h3{
 		margin-top:15px;
@@ -155,10 +161,10 @@
 		    <input type="radio" name="slide" id="slide3">
 		    <input type="radio" name="slide" id="slide4">
 		    <ul id="imgholder" class="imgs">
-		        <li><img src="/resources/upload/donation/donationSlide001.png"></li>
-		        <li><img src="/resources/upload/donation/donationSlide002.png"></li>
-		        <li><img src="/resources/upload/donation/donationSlide003.png"></li>
-		        <li><img src="/resources/upload/donation/donationSlide004.png"></li>
+		        <li><img src="/resources/upload/donation/donationSlide001.jpg"></li>
+		        <li><img src="/resources/upload/donation/donationSlide002.jpg"></li>
+		        <li><img src="/resources/upload/donation/donationSlide003.jpg"></li>
+		        <li><img src="/resources/upload/donation/donationSlide004.jpg"></li>
 		    </ul>
 		    <div class="bullets">
 		        <label for="slide1">&nbsp;</label>

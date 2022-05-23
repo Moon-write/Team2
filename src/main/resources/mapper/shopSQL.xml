@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="shop">
-  <select id="selectShopInfo" parameterType="int" resultType="s">
+ 	 <select id="selectShopInfo" parameterType="int" resultType="s">
 		select distinct
 		    biz_name as shopName, 
 		    biz_no as bizNo,
 		    shop_no as shopNo,
-		    shop_intro as shopIntro,
-		    shop_birth as shopBirth,
-		    (select sum(order_price) from order_tbl where seller_no=100) as grossIncome
+		    nvl(shop_intro,' ') as shopIntro,
+		    nvl(shop_birth,' ') as shopBirth,
+		    nvl((select sum(order_price) from order_tbl where seller_no=#{memberNo}),0) as grossIncome
 		    from shop s 
-		    right join member m on (m.member_no=s.member_no)
-		    right join order_tbl o on(seller_no=m.member_no)
+		    left join member m on (m.member_no=s.member_no)
+		    left join order_tbl o on(seller_no=m.member_no)
 	    where m.member_no=#{memberNo}
 	</select>
 	
 	<select id="selectCategory" parameterType="int" resultType="sc">
-		select category from shop_category where shop_no=#{i}
+		select shop_category_no as shopCategoryNo, nvl(category,'없음') as category from shop_category where shop_no=#{shopNo} order by shop_category_no
 	</select>	
 	
 	<select id="selectShopPic" parameterType="int" resultType="sp">
@@ -60,4 +60,14 @@
 		delete from shop_pic where shop_pic_no=#{shopPicNo}
 	</delete>
 	
+	<insert id="insertShopIntro" parameterType="map">
+		update shop set shop_intro=#{shopIntro} where shop_no=#{shopNo}
+	</insert>
+	
+	<delete id="deleteCategory" parameterType="int">
+		delete from shop_category where shop_category_no=#{shopCategoryNo}
+	</delete>
+	<insert id="insertCategory" parameterType="map">
+		insert into shop_category values(shop_category_seq.nextval,#{shopNo},#{category})
+	</insert>
 </mapper>

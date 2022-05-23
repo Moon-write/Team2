@@ -30,15 +30,13 @@ public class ShopController {
 	@Autowired
 	private MemberService mService;
 
-	@RequestMapping(value = "/shopInfo.kh")
-	public String shopInfo(int memberNo, Model model) {
+	@RequestMapping(value = "/updateInfo.kh")
+	public String updateInfo(int memberNo, Model model) {
 		Shop shop = service.selectShopInfo(memberNo);
 		ArrayList<ShopCategory> category = service.selectCategory(shop.getShopNo());
-
 		model.addAttribute("shop", shop);
 		model.addAttribute("category", category);
-
-		return "shop/shopInfo";
+		return "shop/updateInfo";
 	}
 
 	@RequestMapping(value = "/shopUploadFrm.kh")
@@ -48,8 +46,8 @@ public class ShopController {
 		return "shop/shopUploadFrm";
 	}
 
-	@RequestMapping(value = "/shopUpload.kh")
-	public String shopUpload(Shop shop, MultipartFile[] upfile, HttpServletRequest request) {
+	@RequestMapping(value = "/picUpload.kh")
+	public String picUpload(Shop shop, MultipartFile[] upfile, HttpServletRequest request) {
 		ArrayList<ShopPic> fileList = new ArrayList<ShopPic>();
 		if (upfile[0].isEmpty()) {
 		} else {
@@ -94,11 +92,18 @@ public class ShopController {
 		return "business/business";
 	}
 
-	@RequestMapping(value = "/deletePicPage.kh")
-	public String deletePicPage(int memberNo, Model model) {
+	@RequestMapping(value = "/managePic.kh")
+	public String managePic(int memberNo, Model model) {
 		ArrayList<ShopPic> sp = service.selectShopPicList(memberNo);
+		Shop shop = service.selectShopInfo(memberNo);		
+		model.addAttribute("shop", shop);
 		model.addAttribute("sp", sp);
-		return "shop/deletePicPage";
+		return "shop/managePic";
+	}
+	@RequestMapping(value = "/editIntro.kh")
+	public String editIntro(int shopNo, String shopIntro) {
+		int result=service.insertShopIntro(shopNo,shopIntro);
+		return "business/business";
 	}
 
 	@RequestMapping(value="/deleteShopPic.kh")
@@ -116,5 +121,25 @@ public class ShopController {
 		*/
 		int result = service.deleteShopPic(shopPicNos);
 		return "business/business";
+	}
+	
+	@RequestMapping(value="/deleteCategory.kh")
+	public String deleteCategory(String categories, HttpServletRequest request) {
+		int result=service.deleteCategory(categories);
+		return "business/business";
+	}
+	
+	@RequestMapping(value="/insertCategory.kh")
+	public String insertCategory(int shopNo, String categories, HttpServletRequest request) {
+		int result=service.insertCategory(shopNo, categories);
+		return "business/business";
+	}
+	@RequestMapping(value = "/shopInfo.kh")
+	public String shopInfo(int memberNo, Model model) {
+		Shop shop = service.selectShopInfo(memberNo);
+		ArrayList<ShopCategory> category = service.selectCategory(shop.getShopNo());
+		model.addAttribute("shop", shop);
+		model.addAttribute("category", category);
+		return "shop/shopInfo";
 	}
 }
