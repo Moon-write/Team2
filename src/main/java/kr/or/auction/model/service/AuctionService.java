@@ -227,4 +227,43 @@ public class AuctionService {
 		ArrayList<Bid> list = dao.getBidHistory(projectNo);
 		return list;
 	}
+
+	public int updateAuction() {
+		// 1 새로 마감되는 경매건 조사
+		ArrayList<Auction> list = dao.selectEndAuction();
+
+		if(list!=null&&list.size()!=0) {
+		
+			for(Auction a : list) {
+			
+				// 2 해당 경매건 마감처리
+				if(a.getAuctionAmount()==1) {
+					// 경매 수량이 1개일 경우 bidNo 조회해서 auction의 bidCount에 담아옴
+					int result = dao.updateAuctionStatus(a);
+					
+					if(result<=0) return -1;
+					// 해당 bidCount=bidNo가진 order정보 조회해서 orderStatus 4번으로 변경
+					result = dao.updateOrderStatus(a.getBidCount());
+					
+					
+					// 3 낙찰자 정보 확인 
+					// 가져와야 하는 정보 : 오더번호, 주문수량, BID_SUCCESS(1번인지 2번인지)
+					
+					
+				}else {
+					// 3-1 혹시 부분낙찰건이라면 order컨텐츠 수량도 조절해야함
+					
+				}
+				
+				
+			}
+		}
+
+		
+		// 3-2 해당 낙찰자 order 상태 변경
+		
+		
+		// 4 낙찰자에게 메세지 보낼 수 있으면 메세지까지 보내기
+		return 0;
+	}
 }

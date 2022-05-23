@@ -22,6 +22,7 @@ public class Auction {
 	private int auctionPrice;
 	private String auctionPic;
 	private String auctionContent;
+	private int auctionClose;
 	
 	// 테이블 외 내용
 	// 최고가
