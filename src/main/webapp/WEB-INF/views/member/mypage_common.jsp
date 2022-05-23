@@ -45,7 +45,7 @@
 	margin-top: 3px;
 	height: 30px;
 	font-family: ns-bold;
-	border-bottom: solid 2px #ac9e89;
+	border-bottom: solid 2px #1E90FF;
 }
 
 .left-menu {
@@ -55,8 +55,8 @@
 }
 
 .left-menu>ul {
-	border-top: solid 2px #ac9e89;
-	border-bottom: solid 2px #ac9e89;
+	border-top: solid 2px #1E90FF;
+	border-bottom: solid 2px #1E90FF;
 	margin-left: 30px;
 	list-style-type: none;
 }
@@ -77,7 +77,7 @@
 	color: rgb(172, 158, 137);
 }
 .left-menu hr{
-	background-color: #ac9e89;
+	background-color: #1E90FF;
 	height: 1px;
 	border: none;
 }
@@ -93,12 +93,14 @@
         </header>
         <div class="left-menu">
           <ul>
+          	  <li class="f-bold">프로필 정보</li>
+          	  <hr>
               <li class="f-bold">활동정보</li>
-              <li class="f-bold"><a href="#">참여중인 프로젝트</a></li>
-              <li class="f-bold"><a href="#">결제내역</a></li>
-              <li class="f-bold"><a href="#">나의리뷰</a></li>
-              <li class="f-bold"><a href="#">찜목록</a></li>
-              <li class="f-bold"><a href="#">나의 Q&A</a></li>
+              <li><a href="#">참여중인 프로젝트</a></li>
+              <li><a href="#">결제내역</a></li>
+              <li><a href="#">나의리뷰</a></li>
+              <li><a href="#">찜목록</a></li>
+              <li><a href="#">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
               <li><a href="#">정보관리</a></li>

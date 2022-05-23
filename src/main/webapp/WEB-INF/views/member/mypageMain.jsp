@@ -6,6 +6,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<style>
+.flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}	
+</style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
