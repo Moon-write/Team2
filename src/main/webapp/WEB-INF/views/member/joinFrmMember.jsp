@@ -32,7 +32,9 @@
 	width: 450px;
 }
 .form-input>td:first-child>input{
+	border-radius: 5px;
 	border: 1px solid rgb(167, 167, 167);
+	margin: 10px 0px;
 }
 .form-input>td>button{
 	margin-left: 5px;
@@ -68,7 +70,8 @@
 	display: flex;
 }
 .index>li{
-	margin-right: 30px;
+	margin-right: 19px;
+	list-style:none;
 }
 .index>li>span{
 	display: inline-block;
@@ -81,34 +84,55 @@
 	margin-right: 5px;
 }
 .index>.selected>span{
-	background-color: rgb(172, 158, 137);
+	background-color: #1E90FF;
+}	
+.page-content-title{
+	display: block;
+	text-align: center;
+	padding-top: 103px;
+	padding-bottom: 50px;
+	font-size: 36px;
+	font-weight: 200;
+}
+.form-select-wrap{
+  display: flex;
+  max-width: 300px;
+  align-items: center;
+}
+.form-select-wrap > select{
+  padding: 8px 16px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 14px;
 }
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<div class="belt">회원가입</div>
+		<span class="page-content-title">회원가입</span>
 		<div class="index-wrap">
 		<ul class= "index">
-			<li class="selected">───<span>1</span>회원 선택</li>
-			<li>───<span>2</span>회원 정보 입력</li>
+			<li>───<span>1</span>회원 선택</li>
+			<li class="selected">───<span>2</span>회원 정보 입력</li>
 			<li>───<span>3</span>회원 가입 완료</li>
 		</ul>
 		</div>
 		<div class="join-wrap">
-			<hr><br><br>
-			<form action="join.do" method="post">
+			<br><br>
+			<form action="/join.do" method="post">
 				<table class="join-table">
 					<tr class="form-name">
 						<th colspan="2">이메일(ID)<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td><input type="text" name="memberId" class="input-form"></td>
-						<td><button class="bc2 bs1" onclick="sendMail();" type="button">인증번호 받기</button></td>
+						<td><button class="btn bc5 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
 					</tr>
 					<tr class="form-input">
 						<td><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요."></td>
-						<td><button class="bc2 bs1" id="authBtn" type="button">확인</button></td>
+						<td><button class="btn bc5 bs1" id="authBtn" type="button">확인</button></td>
 					</tr>
 					<tr>
 						<td colspan="2"><span id="timeLimit"></span></td>
@@ -135,15 +159,40 @@
 						<th colspan="2">전화번호<span class="phoneChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="text" name="memberPhone" class="input-form" placeholder="ex)010-1234-1234"></td>
+						<td colspan="2"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234"></td>
 					</tr>
-					<ul>
-						<li>우편번호</li>
-						<li>주소</li>
-						<li>상세주소</li>
-						<li>성별</li>
-						<li>생년월일</li>
-					</ul>
+					<tr class="form-name">
+						<th colspan="2">주소<span class="idChkMsg"></span></th>
+					</tr>
+					<tr class="form-input">
+						<td><input type="text" id="sample6_postcode" class="input-form" placeholder="우편번호"></td>
+						<td><input class="btn bc2 bs1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td><br>
+					</tr>
+						<td><input type="text" id="sample6_address" placeholder="주소"></td><br>
+						<td><input type="text" id="sample6_detailAddress" placeholder="상세주소"></td>
+					<tr class="form-name">
+						<th colspan="2">생년월일<span class="idChkMsg"></span></th>
+					</tr>
+					<tr class="form-input">
+						<td>
+							<div class="form-select-wrap">
+								<select class="birthday-year">
+								</select>
+								/ 
+								<select class="birthday-month">
+								</select>
+								/
+								<select class="birthday-day">
+								</select>
+							</div>
+						</td>
+					</tr>
+					<tr class="form-name">
+						<th colspan="2">성별<span class="idChkMsg"></span></th>
+					</tr>
+					<tr class="form-input">
+						<td colspan="2"><input type="password" name="memberPwRe" class="input-form"></td>
+					</tr>
 					<tr class="form-input">
 						<td colspan="2"><input type="submit" class="bc1 bs4" id="join-submit" value="가입하기"></td>
 					</tr>

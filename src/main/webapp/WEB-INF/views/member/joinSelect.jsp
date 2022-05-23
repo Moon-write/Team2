@@ -33,7 +33,7 @@
 .index>.selected>span{
 	background-color: #1E90FF;
 }	
-.login-title{
+.page-title{
 	display: block;
 	text-align: center;
 	padding-top: 103px;
@@ -59,23 +59,28 @@
 	margin: 0 auto;
 	margin-bottom: 200px;
 }
-.member-title{
+.select-wrap .member-title{
 	font-size: 25px;
-	padding-top: 50px;
-	padding-bottom: 80px;
+	margin-top: 50px;
+	margin-bottom: 80px;
+}
+.select-wrap .member-intro{
+	font-size: 25px;
 	margin-top: 50px;
 	margin-bottom: 80px;
 }
 .select-wrap .material-symbols-outlined {
 	font-size: 75px;
 	color: rgb(30,144,255);
+	margin-top: 46px;
+	margin-bottom: 57px;
 }
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="flex-wrap">
-			<span class="login-title">회원가입</span>
+			<span class="page-title">회원가입</span>
 			<div class="index-wrap">
 				<ul class= "index">
 					<li class="selected">───<span>1</span>회원선택</li>
@@ -93,7 +98,7 @@
 					<div class="select-biz">
 						<span class="material-symbols-outlined">apartment</span><br>
 						<span class="member-title">사업자회원</span><br>
-						<span class="member-intro">사업자회원 가입</span>
+						<span class="member-intro">사업자/법인회원 가입</span>
 					</div>
 				</div>
 				<div class="select-btn-wrap">

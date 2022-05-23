@@ -36,7 +36,8 @@
 	</div>
 	<div class="login-wrap">
 		<a href="/loginFrm.kh">로그인</a>
-		<a href="/joinSelect.kh">회원가입</a>
+		<!-- 회원가입 /joinSelect.kh로 바꾸기(신영) -->
+		<a href="/joinFrmMember.kh">회원가입</a>
 		<!-- 일반회원/사업자/관리자별로 header상단 버튼 변화(만드는중-신영) -->
 			<li><a href="#" class="f-light fc-2">관리자 페이지로 이동</a></li>
 			<li><a href="/business.kh" class="f-light fc-2">사업자 페이지로 이동</a></li>
