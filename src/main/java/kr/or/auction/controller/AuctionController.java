@@ -47,14 +47,6 @@ public class AuctionController {
 			m = new Member();
 			m.setMemberNo(0);
 		}
-		// 현재페이지
-		
-		// 종료 프로젝트 제외여부
-		// 1이제외한다
-		// 순서
-		// 1최근등록순 2마감임박순 3관심순
-		// 검색어
-		
 				
 		AuctionList auctionList = service.selectAuctionList(m.getMemberNo(), reqPage, endFlag, order, searchKeyword); // 로그인 완료되면 변수수정
 		
@@ -86,8 +78,8 @@ public class AuctionController {
 	
 	@RequestMapping(value="/insertAuction.kh")
 	public String insertAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
-		auction.setMemberNo(0); // 세션 적용완료되면 로그인객체에서 로그인정보 가져오기
 		String filepath = null;
+		auction.setMemberNo(m.getMemberNo());
 		
 		if(!auctionPicture[0].isEmpty()) {
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
@@ -109,19 +101,33 @@ public class AuctionController {
 			return "redirect:/addAuction.kh";
 		}
 	}
+	
+	@RequestMapping(value="/previewAuction.kh")
+	public String previewAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
+		String filepath = null;
+		
+		if(!auctionPicture[0].isEmpty()) {
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
+			
+			MultipartFile file = auctionPicture[0];
+			
+			filepath = fileIo(file, savePath);
+		}else {
+			filepath = "preview.jpg";
+		}
+		auction.setMemberNo(m.getMemberNo());
+		auction.setBizName(m.getBizName());
+		auction.setAuctionPic(filepath);
+		auction.setBestPrice(auction.getAuctionPrice());
+		auction.setAuctionStart(auction.getAuctionStart().replace('T', ' '));
+		auction.setAuctionEnd(auction.getAuctionEnd().replace('T', ' '));
+			
+		redirect.addFlashAttribute("msg", "본 페이지는 미리보기입니다.");
+		redirect.addFlashAttribute("auction", auction);
+		return "/auction/auctionPreview";
+	}
 
 	// 등록 insert
-	@RequestMapping(value="/insertBid.kh")
-	public String insertBid(@SessionAttribute(required=false) Member m, Bid b, RedirectAttributes redirect) {
-		b.setMemberNo(m.getMemberNo());
-		int result = service.insertBid(b);
-		if(result>0) {
-			redirect.addFlashAttribute("msg", "입찰이 완료되었습니다!");
-		}else {
-			redirect.addFlashAttribute("msg", "입찰에 실패했습니다! 관리자에게 문의해 주세요.");
-		}
-		return "redirect:/auctionView.kh?projectNo="+b.getProjectNo();
-	}
 	
 	@ResponseBody
 	@RequestMapping(value="/addLike.kh")
@@ -158,6 +164,25 @@ public class AuctionController {
 		
 		return new Gson().toJson(list);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/bidUpdate.kh", produces="application/json; charset=utf-8")
+	public String bidUpdate(int projectNo) {
+
+		ArrayList<Bid> list = service.getBidList(projectNo);
+		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/bidHistory.kh", produces="application/json; charset=utf-8")
+	public String bidHistory(int projectNo) {
+
+		ArrayList<Bid> list = service.getBidHistory(projectNo);
+		
+		return new Gson().toJson(list);
+	}
+
 	
 	
 	@ResponseBody

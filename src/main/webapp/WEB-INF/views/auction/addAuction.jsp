@@ -76,13 +76,16 @@
 	}
 </style>
 <link rel="stylesheet" href="../../../resources/css/summernote-lite.css">
+<link rel="stylesheet" href="../../../resources/css/auction/mobiscroll.jquery.min.css"/>
 </head>
 <body>
-	<%@include file="/WEB-INF/views/common/header.jsp" %>
+	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
+	<script src="../../../resources/js/auction/mobiscroll.jquery.min.js"></script>
 	<script src="../../../resources/js/summernote-lite.js"></script>
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
+			<form method='post' enctype='multipart/form-data'>
 			<div class="page-title">경매 등록 * 헤더/푸터 사업자용으로 변경</div>
 			<div class="auction-wrap">
 				<div class="auction-pic">
@@ -90,7 +93,7 @@
 						<img src="../../../resources/img/auction/preview.jpg">
 					</div>
 					<div class="pic-button">
-						<span>대표사진 (필수)</span>
+						<span style="margin-right: 20px">대표사진</span>
 						<label for="upPic"><span class="btn bc1">등록</span></label>
 						<input type="file" name="auctionPicture" id="upPic" style="display: none;" accept=".jpg,.png,.jpeg,.gif" onchange="loadImg(this)">
 					</div>
@@ -123,11 +126,14 @@
 						</tr>
 						<tr>
 							<th rowspan="2">경매 기간</th>
-							<td><span style="width: 75px;">시작일</span><input type="datetime-local" name="auctionStart" class="input-form" onblur="checkDate()"></td>
-							
+							<td>
+								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionStart" />
+							</td>
 						</tr>
 						<tr>
-							<td><span style="width: 75px;">마감일</span><input type="datetime-local" name="auctionEnd" class="input-form" onblur="checkDate()"></td>
+							<td>
+								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionEnd" />
+							</td>
 						</tr>
 						<tr>
 							<th>시작 가격</th>
@@ -151,10 +157,10 @@
 				<textarea name="auctionContent" id="auctionContent" class="input-form"></textarea>
 			</div>
 			<div class="auction-submit">
-				<button class="btn bc11 bs3">미리보기</button>
-				<input type="submit" class="btn bc4 bs3" value="등록하기" disabled onclick="return submit()">
+				<button class="btn bc11 bs3" id="previewBtn">미리보기</button>
+				<button id="submitBtn" class="btn bc4 bs3" disabled>등록하기</button>
 			</div>
-			
+			</form>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
@@ -185,80 +191,43 @@
 		}
 
 		$("#noticeConfirm").on("click",function(){
-			const button = $("input[type=submit]");
+			const button = $("button#submitBtn");
 			if($(this).prop("checked")==true){
 				button.removeClass("bc4");
 				button.addClass("bc1");
-				$("input[type=submit]").removeAttr("disabled");
+				$("button#submitBtn").removeAttr("disabled");
 			}else{
 				button.removeClass("bc1");
 				button.addClass("bc4");
-				$("input[type=submit]").attr("disabled");
+				$("button#submitBtn").attr("disabled");
 			}
 		})
 
 		function checkDate(){
 			const startDate = $("input[name=auctionStart]").val();
 			const endDate = $("input[name=auctionEnd]").val();
-			
 			const today = new Date();
-			let todayDate = dateFormat(today);
-
+			
+			const start = new Date(startDate);
+			const end = new Date(endDate);	
+			
 			if(startDate==""){
 				return false;
-			}else if(!checkDate2(todayDate, startDate)){
+			}else if(today-start>60000){
 				alert("시작시각은 현재시각보다 뒤여야 합니다!");
 				return false;
 			}else if(endDate==""){
 				return false;
-			}else if(!checkDate2(startDate, endDate)){
+			}else if(start-end>0){
 				alert("시작시각은 종료시각보다 빨라야 합니다!");
 				return false;
-			}else if(!checkDate2(todayDate,endDate)){
+			}else if(today-end>60000){
 				alert("종료시각은 현재시각보다 뒤여야 합니다!");
 				return false;
 			}else{
 				return true;
 			}
 		}		
-
-		function checkDate2(date1, date2){
-			if(checkTime(0,4)&&checkTime(5,7)&&checkTime(8,10)&&checkTime(11,13)){
-				// 다 만족하면 true return
-				return true;
-			}else{
-				// 잘못된게 있으면 false return
-				return false;
-			}
-
-			function checkTime(index1, index2){
-			let sDate = date1.substring(index1,index2);
-			let eDate = date2.substring(index1,index2);
-
-				if(sDate>eDate){
-					// 앞시간이 더 크면 (더 뒤이면)
-					return false;
-				}else{
-					return true;
-				}			
-			}
-		}
-
-		function dateFormat(date){
-			let month = date.getMonth() + 1;
-			let day = date.getDate();
-			let hour = date.getHours();
-			let minute = date.getMinutes();
-			// let second = date.getSeconds();
-
-			month = month >= 10 ? month : '0' + month;
-			day = day >= 10 ? day : '0' + day;
-			hour = hour >= 10 ? hour : '0' + hour;
-			minute = minute >= 10 ? minute : '0' + minute;
-			// second = second >= 10 ? second : '0' + second;
-
-			return date.getFullYear() + '-' + month + '-' + day + 'T' + hour + ':' + minute; // + ':' + second;
-		}
 
 		function loadImg(f){
 			if(f.files.length!=0&&f.files[0]!=0){
@@ -274,7 +243,35 @@
 			}
 		}
 
-		function submit(){
+		$("input").on("keydown",function(event){
+			if(event.keyCode===13){
+				event.preventDefault();
+			}
+		})
+		
+		$("#previewBtn").on("click",function(){
+			const form = $("form");
+			form.attr("action","/previewAuction.kh");
+			form.attr("target","preview");
+		});
+		
+		$("#submitBtn").on("click",function(){
+			const form = $("form");
+			form.removeAttr("target");
+			form.attr("action","/insertAuction.kh");
+		})
+		$("form").on("submit",function(){
+			if(!check()){
+				event.preventDefault();
+				return false;
+			}else{
+				if($("form").attr("target")!=null){
+					let popup=window.open("","preview","menubar=no, status=no, scrollbars=yes");					
+				}
+			}
+		})
+
+		function check(){
 			let regExp = /^[0-9]+$/;
 			// 유효성검사 실행 
 			const category = $("select[name=auctionCategory]");
@@ -291,31 +288,52 @@
 							if(start.val()!=""&&end.val()!=""&&checkDate()){
 								const price = $("input[name=auctionPrice]");								
 								if(price.val()!=""&&regExp.test(price.val())){
-									// 금액도 전부 숫자여야함 - 유효성검사 거치기
-									const form = $("<form action='/insertAuction.kh' method='post' enctype='multipart/form-data'>");
-									form.appendTo($("body"));
-									form.append(category).append(name).append(item).append(amount).append(start).append(end).append(price).append($("input#upPic")).append($("textarea#auctionContent"));
-									form.submit();
+									return true;									
 								}else{
 									alert("경매 시작가격을 정확히 입력해 주세요!");
+									return false;
 								}
 							}else{
 								alert("경매 진행기간을 정확히 입력해 주세요!")
+								return false;
 							}
 						}else{
 							alert("정확한 수량을 입력해 주세요!");
+							return false;
 						}
 					} else{
 						alert("상품명을 입력해 주세요!");
+						return false;
 					}
 				}else{
 					alert("프로젝트명을 입력해 주세요!");
+					return false;
 				}
 			}else{
 				alert("카테고리를 선택해 주세요!");
+				return false;
 			}
-		}
+		};
+		mobiscroll.setOptions({
+		    locale: mobiscroll.localeKo,
+		    theme: 'windows',
+		    themeVariant: 'light'
+		});
 
+		$(function () {
+		    $('#date-start').mobiscroll().datepicker({
+		        controls: ['datetime'],
+				dateFormat : 'YYYY-MM-DD',
+				timeFormat : 'HH:mm',
+		        stepMinute: 10
+		    });
+		    $('#date-end').mobiscroll().datepicker({
+		        controls: ['datetime'],
+				dateFormat : 'YYYY-MM-DD',
+				timeFormat : 'HH:mm',
+		        stepMinute: 10
+		    });
+		});
 	</script>
 </body>
 </html>

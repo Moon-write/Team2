@@ -84,7 +84,6 @@
 		width: 100%;
 		margin-bottom: 20px;
 	}
-
 	.auction-notice{
 		padding: 30px;
 		border-top: 1px solid #ccc;
@@ -104,7 +103,6 @@
 		text-align: center;
 		padding: 30px 20px;
 	}
-
 	/*모달*/
 	.modal-content>span+div{
 		display: flex;
@@ -162,7 +160,6 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 	<input type="hidden" id="projectNo" value="${auction.projectNo}">
-	<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
 		<div class="page-content">
 			<div class="page-title">${auction.projectName }</div>
 			<div class="auction-setting">
@@ -241,28 +238,16 @@
 					<div class="info-history">
 						<h4 id="historyBtn">입찰 <span>${auction.bidCount }</span>회 (전체 기록 보기)</h4>
 						<table id="bid-rank" class="tbl">
-							<tbody>
+							<thead>
 								<tr class="tr-2">
 									<th>순위</th>
 									<th>입찰자명</th>
 									<th>수량</th>
 									<th>입찰액</th>
-								</tr>								
-								<c:forEach begin="0" end="4" step="1" varStatus="i">
-									<c:choose>
-										<c:when test="${auction.bidList[i.index].bidSuccess gt 0 }">
-											<tr class="tr-3" style="border-top : 2px solid rgb(30,144,255)" title="${auction.bidList[i.index].bidMsg }">
-										</c:when>
-										<c:otherwise>
-											<tr class="tr-1"  title="${auction.bidList[i.index].bidMsg }">
-										</c:otherwise>
-									</c:choose>
-												<td>${i.count}</td>
-												<td>${auction.bidList[i.index].memberName}</td>
-												<td>${auction.bidList[i.index].bidAmount}</td>
-												<td>${auction.bidList[i.index].bidPrice}</td>
-											</tr>
-								</c:forEach>
+								</tr>															
+							</thead>
+							<tbody>
+								
 							</tbody>
 						</table>
 						<c:choose>
@@ -335,7 +320,7 @@
 				</div>
 				<div class="modal-content">
 					<table id="bid-history" class="tbl">
-						<tbody>
+						<thead>
 							<tr class="tr-3">
 								<th style="width:5%">No.</th>
 								<th style="width:20%">입찰시각</th>
@@ -343,24 +328,9 @@
 								<th style="width:15%">입찰수량</th>
 								<th style="width:15%">입찰액</th>
 								<th style="width:20%">한마디</th>
-							</tr>
-							<c:forEach items="${auction.bidList}" var="b" varStatus="i">
-								<c:choose>
-									<c:when test="${b.bidSuccess gt 0 }">
-										<tr class="tr-1" style="color: rgb(30,144,255)">
-									</c:when>
-									<c:otherwise>
-										<tr class="tr-1">
-									</c:otherwise>
-								</c:choose>
-											<td>${i.index+1}</td>
-											<td>${b.bidDate}</td>
-											<td>${b.memberName}</td>
-											<td>${b.bidAmount}</td>
-											<td>${b.bidPrice}</td>
-											<td>${b.bidMsg}</td>
-										</tr>
-							</c:forEach>
+							</tr>							
+						</thead>
+						<tbody>
 						</tbody>
 					</table>
 				</div>
@@ -372,6 +342,8 @@
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
 		$(function () {
+			bidUpdate();
+			
 			$("input#policyChk").on("click",function(){
 				$("#sendBidBtn").toggleClass("bc4").toggleClass("bc1");
 				if($(this).prop("checked")==true){
@@ -383,17 +355,29 @@
 			$("#sendBidBtn").on("click",function(){
 				let regExp = /^[0-9]+$/;
 				// 수량체크
-				const bidAmount = $("input[name=bidAmount]");
-				const bidPrice = $("input[name=bidPrice]");
-				if(bidAmount.val()!=""&&regExp.test(bidAmount.val())&&bidPrice.val()!=""&&regExp.test(bidPrice.val())){
-					if(bidAmount.val()<=$("span#amountVal").text()){
-						if(bidPrice.val()>=$("span#bestPrice").text()){
-							const form = $("<form action='/insertBid.kh?projectNo="+$("input#projectNo").val()+"' method='post'>");
-							$("body").append(form);
-							form.append(bidAmount);
-							form.append(bidPrice);
-							form.append($("input[name=bidMsg]"));
-							form.submit();
+				const bidAmount = $("input[name=bidAmount]").val();
+				const bidPrice = $("input[name=bidPrice]").val();
+				const projectNo = $("input#projectNo").val();
+				const memberNo = $("input#memberNo").val();
+				const bidMsg = $("input[name=bidMsg]").val();
+
+				if(bidAmount!=""&&regExp.test(bidAmount)&&bidPrice!=""&&regExp.test(bidPrice)){
+					if(bidAmount<=$("span#amountVal").text()){
+						if(bidPrice>=$("span#bestPrice").text()){
+							
+							const data = {
+								type : "bid",
+								bidAmount : bidAmount,
+								bidPrice : bidPrice,
+								bidMsg : bidMsg,
+								projectNo : projectNo,
+								memberNo : memberNo
+							};
+							ws.send(JSON.stringify(data));
+							$("#bidding-modal").css("display","none");
+							$("input[name=bidMsg]").val("");		
+
+							
 						}else{
 							alert("구입 가능 가격을 입찰해야 합니다.")
 						}
@@ -409,17 +393,18 @@
 			});
 			$("#historyBtn").on("click",function(){
 				$("#history-modal").css("display", "flex");
+				showBidHistory();
 			});
 			$(document).on("click", ".modal-close", function () {
 				$(this).parents(".modal-wrap").parent().css("display", "none");
 			});  
 		});
-
 		$(function(){
 			// 오늘이 참여가능한 날짜인지 계산
 			const today = new Date();
 			const start = new Date($("#auctionStart").text());
 			const end = new Date($("#auctionEnd").text());
+
 			if(today<start){
 				//시작이 더 크면 뒤면
 				$(".info-time>h2").text("경매 오픈 전");
@@ -522,6 +507,103 @@
 		}
 		function login(){
 			location.href = "/loginFrm.kh";
+		}
+		
+		function bidUpdate(){
+			const projectNo = $("input#projectNo").val();
+			
+			$.ajax({
+				url : "/bidUpdate.kh",
+				type : "post",
+				data : {
+					projectNo : projectNo
+				},
+				success : function(list){
+
+					$("table#bid-rank>tbody").empty();
+					
+					if(list==""){
+						const row = $("<tr class='tr-1'>");
+						const td = $("<td colspan='4' style='height: 4em;'>");
+						td.text("등록된 경매가 없습니다!");
+						row.append(td);
+						$("table#bid-rank>tbody").append(row);
+						
+					}else{
+						for(let i=0;i<list.length;i++) {
+							let row;
+
+							if(list[i].bidSuccess==0){
+								row = $("<tr class='tr-1'>");
+							}else{
+								row = $("<tr class='tr-3' style='border-top: 2px solid rgb(30,144,255);'>");
+							}
+							row.attr("title",list[i].bidMsg);
+							const tdNo = $("<td>");
+							tdNo.text(i+1);
+							const tdName = $("<td>");
+							tdName.text(list[i].memberName);
+							const tdAmount = $("<td>");
+							tdAmount.text(list[i].bidAmount);
+							const tdPrice = $("<td>");
+							tdPrice.text(list[i].bidPrice);
+							row.append(tdNo).append(tdName).append(tdAmount).append(tdPrice);				
+
+							$("table#bid-rank>tbody").append(row);
+						}						
+						$("span#bestPrice").text(list[0].bidPrice);
+					}					
+				}
+			})
+		}
+		function showBidHistory(){
+			const projectNo = $("input#projectNo").val();
+			
+			$.ajax({
+				url : "/bidHistory.kh",
+				type : "post",
+				data : {
+					projectNo : projectNo
+				},
+				success : function(list){
+
+					$("table#bid-history>tbody").empty();
+					
+					if(list==""){
+						const row = $("<tr class='tr-1'>");
+						const td = $("<td colspan='6' style='height: 4em;'>");
+						td.text("등록된 경매 기록이 없습니다!");
+						row.append(td);
+						$("table#bid-history>tbody").append(row);
+						
+					}else{
+						for(let i=0;i<list.length;i++) {
+							let row;
+
+							if(list[i].bidSuccess==0){
+								row = $("<tr class='tr-1'>");
+							}else{
+								row = $("<tr class='tr-1' style='color: rgb(30,144,255);'>");
+							}
+							const tdNo = $("<td>");
+							tdNo.text(i+1);
+							const tdDate = $("<td>");
+							tdDate.text(list[i].bidDate);
+							const tdName = $("<td>");
+							tdName.text(list[i].memberName);
+							const tdAmount = $("<td>");
+							tdAmount.text(list[i].bidAmount);
+							const tdPrice = $("<td>");
+							tdPrice.text(list[i].bidPrice);
+							const tdMsg = $("<td>");
+							tdMsg.text(list[i].bidMsg);
+							row.append(tdNo).append(tdDate).append(tdName).append(tdAmount).append(tdPrice).append(tdMsg);				
+						
+							$("table#bid-history>tbody").append(row);
+						}						
+					}					
+				}
+			})
 		}
 	</script>
 </body>

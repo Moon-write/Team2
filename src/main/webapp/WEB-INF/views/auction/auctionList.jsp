@@ -17,6 +17,11 @@
 		justify-content: center;
 		margin: 30px;
 	}
+	.likeList-contents{
+		width: 1000px;
+		display: flex;
+		justify-content: center;
+	}
 	.likeList-content{
 		width: 20%;
 		margin: 0px 10px;
@@ -156,13 +161,14 @@
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
-	<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
 		<div class="page-content">
 		<c:if test="${not empty sessionScope.m}">
 			<div class="page-title">관심상품 모아보기</div>
 			<a href="/addAuction.kh">경매 등록</a>
 			<div class="likeList-wrap">
-
+				<div class='pageArrow' id='prevP'></div>
+				<div class='likeList-contents'></div>
+				<div class='pageArrow' id='nextP'></div>
 			</div>
 			<hr>		
 		</c:if>
@@ -372,7 +378,8 @@
 			})
 		}
 		function selectLikeList(pageNo){
-			$(".likeList-wrap").empty();
+			$(".likeList-contents").empty();
+			$(".pageArrow").empty();
 			
 			$.ajax({
 				url : "/selectLikeList.kh",
@@ -424,7 +431,7 @@
 											"<h4>"+priceName+" : "+list[i].bestPrice+"</h4>"+
 										"</div></a>"+
 									"</div>";
-						$(".likeList-wrap").prepend(content);
+						$(".likeList-contents").append(content);
 					}
 					if(pageNo>1){
 						putPrevArrow(pageNo);
@@ -436,19 +443,20 @@
 			})						
 		}
 		function putPrevArrow(pageNo){
-			const prev = $("<div class='pageArrow'>");
+			
+			const prev = $("<span class='material-symbols-outlined'>");
 			prev.val(parseInt(pageNo)-1);
-			prev.html("<span class='material-symbols-outlined'>arrow_back_ios_new</span>");
-			$(".likeList-wrap").prepend(prev);
+			prev.text("arrow_back_ios_new");
+			$(".pageArrow#prevP").prepend(prev);
 		};
 		
 		function putNextArrow(pageNo){
-			const next = $("<div class='pageArrow'>");
+			const next = $("<span class='material-symbols-outlined'>");
 			next.val(parseInt(pageNo)+1);
-			next.html("<span class='material-symbols-outlined'>arrow_forward_ios</span>");
-			$(".likeList-wrap").append(next);
+			next.text("arrow_forward_ios");
+			$(".pageArrow#nextP").prepend(next);
 		}
-		$(document).on("click",".pageArrow",function(){
+		$(document).on("click",".pageArrow>span",function(){
 			checkMyLikeCount($(this).val());
 		})
 	 </script>

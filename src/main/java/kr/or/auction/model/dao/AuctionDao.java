@@ -110,4 +110,9 @@ public class AuctionDao {
 		List<Auction> list = sqlSession.selectList("auction.selectAuctionListbyLike", map);
 		return (ArrayList<Auction>) list;
 	}
+
+	public ArrayList<Bid> getBidHistory(int projectNo) {
+		List<Bid> list = sqlSession.selectList("auction.getBidHistory", projectNo);
+		return (ArrayList<Bid>) list;
+	}
 }

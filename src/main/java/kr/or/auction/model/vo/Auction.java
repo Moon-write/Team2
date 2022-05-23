@@ -1,7 +1,5 @@
 package kr.or.auction.model.vo;
 
-import java.util.ArrayList;
-
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -39,8 +37,6 @@ public class Auction {
 	private int like;
 	// 사업자상호명
 	private String bizName;
-	// 입찰리스트
-	private ArrayList<Bid> bidList;
 	// 좋아요갯수
 	private int totallike;
 }

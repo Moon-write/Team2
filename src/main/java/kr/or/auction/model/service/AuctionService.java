@@ -104,33 +104,8 @@ public class AuctionService {
 		
 		//memberNo가 0이면 그냥지나감
 		for(Auction a : list) {			
-			// 1. 입찰횟수 구하기
-			int bidCount = dao.getBidCount(a.getProjectNo());
-			a.setBidCount(bidCount);
+			a = getMoreInfo(a, memberNo);
 			
-			// 2. 현재 낙찰가능금액 구하기
-			int bestPrice;
-			if(bidCount==0) {
-				bestPrice = a.getAuctionPrice();
-			}else {
-				bestPrice = dao.getMinBidPrice(a.getProjectNo());			
-			}
-			a.setBestPrice(bestPrice);
-			// 3. 내 좋아요 여부 구하기
-			if(memberNo!=0) {
-				HashMap<String, Object> map2 = new HashMap<String, Object>();
-				map2.put("projectNo", a.getProjectNo());
-				map2.put("memberNo", memberNo);
-				
-				int	result = dao.getLike(map2);
-				
-				if(result==1) {
-					// 좋아요가 있으면
-					a.setLike(1);
-				}else {
-					a.setLike(0);
-				}
-			}			
 		}
 		auctionList.setAuctionList(list);		
 		auctionList.setPagination(pagination);		
@@ -139,98 +114,38 @@ public class AuctionService {
 	}
 
 	public Auction getMoreInfo(Auction a, int memberNo) {
-		ArrayList<Bid> list = dao.getBidList(a.getProjectNo());
-		a.setBidList(list);
-		// 최고가 알아내기 - 기본셋팅은 최저가
-		int bestPrice = a.getAuctionPrice();
-		
-		if(list!=null) {
-			a.setBidCount(list.size());
-			for(int i=0;i<list.size();i++) {
-				if(list.get(i).getBidSuccess()==0) {
-					bestPrice = list.get(i-1).getBidPrice();
-					break;
-				}
-			}
-			a.setBestPrice(bestPrice);
-		}else {
-			a.setBidCount(0);
-		}
-		a.setTotallike(dao.getTotalLike(a.getProjectNo()));
 
+		// 1. 입찰횟수 구하기
+		int bidCount = dao.getBidCount(a.getProjectNo());
+		
+		// 2. 현재 낙찰가능금액 구하기
+		int bestPrice;
+		if(bidCount==0) {
+			bestPrice = a.getAuctionPrice();
+		}else {
+			bestPrice = dao.getMinBidPrice(a.getProjectNo());			
+		}
+		// 3. 내 좋아요 여부 구하기
 		if(memberNo!=0) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("projectNo", a.getProjectNo());
-			map.put("memberNo", memberNo);
-							
-			int	result = dao.getLike(map);
-			if(result!=9999) {
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("projectNo", a.getProjectNo());
+			map2.put("memberNo", memberNo);
+			
+			int	result = dao.getLike(map2);
+			
+			if(result==1) {
 				// 좋아요가 있으면
 				a.setLike(1);
+			}else {
+				a.setLike(0);
 			}
-		}		
+		}			
+
+		a.setBidCount(bidCount);
+		a.setBestPrice(bestPrice);
+		a.setTotallike(dao.getTotalLike(a.getProjectNo()));	
 
 		return a;
-	}
-	
-	public int insertBid(Bid b) {
-		// 시간이 남았는지 체크하기
-		int result = dao.checkEndTime(b.getProjectNo());
-		
-		// 시간이 남았을때만(양수일때만 입찰가능)
-		if(result>0) {
-			result = dao.insertBid(b);
-		}else {
-			return -3;
-		}
-		// 순위변동 업데이트
-		Auction a = dao.selectAuction(b.getProjectNo());
-		ArrayList<Bid> bidList = dao.getBidList(b.getProjectNo());
-		
-		int auctionAmount = a.getAuctionAmount();
-		int successAmount = 0;
-		ArrayList<Integer> notifyMemberList = new ArrayList<Integer>();
-		
-		for(int i=0;i<bidList.size();i++) {
-			// 내 입찰의 입찰량
-			int myBidAmount = bidList.get(i).getBidAmount();
-			successAmount += myBidAmount;
-			
-			// 원래 안정권이었던 요소
-			if(bidList.get(i).getBidSuccess()==1||bidList.get(i).getBidSuccess()==2) {				
-				if(auctionAmount>=successAmount) {
-					// 그대로 안정권이라면 pass
-					
-					
-				}else if(auctionAmount<successAmount&&auctionAmount>(successAmount-myBidAmount)) {
-					// 내 입찰량 뺀거보단 크고 내 입찰량 더한거보단 작을때 - 부분낙찰
-					result = updateBidRank(bidList.get(i), 2);
-					if(result>0) {
-						bidList.get(i).setBidSuccess(2);
-						notifyMemberList.add(bidList.get(i).getMemberNo());
-					}
-									
-				}else{
-					// 완전낙찰일때
-					result = updateBidRank(bidList.get(i), 0);
-					if(result>0) {
-						bidList.get(i).setBidSuccess(0);
-						notifyMemberList.add(bidList.get(i).getMemberNo());
-					}
-				}
-			}
-		} // for문 종료
-		// 알림보내는 웹소켓 낄려면 여기
-		return result;
-	}
-	
-	public int updateBidRank(Bid bid, int successRange){
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("bidNo",bid.getBidNo());
-		map.put("successRange", successRange);
-		int result = dao.updateBidRank(map);
-		
-		return result;
 	}
 
 	public int addLike(int memberNo, int projectNo) {
@@ -301,5 +216,15 @@ public class AuctionService {
 	public int checkMyLikeCount(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.checkMyLikeCount(memberNo);
+	}
+
+	public ArrayList<Bid> getBidList(int projectNo) {
+		ArrayList<Bid> list = dao.getBidList(projectNo);
+		return list;
+	}
+
+	public ArrayList<Bid> getBidHistory(int projectNo) {
+		ArrayList<Bid> list = dao.getBidHistory(projectNo);
+		return list;
 	}
 }

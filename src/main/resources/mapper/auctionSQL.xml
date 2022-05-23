@@ -4,8 +4,8 @@
   <insert id="insertAuction" parameterType="a">
   	INSERT INTO AUCTION_TBL VALUES(
   		AUCTION_SEQ.NEXTVAL, #{projectName}, #{auctionItem}, #{auctionCategory}, #{auctionAmount},
-  		TO_DATE(#{auctionStart}, 'YYYY-MM-DD"T"HH24:MI'),
-  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD"T"HH24:MI'), 100, #{auctionPrice}, #{auctionPic}, #{auctionContent} 
+  		TO_DATE(#{auctionStart}, 'YYYY-MM-DD HH24:MI'),
+  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'), #{memberNo}, #{auctionPrice}, #{auctionPic}, #{auctionContent} 
   	)  	
   </insert>
   
@@ -89,16 +89,31 @@
   </insert>
   
   <select id="getBidList" parameterType="int" resultType="bid">
-  	SELECT BID_NO AS bidNo,
-    PROJECT_NO AS projectNo,
-    MEMBER_NO AS memberNo,
-    BID_AMOUNT AS bidAmount,
-    BID_PRICE AS bidPrice,
-    BID_MSG AS bidMsg,
-    TO_CHAR(BID_DATE,'YYYY-MM-DD HH24:MI:SS') AS bidDate,
-    BID_SUCCESS AS bidSuccess,
-    MEMBER_NAME as memberName
-    FROM BID_TBL JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO = #{projectNo} ORDER BY BID_PRICE DESC, BID_DATE
+	  SELECT * FROM (
+	  	SELECT BID_NO AS bidNo,
+	    PROJECT_NO AS projectNo,
+	    MEMBER_NO AS memberNo,
+	    BID_AMOUNT AS bidAmount,
+	    BID_PRICE AS bidPrice,
+	    BID_MSG AS bidMsg,
+	    TO_CHAR(BID_DATE,'YYYY-MM-DD HH24:MI:SS') AS bidDate,
+	    BID_SUCCESS AS bidSuccess,
+	    MEMBER_NAME as memberName
+	    FROM BID_TBL JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO = #{projectNo} ORDER BY BID_PRICE DESC, BID_DATE
+	    <![CDATA[) WHERE ROWNUM>=1 AND ROWNUM <=5]]>  	
+  </select>
+  
+    <select id="getBidHistory" parameterType="int" resultType="bid">
+	  SELECT BID_NO AS bidNo,
+	    PROJECT_NO AS projectNo,
+	    MEMBER_NO AS memberNo,
+	    BID_AMOUNT AS bidAmount,
+	    BID_PRICE AS bidPrice,
+	    BID_MSG AS bidMsg,
+	    TO_CHAR(BID_DATE,'YYYY-MM-DD HH24:MI:SS') AS bidDate,
+	    BID_SUCCESS AS bidSuccess,
+	    MEMBER_NAME as memberName
+	    FROM BID_TBL JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO = #{projectNo} ORDER BY BID_DATE 	
   </select>
   
   <select id="getTotalLike" parameterType="int" resultType="int">

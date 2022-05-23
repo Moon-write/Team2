@@ -75,5 +75,11 @@
 	<!-- 예약작업 -->
 	<task:annotation-driven/>
 	
+	<!-- 웹소켓 -->
+	<beans:bean id="bidHandler" class="kr.or.auction.model.service.BidHandler"/>
+	<websocket:handlers>
+		<websocket:mapping handler="bidHandler" path="/insertBid.kh"/> <!-- 웹소켓 사용할 *.kh명 연결 -->
+	</websocket:handlers>
+	
 	
 </beans:beans>
