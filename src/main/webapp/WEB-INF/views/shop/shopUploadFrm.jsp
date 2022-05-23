@@ -119,7 +119,7 @@
 		</div>
 		<h2 style="margin-top:50px;margin-left:520px;">사업자 정보 관리</h1>
 		<div class="show-content">
-			<form action="/shopUpload.kh" method="post" enctype="multipart/form-data">
+			<form action="/shopUpload.kh" method="post">
 				<fieldset style="border:0px solid black;">				
 						<div>
 						<div style="float:left;">

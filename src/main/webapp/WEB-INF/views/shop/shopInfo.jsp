@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -90,9 +91,14 @@ flex-wrap: wrap;
 		<div class="page-content">
 			<div class="shop-content">
 				<div class="shop-pic" style="text-align: center;">
-					<c:forEach var="sp" items="${shop.fileList }">												
-						<img class="mySlides" src="/resources/upload/shopPic/${sp.shopFilepath}">												
-					</c:forEach>									
+					<c:if test="${fn:length(shop.fileList) eq 0 }">
+						<img class="mySlides" src="/resources/img/logo/WNYlogo1.png">
+					</c:if>
+					<c:if test="${fn:length(shop.fileList) gt 0 }">
+						<c:forEach var="sp" items="${shop.fileList }">												
+								<img class="mySlides" src="/resources/upload/shopPic/${sp.shopFilepath}">												
+						</c:forEach>	
+					</c:if>										
 				</div>
 				<div class="info-detail">
 					<h1>${shop.shopName}</h1>
@@ -155,16 +161,25 @@ flex-wrap: wrap;
 		                	<div>${shop.shopName }</div>
 		                	<c:set var="comma" value=","/>
 		                	<div>
-		                		<c:forEach var="c" items="${category }" varStatus="status">
-		                		<c:if test="${!status.last}">
-									<span>${c.category }${comma} </span>									
-								</c:if>
-								<c:if test="${status.last}">
-									<span>${c.category }</span>
-								</c:if>										
-								</c:forEach>
+			                	<c:if test="${empty category }">
+			                		없음
+			                	</c:if>
+			                	<c:if test="${!empty category }">
+			                		<c:forEach var="c" items="${category }" varStatus="status">
+			                		<c:if test="${!status.last}">
+										<span>${c.category }${comma} </span>									
+									</c:if>
+									<c:if test="${status.last}">
+										<span>${c.category }</span>
+									</c:if>										
+									</c:forEach>
+			                	</c:if>		                			                		
 							</div>
-		                	<div>${shop.shopBirth }</div>
+		                	<div>
+		                		<c:if test="${empty shop.shopBirth }">
+			                		없음
+			                	</c:if>
+		                	</div>
 		                	<div>주소</div>
 		                	<div>전화번호</div>
 		                	<div>이메일</div>

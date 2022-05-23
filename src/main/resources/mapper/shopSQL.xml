@@ -6,8 +6,8 @@
 		    biz_name as shopName, 
 		    biz_no as bizNo,
 		    shop_no as shopNo,
-		    nvl(shop_intro,' ') as shopIntro,
-		    nvl(shop_birth,' ') as shopBirth,
+		    shop_intro as shopIntro,
+		    shop_birth as shopBirth,
 		    nvl((select sum(order_price) from order_tbl where seller_no=#{memberNo}),0) as grossIncome
 		    from shop s 
 		    left join member m on (m.member_no=s.member_no)

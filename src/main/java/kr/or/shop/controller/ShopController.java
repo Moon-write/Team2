@@ -102,6 +102,9 @@ public class ShopController {
 	}
 	@RequestMapping(value = "/editIntro.kh")
 	public String editIntro(int shopNo, String shopIntro) {
+		if(shopIntro.isEmpty()) {
+			shopIntro=" ";
+		}
 		int result=service.insertShopIntro(shopNo,shopIntro);
 		return "business/business";
 	}
