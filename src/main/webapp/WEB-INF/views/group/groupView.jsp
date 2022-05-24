@@ -11,6 +11,7 @@
 		padding-top: 30px;
 		width: 1200px;
 		margin: 0 auto;
+		margin-bottom: 30px;
 	}
 	#view-title{
 		width: 1000px;
