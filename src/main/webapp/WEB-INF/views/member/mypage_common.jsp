@@ -4,11 +4,14 @@
 <html>
 <head>
 <style>
+.flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}	
 .mypage-header {
 	display: flex;
 	height: 30px;
 }
-
 .mypage-header-space {
 	flex-grow: 2;
 }
@@ -74,7 +77,7 @@
 }
 
 .left-menu>ul>li>a:hover {
-	color: rgb(172, 158, 137);
+	font-weight: bold;
 }
 .left-menu hr{
 	background-color: #1E90FF;
@@ -96,11 +99,11 @@
           	  <li class="f-bold">프로필 정보</li>
           	  <hr>
               <li class="f-bold">활동정보</li>
-              <li><a href="#">참여중인 프로젝트</a></li>
-              <li><a href="#">결제내역</a></li>
+              <li><a href="/mypageProjectList.kh">참여중인 프로젝트</a></li>
+              <li><a href="/mypageOrderList.kh">결제내역</a></li>
               <li><a href="#">나의리뷰</a></li>
-              <li><a href="#">찜목록</a></li>
-              <li><a href="#">나의 Q&A</a></li>
+              <li><a href="/mypageLikeList.kh">찜목록</a></li>
+              <li><a href="/mypageQnaList.kh">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
               <li><a href="#">정보관리</a></li>

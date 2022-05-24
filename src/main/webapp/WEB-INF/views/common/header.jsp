@@ -1,10 +1,6 @@
-<%@page import="kr.or.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <%
-    	Member m = (Member)session.getAttribute("m");
-    %>
 	    
 <!-- 기본 CSS -->
 <link rel="stylesheet" href="../../../resources/css/default.css" />
@@ -18,8 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
-
-<!-- jstl -->
 
 <!-- jQuery -->
 <script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
@@ -38,24 +32,27 @@
 		<a href="/"><img src="../../../resources/img/logo/WNYlogo1.png"></a>
 	</div>
 	<div class="login-wrap">
-		<%if(m != null) {
-			  switch(m.getMemberLevel()) {
-				case 2: %>
-				<a href="/mypageMain.kh" class="f-light fc-1">마이페이지</a>
-				<%break;
-				case 1: %>
-				<a href="/business.kh" class="f-light fc-2">사업자 페이지로 이동</a>
-				<%break;
-				case 0: %>
-				<a href="#" class="f-light fc-2">관리자 페이지로 이동</a>
-				<%break;
-				} %>
-		<a href="/logout.kh">로그아웃</a>
-		<%}else {%>
-			<a href="/loginFrm.kh">로그인</a>
-			<!-- 회원가입 /joinSelect.kh로 바꾸기(신영) -->
-			<a href="/joinFrmMember.kh">회원가입</a>
-		<%} %>
+		<c:choose>
+			<c:when test="${not empty sessionScope.m}">
+				<c:choose>
+					  <c:when test="${sessionScope.m.memberLevel eq 2}">
+						<a href="/mypageMain.kh" class="f-light fc-1">마이페이지</a>
+					  </c:when>
+					  <c:when test="${sessionScope.m.memberLevel eq 1}">
+						<a href="/business.kh" class="f-light fc-2">사업자 페이지로 이동</a>
+					  </c:when>
+					  <c:when test="${sessionScope.m.memberLevel eq 0}">
+						<a href="#" class="f-light fc-2">관리자 페이지로 이동</a>
+					  </c:when>
+				</c:choose>
+			<a href="/logout.kh">로그아웃</a>
+			</c:when>
+			<c:otherwise>
+				<a href="/loginFrm.kh">로그인</a>
+				<!-- 회원가입 /joinSelect.kh로 바꾸기(신영) -->
+				<a href="/joinFrmMember.kh">회원가입</a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	<div class="menu-wrap">
 		<ul>

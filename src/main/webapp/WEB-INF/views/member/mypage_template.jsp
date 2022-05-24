@@ -4,9 +4,17 @@
 <html>
 <head>
 <style>
+.mypage-header {
+	display: flex;
+	height: 30px;
+}
 .mypage-content{
 	min-height: 800px;
 }
+.flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+}	
 </style>
 <meta charset="UTF-8">
 <title>:: 회원 페이지 ::</title>
