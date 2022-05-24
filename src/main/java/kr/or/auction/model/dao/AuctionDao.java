@@ -43,7 +43,7 @@ public class AuctionDao {
 		return sqlSession.insert("auction.insertBid", b);
 	}
 
-	public int checkEndTime(int projectNo) {
+	public float checkEndTime(int projectNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("auction.checkEndTime", projectNo);
 	}
@@ -138,8 +138,18 @@ public class AuctionDao {
 		return (ArrayList<Auction>) list;
 	}
 
-	public int updateOrderStatus(int bidCount) {
+	public ArrayList<Bid> getSuccessBidList(Auction a) {
+		List list = sqlSession.selectList("auction.getSuccessBidList", a);
+		return (ArrayList<Bid>) list;
+	}
+
+	public int updateOrderStatus(Bid b) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("auction.updateOrderStatus", bidCount);
+		return sqlSession.update("auction.updateOrderStatus", b);
+	}
+
+	public int updateOrderAmount(Bid b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("auction.updateOrderAmount",b);
 	}
 }

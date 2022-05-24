@@ -11,9 +11,8 @@ public class TimeHandler {
 	private AuctionService service;
 	
 	
-	@Scheduled(fixedDelay= 600000)
+	@Scheduled(cron="0 0/10 * * * *")
 	public void updateAuction() {
-		// int result = service.updateAuction();
-		
+		int result = service.updateAuction();
 	}
 }

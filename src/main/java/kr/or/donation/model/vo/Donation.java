@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Donation {
-	private int projectNo;
-	private int memberNo;
-	private int donationDivision;
-	private String donationTitle;
+	private int projectNo; //
+	private int memberNo; 
+	private int donationDivision;//
+	private String donationTitle;//
 	private String donationImgname;
 	private String donationImgpath;
-	private String donationCategory;
-	private String donationContent;
+	private String donationCategory;//
+	private String donationContent;//
 	private int donationTarget;
 	private int donationCash;
 	private String donationStartdate;

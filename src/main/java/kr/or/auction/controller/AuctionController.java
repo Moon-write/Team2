@@ -41,15 +41,16 @@ public class AuctionController {
 	}
 
 	@RequestMapping(value="auctionList.kh")
-	public String auctionList(@SessionAttribute(required=false) Member m, Model model, int reqPage, int endFlag, int order, String searchKeyword) { // 추후 reqPage 변수넣을것
+	public String auctionList(@SessionAttribute(required=false) Member m, Model model, int reqPage, int startFlag, int endFlag, int order, String searchKeyword) { // 추후 reqPage 변수넣을것
 		// 로그인한 회원이 없을 경우 변수 0으로 셋팅
 		if(m==null) {
 			m = new Member();
 			m.setMemberNo(0);
 		}
 				
-		AuctionList auctionList = service.selectAuctionList(m.getMemberNo(), reqPage, endFlag, order, searchKeyword); // 로그인 완료되면 변수수정
+		AuctionList auctionList = service.selectAuctionList(m.getMemberNo(), reqPage, startFlag, endFlag, order, searchKeyword); // 로그인 완료되면 변수수정
 		
+		model.addAttribute("startFlag", startFlag);
 		model.addAttribute("order", order);
 		model.addAttribute("endFlag", endFlag);
 		model.addAttribute("keyword", searchKeyword);
