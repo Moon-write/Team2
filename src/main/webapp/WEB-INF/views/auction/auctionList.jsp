@@ -316,7 +316,8 @@
 
 		$(document).on("click","span.likeB",function(){
 			const value = $(this).parent().children("input").val();			
-
+			$(".likeList-wrap").slideDown();
+			
 			$(this).addClass("likeB-yellow").removeClass("likeB");
 			
 			$.ajax({
@@ -367,6 +368,7 @@
 				success : function(size){
 					if(size==0){
 						console.log("관심글 없음!");
+						$(".likeList-wrap").slideUp();
 						return;
 					}else if(size<=pageNo*3){
 						selectLikeList(pageNo);

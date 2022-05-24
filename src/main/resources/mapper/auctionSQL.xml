@@ -5,7 +5,7 @@
   	INSERT INTO AUCTION_TBL VALUES(
   		AUCTION_SEQ.NEXTVAL, #{projectName}, #{auctionItem}, #{auctionCategory}, #{auctionAmount},
   		TO_DATE(#{auctionStart}, 'YYYY-MM-DD HH24:MI'),
-  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'), #{memberNo}, #{auctionPrice}, #{auctionPic}, #{auctionContent} 
+  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'), #{memberNo}, #{auctionPrice}, #{auctionPic}, #{auctionContent} , 0
   	)  	
   </insert>
   
@@ -23,7 +23,8 @@
 			  		AUCTION_PIC AS auctionPic,
 			        LASTDAY AS lastDay,
 			        LASTHOUR AS lastHour,
-			        LASTMIN AS lastMin        
+			        LASTMIN AS lastMin,    
+			        AUCTION_CLOSE AS auctionClose    
   		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
   		
   		<trim prefix="WHERE" prefixOverrides="AND">
@@ -66,7 +67,8 @@
         LASTHOUR AS lastHour,
         LASTMIN AS lastMin,
         LASTSEC AS lastSec,
-        BIZ_NAME AS bizName
+        BIZ_NAME AS bizName,
+        AUCTION_CLOSE AS auctionClose
   		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO= #{projectNo}
   </select>
   
@@ -209,6 +211,36 @@
   			</if>  		
   		</trim>
 			ORDER BY LIKEC DESC, PROJECTNO DESC)N )
-			<![CDATA[WHERE RNUM >=#{startNum} AND RNUM<=${endNum}]]>  
+			<![CDATA[WHERE RNUM >=#{startNum} AND RNUM<=#{endNum}]]>  
   </select>
+  
+  <insert id="insertOrder" parameterType="o">
+  		INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL, 4, #{projectNo}, #{memberNo}, #{sellerNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MM:SS'), #{orderPrice}, 0, '','','','','','',3)
+  		<selectKey resultType="int" order="AFTER" keyProperty="orderNo">
+  			SELECT * FROM (SELECT ORDER_NO FROM ORDER_TBL ORDER BY ORDER_DATE DESC) WHERE ROWNUM=1
+  		</selectKey>
+  </insert>
+  
+  <insert id="insertOrderProduct" parameterType="op">
+  		INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL, #{orderNo}, #{bidNo}, #{productPrice}, #{productAmount})
+  </insert>
+  
+  <select id="selectEndAuction" resultType="a">
+  		SELECT PROJECT_NO AS projectNo,
+  		AUCTION_AMOUNT AS auctionAmount
+  		FROM AUCTION_TBL WHERE SYSDATE>AUCTION_END AND AUCTION_CLOSE=0
+  </select>
+  
+  <update id="updateAuctionStatus" parameterType="a">
+  		UPDATE AUCTION_TBL SET AUCTION_CLOSE=1 WHERE PROJECT_NO=#{projectNo}
+  		<selectKey resultType="int" order="AFTER" keyProperty="bidCount">
+  			SELECT BID_NO as bidCount FROM BID_TBL WHERE PROJECT_NO = #{projectNo} AND BID_SUCCESS=1
+  		</selectKey>
+  </update>
+  
+  <update id="updateOrderStatus" parameterType="int">
+  	UPDATE ORDER_TBL SET ORDER_STATUS=4
+  		WHERE ORDER_NO = (
+				SELECT ORDER_NO FROM ORDER_PRODUCT WHERE OPTION_NO= #{bidCount})
+  </update>
 </mapper>

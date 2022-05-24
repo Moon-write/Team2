@@ -5,137 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	#content-wrap{
-		width: 1200px;
-		margin: 0 auto;
-	}
-	.content-head{
-		text-align: center;
-	}
-	.content-title{
-		background-image: url(/resources/img/group/banner.jpg);
-		margin-top: 30px;
-		height: 312px;
-		border-radius: 20px;
-		position: relative;
-		display: flex;
-		align-items: center; 
-  		flex-direction: row; 
- 		justify-content: center; 
-	}
-	.title-txt{ 
-		margin: auto;
-		padding: 10px;
-		border-radius: 20px;
-		position:absolute;
-		width: 1000px;
-		text-align: center;
-		font-size: 35px;
-		color: white; 
-		background-color: rgba(39, 39, 39, 0.425);
-		animation-name: up;
-		animation-duration: 1.5s;
-		animation-fill-mode: forwards;
-		animation-direction:alternate;
-	}
-	@keyframes up {
-  	from {
-		opacity: 0;  
-		transform: translateY(10%);
-	}
- 	 to {
-		opacity: 3;  
-		transform: translateY(30%);
-	}
-	}	
-	.content-category{
-		margin-top: 20px;
-		align-items: center; 
-  		flex-direction: row; 
- 		justify-content: center; 
-		display: flex;
-	}
-	.category {
-		margin-left: 30px;
-	}
-	.category a {
-		color: #191F28;
-		text-decoration: none;
-	}
-	.category a:hover {
-		color: #191F28;
-		font-weight: 600;
-	}
-	.cate-img {
-		margin: 0 auto;
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		background-color: black;
-	}
-	.category-txt{
-		margin-top: 5px;
-		font-size: 13px;
-	}
-	
-	.content-body{
-		width: 1000px;
-		margin: 0 auto;
-		padding-top: 20px;
-	}
-	.content-due{
-		padding-bottom: 20px;
-		border-bottom: 1px solid #ccc;
-	}
-	.due-title>span{
-		vertical-align: center;
-	}
-	.title{
-		font-size: 25px;
-		font-weight: bold;
-	}
-	.sub {
-		font-size: 15px;
-	}
-	.due-wrap {
-		display:grid;
-		grid-template-columns: 300px 300px 300px;
-		align-items : center;
-  		flex-direction: row; 
- 		justify-content: center; 
-	}
-	.project1{
-		width: 300px;
-		margin: 15px;
-	}
-	.project1>*{
-		margin: 10px;
-		background-color: bisque;
-	}
-	.prj-img{
-		height: 100px;
-		background-color: aqua;
-	}
-	.content-bar {
-		margin-top: 20px;
-		padding-bottom: 10px;
-		vertical-align: baseline;
-	}
-	.array-list{
-		padding-top: 10px;
-		float: right;
-		display: block;
-	}
-	.content-list-wrap{
-		display:grid;
-		grid-template-columns: 300px 300px 300px;
-		align-items : center;
-  		flex-direction: row; 
- 		justify-content: center; 
-	}
-  
-</style>
+<link rel="stylesheet" href="../../../resources/css/group/groupMain.css">
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -159,9 +29,9 @@
 					<span class="sub">참여기간이 얼마 남지 않았어요!</span>
 				</div>
 				<div class="due-wrap">
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">제주산 당근씨오일</div><div class="prj-caption">냄새를 참으면 강력한 보습효과를 맛볼 수 있어요</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
 				</div>
 			</div>
 			<div class="content-main">
@@ -179,15 +49,14 @@
 					</span>
 				</div>
 				<div class="content-list-wrap">
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
-					<div class="project1"><div class="prj-img">이미지</div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date">1일 남음</div></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
+					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
 					   
 				</div>
 			

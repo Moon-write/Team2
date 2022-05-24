@@ -552,6 +552,7 @@
 							$("table#bid-rank>tbody").append(row);
 						}						
 						$("span#bestPrice").text(list[0].bidPrice);
+						$("div#bidding-modal input[name=bidPrice]").val(list[0].bidPrice);
 					}					
 				}
 			})

@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <style>
-    	div.msg-banner{
+    	div.msg-banner>span{
     		font-family: ns-light;
     	}
+		div.msg-banner>span>a{
+			text-decoration: none;
+			color: white;
+		}
     </style>
 <input type="hidden" value="${msg }" id="msgAlert">
 <input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
@@ -33,25 +37,29 @@
 		ws.onclose = onClose;
 				
 		memberNo = $("#memberNo").val();
-		if(memberNo!=""){
-			console.log(memberNo);
+		setTimeout(function(){
+			
+			if(memberNo!=""){
 			const data = {
 				type : "login",
 				memberNo : memberNo
 			};
 			ws.send(JSON.stringify(data));
-
-		};
+			};	
+		},1000);
 
 	})
 
 	function onOpen(){
-		console.log("접속");
 	}
 	function receiveMsg(msg){
-		console.log(msg.data);
-		if(msg.data=="drop"){
-			$("div.msg-banner>span:first-child").text("회원님의 입찰이 추월당했어요! 놓치지 마세요!");
+		let result = msg.data.split("/");
+		console.log(result[1]);
+		if(result[0] =="drop"){
+			const link = $("<a>");
+			link.attr("href","/auctionView.kh?projectNo="+result[1]);
+			link.text("회원님의 입찰이 추월당했어요! 놓치지 마세요! 보러가기>>");
+			$("div.msg-banner>span:first-child").html(link);
 			$("div.msg-banner").slideDown();
 		}else if(msg.data=="success"){
 			$("div.msg-banner>span:first-child").text("입찰이 완료됐습니다!");
@@ -60,12 +68,12 @@
 		}else if(msg.data=="error"){
 			$("div.msg-banner>span:first-child").text("입찰에 실패했습니다! 마감기한이 지난 경매는 참여할 수 없어요!");
 			$("div.msg-banner").slideDown();
-		}else if(msg.data==$("input#projectNo").val()){
+		}else if(result[0]=="update"&&result[1]==$("input#projectNo").val()){
 			bidUpdate();
 		}
+		
 	}
 	function onClose(){
-		console.log("접속해제");
 	}
 
 </script>

@@ -15,6 +15,8 @@ import com.google.gson.JsonParser;
 import kr.or.auction.model.dao.AuctionDao;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 
 public class BidHandler extends TextWebSocketHandler {
 	// 접속한 회원 목록 저장용 리스트 (로그인 안해도 무조건 저장)
@@ -53,7 +55,6 @@ public class BidHandler extends TextWebSocketHandler {
 			// 로그인할 경우 해시맵에 연동
 			int memberNo = element.getAsJsonObject().get("memberNo").getAsInt();
 			memberList.put(memberNo, session);
-			System.out.println("로그인!"+memberNo);
 		}else if(type.equals("bid")) {
 			// 입찰할 경우 데이터 꺼내서 dao에 연결
 			Bid b = new Bid();
@@ -82,14 +83,16 @@ public class BidHandler extends TextWebSocketHandler {
 						
 						// 정보가 있을때 (세션이 로그인중일때)
 						if(s!=null) {
-							TextMessage tmOther = new TextMessage("drop"); // 탈락이라는 메세지 작성
+							String msg = "drop/"+b.getProjectNo();
+							TextMessage tmOther = new TextMessage(msg); // 탈락이라는 메세지 작성
+							
 							s.sendMessage(tmOther);
 						}
 					}					
 				}	
 				// 그외 접속중인 모든 사람들에게 입찰내역 변동 메세지를 보냄
 				for(WebSocketSession enterSession : sessionList) {
-					TextMessage tmNo = new TextMessage(String.valueOf(b.getProjectNo())); // projectNo 전송
+					TextMessage tmNo = new TextMessage("update/"+String.valueOf(b.getProjectNo())); // projectNo 전송
 					enterSession.sendMessage(tmNo);
 				}
 			}			
@@ -109,6 +112,15 @@ public class BidHandler extends TextWebSocketHandler {
 		// 시간이 남았을때만(양수일때만 입찰가능)
 		if(result>0) {
 			result = dao.insertBid(b);
+			if(result>0) {
+				// 입찰 성공시 주문내역 생성
+				result = insertOrder(b);
+				
+			}else {
+				// 입찰 실패시 return
+				
+			}
+			
 		}else {
 			return null;
 		}
@@ -151,6 +163,34 @@ public class BidHandler extends TextWebSocketHandler {
 		return notifyMemberList;
 	}
 	
+	private int insertOrder(Bid b) {
+		Auction a = dao.selectAuction(b.getProjectNo());
+		
+		Order o = new Order();
+		o.setDivNo(4);
+		o.setMemberNo(b.getMemberNo());
+		o.setOrderPrice(b.getBidPrice()*b.getBidAmount());
+		o.setProjectNo(b.getProjectNo());
+		o.setSellerNo(a.getMemberNo());
+		
+		int result = dao.insertOrder(o);
+		
+		if(result>0) {
+			OrderProduct op = new OrderProduct();
+			op.setOrderNo(o.getOrderNo());
+			op.setProductAmount(b.getBidAmount());
+			op.setProductPrice(b.getBidPrice());
+			op.setOptionNo(b.getBidNo());
+			
+			result = dao.insertOrderProduct(op);
+			
+			if(result<0) return -3;
+		}else {
+			return -3;
+		}		
+		return result;
+	}
+
 	public int updateBidRank(Bid bid, int successRange){
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("bidNo",bid.getBidNo());
