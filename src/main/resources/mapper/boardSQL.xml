@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="board">
+  	<select id="selectCommentList" parameterType="map" resultType="c">
+		select * from 
+		(select rownum as rnum, c.* from 
+		(select
+			*
+		from comment_tbl order by comment_no desc)c) 
+		where rnum between #{start} and ${end};  		
+  	</select>
+  	<select id="selectTotalCount" resultType="int">
+  		select (*) 
+  		<if test="div_no eq 1">
+  			 from comment_tbl
+  		</if>
+  		<if test="div_no eq 2">
+  			 from like_tbl
+  		</if>
+  		<if test="div_no eq 3">
+  			 from qna_tbl
+  		</if>
+  		<if test="div_no eq 4">
+  			 from order_tbl
+  		</if>
+  	</select>
+</mapper>

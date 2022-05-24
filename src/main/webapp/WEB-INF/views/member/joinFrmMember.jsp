@@ -192,6 +192,12 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="2"><input type="password" name="memberPwRe" class="input-form"></td>
+						<td colspan="2">
+							<select name="gender" class="input-form">
+								<option value="male">남성</option>
+								<option value="female">여성</option>
+							</select>
+						</td>
 					</tr>
 					<tr class="form-input">
 						<td colspan="2"><input type="submit" class="bc1 bs4" id="join-submit" value="가입하기"></td>
