@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>펀딩상품 등록</title>
 
 <style>
 .main{
@@ -43,7 +43,7 @@
 }
 
 .detail-information{
-    height: 1000px;
+
     width: 200px;
     float: left;
 }
@@ -56,7 +56,6 @@
 }
 .input-detail{
     width: 1000px;
-    height: 500px;
     background-color: blueviolet;
     float: left;
 }
@@ -82,126 +81,136 @@ table{
      border-spacing: 10px 10px;
 }
 
+.main-img-div{
+	width:100px;
+	height:100px;
+	border: 1px solid black;
+}
+.main-imgView{
+	width:100px;
+	height:100px;
+	background-color: crimson;
+}
+.input-file-button{
+    width: 100px;
+    height: 100px;
+}
+.insert-button{
+	margin: 20px 0;
+}
 
 	
 </style>
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
+<script src="/resources/js/summernote-lite.js"></script>
+<script src="/resources/js/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="/resources/css/summernote-lite.css">
 	<div class="main">
-        <h1>펀딩상품 등록</h1>
-        <hr>
-        <div class="basic-information"><span>기본정보</span></div>
-        <div class="input-value">
-            <div class="funding-basic">
-                 <table>
-                    <tr>
-                        <th>상품명</th><td><input type="text" class="input-form" name="fundingName" type="text"></td>
-                    </tr>
-                    <tr>
-                        <th>회사명</th><td><input type="text" class="input-form" name="bizName" type="text" value="bizName"></td>
-                    </tr>
-                    <tr>
-                        <th>카테고리</th>
-                        <td><select class="input-form" name="fundingCategory">
-                            <option>카테고리 선택</option>
-                            <option value="테크가전">테크가전</option>
-                            <option value="식품">식품</option>
-                            <option value="패션잡화">패션잡화</option>
-                            <option value="뷰티">뷰티</option>
-                            <option value="홈리빙">홈리빙</option>
-                        </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>옵션명 개수</th><td>
-                            <select class="input-form" id="fundingOptionCount" name="fundingOptionCount">
-                                <option value="1">1개</option>
-                                <option	value="2">2개</option>
-                                <option value="3">3개</option>
-                            </select>
-                        </td>
-                    </tr>    
-                </table>
-            </div>
-			
-            <div class="option-table">
-                <table>
-                	<tbody>                	
+		<form action="" method="post" enctype="multipart/form-data">
+	        <h1>펀딩상품 등록</h1>
+	        <hr>
+	        <div class="basic-information"><span>기본정보</span></div>
+	        <div class="input-value">
+	            <div class="funding-basic">
+	                <table>
 	                    <tr>
-	                        <th><label for="fundingOptionName">옵션명</label></th><th><label for="fundingOptionValue">옵션값</label></th>
+	                        <th>상품명</th><td><input type="text" class="input-form" name="fundingName" type="text"></td>
 	                    </tr>
-	                    <tr id="option-table-tr">
-	                        <td><input type="text" class="input-form" name="fundingOptionName" placeholder="색상"></td>
-	                        <td><input type="text" class="input-form" name="fundingOptionValue" placeholder="블랙,화이트(,로 구분)"></td>
+	                    <tr>
+	                        <th>회사명</th><td><input type="text" class="input-form" name="bizName" type="text" value="bizName"></td>
 	                    </tr>
-                	</tbody>
-                </table>
-                <button class="option-category btn bc1">옵션목록으로 적용</button>
-            </div>
-
-            <div>
-                <table border="1">
-                    <tr>
-                        <th>옵션명</th><th>옵션명2</th><th>옵션명3</th><th>가격(원)</th>
-                    </tr>
-                    <tr>
-                        <td>블랙</td><td>s</td><td>200g</td><td>120000</td>
-                    </tr>
-                    <tr>
-                        <td>화이트</td><td>s</td><td>200g</td><td>120000</td>
-                    </tr>
-                    <tr>
-                        <td>블랙</td><td>s</td><td>200g</td><td>120000</td>
-                    </tr>
-                </table>
-            </div>
-
-            <div>
-                <div class="main-img"><img></div>
-                <div class="sub-img"><img></div>
-                <div class="sub-img"><img></div>
-                <div class="sub-img"><img></div>
-                <div class="sub-img"><img></div>
-            </div>
-
-            <div class="funding-end-table">
-                <table>
-                    <tr>
-                        <th>펀딩 종료일</th><td><input type="text" class="input-form" name="fundingEndDate" value="1993년"></td><td><input class="input-form" value="9월"></td><td><input class="input-form" value="9일"></td>
-                    </tr>
-                    <tr><td><br></td></tr>
-                    <tr>
-                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" value="124567890"></td><td>원</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <hr>
-        <div class="detail-information"><span>상세정보</span></div>
-        <div class="input-detail">
-            <div class="summernote">
-                <textarea placeholder="써머노트" style="resize: none;"></textarea>
-            </div>
-        </div>
-        <button type="submit" class="btn bc1">등록하기</button>
-        <button type="button" class="btn bc11">취소하기</button>
-        <button type="button" class="btn bc2">미리보기(시간나면)</button>
+	                    <tr>
+	                        <th>카테고리</th>
+	                        <td><select class="input-form" name="fundingCategory">
+	                            <option>카테고리 선택</option>
+	                            <option value="테크가전">테크가전</option>
+	                            <option value="식품">식품</option>
+	                            <option value="패션잡화">패션잡화</option>
+	                            <option value="뷰티">뷰티</option>
+	                            <option value="홈리빙">홈리빙</option>
+	                        </select>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <th>옵션명 개수</th><td>
+	                            <select class="input-form" id="fundingOptionCount" name="fundingOptionCount">
+	                                <option value="1">1개</option>
+	                                <option	value="2">2개</option>
+	                                <option value="3">3개</option>
+	                            </select>
+	                        </td>
+	                    </tr>    
+	                </table>
+	            </div>
+				
+	            <div class="option-table">
+	                <table>
+	                	<tbody>                	
+		                    <tr>
+		                        <th>옵션명</th><th>옵션값</th>
+		                    </tr>
+		                    <tr id="option-table-tr">
+		                        <td><input type="text" class="input-form" name="fundingOptionName" placeholder="사이즈"></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionValue" placeholder="M,L(,로 구분)"></td>
+		                    </tr>
+	                	</tbody>
+	                </table>
+	                <button type="button" class="option-category btn bc1">옵션목록으로 적용</button>
+	            </div>
+	
+	            <div class="optionListPrice">
+	                <table border="1">
+	                    <tr id="optionListPrice-table-tr">
+	                        <th>옵션명</th><th>가격(원)</th>
+	                    </tr>
+	                </table>
+	            </div>
+	
+	            <div>
+	                <div class="main-img">
+						<input type="file" name="fundingFilepath" multiple>
+					</div>
+	                <div class="sub-img"><img></div>
+	                <div class="sub-img"><img></div>
+	                <div class="sub-img"><img></div>
+	                <div class="sub-img"><img></div>
+	            </div>
+	
+	            <div class="funding-end-table">
+	                <table>
+	                    <tr>
+	                        <th>펀딩 종료일</th><td><input type="text" class="input-form" name="fundingEndDate" value="1993년"></td><td><input class="input-form" value="9월"></td><td><input class="input-form" value="9일"></td>
+	                    </tr>
+	                    <tr><td><br></td></tr>
+	                    <tr>
+	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" placeholder="124567890"></td><td>원</td>
+	                    </tr>
+	                </table>
+	            </div>
+	        </div>
+	
+	        <hr>
+	        <div class="detail-information"><span>상세정보</span></div>
+	        <div class="input-detail">
+	            <div class="summernote-detail">
+	                <textarea id="summernote" name="fundingDetail"></textarea>
+	            </div>
+	            <div class="insert-button">
+			        <input type="submit" class="btn bc1" value="등록하기">
+			        <input type="button" class="btn bc11" value="취소하기">
+			        <input type="button" class="btn bc2" value="미리보기(시간나면)">
+		        </div>
+	        </div>
+	    </form>
     </div>    
 <%@include file="/WEB-INF/views/common/footer.jsp" %>	
 
-<style>
-    .input-form{
-        height: 40px;
-        padding: 0;
-        margin: 0;
-        padding-left: 10px;
-        font-size: 15px;
-    }
-</style>
-<!-- <th><input type="text" class="input-form" name="fundingOptionName" value="맛"></th><th><input type="text" class="input-form" name="fundingOptionValue" value="블랙,화이트(,로 구분)"></th>  -->
+
+
 <script>
+	//옵션셀렉트 선택시 옵션 추가
 	$(function(){
 		$("#fundingOptionCount").on("change",function(){
 			const tr = $("#option-table-tr");
@@ -217,8 +226,8 @@ table{
 			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","색상");
 			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","블랙,화이트(,로 구분)");
 			
-			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","색상");
-			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","블랙,화이트(,로 구분)");
+			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","맛");
+			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","딸기,포도(,로 구분)");
 				
 			add.remove();
 			
@@ -230,18 +239,164 @@ table{
 				tr.after(titleTr);	
 			}
 			if($("#fundingOptionCount").val()==3){
+				optionNameTd2.append(inputName2);
+				optionValueTd2.append(inputValue2);
+				titleTr2.append(optionNameTd2).append(optionValueTd2);
+				tr.after(titleTr2);
 				optionNameTd.append(inputName);
 				optionValueTd.append(inputValue);
 				titleTr.append(optionNameTd).append(optionValueTd);
 				tr.after(titleTr);
 				
-				optionNameTd2.append(inputName2);
-				optionValueTd2.append(inputValue2);
-				titleTr2.append(optionNameTd2).append(optionValueTd2);
-				tr.after(titleTr2);
 			}
 		});
-	});	
-</script>	
+	});
+
+	 //써머노트
+	 $("#summernote").summernote({
+		height:400,
+		lang : "ko-KR",
+		callbacks:{//이미지 올릴 때 데이터베이스에 아작스 이용해서 업로드
+			onImageUpload : function(files){ //이미지가 업로드 되면 files에 들어옴
+				uploadImage(files[0],this); //그 이미지를 이 함수를 통해 처리한다.
+			}
+		}
+	 });
+	 function uploadImage(file,editor){ //editor는 위에 this
+		 //ajax를통해 서버에 이미지를 업로드하고 업로드경로를 받아옴
+		 //form태그와 동일한 효과를 내는 formData개체 새성
+		 const form = new FormData();
+		 form.append("file",file);//"file"이라는 네임으로 file을 전송
+		 $.ajax({
+			 url : "업로드할곳",
+			 type: "post",
+			 data : form,
+			 processData : false,  //아작스로 파일업로드 하려면 꼭 필요
+			 contentType : false,  //아작스로 파일업로드 하려면 꼭 필요
+			 success : function(data){
+					//결과로 받은 이미지파일 경로를 에디터에 추가
+					$(editor).summernote("insertImage",data);
+			 }
+		 });
+		 //processData : 기본값 true {key1:value1, key2:value2}
+		 //  ->>기본 strig 데이터로 보내야하는데 파일형태로 전송하기 위해서 false사용해서 기본값 제거
+		 //contentType : 기본값 "application/x-www-form-urlencoded;charset=UTF-8"
+		 //->form 태그 전송시 enctype의 기본값임
+		 //			->enctype="multipart/form-data"로 설정하기 위해 기본값을 제거 그럼 자동으로 폼데이타로 변경
+		}
+	 
+	 //옵션목록으로 적용
+	$(function(){
+	 $(".option-category").on("click",function(){
+		 var fundingOptionNameArr = new Array();
+		 var fundingOptionValueArr = new Array();
+		 console.log("배열의길이 : "+$("[name=fundingOptionName]").length)//배열의길이 
+		 
+		 
+		/*  $("[name=fundingOptionName]").each(function(index, item){
+			 fundingOptionNameArr.push($(item).val());
+		   }); */
+		 
+		 $.each($("[name=fundingOptionName]"),function(index,item){
+			 fundingOptionNameArr.push($(item).val());
+		 });
+		  $.each($("[name=fundingOptionValue]"),function(index,item){
+			 fundingOptionValueArr.push($(item).val());
+		 });
+			
+	/* 	 for(var i=0; i<$("[name=fundingOptionName]").length;i++){
+				// fundingOptionNameArr = $("[name=fundingOptionName]").eq(i).val();
+				// fundingOptionNameArr.push($("[name=fundingOptionName]").eq(i).val());
+				 console.log($("[name=fundingOptionName]").eq(i).val());
+				 console.log($("[name=fundingOptionValue]").eq(i).val());
+			 } */
+		 console.log(fundingOptionNameArr);
+		 console.log(fundingOptionValueArr);
+		/*  for(var i=0; i<$("[name=fundingOptionName]").length;i++){
+			// fundingOptionNameArr = $("[name=fundingOptionName]").eq(i).val();
+			// fundingOptionNameArr.push($("[name=fundingOptionName]").eq(i).val());
+			 console.log($("[name=fundingOptionName]").eq(i).val());
+		 }
+		 console.log(fundingOptionNameArr)
+		 
+		 for(var i=0; i<$("[name=fundingOptionValue]").length;i++){
+			 //fundingOptionValueArr = $("[name=fundingOptionValue]").eq(i).val();
+			 fundingOptionValueArr.push($("[name=fundingOptionValue]").eq(i).val());
+		 }
+		 console.log(fundingOptionValueArr) */
+			
+			
+			
+		 $.ajax({
+			url : "/optionCategoryAjax.kh",
+			type : "get",
+			data : {fundingOptionNameArr:fundingOptionNameArr,fundingOptionValueArr:fundingOptionValueArr},
+			success : function(data){
+				alert("성공이요");
+				const trPrice = $("#optionListPrice-table-tr");
+				const addPrice = $(".addPrice");
+				for(let i=0; i<data.length; i++){//쿼리에선 let..
+				const titleTrPrice = $("<tr>").attr("class","addPrice");
+				const optionList = $("<td>");
+				const inputOptionList=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionList").attr("value",data[i]);
+				optionList.append(inputOptionList);
+				
+				const optionListPrice = $("<td>");
+				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionPrice").attr("placeholder","10000");
+				optionListPrice.append(inputOptionListPrice);
+				
+				titleTrPrice.append(optionList).append(optionListPrice);
+				trPrice.after(titleTrPrice);
+				console.log("컨트롤러에서 보내준 데이터 : "+data[i]);
+				}
+				
+				/* const optionList = $("<td>");
+				const optionListPrice = $("<td>");				
+				const inputOptionList=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionList");
+				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionListPrice").attr("placeholder","10000"); 
+				
+				
+				for(let i=0; i<data.length; i++){//쿼리에선 let..
+				optionList.append(inputOptionList);
+				optionList.attr("value",data[i]);
+				optionListPrice.append(inputOptionListPrice);
+				titleTrPrice.append(optionList).append(optionListPrice);
+				trPrice.after(titleTrPrice);	
+				
+				
+
+					const table = ${"result>table"};
+					table.empty();
+					const titleTr = $("<tr>");
+					titleTr.append("<th>번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>전화번호</th><th>이메일</th>");
+					table.append(titleTr);
+					for(let i=0;i<data.length;i++){
+						const tr = $("<tr>");
+						tr.append("<td>"+data[i].memberNo+"</td>");
+						tr.append("<td>"+data[i].memberIo+"</td>");
+						tr.append("<td>"+data[i].memberPw+"</td>");
+						tr.append("<td>"+data[i].memberName+"</td>");
+						tr.append("<td>"+data[i].phone+"</td>");
+						tr.append("<td>"+data[i].email+"</td>");
+						table.append(tr);
+				} */
+				
+			},
+			error : function(data){
+				alert("에러에요");
+			}			 
+		 });
+	 });		
+	}); 
+</script>
+<style>
+    .input-form{
+        height: 40px;
+        padding: 0;
+        margin: 0;
+        padding-left: 10px;
+        font-size: 15px;
+    }
+</style>	
 </body>
 </html>
