@@ -1,7 +1,5 @@
 package kr.or.auction.model.vo;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +16,9 @@ public class Bid {
 	private String bidMsg;
 	private String bidDate;
 	private int bidSuccess;
+	private int orderNo;
 	
 	// 추가정보
 	private String memberName;
+	
 }

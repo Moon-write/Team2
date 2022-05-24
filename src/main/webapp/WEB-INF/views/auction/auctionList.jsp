@@ -79,6 +79,22 @@
 		width: 50px;
 		padding: 0px;
 	}
+	label.btn.left{
+		margin-left: 5px;
+		height: 30px;
+		padding: 0px 5px;
+		line-height: 30px;
+		border-top-right-radius: 0px;
+		border-bottom-right-radius: 0px ;
+	}
+	label.btn.right{
+		margin-right: 5px;
+		height: 30px;
+		padding: 0px 5px;
+		line-height: 30px;
+		border-top-left-radius: 0px;
+		border-bottom-left-radius: 0px ;
+	}
 	#searchBtn>span{
 		margin-top: 2px;
 	}
@@ -175,7 +191,10 @@
 			<div class="page-title">전체 경매상품</div>
 			<div class="auctionList-wrap">
 				<div class="array-wrap">
-					<input type="checkbox" id="endItem"<c:if test="${endFlag eq 1}">checked</c:if>><label for="endItem">종료 프로젝트 제외하기</label>
+					<input type="checkbox" id="startItem" style="display: none;" <c:if test="${startFlag eq 1}">checked</c:if>>
+					<label for="startItem" class="btn bc11 left">오픈 전 프로젝트 제외</label>
+					<input type="checkbox" id="endItem" style="display: none;" <c:if test="${endFlag eq 1}">checked</c:if>>
+					<label for="endItem" class="btn bc11 right">종료 프로젝트 제외</label>
 					<select id="listArray" class="input-form">
 						<option value="1" <c:if test='${order eq 1}'>selected="selected"</c:if>>최근등록순</option>
 						<option value="2" <c:if test='${order eq 2}'>selected="selected"</c:if>>마감임박순</option>
@@ -292,7 +311,17 @@
 	<script type="text/javascript">
 		// 기본셋팅
 		$(function(){
+			if($("input#startItem").prop("checked")==true){
+				$("label.left").toggleClass("bc11").toggleClass("bc2");
+			}
+			if($("input#endItem").prop("checked")==true){
+				$("label.right").toggleClass("bc11").toggleClass("bc2");
+			}
+
 			$("input#endItem").on("click",function(){
+				keywordLink();	
+			})
+			$("input#startItem").on("click",function(){
 				keywordLink();	
 			})
 
@@ -301,17 +330,23 @@
 			})
 			$("button#searchBtn").on("click",function(){
 				keywordLink();
-			})
-			
+			})			
 		})
+
+
+
 		function keywordLink(){
+			let endFlag = 0;
+			let startFlag =0;
+
 			if($("input#endItem").prop("checked")==true){
-					// 종료프로젝트 제외
-					location.href = "/auctionList.kh?endFlag=1&searchKeyword="+$("input#listSearch").val()+"&order="+$("select#listArray").val()+"&reqPage=1";
-				}else{
-					// 종료프로젝트 해제
-					location.href = "/auctionList.kh?endFlag=0&searchKeyword="+$("input#listSearch").val()+"&order="+$("select#listArray").val()+"&reqPage=1";
-				}
+				endFlag = 1;
+			}
+			if($("input#startItem").prop("checked")==true){
+				startFlag = 1;
+			}
+			// 종료프로젝트 제외
+			location.href = "/auctionList.kh?startFlag="+startFlag+"&endFlag="+endFlag+"&searchKeyword="+$("input#listSearch").val()+"&order="+$("select#listArray").val()+"&reqPage=1";
 		}
 
 		$(document).on("click","span.likeB",function(){

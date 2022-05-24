@@ -28,8 +28,11 @@
   		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
   		
   		<trim prefix="WHERE" prefixOverrides="AND">
+  		  	<if test="startFlag==1">
+		  		<![CDATA[SYSDATE>AUCTION_START]]>  			
+  			</if>
   			<if test="endFlag==1">
-		  		<![CDATA[LASTDAY>=0]]>  			
+		  		AND <![CDATA[LASTDAY>=0]]>  			
   			</if>
   			<if test="!keyword.equals('')">
 		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
@@ -78,11 +81,14 @@
   
   <insert id="insertBid" parameterType="bid">
   	INSERT INTO BID_TBL VALUES(
-  		BID_SEQ.NEXTVAL, #{projectNo}, #{memberNo}, #{bidAmount}, #{bidPrice}, #{bidMsg}, SYSDATE, 1
+  		BID_SEQ.NEXTVAL, #{projectNo}, #{memberNo}, #{bidAmount}, #{bidPrice}, #{bidMsg}, SYSDATE, 1, #{orderNo}
   	)  	
+  		<selectKey resultType="int" order="AFTER" keyProperty="bidNo">
+  			SELECT BID_NO FROM (SELECT * FROM BID_TBL ORDER BY BID_DATE DESC ) WHERE ROWNUM=1
+  		</selectKey>
   </insert>
   
-  <select id="checkEndTime" parameterType="int" resultType="int">
+  <select id="checkEndTime" parameterType="int" resultType="float">
   	SELECT AUCTION_END-SYSDATE FROM AUCTION_TBL WHERE PROJECT_NO=#{projectNo}
   </select>
   
@@ -152,8 +158,11 @@
   <select id="checkPageCount" parameterType="map" resultType="int">
   		SELECT COUNT(*) FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) 
    		<trim prefix="WHERE" prefixOverrides="AND">
+   			<if test="startFlag==1">
+   				<![CDATA[SYSDATE>AUCTION_START]]>  
+   			</if>
   			<if test="endFlag==1">
-		  		<![CDATA[LASTDAY>=0]]>  			
+		  		AND <![CDATA[LASTDAY>=0]]>  			
   			</if>
   			<if test="!keyword.equals('')">
 		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
@@ -203,8 +212,11 @@
 				JOIN LASTTIME USING(PROJECT_NO)
 				
 		<trim prefix="WHERE" prefixOverrides="AND">
+		  	<if test="startFlag==1">
+		  		<![CDATA[SYSDATE>AUCTION_START]]>  			
+  			</if>
   			<if test="endFlag==1">
-		  		<![CDATA[LASTDAY>=0]]>  			
+		  		AND <![CDATA[LASTDAY>=0]]>  			
   			</if>
   			<if test="!keyword.equals('')">
 		  		AND (PROJECT_NAME LIKE '%'||#{keyword}||'%' OR AUCTION_ITEM LIKE '%'||#{keyword}||'%')  			
@@ -215,14 +227,14 @@
   </select>
   
   <insert id="insertOrder" parameterType="o">
-  		INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL, 4, #{projectNo}, #{memberNo}, #{sellerNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MM:SS'), #{orderPrice}, 0, '','','','','','',3)
+  		INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL, 4, #{projectNo}, #{memberNo}, #{sellerNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), #{orderPrice}, 0, '','','','','','',3)
   		<selectKey resultType="int" order="AFTER" keyProperty="orderNo">
-  			SELECT * FROM (SELECT ORDER_NO FROM ORDER_TBL ORDER BY ORDER_DATE DESC) WHERE ROWNUM=1
+  			SELECT * FROM (SELECT ORDER_NO FROM ORDER_TBL WHERE DIV_NO=4 ORDER BY ORDER_DATE DESC) WHERE ROWNUM=1
   		</selectKey>
   </insert>
   
   <insert id="insertOrderProduct" parameterType="op">
-  		INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL, #{orderNo}, #{bidNo}, #{productPrice}, #{productAmount})
+  		INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL, #{orderNo}, #{optionNo}, #{productPrice}, #{productAmount})
   </insert>
   
   <select id="selectEndAuction" resultType="a">
@@ -233,14 +245,22 @@
   
   <update id="updateAuctionStatus" parameterType="a">
   		UPDATE AUCTION_TBL SET AUCTION_CLOSE=1 WHERE PROJECT_NO=#{projectNo}
-  		<selectKey resultType="int" order="AFTER" keyProperty="bidCount">
-  			SELECT BID_NO as bidCount FROM BID_TBL WHERE PROJECT_NO = #{projectNo} AND BID_SUCCESS=1
-  		</selectKey>
   </update>
   
-  <update id="updateOrderStatus" parameterType="int">
-  	UPDATE ORDER_TBL SET ORDER_STATUS=4
-  		WHERE ORDER_NO = (
-				SELECT ORDER_NO FROM ORDER_PRODUCT WHERE OPTION_NO= #{bidCount})
+   <update id="updateOrderStatus" parameterType="bid">			
+	 	UPDATE ORDER_TBL SET ORDER_STATUS=4, ORDER_PRICE= #{bidPrice}*#{bidAmount} WHERE ORDER_NO = #{orderNo}
+	</update>
+  
+  <select id="getSuccessBidList" parameterType="a" resultType="bid">
+  	SELECT BID_NO AS bidNo,
+  		MEMBER_NO AS memberNo,
+  		BID_AMOUNT AS bidAmount,
+  		BID_PRICE AS bidPrice,
+  		BID_SUCCESS AS bidSuccess,
+  		ORDER_NO AS orderNo FROM BID_TBL WHERE PROJECT_NO=#{projectNo} AND BID_SUCCESS IN (1,2) ORDER BY BID_PRICE DESC, BID_DATE
+  </select>
+  
+  <update id="updateOrderAmount" parameterType="bid">
+  	UPDATE ORDER_PRODUCT SET PRODUCT_AMOUNT = #{bidAmount} WHERE ORDER_NO = #{orderNo}
   </update>
 </mapper>

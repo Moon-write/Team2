@@ -373,6 +373,7 @@
 								projectNo : projectNo,
 								memberNo : memberNo
 							};
+							console.log(data);
 							ws.send(JSON.stringify(data));
 							$("#bidding-modal").css("display","none");
 							$("input[name=bidMsg]").val("");		
