@@ -49,9 +49,10 @@ public class DonationController {
 		} else {
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/donation/");
 			String filename = upfile.getOriginalFilename();
-
+			String filepath = fileIo(upfile, savePath);
+			
 			d.setDonationImgname(filename);
-			d.setDonationImgpath(savePath);
+			d.setDonationImgpath(filepath);
 			d.setMemberNo(m.getMemberNo());
 
 			int result = service.insertDonation(d);
