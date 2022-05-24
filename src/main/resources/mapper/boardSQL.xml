@@ -11,17 +11,19 @@
   	</select>
   	<select id="selectTotalCount" resultType="int">
   		select (*) 
-  		<if test="div_no eq 1">
-  			 from comment_tbl
-  		</if>
-  		<if test="div_no eq 2">
-  			 from like_tbl
-  		</if>
-  		<if test="div_no eq 3">
-  			 from qna_tbl
-  		</if>
-  		<if test="div_no eq 4">
-  			 from order_tbl
-  		</if>
+  		<choose>
+	  		<when test="divNo.equals('1')">
+	  			 from comment_tbl
+	  		</when>
+	  		<when test="divNo.equals('2')">
+	  			 from like_tbl
+	  		</when>
+	  		<when test="divNo.equals('3')">
+	  			 from qna_tbl
+	  		</when>
+	  		<when test="divNo.equals('4')">
+	  			 from order_tbl
+	  		</when>
+  		</choose>
   	</select>
 </mapper>

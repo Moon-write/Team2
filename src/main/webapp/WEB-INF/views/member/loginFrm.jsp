@@ -6,6 +6,14 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <style>
+	.page-content-title{
+	display: block;
+	text-align: center;
+	padding-top: 103px;
+	padding-bottom: 50px;
+	font-size: 36px;
+	font-weight: 200;
+	}
 	h1{
 		text-align: center;
 		margin-bottom: 30px;
@@ -14,7 +22,6 @@
 	.input-wrap{
 		width: 450px;
 		margin: 0 auto;
-		margin-top: 75px;
 		padding: 40px;
 		border: 1px solid rgb(167, 167, 167);
 	}
@@ -57,7 +64,7 @@
 		line-height: 60px;
 		border: none;
 		padding: 0;
-		font-size: 25px;
+		font-size: 24px;
 	}
 	.login-p{
 		text-align: center;
@@ -72,18 +79,19 @@
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
-		<span class="login-title">로그인</span>
+		<span class="page-content-title">로그인</span>
 		<br><br>
 		<form action="/login.kh" method="post">
 			<div class=input-wrap>
-				<span class="login-title">로그인</span>
 				<div class="login-input">
 					<input type="text" name="memberId" id="memberId" class="input-form" placeholder="이메일(ID)">
 				</div>
 				<div class="login-input">
 					<input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
 				</div>
-				<div class="login-button"><button type="submit" class="bc1 bs4">로그인하기</button></div>
+				<div class="login-button">
+					<button type="submit" class="bc1 bs4">로그인하기</button>
+				</div>
 			</div>
 		</form>
 		<br><br><br>

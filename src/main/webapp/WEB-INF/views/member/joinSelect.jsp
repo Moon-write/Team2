@@ -7,6 +7,14 @@
 <title>Insert title here</title>
 </head>
 <style>
+.page-content-title{
+	display: block;
+	text-align: center;
+	padding-top: 103px;
+	padding-bottom: 50px;
+	font-size: 36px;
+	font-weight: 200;
+	}
 .index-wrap{
 	width: 565px;
 	padding-top: 20px;
@@ -44,14 +52,18 @@
 .select-wrap{
 	display: flex;
 }
-.select-wrap>.select-member,.select-biz{
+.select-wrap .select-member,.select-biz{
 	flex-grow: 1;
-	border: solid black 1px ;
+	border: solid black 1px;
 	margin: 60px;
 	width: 300px;
 	height: 300px;
 	padding: 30px;
 	text-align: center;
+}
+.select-wrap .select-member,.select-biz:hover{
+	border: solid #1E90FF 5px;
+	cursor: pointer;
 }
 .select-btn-wrap{
 	display: block;
@@ -80,7 +92,7 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<div class="flex-wrap">
-			<span class="page-title">회원가입</span>
+			<span class="page-content-title">회원가입</span>
 			<div class="index-wrap">
 				<ul class= "index">
 					<li class="selected">───<span>1</span>회원선택</li>

@@ -17,14 +17,6 @@ public class BoardService {
 
 	public CommentPageData selectCommentList(int reqPage, int memberNo) {
 		int divNo = 1;
-		/*
-		 * reqPage = 요청페이지
-		 * start/end = 게시글 시작번호 / 끝번호
-		 * totalPage = 총게시글숫자
-		 * pageNaviSize = 페이지 네비 길이
-		 * pageNavi = 페이지 네비
-		 * numPerPage = 페이지당 글자수
-		 */
 		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
 		int numPerPage = 10;
 		int end = reqPage * numPerPage;
@@ -38,16 +30,43 @@ public class BoardService {
 		ArrayList<Comment> commentList = dao.selectCommentList(map);
 		
 		//pageNavi작성
-		//totalCount = 전체게시물 수 / totalPage = 전체 페이지 수 
+		//totalCount = 전체 게시물 수 / totalPage = 전체 페이지 수 
 		int totalCount = dao.selectCommentCount(divNo);
+		int totalPage = 0;
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage + 1;
+		}
 		
+		//pageNaviSize = 페이지 네비 길이 / pageNo = 페이지 번호
+		int pageNaviSize = 10;
+		int pageNo = 1;
 		
-		
-		
-		
-		
-		
-		return null;
+		//pageNavi 생성시작
+		String pageNavi = "";
+		//이전버튼
+		if(pageNo != 1) {
+			pageNavi += "<a href='/commentList.kh?reqPage="+(reqPage-1)+"'></a>";
+		}
+		//페이지번호생성
+		for(int i=0;i<pageNaviSize;i++) {
+			if(pageNo == reqPage) {
+				pageNavi += "<span>"+pageNo+"</span>";
+			}else {
+				pageNavi += "<a href='/commentList.kh?reqPage="+pageNo+"'>"+pageNo+"</a>"; 
+			}
+			pageNo++;
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+		//다음버튼
+		if(pageNo<=totalPage) {
+			pageNavi += "<a href='/boardList.kh?reqPage="+(reqPage+1)+"'></a>";
+		}
+		CommentPageData cpd = new CommentPageData(commentList, pageNavi);
+		return cpd;
 	}
 
 	

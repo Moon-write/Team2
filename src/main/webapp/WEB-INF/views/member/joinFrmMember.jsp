@@ -128,11 +128,14 @@
 					</tr>
 					<tr class="form-input">
 						<td><input type="text" name="memberId" class="input-form"></td>
-						<td><button class="btn bc5 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
+						<td><button class="btn bc1 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
+					</tr>
+					<tr class="form-name">
+						<th colspan="2">이메일 재확인<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요."></td>
-						<td><button class="btn bc5 bs1" id="authBtn" type="button">확인</button></td>
+						<td><button class="btn bc1 bs1" id="authBtn" type="button">확인</button></td>
 					</tr>
 					<tr>
 						<td colspan="2"><span id="timeLimit"></span></td>
@@ -166,15 +169,19 @@
 					</tr>
 					<tr class="form-input">
 						<td><input type="text" id="sample6_postcode" class="input-form" placeholder="우편번호"></td>
-						<td><input class="btn bc2 bs1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"></td><br>
+						<td><button class="btn bc2 bs1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
-						<td><input type="text" id="sample6_address" placeholder="주소"></td><br>
-						<td><input type="text" id="sample6_detailAddress" placeholder="상세주소"></td>
+					<tr class="form-input">
+						<td colspan="2"><input type="text" id="sample6_address" class="input-form" placeholder="주소" readonly></td>
+					</tr>
+					<tr class="form-input">
+						<td colspan="2"><input type="text" id="sample6_detailAddress" class="input-form" placeholder="상세주소" readonly></td>
+					</tr>
 					<tr class="form-name">
 						<th colspan="2">생년월일<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td>
+						<td colspan="2">
 							<div class="form-select-wrap">
 								<select class="birthday-year">
 								</select>
@@ -191,16 +198,15 @@
 						<th colspan="2">성별<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="password" name="memberPwRe" class="input-form"></td>
 						<td colspan="2">
 							<select name="gender" class="input-form">
-								<option value="male">남성</option>
 								<option value="female">여성</option>
+								<option value="male">남성</option>
 							</select>
 						</td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="submit" class="bc1 bs4" id="join-submit" value="가입하기"></td>
+						<td colspan="2"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
 					</tr>
 				</table>
 			</form>
