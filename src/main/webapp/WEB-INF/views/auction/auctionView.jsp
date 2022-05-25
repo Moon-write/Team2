@@ -152,7 +152,12 @@
 		border-top : 1px solid rgb(30,144,255); border-bottom:1px solid rgb(30,144,255);
 	}
 	table#bid-history td{
-		font-family: ns-light
+		font-family: ns-light;
+		font-size : 0.8em;
+	}
+	#history-modal .modal-content{
+		max-height: 500px;
+		overflow: auto;
 	}
 </style>
 </head>
@@ -236,7 +241,7 @@
 						</c:choose>
 						<span id="bestPrice">${auction.bestPrice }</span>원</h1>
 					<div class="info-history">
-						<h4 id="historyBtn">입찰 <span>${auction.bidCount }</span>회 (전체 기록 보기)</h4>
+						<h4 id="historyBtn">입찰 <span id="bidCount"></span>회 (전체 기록 보기)</h4>
 						<table id="bid-rank" class="tbl">
 							<thead>
 								<tr class="tr-2">
@@ -277,7 +282,7 @@
 				<div class="page-title">회원 한마디</div>
 			</div>
 			<div class="auction-direct">
-				<a href="/auctionList.kh" class="btn bc11">목록으로</a>
+				<button class="btn bc11" onclick="gotoback()">목록으로</button>
 			</div>
 		</div>
 		<div id="bidding-modal" class="modal-bg"  style="display: none;">
@@ -512,7 +517,16 @@
 		
 		function bidUpdate(){
 			const projectNo = $("input#projectNo").val();
-			
+			$.ajax({
+				url : "/getBidCount.kh",
+				type : "post",
+				data : {
+					projectNo : projectNo
+				},
+				success : function(data){
+					$("span#bidCount").text(data);
+				}
+			});
 			$.ajax({
 				url : "/bidUpdate.kh",
 				type : "post",
@@ -606,6 +620,9 @@
 					}					
 				}
 			})
+		}
+		function gotoback(){
+			history.back();
 		}
 	</script>
 </body>

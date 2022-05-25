@@ -7,3 +7,4 @@
 댓글기능
 <br>
 주문완료 페이지 + 주문내역 확인기능
+<a href="/addOrder.kh?orderNo=49">결제페이지 이동</a>

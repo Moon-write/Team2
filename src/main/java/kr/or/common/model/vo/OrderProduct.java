@@ -18,5 +18,5 @@ public class OrderProduct {
 	private int productAmount;
 	
 	// 해당 테이블 외 정보 (상품명 정도?)
-	
+	private String productName;
 }

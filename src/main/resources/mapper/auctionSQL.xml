@@ -263,4 +263,47 @@
   <update id="updateOrderAmount" parameterType="bid">
   	UPDATE ORDER_PRODUCT SET PRODUCT_AMOUNT = #{bidAmount} WHERE ORDER_NO = #{orderNo}
   </update>
+  
+  <select id="selectOneOrder" parameterType="int" resultType="o">
+  	SELECT ORDER_NO AS orderNo,
+  		DIV_NO AS divNo,
+  		PROJECT_NO AS projectNo,
+  		O.MEMBER_NO AS memberNo,
+  		SELLER_NO AS sellerNo,
+  		ORDER_DATE AS orderDate,
+  		ORDER_PRICE AS orderPrice,
+  		ORDER_POINT AS orderPoint,
+  		ORDER_DEL_NAME AS orderDelName,
+  		ORDER_DEL_POST AS orderDelPost,
+  		ORDER_DEL_ADDR1 AS orderDelAddr1,
+  		ORDER_DEL_ADDR2 AS orderDelAddr2,
+  		ORDER_DEL_PHONE AS orderDelPhone,
+  		ORDER_DEL_ASK AS orderDelAsk,
+  		ORDER_STATUS AS orderStatus,
+        PROJECT_NAME AS projectName
+  		FROM ORDER_TBL O JOIN AUCTION_TBL P USING(PROJECT_NO) WHERE ORDER_NO = #{orderNo}
+  </select>
+  
+  <select id="selectOrderProduct" parameterType="int" resultType="op">
+  	SELECT PRODUCT_NO AS productNo,
+        ORDER_NO AS orderNo,
+        OPTION_NO AS optionNo,
+        PRODUCT_PRICE AS productPrice,
+        PRODUCT_AMOUNT AS productAmount,
+        AUCTION_ITEM AS productName,
+        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN AUCTION_TBL USING(PROJECT_NO) WHERE ORDER_NO = #{orderNo}
+  </select>
+  
+  <update id="updateOrderPay" parameterType="o">
+  	UPDATE ORDER_TBL SET
+  		ORDER_PRICE = #{orderPrice},
+  		ORDER_POINT = #{orderPoint},
+  		ORDER_DEL_NAME=#{orderDelName},
+  		ORDER_DEL_POST=#{orderDelPost},
+  		ORDER_DEL_ADDR1=#{orderDelAddr1},
+  		ORDER_DEL_ADDR2=#{orderDelAddr2},
+  		ORDER_DEL_PHONE=#{orderDelPhone},
+  		ORDER_DEL_ASK=#{orderDelAsk},
+  		ORDER_STATUS=1 WHERE ORDER_NO=#{orderNo}
+  </update>
 </mapper>
