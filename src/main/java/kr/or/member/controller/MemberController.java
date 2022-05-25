@@ -45,8 +45,20 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value="/joinFrmBiz.kh")
-	public String joinFrmMe() {
-		return "member/joinFrmMember";
+	public String joinFrmBiz() {
+		return "member/joinFrmBiz";
+	}
+	
+	@RequestMapping(value="/joinMember.kh")
+	public String joinMember(Member m) {
+		int result = service.insertMember(m);
+		return "member/joinMember";
+	}
+	
+	@RequestMapping(value="/joinBiz.kh")
+	public String joinFrmMe(Member m) {
+		int result = service.insertMember(m);
+		return "member/joinBiz";
 	}
 	
 	@RequestMapping(value="/mypageMain.kh")

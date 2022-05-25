@@ -10,24 +10,25 @@
 			comment_content as commentContent,
 			comment_date as commentDate,
 			comment_no as commentNo
-		from comment_tbl order by comment_no desc)c) 
-		where rnum between #{start} and ${end};  		
+		from comment_tbl order where member_no=#{memberNo} by comment_no desc)c) 
+		where rnum between #{start} and #{end}  		
   	</select>
-  	<select id="selectTotalCount" resultType="int">
-  		select (*) 
+  	<select id="selectTotalCount" parameterType="int" resultType="int">
+  		select (*) from
   		<choose>
 	  		<when test="divNo.equals('1')">
-	  			 from comment_tbl
+	  			 comment_tbl
 	  		</when>
 	  		<when test="divNo.equals('2')">
-	  			 from like_tbl
+	  			 like_tbl
 	  		</when>
 	  		<when test="divNo.equals('3')">
-	  			 from qna_tbl
+	  			 qna_tbl
 	  		</when>
 	  		<when test="divNo.equals('4')">
-	  			 from order_tbl
+	  			 order_tbl
 	  		</when>
   		</choose>
+  		where member_no=#{memberNo}
   	</select>
 </mapper>

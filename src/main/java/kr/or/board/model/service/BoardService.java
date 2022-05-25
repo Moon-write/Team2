@@ -11,7 +11,6 @@ import kr.or.common.model.vo.Comment;
 
 @Service
 public class BoardService {
-	
 	@Autowired
 	BoardDao dao;
 

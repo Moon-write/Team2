@@ -41,18 +41,10 @@
 .index>.selected>span{
 	background-color: #1E90FF;
 }	
-.page-title{
-	display: block;
-	text-align: center;
-	padding-top: 103px;
-	padding-bottom: 50px;
-	font-size: 36px;
-	font-weight: 200;
-}
 .select-wrap{
 	display: flex;
 }
-.select-wrap .select-member,.select-biz{
+.select-wrap>*{
 	flex-grow: 1;
 	border: solid black 1px;
 	margin: 60px;
@@ -61,8 +53,14 @@
 	padding: 30px;
 	text-align: center;
 }
-.select-wrap .select-member,.select-biz:hover{
-	border: solid #1E90FF 5px;
+.select-wrap>*:hover{
+	flex-grow: 1;
+	border: solid #1E90FF 1px;
+	margin: 60px;
+	width: 300px;
+	height: 300px;
+	padding: 30px;
+	text-align: center;
 	cursor: pointer;
 }
 .select-btn-wrap{
@@ -73,19 +71,20 @@
 }
 .select-wrap .member-title{
 	font-size: 25px;
-	margin-top: 50px;
-	margin-bottom: 80px;
+	padding-bottom: 15px;
 }
 .select-wrap .member-intro{
-	font-size: 25px;
-	margin-top: 50px;
-	margin-bottom: 80px;
+	font-size: 21px;
 }
 .select-wrap .material-symbols-outlined {
 	font-size: 75px;
 	color: rgb(30,144,255);
 	margin-top: 46px;
-	margin-bottom: 57px;
+	margin-bottom: 42px;
+}
+.bs5{
+	padding: 13px 65px;
+	font-size: 15px;
 }
 </style>
 <body>

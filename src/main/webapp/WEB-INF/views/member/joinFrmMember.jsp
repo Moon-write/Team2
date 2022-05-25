@@ -10,7 +10,6 @@
 .join-wrap{
 	width: 450px;
 	margin: 0 auto;
-	margin-top: 35px;
 }
 .form-name>th{
 	font-size: 16px;
@@ -44,7 +43,7 @@
 	font-size: 16px;
 }
 .form-input:last-child>td>input{
-	margin-top: 50px;
+	margin-top: 68px;
 	margin-bottom: 120px;
 	padding: 0;
 	height: 60px;
@@ -95,18 +94,19 @@
 	font-weight: 200;
 }
 .form-select-wrap{
-  display: flex;
-  max-width: 300px;
-  align-items: center;
+	width: 100%;
+	justify-content:space-between;
+	margin: 10px 0px;
 }
-.form-select-wrap > select{
+.form-select-wrap>select{
+  width:30%;
+  justify-content:space-between;
   padding: 8px 16px;
-  margin-left: 10px;
-  margin-right: 10px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 14px;
 }
+
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -123,6 +123,7 @@
 			<br><br>
 			<form action="/join.do" method="post">
 				<table class="join-table">
+					<!-- 이메일 -->
 					<tr class="form-name">
 						<th colspan="2">이메일(ID)<span class="idChkMsg"></span></th>
 					</tr>
@@ -140,6 +141,7 @@
 					<tr>
 						<td colspan="2"><span id="timeLimit"></span></td>
 					</tr>
+					<!-- 비밀번호 -->
 					<tr class="form-name">
 						<th colspan="2" class="join-pass">비밀번호<span class="pwChkMsg"></span></th>
 					</tr>
@@ -152,18 +154,21 @@
 					<tr class="form-input">
 						<td colspan="2"><input type="password" name="memberPwRe" class="input-form"></td>
 					</tr>
+					<!-- 이름 -->
 					<tr class="form-name">
 						<th colspan="2" class="join-name">이름<span class="nameChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="2"><input type="text" name="memberName" class="input-form"></td>
 					</tr>
+					<!-- 전화번호 -->
 					<tr class="form-name">
 						<th colspan="2">전화번호<span class="phoneChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="2"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234"></td>
 					</tr>
+					<!-- 주소 -->
 					<tr class="form-name">
 						<th colspan="2">주소<span class="idChkMsg"></span></th>
 					</tr>
@@ -177,6 +182,7 @@
 					<tr class="form-input">
 						<td colspan="2"><input type="text" id="sample6_detailAddress" class="input-form" placeholder="상세주소" readonly></td>
 					</tr>
+					<!-- 생년월일 -->
 					<tr class="form-name">
 						<th colspan="2">생년월일<span class="idChkMsg"></span></th>
 					</tr>
@@ -194,6 +200,7 @@
 							</div>
 						</td>
 					</tr>
+					<!-- 성별 -->
 					<tr class="form-name">
 						<th colspan="2">성별<span class="idChkMsg"></span></th>
 					</tr>

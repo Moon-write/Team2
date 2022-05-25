@@ -18,5 +18,16 @@
 		member_point as memberPoint
 	from member where member_id=#{memberId} and member_pw=#{memberPw}
 	</select>
-  
+  	<insert id="insertMember" parameterType="m">
+  		insert into member values (member_seq.nextval,
+  		<choose>
+  			<when test="memberLevel.equals(2)">
+  			null,null
+  			</when>
+  			<when test="memberLevel.equals(1)">
+  			#{bizNo},#{bizName}
+  			</when>
+  		</choose>
+  		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},3000)
+  	</insert>
 </mapper>

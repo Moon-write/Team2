@@ -70,9 +70,6 @@
 		text-align: center;
 		font-size: 18px;
 	}
-	.login-p2:hover{
-		font-weight:bold;
-	}
 	.login-title{
 		text-align: center;
 		font-size: 36px;
@@ -100,10 +97,10 @@
 		<br><br><br>
 		<p class="login-p1" style="color:#333; font-size:18px;">
 		회원이 아니신가요?<br>
-		신규회원에게 적립금 3000원을 드립니다.
+		신규회원에게는 적립금 3000원을 드립니다.
 		</p>
 		<br><br>
-		<p class="login-p2" ><a href="/joinSelect.kh" style="color:#ccc;">회원 가입 하러 가기</a></p>
+		<p class="login-p2" ><a href="/joinSelect.kh" style="color:rgb(30,144,255);">회원 가입 하러 가기</a></p>
 		<br><br><br><br>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
