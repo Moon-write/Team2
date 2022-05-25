@@ -11,6 +11,8 @@ import kr.or.auction.model.dao.AuctionDao;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.AuctionList;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 
 @Service
 public class AuctionService {
@@ -114,41 +116,6 @@ public class AuctionService {
 		auctionList.setPagination(pagination);		
 		
 		return auctionList;
-	}
-
-	public Auction getMoreInfo(Auction a, int memberNo) {
-
-		// 1. 입찰횟수 구하기
-		int bidCount = dao.getBidCount(a.getProjectNo());
-		
-		// 2. 현재 낙찰가능금액 구하기
-		int bestPrice;
-		if(bidCount==0) {
-			bestPrice = a.getAuctionPrice();
-		}else {
-			bestPrice = dao.getMinBidPrice(a.getProjectNo());			
-		}
-		// 3. 내 좋아요 여부 구하기
-		if(memberNo!=0) {
-			HashMap<String, Object> map2 = new HashMap<String, Object>();
-			map2.put("projectNo", a.getProjectNo());
-			map2.put("memberNo", memberNo);
-			
-			int	result = dao.getLike(map2);
-			
-			if(result==1) {
-				// 좋아요가 있으면
-				a.setLike(1);
-			}else {
-				a.setLike(0);
-			}
-		}			
-
-		a.setBidCount(bidCount);
-		a.setBestPrice(bestPrice);
-		a.setTotallike(dao.getTotalLike(a.getProjectNo()));	
-
-		return a;
 	}
 
 	public int addLike(int memberNo, int projectNo) {
@@ -289,5 +256,57 @@ public class AuctionService {
 			} // 각 프로젝트별 낙찰건 적용 완료ㅕ
 		}		
 		return 0;
+	}
+
+	public Order selectOneOrder(int orderNo) {
+		Order order = dao.selectOneOrder(orderNo);
+		ArrayList<OrderProduct> op = dao.selectOrderProduct(orderNo);
+		order.setOrderProductList(op);
+		return order;
+	}
+
+	public int getBidCount(int projectNo) {
+		int result = dao.getBidCount(projectNo);
+		return result;
+	}
+
+	public Auction getMoreInfo(Auction a, int memberNo) {
+	
+		// 1. 입찰횟수 구하기
+		int bidCount = dao.getBidCount(a.getProjectNo());
+		a.setBidCount(bidCount);
+		
+		// 2. 현재 낙찰가능금액 구하기
+		int bestPrice;
+		if(bidCount==0) {
+			bestPrice = a.getAuctionPrice();
+		}else {
+			bestPrice = dao.getMinBidPrice(a.getProjectNo());			
+		}
+		// 3. 내 좋아요 여부 구하기
+		if(memberNo!=0) {
+			HashMap<String, Object> map2 = new HashMap<String, Object>();
+			map2.put("projectNo", a.getProjectNo());
+			map2.put("memberNo", memberNo);
+			
+			int	result = dao.getLike(map2);
+			
+			if(result==1) {
+				// 좋아요가 있으면
+				a.setLike(1);
+			}else {
+				a.setLike(0);
+			}
+		}			
+	
+		a.setBestPrice(bestPrice);
+		a.setTotallike(dao.getTotalLike(a.getProjectNo()));	
+	
+		return a;
+	}
+
+	public int updateOrderPay(Order o) {
+		int result = dao.updateOrderPay(o);
+		return result;
 	}
 }

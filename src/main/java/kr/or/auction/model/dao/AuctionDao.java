@@ -152,4 +152,19 @@ public class AuctionDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("auction.updateOrderAmount",b);
 	}
+
+	public Order selectOneOrder(int orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.selectOneOrder", orderNo);
+	}
+
+	public ArrayList<OrderProduct> selectOrderProduct(int orderNo) {
+		List list = sqlSession.selectList("auction.selectOrderProduct", orderNo);
+		return (ArrayList<OrderProduct>) list;
+	}
+
+	public int updateOrderPay(Order o) {
+		int result = sqlSession.update("auction.updateOrderPay", o);
+		return 0;
+	}
 }

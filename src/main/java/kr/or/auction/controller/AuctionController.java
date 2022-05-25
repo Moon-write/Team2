@@ -25,6 +25,7 @@ import kr.or.auction.model.service.AuctionService;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.AuctionList;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Order;
 import kr.or.member.model.vo.Member;
 
 @Controller
@@ -33,11 +34,17 @@ public class AuctionController {
 	@Autowired
 	private AuctionService service;
 	
-	// 이동
-	
 	@RequestMapping(value="addAuction.kh")
 	public String addAuction() {
 		return "auction/addAuction";
+	}
+	@RequestMapping(value="addOrder.kh")
+	public String addOrder(int orderNo, Model model) {
+		// 이 단계에서 주문내역 불러오기 - 보통은 여기서 각자의 프로젝트를 불러온다
+		Order order = service.selectOneOrder(orderNo);
+		
+		model.addAttribute("order", order);
+		return "auction/addOrder";
 	}
 
 	@RequestMapping(value="auctionList.kh")
@@ -51,7 +58,7 @@ public class AuctionController {
 		AuctionList auctionList = service.selectAuctionList(m.getMemberNo(), reqPage, startFlag, endFlag, order, searchKeyword); // 로그인 완료되면 변수수정
 		
 		model.addAttribute("startFlag", startFlag);
-		model.addAttribute("order", order);
+		model.addAttribute("order", order); 
 		model.addAttribute("endFlag", endFlag);
 		model.addAttribute("keyword", searchKeyword);
 		model.addAttribute("page", auctionList.getPagination());
@@ -73,7 +80,7 @@ public class AuctionController {
 			return "auction/auctionView";
 		}else {
 			redirect.addFlashAttribute("msg", "경매가 삭제되었거나 열람이 제한된 상품입니다!");
-			return "redirect:/auctionList.kh?endFlag=1&searchKeyword=&order=1&reqPage=1";		
+			return "redirect:/auctionList.kh?startFlag=1&endFlag=1&searchKeyword=&order=1&reqPage=1";		
 		}		
 	}
 	
@@ -96,7 +103,7 @@ public class AuctionController {
 		
 		if(result>0) {
 			redirect.addFlashAttribute("msg", "경매 등록이 완료되었습니다!");
-			return "redirect:/auctionList.kh?endFlag=1&searchKeyword=&order=1&reqPage=1";		 // 추후 사업자 내 경매리스트 보는페이지로 변경			
+			return "redirect:/auctionList.kh?startFlag=1&endFlag=1&searchKeyword=&order=1&reqPage=1";		 // 추후 사업자 내 경매리스트 보는페이지로 변경			
 		}else {			
 			redirect.addFlashAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
 			return "redirect:/addAuction.kh";
@@ -127,8 +134,14 @@ public class AuctionController {
 		redirect.addFlashAttribute("auction", auction);
 		return "/auction/auctionPreview";
 	}
-
-	// 등록 insert
+	
+	@RequestMapping(value="/auctionPay.kh")
+	public String auctionPay(Order o) {
+		
+		int result = service.updateOrderPay(o);
+  		
+		return "redirect:/";
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="/addLike.kh")
@@ -151,6 +164,14 @@ public class AuctionController {
 	public String checkMyLikeCount(@SessionAttribute(required=false) Member m) {
 		int	result  = service.checkMyLikeCount(m.getMemberNo());
 		
+		
+		return Integer.toString(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="getBidCount.kh")
+	public String getBidCount(int projectNo) {
+		int result = service.getBidCount(projectNo);
 		
 		return Integer.toString(result);
 	}
@@ -182,9 +203,7 @@ public class AuctionController {
 		ArrayList<Bid> list = service.getBidHistory(projectNo);
 		
 		return new Gson().toJson(list);
-	}
-
-	
+	}	
 	
 	@ResponseBody
 	@RequestMapping(value="/auctionImgUpload.kh")

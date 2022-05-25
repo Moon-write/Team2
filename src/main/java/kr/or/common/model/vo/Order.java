@@ -31,7 +31,8 @@ public class Order {
 	
 	private int orderStatus;
 	
+	// 프로젝트명
+	private String projectName;
 	// 해당 테이블 외 정보 - 주문상세내역
 	private ArrayList<OrderProduct> orderProductList;
-	// 프로젝트 정보? 프로젝트명
 }
