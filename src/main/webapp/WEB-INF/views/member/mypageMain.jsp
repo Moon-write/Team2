@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
 </head>
 <style>
 .flex-wrap {
@@ -18,7 +18,7 @@
 		<div class="flex-wrap">
 			<%@include file="/WEB-INF/views/member/mypage_common.jsp"%>
 			<div class="mypage-content">
-				<div class="mypage-content-title">콘텐츠 제목입니다. 제목쓰시면 콘텐츠영역 줄 위에 쓰여집니다.</div>
+				<div class="mypage-content-title">마이페이지</div>
 			</div>
 		</div>
 	</div>

@@ -63,7 +63,7 @@ public class BoardService {
 		}
 		//다음버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<a href='/boardList.kh?reqPage="+(reqPage+1)+"'></a>";
+			pageNavi += "<a href='/commentList.kh?reqPage="+(reqPage+1)+"'></a>";
 		}
 		CommentPageData cpd = new CommentPageData(commentList, pageNavi);
 		return cpd;

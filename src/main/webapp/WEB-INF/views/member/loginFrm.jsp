@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>로그인</title>
 <style>
 	.page-content-title{
 	display: block;
@@ -66,9 +66,12 @@
 		padding: 0;
 		font-size: 24px;
 	}
-	.login-p{
+	.login-p1,.login-p2{
 		text-align: center;
 		font-size: 18px;
+	}
+	.login-p2:hover{
+		font-weight:bold;
 	}
 	.login-title{
 		text-align: center;
@@ -95,12 +98,12 @@
 			</div>
 		</form>
 		<br><br><br>
-		<p class="login-p" style="color:#333; font-size:18px;">
+		<p class="login-p1" style="color:#333; font-size:18px;">
 		회원이 아니신가요?<br>
-		회원은 결제 금액의 10%가 적립됩니다.
+		신규회원에게 적립금 3000원을 드립니다.
 		</p>
 		<br><br>
-		<p class="login-p" ><a href="/joinSelect.kh" style="color:#ccc;">회원 가입 하러 가기</a></p>
+		<p class="login-p2" ><a href="/joinSelect.kh" style="color:#ccc;">회원 가입 하러 가기</a></p>
 		<br><br><br><br>
 	</div>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>

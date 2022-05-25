@@ -19,7 +19,27 @@ public class BoardController {
 		model.addAttribute("commentList",cpd.getCommentList());
 		model.addAttribute("pageNavi",cpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
-		return "member/mypageCommentList";
+		return "board/commentList";
+	}
+	
+	@RequestMapping(value="/projectList.kh")
+	public String projectList() {
+		return "board/projectList";
+	}
+	
+	@RequestMapping(value="/orderList.kh")
+	public String orderList() {
+		return "board/orderList";
+	}
+	
+	@RequestMapping(value="/qnaList.kh")
+	public String qnaList() {
+		return "board/qnaList";
+	}
+	
+	@RequestMapping(value="/likeList.kh")
+	public String likeList() {
+		return "board/likeList";
 	}
 	
 }

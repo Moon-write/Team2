@@ -12,7 +12,7 @@
 		<div class="flex-wrap">
 			<%@include file="/WEB-INF/views/member/mypage_common.jsp"%>
 			<div class="mypage-content">
-				<div class="mypage-content-title">콘텐츠 제목입니다. 제목쓰시면 콘텐츠영역 줄 위에 쓰여집니다.</div>
+				<div class="mypage-content-title">나의 결제내역</div>
 			</div>
 		</div>
 	</div>

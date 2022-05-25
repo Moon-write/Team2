@@ -54,24 +54,4 @@ public class MemberController {
 		return "member/mypageMain";
 	}
 	
-	@RequestMapping(value="/mypageProjectList.kh")
-	public String mypageProjectList() {
-		return "member/mypageProjectList";
-	}
-	
-	@RequestMapping(value="/mypageOrderList.kh")
-	public String mypageOrderList() {
-		return "member/mypageOrderList";
-	}
-	
-	@RequestMapping(value="/mypageLikeList.kh")
-	public String mypageLikeList() {
-		return "member/mypageMain";
-	}
-	
-	@RequestMapping(value="/mypageQnaList.kh")
-	public String mypageQnaList() {
-		return "member/mypageQnaList";
-	}
-	
 }

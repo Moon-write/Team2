@@ -38,6 +38,7 @@
 	<context:component-scan base-package="kr.or.funding" />
 	<context:component-scan base-package="kr.or.member" />
 	<context:component-scan base-package="kr.or.shop" />
+	<context:component-scan base-package="kr.or.board" />
 	
 	<!-- DB접속정보 -->
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
