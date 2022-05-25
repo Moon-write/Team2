@@ -116,7 +116,6 @@
 	.row-img>div{
 		width:200px;
 		height:200px;
-		background-color: black;
 		display: inline-block;
 		
 	}
@@ -144,12 +143,25 @@
 	.footer-content>div{
 		width: 40%;
 		height: 400px;
-		background-color: black;
+		background-color: red;
 		display: inline-block;
 		margin: 10px;
 	}
 	.footer-content>div>h3{
 		display: inline-block;
+	}
+	
+	.saleDonation{
+		display: inline-block;
+	}
+	.saleDonationDiv{
+		text-align: left;
+		margin: 15px;
+	}
+	.detail-content>div{
+		width: 100%;
+		height: 100%;
+		background-color: pink;
 	}
 </style>
 <body>
@@ -181,24 +193,78 @@
 			<button class="btn bc1">#임시</button>
 		</div>
 		<div class="main-content">
-			<div class="row-img">
-			<h3>상품구입기부펀딩</h3>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+			<div class="saleDonationDiv">
+				<h3 class="saleDonation">상품구입기부펀딩</h3>
+				<a href="/donationWriter.kh">기부신규등록</a>
 			</div>
 			<div class="row-img">
-			<h3>일반기부펀딩</h3>
-				<div></div>
-				<div></div>
-				<div></div>
-				<div></div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+			</div>
+			<div class="saleDonationDiv">
+				<h3>일반기부펀딩</h3>
+			</div>
+			<div class="row-img">
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
+				<div class="detail-content">
+					<div>
+					</div>
+					<h3>펀딩이름</h3>
+					<a>00%</a>
+					<a>0,000원</a>
+				</div>
 			</div>
 		</div>
 		<div class="footer-content">
 			<div></div>
-			<div></div>
+			<div>
+			</div>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

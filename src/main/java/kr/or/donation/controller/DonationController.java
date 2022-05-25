@@ -36,11 +36,6 @@ public class DonationController {
 	}
 
 	// insert
-	@RequestMapping(value = "/donationWriter.kh") // 기부신규등록 버튼 클릭 시 이동할 form
-	public String donationWriter() {
-		return "donation/donationWriterForm";
-	}
-
 	@RequestMapping(value = "/insertDonation.kh")
 	public String insertDonation(Member m, Donation d, MultipartFile upfile, HttpServletRequest request, Model model) {
 
@@ -50,7 +45,7 @@ public class DonationController {
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/donation/");
 			String filename = upfile.getOriginalFilename();
 			String filepath = fileIo(upfile, savePath);
-			
+
 			d.setDonationImgname(filename);
 			d.setDonationImgpath(filepath);
 			d.setMemberNo(m.getMemberNo());
@@ -58,11 +53,40 @@ public class DonationController {
 			int result = service.insertDonation(d);
 			return "donation/donationMain";
 		}
-
 		// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
-
 	}
 
+	// update
+	@RequestMapping(value = "/donationUpdateWriter.kh")
+	public String updateDonation() {
+		return "donation/donationUpdateWriterForm";
+	}
+
+	@RequestMapping(value = "/updateDonation.kh")
+	public String updateDonation(Donation d) {
+		int result = service.updateDonation(d);
+		return "donation/donationMain";
+	}
+
+	// select
+	@RequestMapping(value = "/donationView.kh")
+	public String donationView(Donation d, Model model) {
+		Donation donation = service.selectOneDonation(d);
+		model.addAttribute("donation", d);
+		return "donation/donationView";
+	}
+	
+	
+//-------------------------------페이지이동
+	@RequestMapping(value = "/donationWriter.kh") // 기부신규등록 버튼 클릭 시 이동할 form
+	public String donationWriter() {
+		return "donation/donationWriterForm";
+	}
+	@RequestMapping(value="/donationClick.kh")
+	public String donationClick() {
+		return "donation/donationView";
+	}
+//-------------------------------기타
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {
 		String filepath = null;
@@ -104,33 +128,11 @@ public class DonationController {
 		return filepath; // 파일명 리턴
 	} // 파일업로드 메소드 종료
 
-	// update
-	@RequestMapping(value = "/donationUpdateWriter.kh")
-	public String updateDonation() {
-		return "donation/donationUpdateWriterForm";
-	}
-
-	@RequestMapping(value = "/updateDonation.kh")
-	public String updateDonation(Donation d) {
-		int result = service.updateDonation(d);
-		return "donation/donationMain";
-	}
-
-	// select
-	@RequestMapping(value = "/donationView.kh")
-	public String donationView(Donation d, Model model) {
-		Donation donation = service.selectOneDonation(d);
-		model.addAttribute("donation", d);
-		return "donation/donationView";
-	}
-
 	// upload
-
 	@ResponseBody
 	@RequestMapping(value = "/uploadImage.kh")
 	public void uploadImage(MultipartFile file, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 	}
-
 }
