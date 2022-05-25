@@ -5,7 +5,11 @@
 		select * from 
 		(select rownum as rnum, c.* from 
 		(select
-			*
+			div_no as divNo,
+			project_no as projectNo,
+			comment_content as commentContent,
+			comment_date as commentDate,
+			comment_no as commentNo
 		from comment_tbl order by comment_no desc)c) 
 		where rnum between #{start} and ${end};  		
   	</select>

@@ -99,11 +99,11 @@
           	  <li class="f-bold">프로필 정보</li>
           	  <hr>
               <li class="f-bold">활동정보</li>
-              <li><a href="/mypageProjectList.kh">참여중인 프로젝트</a></li>
-              <li><a href="/mypageOrderList.kh">결제내역</a></li>
-              <li><a href="/mypageCommentList.kh">나의리뷰</a></li>
-              <li><a href="/mypageLikeList.kh">찜목록</a></li>
-              <li><a href="/mypageQnaList.kh">나의 Q&A</a></li>
+              <li><a href="/projectList.kh?reqPage=1&memberNo=${m.memberNo}">참여중인 프로젝트</a></li>
+              <li><a href="/orderList.kh?reqPage=1&memberNo=${m.memberNo}">결제내역</a></li>
+              <li><a href="/commentList.kh?reqPage=1&memberNo=${m.memberNo}">나의리뷰</a></li>
+              <li><a href="/likeList.kh?reqPage=1&memberNo=${m.memberNo}">찜목록</a></li>
+              <li><a href="/qnaList.kh?reqPage=1&memberNo=${m.memberNo}">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
               <li><a href="#">정보관리</a></li>

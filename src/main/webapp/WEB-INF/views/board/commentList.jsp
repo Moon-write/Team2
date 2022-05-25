@@ -18,14 +18,14 @@
 					<tr>
 						<th>구분</th><th>프로젝트명</th><th>한마디</th><th>날짜</th><th>구매상태</th>
 					</tr>
-					<c:forEach items="${commentList }" var="b" varStatus="i">
+					<c:forEach items="${commentList }" var="c" varStatus="i">
 					<tr>
 					<a href=#>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+						<td>${c.divNo }</td>
+						<td>${c.projectNo }</td>
+						<td>${c.commentContent }</td>
+						<td>${c.commentDate }</td>
+						<td>${c.commentNo }</td>
 					</a>
 					</tr>
 					</c:forEach>
