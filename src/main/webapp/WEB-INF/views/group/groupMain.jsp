@@ -31,7 +31,7 @@
 				<div class="due-wrap">
 					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">제주산 당근씨오일</div><div class="prj-caption">냄새를 참으면 강력한 보습효과를 맛볼 수 있어요</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
 					<div class="project1"><a href="/groupAdd.kh"><div class="prj-img"></div><div class="prj-name">공동구매 등록하기</div><div class="prj-caption">임시링크</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
-					<div class="project1"><a href="/groupView.kh"><div class="prj-img"></div><div class="prj-name">프로젝트명</div><div class="prj-caption">캡션</div><div class="prj-date"><span class="badge-pink">오늘마감</span></div></a></div>
+					<div class="project1"><a href="/groupAdd2.kh"><div class="prj-img"></div><div class="prj-name">공동구매 등록하기2</div><div class="prj-caption">임시링크</div><div class="prj-date"><span class="badge-pink">1일 남음</span></div></a></div>
 				</div>
 			</div>
 			<div class="content-main">

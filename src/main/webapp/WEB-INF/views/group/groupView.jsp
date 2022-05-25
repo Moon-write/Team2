@@ -182,8 +182,47 @@
 		<div id="view-foot">
 			<div class="view-qna">
 				<form action="/insertComment.do" method="post">
-						
+					<ul class="writinging-comment">
+						<div>
+						  <textarea name="" id="" cols="50" rows="5"></textarea>
+						</div>
+						<div>
+							<button>등록</button>
+						</div>
+					</ul>
 				</form>
+					<ul class="posting-comment">
+						<li>
+						  <span>아이디</span>
+						</li>
+						<li>
+						  <p class="comment-info">
+							<span>날짜</span>
+						  </p>
+						  <p class="comment-content">댓글내용댓글내용댓글내용</p>
+						  <p class="comment-link">
+							<a href="#">수정</a>
+							<a href="#">삭제</a>
+							<a href="#">답글달기</a>
+						  </p>
+						</li>
+					</ul>
+					  <ul class="posting-comment reply">
+						<li>
+						  <span class="material-icons">subdirectory_arrow_right</span>
+						  <span class="material-icons">아이디</span>
+						</li>
+						<li>
+						  <p class="comment-info">
+							<span>날짜</span>
+						  </p>
+						  <p class="comment-content">댓글내용댓글내용댓글내용</p>
+						  <p class="comment-link">
+							<a href="#">수정</a>
+							<a href="#">삭제</a>
+						  </p>
+						</li>
+					  </ul>		
 			</div>
 			<div class="view-empty"></div>
 		</div>
