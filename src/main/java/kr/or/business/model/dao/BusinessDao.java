@@ -137,4 +137,40 @@ public class BusinessDao {
 		List list = sqlSession.selectList("business.selectExpiredFList", memberNo);
 		return (ArrayList<String>) list;
 	}
+
+	public ArrayList<String> selectGList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectGList", memberNo);
+		return (ArrayList<String>) list;
+	}
+
+	public ArrayList<String> selectExpiredGList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectExpiredGList", memberNo);
+		return (ArrayList<String>) list;
+	}
+
+	public int deleteGroup(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteGroup",projectNo);
+	}
+
+	public ArrayList<String> genderGraph(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.genderGraph", map);
+		return (ArrayList<String>) list;
+	}
+
+	public ArrayList<String> selectBidList(int projectNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectBidList", projectNo);
+		return (ArrayList<String>) list;
+	}
+
+	public List<Integer> auctionGender(int[] gens) {
+		// TODO Auto-generated method stub		
+		return sqlSession.selectList("business.auctionGender",gens);
+	}
+
+
 }

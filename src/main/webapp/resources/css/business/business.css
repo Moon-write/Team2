@@ -1,0 +1,21 @@
+.show-content{
+	width:1000px;
+	float:left;
+	font-size:14px;
+}
+td{
+	border-bottom:1px solid #ccc;	
+}
+.tbl{
+	 margin-bottom:100px;
+}
+.btn2 {
+  border: none;
+  padding: 0.2rem 0.5rem ;
+  display: inline-block;
+  box-sizing: border-box;
+  transition-duration: 0.5s;
+  font-size: 16px;
+  font-family: ns-light;
+  border-radius: 5px;
+}

@@ -97,7 +97,6 @@
 					<a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="#">누적 금액</a></li>
-						<li><a href="#">성별/연령별</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>

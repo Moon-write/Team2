@@ -102,6 +102,7 @@ label {
 </style>
 </head>
 <body>
+	<div id="memberNo" style="display:none;">${sessionScope.m.memberNo }</div>
 	<c:choose>
 		<c:when test="${sessionScope.m.memberLevel == 1 }"><%@include file="/WEB-INF/views/common/bizHeader.jsp" %></c:when>
 		<c:otherwise><%@include file="/WEB-INF/views/common/header.jsp" %></c:otherwise>
@@ -144,6 +145,7 @@ label {
 						<div style="margin-top:30px;height:100px;">
 							<input type="text" name="shopIntro" value="${shop.shopIntro }" style="width:580px;height:80px;">
 							<input type="hidden" name="shopNo" value="${shop.shopNo }">
+							<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
 							<span><button class="btn bc3" style="margin-top:5px;">자기소개 수정</button></span>
 						</div>
 					</form>
@@ -261,6 +263,7 @@ label {
 	      </div>
 	    </div>
 		<script>
+			const memberNo=$("#memberNo").text();
 			$(function(){
 			    const tabs=$(".tabs>li");
 			    tabs.on("click",function(){
@@ -306,7 +309,7 @@ label {
 				check.each(function(index,item){
 					categories.push($(item).next().val());
 				});
-				location.href="/deleteCategory.kh?categories="+categories.join("/");
+				location.href="/deleteCategory.kh?memberNo="+memberNo+"&categories="+categories.join("/");
 			});
 			let length=$("input[name=category]").length;
 			$(".addInput").on("click", function(){
@@ -327,7 +330,7 @@ label {
 			});
 			$(".insertCategory").on("click", function(){
 				const shopNo=$("input[name=shopNo]").val();
-				const category=$("div #category");
+				const category=$("div #category");				
 				if(category.val().length==0){
 					alert("카테고리 이름을 입력하십시오.");
 					return;
@@ -336,7 +339,7 @@ label {
 				category.each(function(index,item){
 					categories.push($(item).val());
 				});
-				location.href="/insertCategory.kh?shopNo="+shopNo+"&categories="+categories.join("/");
+				location.href="/insertCategory.kh?memberNo="+memberNo+"&shopNo="+shopNo+"&categories="+categories.join("/");
 			});
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

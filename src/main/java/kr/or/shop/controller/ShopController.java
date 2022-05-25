@@ -101,12 +101,12 @@ public class ShopController {
 		return "shop/managePic";
 	}
 	@RequestMapping(value = "/editIntro.kh")
-	public String editIntro(int shopNo, String shopIntro) {
+	public String editIntro(int shopNo, String shopIntro, int memberNo) {
 		if(shopIntro.isEmpty()) {
 			shopIntro=" ";
 		}
 		int result=service.insertShopIntro(shopNo,shopIntro);
-		return "business/business";
+		return "redirect:updateInfo.kh?memberNo="+memberNo;
 	}
 
 	@RequestMapping(value="/deleteShopPic.kh")
@@ -127,15 +127,15 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value="/deleteCategory.kh")
-	public String deleteCategory(String categories, HttpServletRequest request) {
+	public String deleteCategory(int memberNo, String categories, HttpServletRequest request) {
 		int result=service.deleteCategory(categories);
-		return "business/business";
+		return "redirect:updateInfo.kh?memberNo="+memberNo;
 	}
 	
 	@RequestMapping(value="/insertCategory.kh")
-	public String insertCategory(int shopNo, String categories, HttpServletRequest request) {
+	public String insertCategory(int memberNo, int shopNo, String categories, HttpServletRequest request) {
 		int result=service.insertCategory(shopNo, categories);
-		return "business/business";
+		return "redirect:updateInfo.kh?memberNo="+memberNo;
 	}
 	@RequestMapping(value = "/shopInfo.kh")
 	public String shopInfo(int memberNo, Model model) {

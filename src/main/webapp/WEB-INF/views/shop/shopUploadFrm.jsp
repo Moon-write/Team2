@@ -53,7 +53,7 @@
 .page-content {
 	float: left;
 }
-.show-content{
+.show-content2{
 	float:left;
 	margin-top:50px;
 	margin-left:305px;
@@ -90,8 +90,8 @@
 				<li>
 					<a href="#">경매</a>
 					<ul class="sub-menu">
-						<li><a href="addAuction.kh">경매 등록</a></li>
-						<li><a href="/manageAuction.kh">경매 관리</a></li>
+						<li><a href="#">누적 금액</a></li>
+						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
 				<li>
@@ -118,7 +118,7 @@
 			</ul>
 		</div>
 		<h2 style="margin-top:50px;margin-left:520px;">사업자 정보 관리</h1>
-		<div class="show-content">
+		<div class="show-content2">
 			<form action="/shopUpload.kh" method="post">
 				<fieldset style="border:0px solid black;">				
 						<div>

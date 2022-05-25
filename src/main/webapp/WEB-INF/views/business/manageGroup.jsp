@@ -59,11 +59,6 @@
 .page-content {
 	float: left;
 }
-
-.container {
-  width: 80%;
-  margin: 15px auto;
-}
 </style>
 
 </head>
@@ -125,10 +120,10 @@
 		<div class="show-content">
 			<div>
 				<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-				<h3 style="margin-bottom:10px;margin-top:30px;">기부 관리</h3>
-				<select onchange="divChange(this)" style="margin-bottom:10px;">			
-                    <option value="selling">진행중인 기부</option>
-                    <option value="end">종료된 기부</option>
+				<h3 style="margin-bottom:10px;margin-top:30px;">공동구매 관리</h3>
+				<select onchange="divChange(this)" style="margin-bottom:10px;">				
+                    <option value="selling">진행중인 공동구매</option>
+                    <option value="end">종료된 공동구매</option>
                 </select>
 				<table class="tbl"></table>					
 			</div>	
@@ -137,13 +132,11 @@
 	<div id="test-modal" class="modal-bg">
       <div class="modal-wrap">
         <div class="modal-head">
-          <h2>기부자 성별 비율</h2>
+          <h2>구매자 성별 비율</h2>
           <span class="material-icons close-icon modal-close">close</span>
         </div>
         <div class="modal-content">
-        	<div class="container">
-			  <canvas id="chart" width=600 height=600></canvas>
-			</div>
+        	<canvas id="chart" width=600 height=600></canvas>
         </div>
       </div>
     </div>
@@ -163,42 +156,46 @@
 		const table=$("table");
 		const sTr=$("<tr class=\"tr-2\">");
 		const eTr=$("<tr class=\"tr-2\">");
-		const sTh=$("<th>번호</th><th>프로젝트명</th><th>상품가격</th><th>목표기부금액</th><th>현재모인금액</th><th>시작일</th><th>종료일</th><th></th><th></th><th></th>");
-		const eTh=$("<th>번호</th><th>프로젝트명</th><th>상품가격</th><th>목표기부금액</th><th>총모인금액</th><th>시작일</th><th>종료일</th><th></th>");
+		const sTh=$("<th>번호</th><th>프로젝트명</th><th>참여인원</th><th>원가</th><th>최저가</th><th>카테고리</th><th>시작일</th><th>종료일</th><th></th><th></th><th></th>");
+		const eTh=$("<th>번호</th><th>프로젝트명</th><th>참여인원</th><th>원가</th><th>최저가</th><th>카테고리</th><th>시작일</th><th>종료일</th><th></th>");
 		const thousands = (o) => o.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 		sTr.append(sTh);
 		eTr.append(eTh);
+		
 		window.onload=init();
+		
 		function divChange(e) {
 			if(e.value=="selling"){
-				window.location.replace("manageDonation.kh");
+				window.location.replace("manageGroup.kh");
 			}else if(e.value="end"){
 				table.empty();
 				table.append(eTr);
 				$.ajax({
-					url : "/selectExpiredDList.kh",
+					url : "/selectExpiredGList.kh",
 					data:{memberNo:memberNo},					
 					success : function(list){
 						for(let i=0;i<list.length;i++){
 							const tr=$("<tr>");
 							const noTd=$("<td>");
 							const pNameTd=$("<td>");
-							const cashTd=$("<td>");
-							const targetTd=$("<td>");
-							const sumTd=$("<td>");
-							const sdTd=$("<td>");
-							const edTd=$("<td>");
-							const projectNo="<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>";
-							const sum="<div style=\"display:none;\">"+list[i].DONATIONSUM+"</div>";
+							const gcTd=$("<td>");
+							const gopTd=$("<td>");
+							const glTd=$("<td>");
+							const cTd=$("<td>");
+							const gsTd=$("<td>");
+							const geTd=$("<td>");
+							const projectNo=$("<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>");
+							const gc=$("<div style=\"display:none;\">"+list[i].GRPCOUNT+"</div>");
 							const modal=$("<td><button class=\"btn2 bc1 modal-open-btn chart\" target=\"#test-modal\">통계</button></td>");
 							noTd.append(i+1);
-							pNameTd.append(list[i].DONATIONTITLE);
-							cashTd.append(thousands(list[i].DONATIONCASH)+"원");
-							targetTd.append(thousands(list[i].DONATIONTARGET)+"원");
-							sumTd.append(thousands(list[i].DONATIONSUM)+"원");
-							sdTd.append(list[i].DONATIONSTARTDATE);
-							edTd.append(list[i].DONATIONENDDATE);
-							tr.append(noTd).append(pNameTd).append(cashTd).append(targetTd).append(sumTd).append(sdTd).append(edTd).append(projectNo).append(sum).append(modal);
+							pNameTd.append(list[i].PROJECTNAME);
+							gcTd.append(list[i].GRPCOUNT);
+							gopTd.append(thousands(list[i].GRPORIGPRICE)+"원");
+							glTd.append(thousands(list[i].GRPLOWEST)+"원");
+							cTd.append(list[i].GRPCATEGORY);
+							gsTd.append(list[i].GRPSTART);
+							geTd.append(list[i].GRPEND);
+							tr.append(noTd).append(pNameTd).append(gcTd).append(gopTd).append(glTd).append(cTd).append(gsTd).append(geTd).append(projectNo).append(gc).append(modal);
 							table.append(tr);						
 			            }
 					}
@@ -209,72 +206,65 @@
 			table.empty();
 			table.append(sTr);
 			$.ajax({
-				url : "/selectDList.kh",
+				url : "/selectGList.kh",
 				data:{memberNo:memberNo},					
 				success : function(list){
 					for(let i=0;i<list.length;i++){
 						const tr=$("<tr>");
 						const noTd=$("<td>");
 						const pNameTd=$("<td>");
-						const cashTd=$("<td>");
-						const targetTd=$("<td>");
-						const sumTd=$("<td>");
-						const sdTd=$("<td>");
-						const edTd=$("<td>");
+						const gcTd=$("<td>");
+						const gopTd=$("<td>");
+						const glTd=$("<td>");
+						const cTd=$("<td>");
+						const gsTd=$("<td>");
+						const geTd=$("<td>");
 						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
 						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
-						const projectNo="<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>";
-						const sum="<div style=\"display:none;\">"+list[i].DONATIONSUM+"</div>";
+						const projectNo=$("<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>");
+						const gc=$("<div style=\"display:none;\">"+list[i].GRPCOUNT+"</div>");
 						const modal=$("<td><button class=\"btn2 bc1 modal-open-btn chart\" target=\"#test-modal\">통계</button></td>");
 						noTd.append(i+1);
-						pNameTd.append(list[i].DONATIONTITLE);
-						cashTd.append(thousands(list[i].DONATIONCASH)+"원");
-						targetTd.append(thousands(list[i].DONATIONTARGET)+"원");
-						sumTd.append(thousands(list[i].DONATIONSUM)+"원");
-						sdTd.append(list[i].DONATIONSTARTDATE);
-						edTd.append(list[i].DONATIONENDDATE);
-						tr.append(noTd).append(pNameTd).append(cashTd).append(targetTd).append(sumTd).append(sdTd).append(edTd).append(modiTd).append(delTd).append(projectNo).append(sum).append(modal);
+						pNameTd.append(list[i].PROJECTNAME);
+						gcTd.append(list[i].GRPCOUNT);
+						gopTd.append(thousands(list[i].GRPORIGPRICE)+"원");
+						glTd.append(thousands(list[i].GRPLOWEST)+"원");
+						cTd.append(list[i].GRPCATEGORY);
+						gsTd.append(list[i].GRPSTART);
+						geTd.append(list[i].GRPEND);
+						tr.append(noTd).append(pNameTd).append(gcTd).append(gopTd).append(glTd).append(cTd).append(gsTd).append(geTd).append(modiTd).append(delTd).append(projectNo).append(gc).append(modal);
 						table.append(tr);						
 		            }
 				
 					$(document).on("click", "td #delete",function(event){					
 						const projectNo=$(this).parent().next().text();
-						$.ajax({
-							url : "/checkDnOrder.kh",
-							type:"get",
-							data:{projectNo:projectNo},
-							success:function(cdo){
-								if(cdo==0){
-									if(confirm("삭제하시겠습니까?")==true){	
-										$.ajax({
-											url:"/deleteDonation.kh",
-											data:{projectNo:projectNo},
-											success : function(result){
-												window.location.replace(result);					
-											}
-										});
-									}
-								}else{
-									alert("삭제할 수 없습니다.");
-								}						
-							},
-							error : function(){
-								alert("error");
-							}
-						});											
+						const gc=$(this).parent().next().next().text();
+						if(gc!=0){
+							alert("삭제할 수 없습니다.");
+							return;
+						}
+						if(confirm("삭제하시겠습니까?")==true){						
+							$.ajax({
+								url : "/deleteGroup.kh",
+								data:{projectNo:projectNo},
+								success: function(result){
+									window.location.replace(result);
+								}
+							});
+						}									
 					});
 				}
 			});
 		}
 		$(function () {
-			  $(document).on("click", ".modal-open-btn", function () {	
-				  if($(this).parent().prev().text()>0){		
+			  $(document).on("click", ".modal-open-btn", function () {
+				  if($(this).parent().prev().text()>0){				
 			    $($(this).attr("target")).css("display", "flex");
 			    const projectNo=$(this).parent().prev().prev().text();
 			    var gen = [];
 					$.ajax({
 						url : "/genderGraph.kh",
-						data:{memberNo:memberNo,projectNo:projectNo,divNo:2},
+						data:{memberNo:memberNo,projectNo:projectNo,divNo:3},
 						success : function(list) {
 							for (let i = 0; i < list.length; i++) {
 								gen.push(list[i]);
@@ -312,18 +302,17 @@
 								      }
 								   },
 								   "type":"outlabeledDoughnut"
-								});
+								});			
 						}
 					});
-			  }else{
-				  alert("기부자가 없습니다.");
-			  }
+				  }else{
+					  alert("구매자가 없습니다.");
+				  }
 			  });
 			  $(document).on("click", ".modal-close", function () {
 			    $(this).parents(".modal-wrap").parent().css("display", "none");
 			  });  
 			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
-			  
 		});
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

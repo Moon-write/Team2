@@ -97,7 +97,6 @@
 					<a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="#">누적 금액</a></li>
-						<li><a href="#">성별/연령별</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
@@ -112,20 +111,17 @@
 				</li>
 			</ul>
 		</div>
-		<div class="show-content">
+		<div class="show-content" style="width:500px; margin-left:220px;">
 			<div>
 				<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-				<select onchange="divChange(this)">				
+				<h3 style="margin-bottom:10px;margin-top:30px;">조회수 통계</h3>
+				<select onchange="divChange(this)" style="margin-bottom:10px;">				
                     <option value="auction">경매</option>
                     <option value="funding">펀딩</option>
                     <option value="group">공동구매</option>
                     <option value="donation">기부</option>
                 </select>
-				<table border="1">
-					<tr>
-						<th>번호</th><th>프로젝트명</th><th>전일비교</th><th>페이지뷰</th>
-					</tr>
-				</table>
+				<table class="tbl"></table>
 			</div>
 		</div>
 	</div>
@@ -143,9 +139,12 @@
 		});
 		const memberNo=$("input[name=memberNo]").val();
 		const table=$("table");
-		const tr=$("<tr>");
+		const tr=$("<tr class=\"tr-2\">");
 		const th=$("<th>번호</th><th>프로젝트명</th><th>전일비교</th><th>페이지뷰</th>");
-		window.onload = function() {
+		tr.append(th);
+		table.append(tr);
+		window.onload=init();
+		function init() {
 			$.ajax({
 				url : "/auctionCount.kh",
 				data:{memberNo:memberNo},
@@ -158,8 +157,6 @@
 						const viewTd=$("<td>");
 						noTd.append(i+1);
 						nameTd.append(list[i].PROJECTNAME);
-						console.log(list[i].VIEWDIF);
-						console.log(list[i].PREVCOUNT);
 						if(list[i].VIEWDIF==0){
 							if(list[i].PREVCOUNT==0){
 								if(list[i].VIEWCOUNT>0){
@@ -185,37 +182,7 @@
 			tr.append(th);
 			table.append(tr);
 			if(e.value=="auction"){
-				$.ajax({
-					url : "/auctionCount.kh",
-					data:{memberNo:memberNo},
-					success : function(list){
-						for(let i=0;i<list.length;i++){
-							const tr2=$("<tr>");
-							const noTd=$("<td>");
-							const nameTd=$("<td>");
-							const difTd=$("<td>");
-							const viewTd=$("<td>");
-							noTd.append(i+1);
-							nameTd.append(list[i].PROJECTNAME);
-							if(list[i].VIEWDIF==0){
-								if(list[i].PREVCOUNT==0){
-									if(list[i].VIEWCOUNT>0){
-										difTd.append("▲"+list[i].VIEWCOUNT);	
-									}else{
-										difTd.append("변동없음");
-									}
-								}
-							}else if(list[i].VIEWDIF<0){
-								difTd.append("▼"+list[i].VIEWDIF*-1);
-							}else if(list[i].VIEWDIF>0){
-								difTd.append("▲"+list[i].VIEWDIF);
-							}
-							viewTd.append(list[i].VIEWCOUNT);
-							tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
-							table.append(tr2);
-			            }
-					}
-				});
+				init();
 			}else if(e.value=="donation"){
 				$.ajax({
 					url : "/donationCount.kh",

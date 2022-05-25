@@ -1,11 +1,15 @@
 package kr.or.business.controller;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -90,19 +94,17 @@ public class BusinessController {
 		return "/manageFunding.kh";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	//조회수
-	@RequestMapping(value="/checkCount.kh")
-	public String checkCount() {	
-		return "business/checkCount";
+	@ResponseBody
+	@RequestMapping(value="/deleteGroup.kh")
+	public String deleteGroup(int projectNo) {
+		int result=service.deleteGroup(projectNo);
+		return "/manageGroup.kh";
 	}
 	
+	
+	
+	
+
 	
 	
 	
@@ -157,6 +159,35 @@ public class BusinessController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/selectGList.kh",produces="application/json;charset=utf-8")
+	public String selectGList(int memberNo) {
+		ArrayList<String> gl=service.selectGList(memberNo);
+		return new Gson().toJson(gl);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectExpiredGList.kh",produces="application/json;charset=utf-8")
+	public String selectExpiredGList(int memberNo) {
+		ArrayList<String> gl=service.selectExpiredGList(memberNo);
+		return new Gson().toJson(gl);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//조회수
+	@RequestMapping(value="/checkCount.kh")
+	public String checkCount() {	
+		return "business/checkCount";
+	}
+		
+	@ResponseBody
 	@RequestMapping(value="/auctionCount.kh",produces="application/json;charset=utf-8")
 	public String auctionCount(int memberNo) {
 		ArrayList<String> ac=service.selectAcList(memberNo);
@@ -179,5 +210,39 @@ public class BusinessController {
 	public String groupCount(int memberNo) {
 		ArrayList<String> ac=service.selectGcList(memberNo);
 		return new Gson().toJson(ac);
+	}
+	
+	
+	
+	
+	
+	
+	
+	//그래프
+	@ResponseBody
+	@RequestMapping(value = "/genderGraph.kh", produces="application/json;charset=utf-8")
+	public String gender(int memberNo, int projectNo, int divNo) {
+		ArrayList<String> list=service.genderGraph(memberNo, projectNo, divNo);
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/selectBidList.kh", produces="application/json;charset=utf-8")
+	public String selectBidList(int projectNo) {
+		ArrayList<String> list=service.selectBidList(projectNo);
+		return new Gson().toJson(list);
+	}
+	
+	@RequestMapping(value="/auctionGender.kh")
+	@ResponseBody
+	public String auctionGender(HttpServletRequest request){
+		String[] gen=request.getParameterValues("gen");
+		int[] gens=new int[gen.length];
+		for(int i=0;i<gen.length;i++) {
+			gens[i]=Integer.parseInt(gen[i]);
+		}
+		List<Integer> list=service.auctionGender(gens);
+		
+		return new Gson().toJson(list);		
 	}
 }

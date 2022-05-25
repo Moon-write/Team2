@@ -134,8 +134,52 @@
 		)n)
 	</select>
 	
+	<select id="selectGList" parameterType="int" resultType="HashMap">
+		select * from (select rownum as rnum,n.* from (
+		    select distinct
+		        project_no as projectNo,
+		        project_name as projectName,
+		        grp_count as grpCount,
+		        grp_start as grpStart, 
+		        grp_end as grpEnd,
+                grp_orig_price as grpOrigPrice,
+                grp_lowest as grpLowest,
+                grp_prd_no as grpPrdNo,
+                grp_category as grpCategory
+		    from group_tbl
+		    where member_no=#{memberNo} and
+		    to_number(substr(grp_end,9,2)) <![CDATA[ >= ]]> to_number(to_char(sysdate,'dd'))
+		    order by project_no desc
+		)n)
+	</select>
+	
+	<select id="selectExpiredGList" parameterType="int" resultType="HashMap">
+		select * from (select rownum as rnum,n.* from (
+		    select distinct
+		        project_no as projectNo,
+		        project_name as projectName,
+		        grp_count as grpCount,
+		        grp_start as grpStart, 
+		        grp_end as grpEnd,
+                grp_orig_price as grpOrigPrice,
+                grp_lowest as grpLowest,
+                grp_prd_no as grpPrdNo,
+                grp_category as grpCategory
+		    from group_tbl
+		    where member_no=#{memberNo} and
+		    to_number(substr(grp_end,9,2)) <![CDATA[ < ]]> to_number(to_char(sysdate,'dd'))
+		    order by project_no desc
+		)n)
+	</select>
+	
+	
+	
+	
 	<delete id="deleteAuction" parameterType="int">
 		delete from auction_tbl where project_no=#{projectNo}		
+	</delete>
+	<delete id="deleteGroup" parameterType="int">
+		delete from group_tbl where project_no=#{projectNo}		
 	</delete>
 	<delete id="deleteFunding" parameterType="int">
 		delete from funding where funding_no=#{fundingNo}
@@ -198,5 +242,31 @@
 	    	nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join donation a on (a.project_no=v.project_no)
 		where member_no=#{memberNo} and div_no=2
+	</select>
+	
+	<select id="genderGraph" parameterType="map" resultType="String">
+		select
+			count(member_gender) as cnt 
+		from member m 
+		join order_tbl o on(o.member_no=m.member_no) 
+		where seller_no=#{memberNo} and o.project_no=#{projectNo} and div_no=#{divNo}
+		group by member_gender order by member_gender
+	</select>
+	
+	<select id="selectBidList" parameterType="int" resultType="String">
+		select distinct 
+		member_no
+		from bid_tbl
+		where project_no=#{projectNo}
+	</select>
+	
+	<select id="auctionGender" resultType="int">
+		select count(member_gender)
+		from member
+		where member_no in
+			<foreach collection="array" item="arr" open="(" close=")" separator=",">
+			 #{arr}
+			</foreach>
+		group by member_gender order by member_gender
 	</select>
 </mapper>

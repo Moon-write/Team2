@@ -7,6 +7,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="js/jquery-3.6.0.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels@0.1.4/dist/chartjs-plugin-piechart-outlabels.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-doughnutlabel/2.0.3/chartjs-plugin-doughnutlabel.js"></script>
+
 <style>
 .menu {
 	margin-top:30px;
@@ -98,7 +103,6 @@
 					<a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="#">누적 금액</a></li>
-						<li><a href="#">성별/연령별</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
@@ -113,18 +117,29 @@
 				</li>
 			</ul>
 		</div>
-		<div class="show-content">
+		<div class="show-content" style="width:1000px;">
 			<div>
 				<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-				<h3>펀딩 관리</h3>
-				<select onchange="divChange(this)">				
+				<h3 style="margin-bottom:10px;margin-top:30px;">펀딩 관리</h3>
+				<select onchange="divChange(this)" style="margin-bottom:10px;">			
                     <option value="selling">진행중인 펀딩</option>
                     <option value="end">종료된 펀딩</option>
                 </select>
-				<table border="1"></table>				
+				<table class="tbl"></table>					
 			</div>	
 		</div>
 	</div>
+	<div id="test-modal" class="modal-bg">
+	      <div class="modal-wrap">
+	        <div class="modal-head">
+	          <h2>참여자 성별 비율</h2>
+	          <span class="material-icons close-icon modal-close">close</span>
+	        </div>
+	        <div class="modal-content">
+	        	<canvas id="chart" width=600 height=600></canvas>
+	        </div>
+	      </div>
+	    </div>
 	<script>
 		$(function() {
 			$(".sub-menu").prev().append("<span class='more'></span>")
@@ -139,10 +154,11 @@
 		});
 		const memberNo=$("input[name=memberNo]").val();
 		const table=$("table");
-		const sTr=$("<tr>");
-		const eTr=$("<tr>");
-		const sTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>현재모인금액</th><th>목표달성률</th>");
-		const eTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>총모인금액</th><th>목표달성률</th>");
+		const sTr=$("<tr class=\"tr-2\">");
+		const eTr=$("<tr class=\"tr-2\">");
+		const sTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>현재모인금액</th><th>목표달성률</th><th></th><th></th><th></th>");
+		const eTh=$("<th>번호</th><th>펀딩명</th><th>펀딩카테고리</th><th>시작일</th><th>종료일</th><th>목표금액</th><th>총모인금액</th><th>목표달성률</th><th></th>");
+		const thousands = (o) => o.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
 		sTr.append(sTh);
 		eTr.append(eTh);
 		
@@ -165,18 +181,21 @@
 							const cTd=$("<td>");
 							const sdTd=$("<td>");
 							const edTd=$("<td>");
-							const fsTd=$("<td>");
-							const fcsTd=$("<td>");
+							const fsTd=$("<td class=\"money\">");
+							const fcsTd=$("<td class=\"money\">");
 							const fsmTd=$("<td>");
+							const fundingNo="<div style=\"display:none;\">"+list[i].FUNDINGNO+"</div>";
+							const fcs="<div style=\"display:none;\">"+list[i].FUNDINGCURRENTSUM+"</div>";
+							const modal=$("<td><button class=\"btn2 bc1 modal-open-btn chart\" target=\"#test-modal\">통계</button></td>");
 							noTd.append(i+1);
 							pNameTd.append(list[i].FUNDINGNAME);
 							cTd.append(list[i].FUNDINGCATEGORY);
 							sdTd.append(list[i].FUNDINGSTARTDATE);
 							edTd.append(list[i].FUNDINGENDDATE);
-							fsTd.append(list[i].FUNDINGSUM);
-							fcsTd.append(list[i].FUNDINGCURRENTSUM);
+							fsTd.append(thousands(list[i].FUNDINGSUM)+"원");
+							fcsTd.append(thousands(list[i].FUNDINGCURRENTSUM)+"원");
 							fsmTd.append(list[i].FUNDINGSUMRATE);
-							tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd);
+							tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd).append(fundingNo).append(fcs).append(modal);
 							table.append(tr);						
 			            }
 					}
@@ -190,7 +209,6 @@
 				url : "/selectFList.kh",
 				data:{memberNo:memberNo},					
 				success : function(list){
-					console.log(list);
 					for(let i=0;i<list.length;i++){
 						const tr=$("<tr>");
 						const noTd=$("<td>");
@@ -201,24 +219,26 @@
 						const fsTd=$("<td>");
 						const fcsTd=$("<td>");
 						const fsmTd=$("<td>");
-						const modiTd=$("<td><button><a href=\"#\">수정하기</a></button></td>");
-						const delTd=$("<td><button id=\"delete\">삭제</button></td>");
+						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
+						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
 						const fundingNo="<div style=\"display:none;\">"+list[i].FUNDINGNO+"</div>";
+						const fcs="<div style=\"display:none;\">"+list[i].FUNDINGCURRENTSUM+"</div>";
+						const modal=$("<td><button class=\"btn2 bc1 modal-open-btn chart\" target=\"#test-modal\">통계</button></td>");
 						noTd.append(i+1);
 						pNameTd.append(list[i].FUNDINGNAME);
 						cTd.append(list[i].FUNDINGCATEGORY);
 						sdTd.append(list[i].FUNDINGSTARTDATE);
 						edTd.append(list[i].FUNDINGENDDATE);
-						fsTd.append(list[i].FUNDINGSUM);
-						fcsTd.append(list[i].FUNDINGCURRENTSUM);
+						fsTd.append(thousands(list[i].FUNDINGSUM)+"원");
+						fcsTd.append(thousands(list[i].FUNDINGCURRENTSUM)+"");
 						fsmTd.append(list[i].FUNDINGSUMRATE);
-						tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd).append(modiTd).append(delTd).append(fundingNo);
+						tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd).append(modiTd).append(delTd).append(fundingNo).append(fcs).append(modal);
 						table.append(tr);						
 		            }
 				
 					$(document).on("click", "td #delete",function(event){					
 						const fundingNo=$(this).parent().next().text();
-						const fcs=$(this).parent().prev().prev().prev().text();
+						const fcs=$(this).parent().next().next().text();
 						if(fcs!=0){
 							alert("삭제할 수 없습니다.");
 							return;
@@ -236,6 +256,65 @@
 				}
 			});
 		}
+		$(function () {
+			  $(document).on("click", ".modal-open-btn", function () {
+				  if($(this).parent().prev().text()>0){				
+			    $($(this).attr("target")).css("display", "flex");
+			    const projectNo=$(this).parent().prev().prev().text();
+			    var gen = [];
+					$.ajax({
+						url : "/genderGraph.kh",
+						data:{memberNo:memberNo,projectNo:projectNo,divNo:1},
+						success : function(list) {
+							for (let i = 0; i < list.length; i++) {
+								gen.push(list[i]);
+							};
+							var gender = gen.map(Number);
+							const myChart = new Chart(document.getElementById('chart').getContext("2d"), {
+								   "data":{
+								      "datasets":[
+								         {
+								            "data":gender,
+								            "backgroundColor":[
+								               "#5DA5DA",
+								               "#F17CB0"
+								            ]
+								         }
+								      ],
+								      "labels":[
+								         "남성",
+								         "여성"
+								      ]
+								   },
+								   "options":{
+								      "plugins":{
+								         "legend":false,
+								         "outlabels":{
+								        	"text":"%l\n%v명 (%p)",
+								            "color":"white",
+								            "stretch":35,
+								            "font":{
+								               "resizable":true,
+								               "minSize":12,
+								               "maxSize":18
+								            }
+								         }
+								      }
+								   },
+								   "type":"outlabeledDoughnut"
+								});
+						}
+					});
+				  }else{
+					  alert("참여자가 없습니다.");
+				  }
+			  });
+			  $(document).on("click", ".modal-close", function () {
+			    $(this).parents(".modal-wrap").parent().css("display", "none");
+			  });  
+			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
+		});
+		
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

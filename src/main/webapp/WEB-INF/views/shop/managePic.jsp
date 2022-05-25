@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,15 +37,17 @@
 			<div style="width:500px; text-align:center;margin:0 auto;">
 				<button class="btn bc3 deleteShopPic">삭제</button>
 			</div>
-			<form action="/picUpload.kh" method="post" enctype="multipart/form-data">
-				<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
-					<input type="file" name="upfile" id="imgUpload" style="display:none;" multiple></input>
-					<label for="imgUpload">배경사진 업로드 (최대 4개)</label>
-	                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-	                <input type="hidden" name="shopNo" value="${shop.shopNo }">
-	                <span><input type="submit" name="submit" value="등록" style="float:none;"></span>	               
-				</fieldset>
-			</form>
+			<c:if test="${fn:length(sp) lt 4 }">
+				<form action="/picUpload.kh" method="post" enctype="multipart/form-data">
+					<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
+						<input type="file" name="upfile" id="imgUpload" style="display:none;" multiple></input>
+						<label for="imgUpload">배경사진 업로드 (최대 4개)</label>
+		                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
+		                <input type="hidden" name="shopNo" value="${shop.shopNo }">
+		                <span><input type="submit" name="submit" value="등록" style="float:none;"></span>	               
+					</fieldset>
+				</form>
+			</c:if>			
 		</div>
 		<script>
 			$(".deleteShopPic").on("click",function(){
@@ -56,7 +60,6 @@
 				check.each(function(index,item){
 					shopPicNos.push($(item).parent().next().text());
 				});
-				console.log(shopPicNos);
 				location.href="/deleteShopPic.kh?shopPicNos="+shopPicNos.join("/");
 			});
 			$("input[name=submit]").on("click",function(e){

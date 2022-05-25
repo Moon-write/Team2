@@ -2,6 +2,8 @@ package kr.or.business.model.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,23 +17,24 @@ import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
 import kr.or.shop.model.vo.Shop;
+import kr.or.shop.model.vo.ShopPic;
 import oracle.net.aso.a;
 
 @Service
 public class BusinessService {
 	@Autowired
 	private BusinessDao dao;
-	
+
 	public Shop selectShopNo(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectShopNo(memberNo);
 	}
-	
+
 	public ArrayList<Funding> selectFdList(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectFdList(memberNo);
 	}
-	
+
 	public ArrayList<Funding> selectExpiredFdList(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectExpiredFdList(memberNo);
@@ -110,11 +113,12 @@ public class BusinessService {
 		// TODO Auto-generated method stub
 		return dao.selectAList(memberNo);
 	}
+
 	public ArrayList<String> selectExpiredAList(int memberNo) {
-			// TODO Auto-generated method stub
-			return dao.selectExpiredAList(memberNo);
+		// TODO Auto-generated method stub
+		return dao.selectExpiredAList(memberNo);
 	}
-	
+
 	public String selectBestPrice(int memberNo, int projectNo) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -122,8 +126,6 @@ public class BusinessService {
 		map.put("memberNo", memberNo);
 		return dao.selectBestPrice(map);
 	}
-
-	
 
 	public int deleteFunding(int fundingNo) {
 		// TODO Auto-generated method stub
@@ -138,6 +140,40 @@ public class BusinessService {
 	public ArrayList<String> selectExpiredFList(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectExpiredFList(memberNo);
+	}
+
+	public ArrayList<String> selectGList(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectGList(memberNo);
+	}
+
+	public ArrayList<String> selectExpiredGList(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectExpiredGList(memberNo);
+	}
+
+	public int deleteGroup(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteGroup(projectNo);
+	}
+
+	public ArrayList<String> genderGraph(int memberNo, int projectNo, int divNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("projectNo", projectNo);
+		map.put("memberNo", memberNo);
+		map.put("divNo", divNo);
+		return dao.genderGraph(map);
+	}
+
+	public ArrayList<String> selectBidList(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.selectBidList(projectNo);
+	}
+
+	public List<Integer> auctionGender(int[] gens) {
+		// TODO Auto-generated method stubs2.add(memberNo);
+		return dao.auctionGender(gens);
 	}
 
 }
