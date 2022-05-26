@@ -155,11 +155,7 @@ public class BusinessDao {
 		return sqlSession.delete("business.deleteGroup",projectNo);
 	}
 
-	public ArrayList<String> genderGraph(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.genderGraph", map);
-		return (ArrayList<String>) list;
-	}
+
 
 	public ArrayList<String> selectBidList(int projectNo) {
 		// TODO Auto-generated method stub
@@ -170,6 +166,27 @@ public class BusinessDao {
 	public List<Integer> auctionGender(int[] gens) {
 		// TODO Auto-generated method stub		
 		return sqlSession.selectList("business.auctionGender",gens);
+	}
+
+	public ArrayList<String> selectMemberNo(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectMemberNo", map);
+		return (ArrayList<String>) list;
+	}
+
+	public List<Integer> selectMaleGroup(int[] mns) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("business.selectMaleGroup",mns);
+	}
+
+	public List<Integer> selectFemaleGroup(int[] mns) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("business.selectFemaleGroup",mns);
+	}
+
+	public List<Integer> genderGraph(int[] mns) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("business.genderGraph",mns);
 	}
 
 
