@@ -57,11 +57,6 @@ public class DonationController {
 	}
 
 	// update
-	@RequestMapping(value = "/donationUpdateWriter.kh")
-	public String updateDonation() {
-		return "donation/donationUpdateWriterForm";
-	}
-
 	@RequestMapping(value = "/updateDonation.kh")
 	public String updateDonation(Donation d) {
 		int result = service.updateDonation(d);
@@ -69,23 +64,47 @@ public class DonationController {
 	}
 
 	// select
-	@RequestMapping(value = "/donationView.kh")
+	@RequestMapping(value = "//donationClick.kh")
 	public String donationView(Donation d, Model model) {
 		Donation donation = service.selectOneDonation(d);
 		model.addAttribute("donation", d);
 		return "donation/donationView";
 	}
-	
-	
+
+	@RequestMapping(value = "//donationClick2.kh")
+	public String donationView2(Donation d, Model model) {
+		Donation donation = service.selectOneDonation(d);
+		model.addAttribute("donation", d);
+		return "donation/donationView2";
+	}
+
 //-------------------------------페이지이동
 	@RequestMapping(value = "/donationWriter.kh") // 기부신규등록 버튼 클릭 시 이동할 form
 	public String donationWriter() {
 		return "donation/donationWriterForm";
 	}
-	@RequestMapping(value="/donationClick.kh")
+
+	@RequestMapping(value = "/donationUpdateWriter.kh") // 기부 수정페이지로 이동할 form
+	public String updateDonation() {
+		return "donation/donationUpdateWriterForm";
+	}
+
+	// 임시
+	@RequestMapping(value = "/donationClick.kh")
 	public String donationClick() {
 		return "donation/donationView";
 	}
+
+	@RequestMapping(value = "/donationClick2.kh")
+	public String donationClick2() {
+		return "donation/donationView2";
+	}
+
+	@RequestMapping(value = "/donationUpdate.kh")
+	public String donationUpdate() {
+		return "donation/donationUpdateForm";
+	}
+
 //-------------------------------기타
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {
@@ -131,8 +150,16 @@ public class DonationController {
 	// upload
 	@ResponseBody
 	@RequestMapping(value = "/uploadImage.kh")
-	public void uploadImage(MultipartFile file, HttpServletRequest request, HttpServletResponse response)
+	public String uploadImage(MultipartFile[] file, HttpServletRequest request)
 			throws Exception {
+		String filepath = null;
+		if (!file[0].isEmpty()) {
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/donation/");
 
+			MultipartFile onefile = file[0];
+
+			filepath = fileIo(onefile, savePath);
+		}
+		return "../../../resources/upload/donation/" + filepath;
 	}
 }

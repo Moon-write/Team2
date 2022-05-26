@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
@@ -103,7 +105,6 @@ public class BusinessController {
 	
 	
 	
-	
 
 	
 	
@@ -171,8 +172,7 @@ public class BusinessController {
 		ArrayList<String> gl=service.selectExpiredGList(memberNo);
 		return new Gson().toJson(gl);
 	}
-	
-	
+
 	
 	
 	
@@ -219,11 +219,16 @@ public class BusinessController {
 	
 	
 	//그래프
+	@RequestMapping(value="/genderGraph.kh")
 	@ResponseBody
-	@RequestMapping(value = "/genderGraph.kh", produces="application/json;charset=utf-8")
-	public String gender(int memberNo, int projectNo, int divNo) {
-		ArrayList<String> list=service.genderGraph(memberNo, projectNo, divNo);
-		return new Gson().toJson(list);
+	public String genderGraph(HttpServletRequest request){
+		String[] mnList=request.getParameterValues("mnList");
+		int[] mns=new int[mnList.length];
+		for(int i=0;i<mnList.length;i++) {
+			mns[i]=Integer.parseInt(mnList[i]);
+		}			
+		List<Integer> list=service.genderGraph(mns);
+		return new Gson().toJson(list);		
 	}
 	
 	@ResponseBody
@@ -241,8 +246,39 @@ public class BusinessController {
 		for(int i=0;i<gen.length;i++) {
 			gens[i]=Integer.parseInt(gen[i]);
 		}
-		List<Integer> list=service.auctionGender(gens);
+		List<Integer> list=service.auctionGender(gens);		
+		return new Gson().toJson(list);		
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectMemberNo.kh",produces="application/json;charset=utf-8")
+	public String selectMemberNo(int memberNo, int projectNo, int divNo) {
+		ArrayList<String> ml=service.selectMemberNo(memberNo, projectNo, divNo);
+		return new Gson().toJson(ml);
+	}
+	
+	@RequestMapping(value="/selectMaleGroup.kh")
+	@ResponseBody
+	public String selectMaleGroup(HttpServletRequest request){
+		String[] mnList=request.getParameterValues("mnList");
+		int[] mns=new int[mnList.length];
+		for(int i=0;i<mnList.length;i++) {
+			mns[i]=Integer.parseInt(mnList[i]);
+		}			
+		List<Integer> list=service.selectMaleGroup(mns);
+		return new Gson().toJson(list);		
+	}
+	@RequestMapping(value="/selectFemaleGroup.kh")
+	@ResponseBody
+	public String selectFemaleGroup(HttpServletRequest request){
+		String[] mnList=request.getParameterValues("mnList");
+		int[] mns=new int[mnList.length];
+		for(int i=0;i<mnList.length;i++) {
+			mns[i]=Integer.parseInt(mnList[i]);
+		}			
+		List<Integer> list=service.selectFemaleGroup(mns);
 		
 		return new Gson().toJson(list);		
 	}
+	
 }

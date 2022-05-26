@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>경매 등록</title>
+<title>경매 수정</title>
 <style>
 	.auction-wrap{
 		display: flex;
@@ -89,58 +89,58 @@
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
 			<form method='post' enctype='multipart/form-data'>
-			<div class="page-titleC">경매 등록</div>
+			<input type="hidden" name="projectNo" value="${a.projectNo}">
+			<div class="page-titleC">경매 수정</div>
 			<div class="auction-wrap">
 				<div class="auction-pic">
 					<div class="pic-upload">
-						<img src="../../../resources/img/auction/preview.jpg">
+						<img src="../../../resources/upload/auction/${a.auctionPic}">												
 					</div>
 					<div class="pic-button">
 						<span style="margin-right: 20px">대표사진</span>
-						<label for="upPic"><span class="btn bc1">등록</span></label>
+						<label for="upPic"><span class="btn bc1">수정</span></label>
 						<input type="file" name="auctionPicture" id="upPic" style="display: none;" accept=".jpg,.png,.jpeg,.gif" onchange="loadImg(this)">
 					</div>
 				</div>
 				<div class="auction-info">
-					<table style="border: none;">
+					<table style="border: none;">	
 						<tr>
 							<th>카테고리</th>
 							<td>
 								<select name="auctionCategory" class="input-form">
-									<option>카테고리 수정</option>
-									<option value="1">유기동물 구조</option>
-									<option value="2">미혼모 지원</option>
-									<option value="3">장애인 지원</option>
-									<option value="4">소년가장 후원</option>
+									<option value="1" <c:if test="${a.auctionCategory eq 1 }">selected </c:if> >유기동물 구조</option>
+									<option value="2" <c:if test="${a.auctionCategory eq 2 }">selected </c:if> >미혼모 지원</option>
+									<option value="3" <c:if test="${a.auctionCategory eq 3 }">selected </c:if> >장애인 지원</option>
+									<option value="4" <c:if test="${a.auctionCategory eq 4 }">selected </c:if> >소년가장 후원</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<th>프로젝트명</th>
-							<td><input type="text" name="projectName" class="input-form"></td>
+							<td><input type="text" name="projectName" class="input-form" value="${a.projectName}"></td>
 						</tr>
 						<tr>
 							<th>상품명</th>
-							<td><input type="text" name="auctionItem" class="input-form"></td>
+							<td><input type="text" name="auctionItem" class="input-form" value="${a.auctionItem }"></td>
 						</tr>
 						<tr>
 							<th>판매수량</th>
-							<td><input type="number" name="auctionAmount" class="input-form" value="1" style="text-align: center;"><span style="width: 40px;">개</span></td>
+							<td><input type="number" name="auctionAmount" class="input-form" value="1" style="text-align: center;"><span style="width: 40px;" value="${a.auctionAmount }">개</span></td>
 						</tr>
 						<tr>
 							<th rowspan="2">경매 기간</th>
 							<td>
-								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionStart" />
+								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionStart" value="${a.auctionStart }"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionEnd" />
+								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionEnd" value="${a.auctionEnd }"/>
 							</td>
 						</tr>
 						<tr>
 							<th>시작 가격</th>
-							<td><input type="text" name="auctionPrice" class="input-form" style="text-align: right;" placeholder="개당 시작가격"><span style="width: 40px;">원 ~</span></td>
+							<td><input type="text" name="auctionPrice" class="input-form" style="text-align: right;"  value="${a.auctionPrice }"><span style="width: 40px;">원 ~</span></td>
 						</tr>
 					</table>
 				</div>
@@ -157,16 +157,17 @@
 				</div>
 			</div>
 			<div class="auction-content">
-				<textarea name="auctionContent" id="auctionContent" class="input-form"></textarea>
+				<textarea name="auctionContent" id="auctionContent" class="input-form">${a.auctionContent }</textarea>
 			</div>
 			<div class="auction-submit">
 				<button class="btn bc11 bs3" id="previewBtn">미리보기</button>
-				<button id="submitBtn" class="btn bc4 bs3" disabled>등록하기</button>
+				<button id="submitBtn" class="btn bc4 bs3" disabled>수정하기</button>
 			</div>
 			</form>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
+		
 		$("#auctionContent").summernote({
 			height: 800,
 			lang: "ko-KR",
@@ -261,7 +262,7 @@
 		$("#submitBtn").on("click",function(){
 			const form = $("form");
 			form.removeAttr("target");
-			form.attr("action","/insertAuction.kh");
+			form.attr("action","/modifyAuction.kh");
 		})
 		$("form").on("submit",function(){
 			if(!check()){

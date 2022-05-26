@@ -167,4 +167,19 @@ public class AuctionDao {
 		int result = sqlSession.update("auction.updateOrderPay", o);
 		return 0;
 	}
+
+	public float checkUpdatable(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.checkUpdatable", projectNo);
+	}
+
+	public int updateAuctionInfo(Auction a) {
+		int result = sqlSession.update("auction.updateAuctionInfo", a);
+		return result;
+	}
+
+	public int updateAuctionContent(Auction a) {
+		int result = sqlSession.update("auction.updateAuctionContent", a);
+		return result;
+	}
 }

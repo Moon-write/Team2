@@ -157,14 +157,6 @@ public class BusinessService {
 		return dao.deleteGroup(projectNo);
 	}
 
-	public ArrayList<String> genderGraph(int memberNo, int projectNo, int divNo) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("projectNo", projectNo);
-		map.put("memberNo", memberNo);
-		map.put("divNo", divNo);
-		return dao.genderGraph(map);
-	}
 
 	public ArrayList<String> selectBidList(int projectNo) {
 		// TODO Auto-generated method stub
@@ -174,6 +166,30 @@ public class BusinessService {
 	public List<Integer> auctionGender(int[] gens) {
 		// TODO Auto-generated method stubs2.add(memberNo);
 		return dao.auctionGender(gens);
+	}
+
+	public ArrayList<String> selectMemberNo(int memberNo, int projectNo, int divNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("projectNo", projectNo);
+		map.put("memberNo", memberNo);
+		map.put("divNo", divNo);
+		return dao.selectMemberNo(map);
+	}
+
+	public List<Integer> selectMaleGroup(int[] mns) {
+		// TODO Auto-generated method stub
+		return dao.selectMaleGroup(mns);
+	}
+
+	public List<Integer> selectFemaleGroup(int[] mns) {
+		// TODO Auto-generated method stub
+		return dao.selectFemaleGroup(mns);
+	}
+
+	public List<Integer> genderGraph(int[] mns) {
+		// TODO Auto-generated method stub
+		return dao.genderGraph(mns);
 	}
 
 }

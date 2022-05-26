@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 <title>경매상품 보기</title>
 <style type="text/css">
-	.page-title{
-		text-align: center;
-		font-size: 0.8em;
-	}
 	.auction-setting{
 		padding: 30px;
 		border-bottom: 1px solid #ccc;
@@ -166,7 +162,7 @@
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 	<input type="hidden" id="projectNo" value="${auction.projectNo}">
 		<div class="page-content">
-			<div class="page-title">${auction.projectName }</div>
+			<div class="page-titleC">${auction.projectName }</div>
 			<div class="auction-setting">
 				<div class="auction-like">
 					<c:choose>
@@ -279,7 +275,7 @@
 				${auction.auctionContent }
 			</div>
 			<div class="auction-comment">
-				<div class="page-title">회원 한마디</div>
+				<div class="page-titleC">회원 한마디</div>
 			</div>
 			<div class="auction-direct">
 				<button class="btn bc11" onclick="gotoback()">목록으로</button>

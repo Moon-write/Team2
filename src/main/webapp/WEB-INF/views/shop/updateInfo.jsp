@@ -226,6 +226,9 @@ label {
 		                		<c:if test="${empty shop.shopBirth }">
 			                		없음
 			                	</c:if>
+			                	<c:if test="${!empty shop.shopBirth }">
+			                		${shop.shopBirth }
+			                	</c:if>
 		                	</div>
 		                	<div>주소</div>
 		                	<div>전화번호</div>
