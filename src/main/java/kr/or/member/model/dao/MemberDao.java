@@ -12,12 +12,12 @@ public class MemberDao {
 	private SqlSessionTemplate sqlSession;
 	
 	public Member selectOneMember(Member m) {
-		Member member = sqlSession.selectOne("member.selectOneMember", m);
+		Member member = sqlSession.selectOne("member.selectOneMember",m);
 		return member;
 	}
 
 	public int insertMember(Member m) {
-		int result = sqlSession.insert("member.insertMember", m);
+		int result = sqlSession.insert("member.insertMember",m);
 		return result;
 	}
 

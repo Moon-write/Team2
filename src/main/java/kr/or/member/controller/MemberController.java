@@ -23,8 +23,11 @@ public class MemberController {
 	public String login(Member m, HttpSession session) {
 		Member member = service.selectOneMember(m);
 		if(member != null) {
+			System.out.println("멤버 아이디 : " +member.getMemberId());
+			System.out.println("멤버 비밀번호 : " +member.getMemberPw());
 			session.setAttribute("m", member);
 		}
+		System.out.println("멤버 객체 못가져옴");
 		return "redirect:/";
 	}
 	
