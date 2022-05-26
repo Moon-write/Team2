@@ -71,6 +71,10 @@
 	margin-top: 10px;
 	border:1px dotted black;
 	}
+	.disLevel2, .disLevel3, .disLevel4, .disLevel5{
+		width: 660px;
+		display: none;
+	}
 </style>
 <link rel="stylesheet" href="../../../resources/css/auction/mobiscroll.jquery.min.css"/>
 <link rel="stylesheet" href="../../../resources/css/summernote-lite.css">
@@ -81,7 +85,7 @@
 	<script src="../../../resources/js/summernote-lite.js"></script>
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
-			<form method='post' enctype='multipart/form-data'>
+			<form action="/insertGroup.kh" method='post' enctype='multipart/form-data'>
 			<div class="page-title">공동구매 등록</div>
 			<div class="group-wrap">
 				<div class="group-part">
@@ -89,6 +93,7 @@
 				</div>
 				<div class="group-info">
 					<table style="border: none;">
+						<input type="hidden" name="memberNo" val="${sessionScope.m.memberId }">
 						<tr>
 							<th>카테고리</th>
 							<td>
@@ -105,6 +110,10 @@
 						<tr>
 							<th>프로젝트명</th>
 							<td><input type="text" name="projectName" class="input-form"></td>
+						</tr>
+						<tr>
+							<th>프로젝트 설명</th>
+							<td><input type="text" name="grpCaption" class="input-form"></td>
 						</tr>
 						<tr class="gName">
 							<th>상품명</th>
@@ -181,10 +190,189 @@
 								</select>	
 							</td>
 						</tr>
-						
-						
 					</table>
 				</div>
+			</div>
+			<div class="group-wrap disLevel2">
+				<div class="group-info disLevel2">
+					<table style="border: none;">
+						<tr>
+							<th>인원</th>
+							<td>
+								<input type="text" id="lv1" class="input-form" style="width: 70px;"><span>명 이상</span>
+							</td>
+							<td>
+								<input type="text" id="lv1" class="input-form" style="width: 70px;"><span>명 이상</span>
+							</td>
+						</tr>
+						<tr>
+							<th>가격</th>
+							<td>
+								<input type="text" id="lv2" class="input-form" style="width: 70px;"><span>원</span>
+							</td>
+							<td>
+								<input type="text" id="lv2" class="input-form" style="width: 70px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<button type="button" class="btn bc4 makeTbl" onclick="tbl(lv1.value, lv1p.value, lv2.value, lv2p.value)">적용하기</button>
+								<button type="button" class="btn bc2 resetVal" onclick="resetTbl()">초기화</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!--
+			<div class="group-wrap disLevel2">
+				<div class="group-part disLevel2">
+				</div>
+				<div class="group-info disLevel2">
+					<table style="border: none;">
+						<tr>
+							<th></th>
+							<td>
+								<span>1명 ~</span><input type="text" id="lv1" class="input-form" style="width: 100px;"><span>명</span><input type="text" id="lv1p" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" id="lv2" class="input-form" style="width: 100px;"><span>명 이상</span><input type="text" id="lv2p" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<button type="button" class="btn bc4 makeTbl" onclick="tbl(lv1.value, lv1p.value, lv2.value, lv2p.value)">적용하기</button>
+								<button type="button" class="btn bc2 resetVal" onclick="resetTbl()">초기화</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		-->
+			<div class="group-wrap disLevel3">
+				<div class="group-part disLevel3">
+				</div>
+				<div class="group-info disLevel3">
+					<table style="border: none;">
+						<tr>
+							<th></th>
+							<td>
+								<span>1명 ~</span><input type="text" id="lv1" class="input-form" style="width: 100px;"><span>명</span><input type="text" id="lv1p" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" id="lv2" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" id="lv21" class="input-form" style="width: 100px;"><span>명</span><input type="text" id="lv2p" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" id="lv3" class="input-form" style="width: 100px;"><span>명 이상</span><input type="text" id="lv3p" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<button type="button" class="btn bc4 makeTbl">적용하기</button>
+								<button type="button" class="btn bc2 resetVal" onclick="resetTbl()">초기화</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="group-wrap disLevel4">
+				<div class="group-part disLevel4">
+				</div>
+				<div class="group-info disLevel4">
+					<table style="border: none;">
+						<tr>
+							<th></th>
+							<td>
+								<span>1명 ~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명 이상</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<button type="button" class="btn bc4 makeTbl">적용하기</button>
+								<button type="button" class="btn bc2 resetVal">초기화</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="group-wrap disLevel5">
+				<div class="group-part disLevel5">
+				</div>
+				<div class="group-info disLevel5">
+					<table style="border: none;">
+						<tr>
+							<th></th>
+							<td>
+								<span>1명 ~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><span>~</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>명 이상</span><input type="text" name="grpOrigPrice" class="input-form" style="width: 100px;"><span>원</span>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<button type="button" class="btn bc4" id="makeTbl">적용하기</button>
+								<button type="button" class="btn bc2" id="resetVal">초기화</button>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div class="disTable">
+
 			</div>
 			<div class="group-wrap">
 				<div class="group-part">
@@ -198,7 +386,7 @@
 			</div>
 			<div class="group-submit">
 				<button class="btn bc11 bs3" id="previewBtn">미리보기</button>
-				<button id="submitBtn" class="btn bc4 bs3" disabled>등록하기</button>
+				<button id="submitBtn" class="btn bc4 bs3">등록하기</button>
 			</div>
 			</form>
 		</div>
@@ -298,9 +486,55 @@
 
 		$(".makeLevel").on("change",function(){
 			if($(".makeLevel").val()==2){
-				
+				$(".disLevel5").hide();
+				$(".disLevel4").hide();
+				$(".disLevel3").hide();
+				$(".disLevel2").show();
+			}
+			if($(".makeLevel").val()==3){
+				$(".disLevel2").hide();
+				$(".disLevel4").hide();
+				$(".disLevel5").hide();
+				$(".disLevel3").show();
+			}
+			if($(".makeLevel").val()==4){
+				$(".disLevel3").hide();
+				$(".disLevel2").hide();
+				$(".disLevel5").hide();
+				$(".disLevel4").show();
+			}
+			if($(".makeLevel").val()==5){
+				$(".disLevel3").hide();
+				$(".disLevel4").hide();
+				$(".disLevel2").hide();
+				$(".disLevel5").show();
 			}
 		});
+		/*
+		function tbl(a, b, c, d){
+			const tblDiv = $(".disTable");
+			tblHtml = '<table><tr><th>인원</th><td>~'+a+'명 이상</td><td>'+c+'명 이상</td></tr>'
+				+'<tr><th>가격</th><td>'+b+'원</td><td>'+d+'원</td></tr><table>';
+			
+			tblDiv.append(tblHtml);
+		}
+		*/
+		/*
+		function tbl2(a1, a2, b1, b11, b2, c1, c2){
+			const tblDiv = $(".disTable");
+			tblHtml = '<table><tr><th>인원</th><td>1명~'+a1+'명</td><td>'+b1+'명 ~'+b11+'명</td><td>'+c1+'명 이상</td></tr>'
+				+'<tr><th>가격</th><td>'+a2+'원</td><td>'+b2+'원</td><td>'+c2+'원</td></tr><table>';
+			
+			tblDiv.append(tblHtml);
+		}
+		*/
+		/*
+		function resetTbl(){
+			$(".dislevel*>.input-form").val('');
+			$(".disTable>table").empty();
+		}
+		*/
+
 		mobiscroll.setOptions({
 		    locale: mobiscroll.localeKo,
 		    theme: 'windows',
