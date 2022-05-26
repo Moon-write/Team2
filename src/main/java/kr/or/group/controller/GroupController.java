@@ -14,15 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 
+import kr.or.auction.model.vo.Bid;
 import kr.or.group.model.service.GroupService;
-import kr.or.group.model.vo.Group;
-import kr.or.member.model.vo.Member;
 
 @Controller
 public class GroupController {
@@ -75,31 +72,6 @@ public class GroupController {
 	}
 	
 
-	@RequestMapping(value="/insertGroup.kh")
-	public String insertGroup(@SessionAttribute(required=false) Member m, Group group, MultipartFile[] grpFilepath, HttpServletRequest request, RedirectAttributes redirect) {
-		String filepath = null;
-		group.setMemberNo(m.getMemberNo());
-		
-		if(!grpFilepath[0].isEmpty()) {
-			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
-			
-			MultipartFile file = grpFilepath[0];
-			
-			filepath = fileIo(file, savePath);
-		}else {
-			filepath = "preview.jpg";
-		}
-		group.setGrpFilepath(filepath);
-		int result = service.insertGroup(group);
-		
-		if(result>0) {
-			return "group/groupMain";	 
-		}else {			
-			return "redirect:/addGroup2.kh";
-		}
-		
-	}
-	
 	
 	@ResponseBody
 	@RequestMapping(value="/groupImgUpload.kh")
