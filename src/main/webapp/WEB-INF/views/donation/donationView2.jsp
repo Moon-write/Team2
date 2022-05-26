@@ -18,7 +18,7 @@
 }
 
 .main-img {
-	width: 30%;
+	width: 100%;
 	height: 300px;
 	background-color: lightblue;
 }
@@ -81,14 +81,24 @@ h5 {
 	width: 100%;
 	text-align: center;	
 }
+.main-product{
+	width: 30%;
+	text-align: center;
+}
+.main-product>h4{
+	display: inline-block;
+	
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
 	<div class="page-content">
 		<div class="content-header">
-			<div class="main-img"></div>
+			<div class="main-product">
+				<div class="main-img"></div>
+				<h4>상품가 200,000</h4>
+			</div>
 			<div class="donation-explanation">
-				<h5>일반 기부 펀딩은 1,000원으로 값이 고정 됩니다.</h5>
 				<h3>상품이름</h3>
 				<p>00%</p>
 				<hr>

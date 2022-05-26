@@ -5,6 +5,23 @@
 <head>
 <meta charset="UTF-8">
 <title>기부 메인 페이지</title>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(donationChart);
+    function donationChart() 
+    {
+        var data = google.visualization.arrayToDataTable(
+            [["Employee","Rating"],["상품구입기부",15000],["일반기부",30000]]
+        );
+        var options = {
+            title: "총 기부 금액"
+        };
+        var chart = new google.visualization.PieChart(document.getElementById("donation_sumgraph"));
+        chart.draw(data, options);
+    }
+</script>
 </head>
 <style>
 	.slider{
@@ -93,8 +110,6 @@
 		border-radius: 15px;
 		
 	}
-	
-	
 	.hash-tag{
 		text-align: center;
 	}
@@ -103,9 +118,6 @@
 		margin-left: 10px;
 		margin-right: 10px;
 	}
-	
-	
-	
 	.row-img{
 		width:100%;
 		text-align: center;
@@ -134,18 +146,21 @@
 		
 	}
 	
-	
 	.footer-content{
-		width: 70%;
+		width: 100%;
 		margin: 0 0;
-		display: inline-block;
+		display: flex;
+		align-items: center;
+    	justify-content: center;
 	}
 	.footer-content>div{
 		width: 40%;
 		height: 400px;
-		background-color: red;
-		display: inline-block;
-		margin: 10px;
+		/*background-color: red;*/
+		display: flex;
+		align-items: center;
+    	justify-content: center;
+		
 	}
 	.footer-content>div>h3{
 		display: inline-block;
@@ -200,6 +215,7 @@
 			<div class="row-img">
 				<div class="detail-content">
 					<div>
+						<a href="/donationClick.kh">z</a>
 					</div>
 					<h3>펀딩이름</h3>
 					<a>00%</a>
@@ -262,9 +278,8 @@
 			</div>
 		</div>
 		<div class="footer-content">
-			<div></div>
-			<div>
-			</div>
+			<div id="donation_sumgraph"></div>
+			<div><h1>총 기부 금액 1,000,000</h1></div>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
