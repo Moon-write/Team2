@@ -106,9 +106,9 @@
               <li><a href="/qnaList.kh?reqPage=1&memberNo=${m.memberNo}">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
-              <li><a href="#">정보관리</a></li>
-              <li><a href="#">비밀번호 변경</a></li>
-              <li><a href="#">회원탈퇴</a></li>               
+              <li><a href=#>정보관리</a></li>
+              <li><a href="/changePwFrm.kh">비밀번호 변경</a></li>
+              <li><a href="/deleteMemberFrm.kh">회원탈퇴</a></li>               
           </ul>
       </div>
 </html>

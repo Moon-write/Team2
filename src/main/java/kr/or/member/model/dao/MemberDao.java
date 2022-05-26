@@ -21,4 +21,12 @@ public class MemberDao {
 		return result;
 	}
 
+	public int newPwMember(Member m) {
+		return sqlSession.update("member.newPw",m);
+	}
+
+	public int deleteMember(int memberNo) {
+		return sqlSession.delete("member.deleteMember",memberNo);
+	}
+
 }

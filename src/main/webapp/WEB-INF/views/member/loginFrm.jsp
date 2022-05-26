@@ -81,17 +81,24 @@
 	<div class="page-content">
 		<span class="page-content-title">로그인</span>
 		<br><br>
-		<form action="/login.kh" method="post">
-			<div class=input-wrap>
+		<form id="loginForm" name="loginForm" action="/login.kh" method="post">
+		<!-- 
+		<form id="loginForm" name="loginForm" action="/login.kh" method="post" onsubmit="return frm_check();" >
+		 -->
+			<div class="input-wrap">
 				<div class="login-input">
-					<input type="text" name="memberId" id="memberId" class="input-form" placeholder="이메일(ID)">
+				    <label class="skip" for="memberId">아이디</label>
+				    <input type="text" name="memberId" id="memberId" class="input-form" placeholder="이메일(ID)">
 				</div>
 				<div class="login-input">
-					<input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
-				</div>
-				<div class="login-button">
-					<button type="submit" class="bc1 bs4">로그인하기</button>
-				</div>
+				    <label class="skip" for="memberPw">비밀번호</label>
+				    <input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
+			    </div>
+			  	<span class="logSave">
+				    <input type="checkbox" class="save_id" name="checkId" id="saveId" >
+				    <label for="saveId">아이디 저장</label>
+				</span>
+			<div class="login-button"><button type="submit" class="btn bc1 bs4" value="로그인">로그인</button></div>                            
 			</div>
 		</form>
 		<br><br><br>

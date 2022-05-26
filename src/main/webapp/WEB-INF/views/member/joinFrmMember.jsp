@@ -106,7 +106,9 @@
   border-radius: 4px;
   font-size: 14px;
 }
-
+.select{
+  margin: 10px 0px;
+}
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -188,7 +190,7 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="2">
-							<div class="form-select-wrap">
+							<div class="form-select-wrap select">
 								<select class="birthday-year">
 								</select>
 								/ 
@@ -206,7 +208,8 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="2">
-							<select name="gender" class="input-form">
+							<select name="gender" class="input-form select">
+								<option disabled selected>성별</option>
 								<option value="female">여성</option>
 								<option value="male">남성</option>
 							</select>

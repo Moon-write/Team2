@@ -21,8 +21,8 @@ public class BoardDao {
 		return (ArrayList<Comment>)commentList;
 	}
 
-	public int selectCommentCount(int divNo) {
-		int totalCount = sqlSession.selectOne("board.selectTotalCount",divNo);
+	public int selectCommentCount(HashMap<String, Object> countMap) {
+		int totalCount = sqlSession.selectOne("board.selectTotalCount",countMap);
 		return totalCount;
 	}
 }

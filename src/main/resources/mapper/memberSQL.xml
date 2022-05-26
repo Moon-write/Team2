@@ -30,4 +30,10 @@
   		</choose>
   		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},3000)
   	</insert>
+  	<update id="newPw">
+  	update member set member_pw=#{memberPw} where member_id=#{memberId}
+  	</update>
+  	<delete id="deleteMember" parameterType="int">
+  		delete from member where member_no=#{memberNo} 
+  	</delete>
 </mapper>
