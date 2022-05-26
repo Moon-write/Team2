@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 <title>경매</title>
 <style>
-	.page-title{
-		text-align: center;
-		font-size: 0.8em;
-	}
 	.likeList-wrap{
 		height: 360px;
 		display: flex;
@@ -179,7 +175,7 @@
 	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 		<div class="page-content">
 		<c:if test="${not empty sessionScope.m}">
-			<div class="page-title">관심상품 모아보기</div>
+			<div class="page-titleC">관심상품 모아보기</div>
 			<a href="/addAuction.kh">경매 등록</a>
 			<div class="likeList-wrap">
 				<div class='pageArrow' id='prevP'></div>
@@ -188,7 +184,7 @@
 			</div>
 			<hr>		
 		</c:if>
-			<div class="page-title">전체 경매상품</div>
+			<div class="page-titleC">전체 경매상품</div>
 			<div class="auctionList-wrap">
 				<div class="array-wrap">
 					<input type="checkbox" id="startItem" style="display: none;" <c:if test="${startFlag eq 1}">checked</c:if>>

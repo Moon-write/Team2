@@ -103,11 +103,10 @@ public class AuctionController {
 		
 		if(result>0) {
 			redirect.addFlashAttribute("msg", "경매 등록이 완료되었습니다!");
-			return "redirect:/auctionList.kh?startFlag=1&endFlag=1&searchKeyword=&order=1&reqPage=1";		 // 추후 사업자 내 경매리스트 보는페이지로 변경			
 		}else {			
 			redirect.addFlashAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
-			return "redirect:/addAuction.kh";
 		}
+		return "redirect:/manageAuction.kh";			
 	}
 	
 	@RequestMapping(value="/previewAuction.kh")
@@ -136,11 +135,62 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/auctionPay.kh")
-	public String auctionPay(Order o) {
+	public String auctionPay(Order o, RedirectAttributes redirect) {
 		
 		int result = service.updateOrderPay(o);
-  		
+  		if(result>0) {
+  			redirect.addFlashAttribute("msg", "결제가 완료되었습니다!");
+  		}else {
+  			redirect.addFlashAttribute("msg", "결제에 실패했습니다. 주문내역을 다시 확인해 주세요.");
+  		}
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/gotoModifyAuction.kh")
+	public String gotoModifyAuction(int projectNo, Model model) {
+		Auction a = service.pickOneAuction(projectNo);
+		model.addAttribute("a", a);
+		return "auction/modifyAuction";	
+	}
+	
+	@RequestMapping(value="/modifyAuction.kh")
+	public String modifyAuction(Auction a, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
+		
+		String filepath = null;
+		int result = 0;
+		
+		Auction auction = service.checkUpdatable(a.getProjectNo());
+
+		if(auction!=null) {
+			// 불러온 값이 있다 = 수정 가능하다
+			if(!auctionPicture[0].isEmpty()) {
+				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
+				// 원래 있던 파일 삭제
+				if(!auction.getAuctionPic().equals("preview.jpg")) {
+					// 프로필사진 파일명이 preview가 아니면
+					String deleteFile = savePath+auction.getAuctionPic();
+					File delFile = new File(deleteFile);
+					delFile.delete();					
+				}
+				
+				MultipartFile file = auctionPicture[0];
+				
+				filepath = fileIo(file, savePath);
+				
+				a.setAuctionPic(filepath);
+				result = service.modifyAuction(a);
+			}
+		}else {
+			// 불러온 값이 없다 = 내용만 수정 가능하다
+			result = service.modifyAuctionContent(a);
+		}
+				
+		if(result>0) {
+			redirect.addFlashAttribute("msg", "경매 진행정보가 수정되었습니다!");
+		}else {
+			redirect.addFlashAttribute("msg", "경매 수정에 실패했습니다. 관리자에게 문의하세요!");
+		}
+		return "redirect:/manageAuction.kh";
 	}
 	
 	@ResponseBody
@@ -176,6 +226,7 @@ public class AuctionController {
 		return Integer.toString(result);
 	}
 
+	
 	@ResponseBody
 	@RequestMapping(value="/selectLikeList.kh", produces="application/json; charset=utf-8")
 	public String selectLikeList(@SessionAttribute(required=false) Member m, int pageNo) {
