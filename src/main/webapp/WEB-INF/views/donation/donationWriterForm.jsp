@@ -139,11 +139,11 @@ input:disabled {
 								<option value="old">독거노인</option>
 						</select></td>
 						<th><label for="donationEnddate">종료날짜</label></th>
-						<td><input type="date" id="donationEnddate"></td>
+						<td><input type="date" id="donationEnddate" name="donationEnddate"></td>
 					</tr>
 					<tr>
 						<th>상품대표이미지</th>
-						<td><input type="file" name="file" id="upfile" multiple></td>
+						<td><input type="file" name="upfile" id="upfile" multiple></td>
 					</tr>
 					<tr>
 						<th>목표금액</th>

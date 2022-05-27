@@ -5,7 +5,7 @@
    	insert into donation values(
   		DONATION_SEQ.NEXTVAL, #{memberNo}, #{donationDivision}, #{donationTitle}, #{donationImgname}, #{donationImgpath},
   		#{donationCategory}, #{donationContent}, #{donationTarget}, #{donationCash},
-  		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD")
+  		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD')
   	)
   </insert>
   
