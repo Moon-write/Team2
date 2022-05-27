@@ -115,7 +115,7 @@ input:disabled {
 				<h1 class="sub-title">기부펀딩 등록</h1>
 				<span id="guide"><h4>일반기부는 천원으로 고정됩니다.</h4></span>
 			</div>
-			<form action="/insertDonation.kh" method="post">
+			<form action="/insertDonation.kh" method="post" enctype="multipart/form-data">
 				<table class="tbl">
 					<tr>
 						<th>종류</th>
@@ -136,13 +136,14 @@ input:disabled {
 								<option value="child">아동</option>
 								<option value="female">여성</option>
 								<option value="help">불우이웃</option>
+								<option value="old">독거노인</option>
 						</select></td>
 						<th><label for="donationEnddate">종료날짜</label></th>
 						<td><input type="date" id="donationEnddate"></td>
 					</tr>
 					<tr>
 						<th>상품대표이미지</th>
-						<td><input type="file" name="file" id="file"></td>
+						<td><input type="file" name="file" id="upfile" multiple></td>
 					</tr>
 					<tr>
 						<th>목표금액</th>
@@ -160,7 +161,7 @@ input:disabled {
 				<div class="submit-btn">
 					<button type="submit" name="signUp-btn" class="bc1 btn subtn">등록하기</button>
 				</div>
-				<input type="hidden">
+				<!-- <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo}"> -->
 			</form>
 		</div>
 	</div>

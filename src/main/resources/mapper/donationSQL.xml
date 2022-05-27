@@ -50,4 +50,29 @@
   		DONATION_ENDDATE as donationEnddate
   	from donation where PROJECT_NO = #{projectNo}
   </select>
+  
+  <select id="selectHashtag" resultType="d" parameterType="String">
+  	select
+  		PROJECT_NO as projectNo,
+  		MEMBER_NO as memberNo,
+  		DONATION_DIVISION as donationDivision,
+  		DONATION_TITLE as donationTitle,
+  		DONATION_IMGNAME as donationImgname,
+  		DONATION_IMGPATH as donationImgpath,
+  		DONATION_CATEGORY as donationCategory,
+  		DONATION_CONTENT as donationContent,
+  		DONATION_TARGET as donationTarget,
+  		DONATION_CASH as donationCash,
+  		DONATION_STARTDATE as donationStartdate,
+  		DONATION_ENDDATE as donationEnddate
+  	from donation where DONATION_CATEGORY = #{donationCategory}
+  </select>
+  
+   <select id="selectsumDonationCategory" resultType="int" parameterType="String">
+  	select
+  		SUM(DONATION_CASH as donationCash)
+  	from donation where DONATION_CATEGORY = #{donationCategory}
+  </select>
+  
+  
 </mapper>
