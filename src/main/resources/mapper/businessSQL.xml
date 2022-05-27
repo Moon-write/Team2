@@ -244,13 +244,15 @@
 		where member_no=#{memberNo} and div_no=2
 	</select>
 	
-	<select id="genderGraph" parameterType="map" resultType="String">
-		select
-			count(member_gender) as cnt 
-		from member m 
-		join order_tbl o on(o.member_no=m.member_no) 
-		where seller_no=#{memberNo} and o.project_no=#{projectNo} and div_no=#{divNo}
-		group by member_gender order by member_gender
+	<select id="genderGraph" resultType="int">
+		select count(member_gender) 
+		from member 
+		where member_no in
+		<foreach collection="array" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach> 
+		group by member_gender 
+		order by member_gender
 	</select>
 	
 	<select id="selectBidList" parameterType="int" resultType="String">
@@ -268,5 +270,66 @@
 			 #{arr}
 			</foreach>
 		group by member_gender order by member_gender
+	</select>
+	
+	<select id="selectMemberNo" parameterType="map" resultType="String">
+		select distinct 
+			o.member_no 
+		from member m 
+		join order_tbl o on(seller_no=m.member_no) 
+		where seller_no=#{memberNo} and project_no=#{projectNo} and div_no=#{divNo}
+	</select>
+	
+	<select id="selectMaleGroup" resultType="int">
+		select COALESCE(val."the number", 0)
+		from (
+		    select 10 as age FROM dual UNION ALL
+		    select 20 FROM dual UNION ALL
+		    select 30 FROM dual UNION ALL
+		    select 40 FROM dual UNION ALL
+		    select 50 FROM dual UNION ALL
+		    select 60 FROM dual UNION ALL
+		    select 70 FROM dual UNION ALL
+		    select 80 FROM dual UNION ALL
+		    select 90 FROM dual UNION ALL
+		    select 100 FROM dual
+		) grp
+		left join (
+		    select age, count(*) as "the number"
+		    from (select floor((to_char(sysdate, 'YYYY') - substr(member_birth, 1, 4)) / 10) * 10 as age from member  where member_no in 
+				<foreach collection="array" item="arr" open="(" close=")" separator=",">
+				 #{arr}
+				</foreach>
+			and member_gender='남성'
+			) 
+		    group by age 
+		) val ON grp.age = val.age
+		order by grp.age asc
+	</select>
+	<select id="selectFemaleGroup" resultType="int">
+		select COALESCE(val."the number", 0)
+		from (
+		    select 10 as age FROM dual UNION ALL
+		    select 20 FROM dual UNION ALL
+		    select 30 FROM dual UNION ALL
+		    select 40 FROM dual UNION ALL
+		    select 50 FROM dual UNION ALL
+		    select 60 FROM dual UNION ALL
+		    select 70 FROM dual UNION ALL
+		    select 80 FROM dual UNION ALL
+		    select 90 FROM dual UNION ALL
+		    select 100 FROM dual
+		) grp
+		left join (
+		    select age, count(*) as "the number"
+		    from (select floor((to_char(sysdate, 'YYYY') - substr(member_birth, 1, 4)) / 10) * 10 as age from member  where member_no in 
+				<foreach collection="array" item="arr" open="(" close=")" separator=",">
+				 #{arr}
+				</foreach>
+			and member_gender='여성'
+			) 
+		    group by age 
+		) val ON grp.age = val.age
+		order by grp.age asc
 	</select>
 </mapper>

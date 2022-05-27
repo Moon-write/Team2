@@ -69,6 +69,14 @@ a {
   padding: 20px 0px;
   font-size: 1.5rem;
 }
+.page-titleC {
+	margin-top: 50px;
+	margin-bottom : 20px;
+  font-family: ns-bold;
+  padding: 20px 0px;
+  font-size: 1.5rem;
+  text-align: center;
+}
 footer {
   padding: 50px;
   background-color: #191f28;

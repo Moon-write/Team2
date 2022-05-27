@@ -306,4 +306,27 @@
   		ORDER_DEL_ASK=#{orderDelAsk},
   		ORDER_STATUS=1 WHERE ORDER_NO=#{orderNo}
   </update>
+  
+  <select id="checkUpdatable" parameterType="int" resultType="float">
+  	SELECT AUCTION_START-SYSDATE FROM AUCTION_TBL WHERE PROJECT_NO=#{projectNo}
+  </select>
+  
+   <update id="updateAuctionContent" parameterType="a">
+  		UPDATE AUCTION_TBL SET AUCTION_CONTENT= #{auctionContent} WHERE PROJECT_NO=#{projectNo}
+  </update>
+  
+    <update id="updateAuctionInfo" parameterType="a">
+  		UPDATE AUCTION_TBL SET PROJECT_NAME = #{projectName},
+  				AUCTION_ITEM = #{auctionItem},
+  				AUCTION_CATEGORY = #{auctionCategory},
+  				AUCTION_AMOUNT = #{auctionAmount},
+  				AUCTION_START = TO_DATE(#{auctionStart}, 'YYYY-MM-DD HH24:MI'),
+  				AUCTION_END = TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'),
+  				AUCTION_PRICE = #{auctionPrice},
+  				AUCTION_CONTENT= #{auctionContent} 
+  				<if test="!auctionPic.equals('')">
+	  				,AUCTION_PIC = #{auctionPic}
+  				</if>
+	  		WHERE PROJECT_NO=#{projectNo}
+  </update>
 </mapper>

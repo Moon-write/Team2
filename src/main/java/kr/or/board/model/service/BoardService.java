@@ -30,7 +30,10 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 / totalPage = 전체 페이지 수 
-		int totalCount = dao.selectCommentCount(divNo);
+		HashMap<String, Object> countMap = new HashMap<String, Object>();
+		countMap.put("divNo", divNo);
+		countMap.put("memberNo", memberNo);
+		int totalCount = dao.selectCommentCount(countMap);
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
 			totalPage = totalCount/numPerPage;

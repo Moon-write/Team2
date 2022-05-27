@@ -7,13 +7,6 @@
 <meta charset="UTF-8">
 <title>주문 등록</title>
 <style type="text/css">
-    .page-content{
-        padding-top:50px ;
-    }
-	.page-title{
-		text-align: center;
-		font-size: 0.8em;
-	}
     table#itemTbl, table#orderTbl, table#delTbl{
         width: 70%;
         margin: 30px auto;
@@ -29,6 +22,13 @@
     }
     table#delTbl input{
         padding-left: 20px;
+    }
+    table#itemTbl th:first-child{
+    	border-radius: 5px;
+    }
+    table#itemTbl th:not(th:first-child){
+    	border-radius:  5px;
+    	border-left: 2px solid #fff;   
     }
     table#itemTbl input[name=orderPoint]{
         display: inline-block;
@@ -71,7 +71,7 @@
         <input type="hidden" id="projectNo" value="${order.projectNo}" name="projectNo">
 	    <input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
 		<div class="page-content">
-			<div class="page-title">주문 결제</div>
+			<div class="page-titleC">주문 결제</div>
 			<table class="tbl" id="itemTbl">
                 <thead>
                     <tr class="tr-2">
@@ -82,7 +82,7 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${order.orderProductList}" var="op" varStatus="i">
-                        <tr class="tr-1">
+                        <tr style="border-bottom: 1px dotted #ccc;">
                             <td>
                                 <div id="projectName">${order.projectName}</div>
                                 <div id="productName">${op.productName}</div>
@@ -96,12 +96,12 @@
                             </td>
                         </tr>
                     </c:forEach>
-                    <tr class="tr-3">
-                        <td colspan="2" style="text-align: left;"><span style="padding-left:20px">배송비</span></td>
+                    <tr>
+                        <td colspan="2" style="text-align: left; height: 60px"><span style="padding-left:20px">배송비</span></td>
                         <td>무료배송</td>
                     </tr>
-                    <tr class="tr-3">
-                        <td colspan="2" style="text-align: left;">
+                    <tr>
+                        <td colspan="2" style="text-align: left; height: 60px;">
                             <div style="padding-left: 20px;">포인트 사용</div>
                             <span style="padding-left: 20px; font-size: 0.8em;">사용 가능 포인트 : <span id="memberPoint">${sessionScope.m.memberPoint}</span></span>
                         </td>
@@ -112,7 +112,7 @@
                 </tbody>
                 <tfoot>
                     <tr class="tr-2">
-                        <th colspan="3">
+                        <th colspan="3" style="font-size: 1.4em; height: 80px;">
                             <span>총 결제금액</span>
                             <span id="orderPrice">${order.orderPrice}</span>원
                             <input type="hidden" id="totalPrice" value="${order.orderPrice}"> <!--여기에 포인트 사용전 최종 주문금액 넣기-->
@@ -121,7 +121,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <div class="page-title">주문자 정보</div>
+            <div class="page-titleC">주문자 정보</div>
             <table border="0" id="orderTbl">
                 <tr>
                     <th>이름</th>
@@ -132,7 +132,7 @@
                     <td>${sessionScope.m.memberPhone}</td>
                 </tr>
             </table>
-            <div class="page-title">배송지 정보</div>
+            <div class="page-titleC">배송지 정보</div>
             <div style="width: 70%; margin: 0px auto; text-align: right;">
                 <input type="checkbox" id="equalChk"><label for="equalChk">주문자 정보와 동일</label>
             </div>

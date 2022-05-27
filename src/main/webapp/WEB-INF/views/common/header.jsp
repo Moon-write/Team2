@@ -19,7 +19,7 @@
 <script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
 
 <!-- sweetalarm.js -->
-<script src="../../../resources/js/sweetalert2.min.js"></script>
+<script src="../../../resources/js/sweetalert.min.js"></script>
 
 
 <!-- -- -- -- -- -- html 시작 -- -- -- -- --  -->

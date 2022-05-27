@@ -10,11 +10,11 @@
 			comment_content as commentContent,
 			comment_date as commentDate,
 			comment_no as commentNo
-		from comment_tbl order where member_no=#{memberNo} by comment_no desc)c) 
-		where rnum between #{start} and #{end}  		
+		from comment_tbl where member_no=101 order by comment_no desc)c) 
+		where rnum between 1 and 10  		
   	</select>
-  	<select id="selectTotalCount" parameterType="int" resultType="int">
-  		select (*) from
+  	<select id="selectTotalCount" parameterType="map">
+  		select count(*) from comment_tbl
   		<choose>
 	  		<when test="divNo.equals('1')">
 	  			 comment_tbl
@@ -29,6 +29,6 @@
 	  			 order_tbl
 	  		</when>
   		</choose>
-  		where member_no=#{memberNo}
+  		where member_no=101
   	</select>
 </mapper>
