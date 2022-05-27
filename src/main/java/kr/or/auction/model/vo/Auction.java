@@ -1,5 +1,8 @@
 package kr.or.auction.model.vo;
 
+import java.util.ArrayList;
+
+import kr.or.common.model.vo.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +40,6 @@ public class Auction {
 	private String bizName;
 	// 좋아요갯수
 	private int totallike;
+	// 댓글리스트
+	private ArrayList<Comment> commentList;
 }
