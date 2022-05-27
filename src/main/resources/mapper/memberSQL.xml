@@ -21,10 +21,10 @@
   	<insert id="insertMember" parameterType="m">
   		insert into member values (member_seq.nextval,
   		<choose>
-  			<when test="memberLevel.equals(2)">
+  			<when test="#{memberLevel.equals(2)}">
   			null,null
   			</when>
-  			<when test="memberLevel.equals(1)">
+  			<when test="#{memberLevel.equals(1)}">
   			#{bizNo},#{bizName}
   			</when>
   		</choose>
@@ -36,4 +36,7 @@
   	<delete id="deleteMember" parameterType="int">
   		delete from member where member_no=#{memberNo} 
   	</delete>
+  	<update id="memberUpdate" parameterType="m">
+  		update member set
+  	</update>
 </mapper>

@@ -123,7 +123,7 @@
 							<p class="p-0">예약내역이 없습니다.</p>
 						</c:otherwise>
 					</c:choose>
-				<div id="pageNavi" class="pagination">${pageNavi }</div>
+				<div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</div>
