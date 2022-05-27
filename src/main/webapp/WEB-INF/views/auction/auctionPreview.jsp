@@ -156,7 +156,6 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
-	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 	<input type="hidden" id="projectNo" value="${auction.projectNo}">
 	<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}">
 		<div class="page-content">

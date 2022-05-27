@@ -172,7 +172,6 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
-	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 		<div class="page-content">
 		<c:if test="${not empty sessionScope.m}">
 			<div class="page-titleC">관심상품 모아보기</div>

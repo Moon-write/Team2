@@ -65,7 +65,6 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
-	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
     <form action="/auctionPay.kh" method="post"> <!--insert 용 form이 필요한 경우 여기에 태그를 넣어주세요-->
         <input type="hidden" id="orderNo" value="${order.orderNo}" name="orderNo">
         <input type="hidden" id="projectNo" value="${order.projectNo}" name="projectNo">

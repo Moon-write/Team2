@@ -66,16 +66,15 @@
 			<li><a href="/donationList.kh">기부</a></li>
 			<li><a href="/groupList.kh">공동구매</a>
 			</li>
-			<li><a href="/auctionList.kh">경매</a></li>
+			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1">경매</a></li>
 			<li>
 				<input type="text" id="site-search">
 				<span class="material-symbols-outlined">search</span>
 			</li>
 		</ul>
 	</div>
-
-
 </header>
+<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 <script>
 	$("#bannerClose").on("click",function(){
 		$(this).parent().slideUp();
