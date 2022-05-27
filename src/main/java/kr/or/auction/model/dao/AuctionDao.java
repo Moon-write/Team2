@@ -188,4 +188,14 @@ public class AuctionDao {
 		List list = sqlSession.selectList("auction.selectAuctionComment", map); 
 		return (ArrayList<Comment>) list;
 	}
+
+	public int addComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("auction.addComment", c);
+	}
+
+	public Comment selectLastComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.selectLastComment",c);
+	}
 }
