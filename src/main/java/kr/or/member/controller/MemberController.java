@@ -99,9 +99,10 @@ public class MemberController {
 		return "member/updateMemberFrm";
 	}
 	@RequestMapping(value="/updateMember.kh")
-	public String updateMember(Member m) {
-		int result = service.updateMember(m);
+	public String updateMember(Member m, HttpSession session) {
+		int result = service.memberUpdate(m);
 		if(result == 1) {
+			session.setAttribute("m", m);
 			request.setAttribute("title", "정보수정완료");
 			request.setAttribute("msg", "회원정보가 수정되었습니다.");
 			request.setAttribute("icon", "success");

@@ -97,8 +97,13 @@
 	}
 	.auction-direct{
 		text-align: center;
-		padding: 30px 20px;
+		padding: 50px 0px 150px 0px;
 	}
+	.auction-direct>button{
+		width: 15%; height: 80px;
+		font-size: 1.2em;
+	}
+
 	/*모달*/
 	.modal-content>span+div{
 		display: flex;
@@ -154,6 +159,44 @@
 	#history-modal .modal-content{
 		max-height: 500px;
 		overflow: auto;
+	}
+	ul.comment-wrap{
+		width: 100%; min-height: 100px;
+		display: flex; flex-direction: column;
+		align-items: center; justify-content: center;
+	}
+	ul.comment-wrap>li{
+		list-style-type: none;
+		display: flex;
+		margin: 5px 0px;
+		width: 100%;
+		justify-content: center;
+		align-items: center;
+	}
+	ul.comment-wrap>li>.comment-writer{
+		width: 100px;
+		text-align: left;
+		padding-left: 30px;
+		font-family: ns-bold;
+	}
+	ul.comment-wrap>li>.comment-content{
+		width: calc( 100% - 250px );
+		padding-left: 20px;
+	}
+	ul.comment-wrap>li>.comment-date{
+		width: 150px;
+		padding: 0px 30px;
+		font-size: 0.8em;
+		font-family: ns-light;
+		text-align: right;
+	}
+	ul.comment-wrap>li>.comment-date>button{
+		width: 80%; height: 65px;
+		
+	}
+	#moreBtn{
+		width : 100%; height: 50px;	
+		margin-top: 20px;
 	}
 </style>
 </head>
@@ -275,9 +318,20 @@
 			</div>
 			<div class="auction-comment">
 				<div class="page-titleC">회원 한마디</div>
+				<ul class="comment-wrap">
+				<c:if test="${not empty sessionScope.m}">
+					<li style="margin-bottom: 20px">
+						<div class='comment-writer'>${sessionScope.m.memberName }</div>
+						<div class='comment-content'><textarea id="commentContent" class="input-form" style="min-height: 50px;"></textarea></div>
+						<div class='comment-date'>
+							<button onclick="addComment()" class="btn bc22">등록</button>
+						</div>
+					</li>				
+				</c:if>
+				</ul>
 			</div>
 			<div class="auction-direct">
-				<button class="btn bc11" onclick="gotoback()">목록으로</button>
+				<button class="btn bc1" onclick="gotoback()">목록으로</button>
 			</div>
 		</div>
 		<div id="bidding-modal" class="modal-bg"  style="display: none;">
@@ -343,6 +397,7 @@
 	<script>
 		$(function () {
 			bidUpdate();
+			commentList(1);
 			
 			$("input#policyChk").on("click",function(){
 				$("#sendBidBtn").toggleClass("bc4").toggleClass("bc1");
@@ -619,6 +674,44 @@
 		function gotoback(){
 			history.back();
 		}
+		function commentList(pageNo){
+			const projectNo = $("input#projectNo").val();
+			$(".comment-wrap>button").remove();
+			
+			$.ajax({
+				url : "/selectCommentList.kh",
+				data : {
+					projectNo : projectNo,
+					pageNo : pageNo
+				},
+				success : function(list){
+					if(list.length==0){
+						$(".comment-wrap").text("등록된 댓글이 없습니다!");
+					}else{
+						for(let i=0;i<list.length;i++){
+							const commentRow = $("<li style='display: none;'>");
+							const commenter = $("<div class='comment-writer'>");
+							commenter.text(list[i].memberName);
+							const commentContent = $("<div class='comment-content'>");
+							commentContent.text(list[i].commentContent);
+							const commentDate = $("<div class='comment-date'>");
+							commentDate.text(list[i].commentDate);
+							
+							commentRow.append(commenter).append(commentContent).append(commentDate);
+							$(".comment-wrap").append(commentRow);
+							commentRow.slideDown();
+						}
+						const moreBtn = $("<button id='moreBtn' class='btn bc22'>");
+						moreBtn.text("더보기");
+						moreBtn.val((Number)(pageNo)+1);
+						$(".comment-wrap").append(moreBtn);
+					}
+				}
+			})
+		}
+		$(document).on("click","#moreBtn",function(){
+			commentList($(this).val());
+		})
 	</script>
 </body>
 </html>

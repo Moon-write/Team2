@@ -111,12 +111,15 @@
 		
 	}
 	.hash-tag{
-		text-align: center;
+		display:flex;
+		width: 100%;
+		justify-content: center;
 	}
-	.hash-tag>button{
+	.hash-tag>a{
 		margin-bottom:10px;
 		margin-left: 10px;
 		margin-right: 10px;
+		width: 9%;
 	}
 	.row-img{
 		width:100%;
@@ -201,11 +204,11 @@
 		    </div>
 		</div>
 		<div class="hash-tag">
-			<button class="btn bc1">#임시</button>
-			<button class="btn bc1">#임시</button>
-			<button class="btn bc1">#임시</button>
-			<button class="btn bc1">#임시</button>
-			<button class="btn bc1">#임시</button>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=pet" name="pet">#애견</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=child" name="child">#아동</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=female" name="female">#여성</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=help" name="help">#불우이웃</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=old" name="old">#독거노인</a>
 		</div>
 		<div class="main-content">
 			<div class="saleDonationDiv">
@@ -279,7 +282,7 @@
 		</div>
 		<div class="footer-content">
 			<div id="donation_sumgraph"></div>
-			<div><h1>총 기부 금액 1,000,000</h1></div>
+			<div><h2>총 기부 금액 1,000,000</h2></div>
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>

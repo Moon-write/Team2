@@ -36,4 +36,14 @@ public class DonationService {
 		// TODO Auto-generated method stub
 		return dao.selectOneDonation(d);
 	}
+
+	public ArrayList<Donation> selectHashtag(String donationCategory) {
+		// TODO Auto-generated method stub
+		return dao.selectHashtag(donationCategory);
+	}
+
+	public int selectsumDonationCategory(String donationCategory) {
+		// TODO Auto-generated method stub
+		return dao.selectsumDonationCategory(donationCategory);
+	}
 }

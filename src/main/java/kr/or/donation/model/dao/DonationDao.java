@@ -37,5 +37,16 @@ public class DonationDao {
 		return donation;
 	}
 
+	public ArrayList<Donation> selectHashtag(String donationCategory) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("donation.selectHashtag",donationCategory);
+		return (ArrayList<Donation>)list;
+	}
+
+	public int selectsumDonationCategory(String donationCategory) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectsumDonationCategory",donationCategory);
+	}
+
 
 }

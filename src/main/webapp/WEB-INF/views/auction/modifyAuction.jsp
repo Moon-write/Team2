@@ -147,8 +147,8 @@
 			<div class="auction-notice">
 				<div class="notice-title">경매상품 등록시 유의점</div>
 				<p>
-					(1) 프로젝트 기본 정보(상품명/수량/기간/시작가격/대표사진)는 경매가 시작하면 수정이 불가능합니다.<br>
-					(2) 기본 정보를 제외한 상품 소개 콘텐츠는 경매 마감 전까지 수정 가능합니다.<br>
+					(1) 프로젝트 기본 정보(상품명/수량/기간/시작가격)는 경매가 시작하면 수정이 불가능합니다.<br>
+					(2) 기본 정보를 제외한 썸네일 및 상품 소개 콘텐츠는 경매 마감 전까지 수정 가능합니다.<br>
 					(3) 복수 수량 판매시 상품마다 낙찰가가 다를 수 있습니다.
 				</p>
 				<div class="notice-confirm">
@@ -165,8 +165,7 @@
 			</form>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-	<script>
-		
+	<script>		
 		$("#auctionContent").summernote({
 			height: 800,
 			lang: "ko-KR",
@@ -192,7 +191,8 @@
 				}
 			})
 		}
-
+		
+		
 		$("#noticeConfirm").on("click",function(){
 			const button = $("button#submitBtn");
 			if($(this).prop("checked")==true){
@@ -205,6 +205,7 @@
 				$("button#submitBtn").attr("disabled");
 			}
 		})
+		let chkCode = 0;
 
 		function checkDate(){
 			const startDate = $("input[name=auctionStart]").val();
@@ -214,22 +215,37 @@
 			const start = new Date(startDate);
 			const end = new Date(endDate);	
 			
-			if(startDate==""){
+			// 시작하자마자 날짜 계산해서 이미 시작날짜를 지났으면 메세지 안내. (이미 오픈된 경매는 콘텐츠 수정만 가능합니다) 
+			if(chkCode==0&&today-start>60000){
+				alert("이미 시작된 경매는 프로젝트 기본 정보 수정이 불가능합니다! 내용만 변경 적용됩니다.");
+				$("select>option:not(:selected)").prop("disabled","true");
+				$("select").css("background-color","#f7f7f9");
+				$("input[name=projectName]").prop("readonly","true");
+				$("input[name=auctionItem]").prop("readonly","true");
+				$("input[name=auctionAmount]").prop("readonly","true");
+				$("input[name=auctionStart]").prop("readonly","true");
+				$("input[name=auctionEnd]").prop("readonly","true");
+				$("input[name=auctionPrice]").prop("readonly","true");
+				chkCode=1;
 				return false;
-			}else if(today-start>60000){
-				alert("시작시각은 현재시각보다 뒤여야 합니다!");
-				return false;
-			}else if(endDate==""){
-				return false;
-			}else if(start-end>0){
-				alert("시작시각은 종료시각보다 빨라야 합니다!");
-				return false;
-			}else if(today-end>60000){
-				alert("종료시각은 현재시각보다 뒤여야 합니다!");
-				return false;
-			}else{
-				return true;
-			}
+			}else if(chkCode==0){				
+				if(startDate==""){
+					return false;
+				}else if(today-start>60000){
+					alert("시작시각은 현재시각보다 뒤여야 합니다!");
+					return false;
+				}else if(endDate==""){
+					return false;
+				}else if(start-end>0){
+					alert("시작시각은 종료시각보다 빨라야 합니다!");
+					return false;
+				}else if(today-end>60000){
+					alert("종료시각은 현재시각보다 뒤여야 합니다!");
+					return false;
+				}else{
+					return true;
+				}
+			}			
 		}		
 
 		function loadImg(f){
@@ -264,7 +280,7 @@
 			form.attr("action","/modifyAuction.kh");
 		})
 		$("form").on("submit",function(){
-			if(!check()){
+			if(!check(chkCode)){
 				event.preventDefault();
 				return false;
 			}else{
@@ -274,48 +290,58 @@
 			}
 		})
 
-		function check(){
-			let regExp = /^[0-9]+$/;
-			// 유효성검사 실행 
-			const category = $("select[name=auctionCategory]");
-			if(category.val()!="카테고리 선택"){
-				const name = $("input[name=projectName]");
-				if(name.val()!=""){
-					const item = $("input[name=auctionItem]");
-					if(item.val()!=""){
-						const amount = $("input[name=auctionAmount]");
-						if(amount.val()!=""&&regExp.test(amount.val())){
-							// 수량은 전부 숫자여야함-유효성검사 거치기
-							const start = $("input[name=auctionStart]");
-							const end = $("input[name=auctionEnd]")
-							if(start.val()!=""&&end.val()!=""&&checkDate()){
-								const price = $("input[name=auctionPrice]");								
-								if(price.val()!=""&&regExp.test(price.val())){
-									return true;									
+		function check(chkCode){
+			
+			if(chkCode==0){
+				// 다바꿈			
+				
+				let regExp = /^[0-9]+$/;
+				// 유효성검사 실행 
+				const category = $("select[name=auctionCategory]");
+				if(category.val()!="카테고리 선택"){
+					const name = $("input[name=projectName]");
+					if(name.val()!=""){
+						const item = $("input[name=auctionItem]");
+						if(item.val()!=""){
+							const amount = $("input[name=auctionAmount]");
+							if(amount.val()!=""&&regExp.test(amount.val())){
+								// 수량은 전부 숫자여야함-유효성검사 거치기
+								const start = $("input[name=auctionStart]");
+								const end = $("input[name=auctionEnd]")
+								if(start.val()!=""&&end.val()!=""&&checkDate()){
+									const price = $("input[name=auctionPrice]");								
+									if(price.val()!=""&&regExp.test(price.val())){
+										return true;									
+									}else{
+										alert("경매 시작가격을 정확히 입력해 주세요!");
+										return false;
+									}
 								}else{
-									alert("경매 시작가격을 정확히 입력해 주세요!");
+									alert("경매 진행기간을 정확히 입력해 주세요!")
 									return false;
 								}
 							}else{
-								alert("경매 진행기간을 정확히 입력해 주세요!")
+								alert("정확한 수량을 입력해 주세요!");
 								return false;
 							}
-						}else{
-							alert("정확한 수량을 입력해 주세요!");
+						} else{
+							alert("상품명을 입력해 주세요!");
 							return false;
 						}
-					} else{
-						alert("상품명을 입력해 주세요!");
+					}else{
+						alert("프로젝트명을 입력해 주세요!");
 						return false;
 					}
 				}else{
-					alert("프로젝트명을 입력해 주세요!");
+					alert("카테고리를 선택해 주세요!");
 					return false;
-				}
+				}				
+				
 			}else{
-				alert("카테고리를 선택해 주세요!");
-				return false;
+				// 내용만바꿈
+				return true;
 			}
+
 		};
 		mobiscroll.setOptions({
 		    locale: mobiscroll.localeKo,
