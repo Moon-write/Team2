@@ -79,7 +79,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td><input type="button" class="btn bc4 updateInfo-btn"  value="탈퇴하기"></td>
+								<td><input type="button" class="btn bc4 updateInfo-btn" value="탈퇴하기"></td>
 							</tr>
 						</table>
 					</form>

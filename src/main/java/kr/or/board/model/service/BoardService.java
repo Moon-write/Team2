@@ -15,7 +15,7 @@ public class BoardService {
 	BoardDao dao;
 
 	public CommentPageData selectCommentList(int reqPage, int memberNo) {
-		int divNo = 1;
+		String boardName = "comment_tbl";
 		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
 		int numPerPage = 10;
 		int end = reqPage * numPerPage;
@@ -29,11 +29,11 @@ public class BoardService {
 		ArrayList<Comment> commentList = dao.selectCommentList(map);
 		
 		//pageNavi작성
-		//totalCount = 전체 게시물 수 / totalPage = 전체 페이지 수 
-		HashMap<String, Object> countMap = new HashMap<String, Object>();
-		countMap.put("divNo", divNo);
-		countMap.put("memberNo", memberNo);
-		int totalCount = dao.selectCommentCount(countMap);
+		//totalCount = 전체 게시물 수 / totalPage = 전체 페이지 수
+		HashMap<String, Object> commentMap = new HashMap<String, Object>();
+		commentMap.put("boardName",boardName);
+		commentMap.put("memberNo",memberNo);
+		int totalCount = dao.selectCount(commentMap);
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
 			totalPage = totalCount/numPerPage;

@@ -21,7 +21,6 @@ public class MemberController {
 	public String loginFrm() {
 		return "member/loginFrm";
 	}
-	
 	@RequestMapping(value="/login.kh")
 	public String login(Member m, HttpSession session) {
 		Member member = service.selectOneMember(m);
@@ -30,40 +29,33 @@ public class MemberController {
 		}	
 		return "redirect:/";
 	}
-	
 	@RequestMapping(value="/logout.kh")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
-	
 	@RequestMapping(value = "/joinSelect.kh")
 	public String joinSelect() {
 		return "member/joinSelect";
 	}
-	
 	@RequestMapping(value="/joinFrmMember.kh")
 	public String joinFrmMember() {
 		return "member/joinFrmMember";
 	}
-	
-	@RequestMapping(value="/joinFrmBiz.kh")
-	public String joinFrmBiz() {
-		return "member/joinFrmBiz";
-	}
-	
 	@RequestMapping(value="/joinMember.kh")
 	public String joinMember(Member m) {
 		int result = service.insertMember(m);
 		return "member/joinMember";
 	}
-	
+	@RequestMapping(value="/joinFrmBiz.kh")
+	public String joinFrmBiz() {
+		return "member/joinFrmBiz";
+	}
 	@RequestMapping(value="/joinBiz.kh")
 	public String joinFrmMe(Member m) {
 		int result = service.insertMember(m);
 		return "member/joinBiz";
 	}
-	
 	@RequestMapping(value="/mypageMain.kh")
 	public String mypageMain() {
 		return "member/mypageMain";
@@ -105,5 +97,20 @@ public class MemberController {
 	@RequestMapping(value="/updateMemberFrm.kh")
 	public String updateMemberFrm() {
 		return "member/updateMemberFrm";
+	}
+	@RequestMapping(value="/updateMember.kh")
+	public String updateMember(Member m) {
+		int result = service.updateMember(m);
+		if(result == 1) {
+			request.setAttribute("title", "정보수정완료");
+			request.setAttribute("msg", "회원정보가 수정되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "정보수정실패");
+			request.setAttribute("msg", "정보수정에 실패했습니다.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/");
+		return "common/msg";
 	}
 }

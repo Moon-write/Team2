@@ -29,4 +29,8 @@ public class MemberDao {
 		return sqlSession.delete("member.deleteMember",memberNo);
 	}
 
+	public int updateMember(Member m) {
+		return sqlSession.update("member.updateMember",m);
+	}
+
 }
