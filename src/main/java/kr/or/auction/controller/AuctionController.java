@@ -86,7 +86,7 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/insertAuction.kh")
-	public String insertAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
+	public String insertAuction(@SessionAttribute(required=false) Member m, Auction auction, MultipartFile[] auctionPicture, HttpServletRequest request, Model model) {
 		String filepath = null;
 		auction.setMemberNo(m.getMemberNo());
 		
@@ -103,11 +103,17 @@ public class AuctionController {
 		int result = service.insertAuction(auction);
 		
 		if(result>0) {
-			redirect.addFlashAttribute("msg", "경매 등록이 완료되었습니다!");
+			model.addAttribute("icon", "success");
+			model.addAttribute("title", "등록 완료");
+			model.addAttribute("msg", "경매 등록이 완료되었습니다!");
+			model.addAttribute("loc", "/manageAuction.kh");
 		}else {			
-			redirect.addFlashAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
+			model.addAttribute("icon", "error");
+			model.addAttribute("title", "등록 실패");
+			model.addAttribute("msg", "경매 등록에 실패했어요! 관리자에게 문의해 주세요.");
+			model.addAttribute("loc", "/manageAuction.kh");
 		}
-		return "redirect:/manageAuction.kh";			
+		return "common/msg";			
 	}
 	
 	@RequestMapping(value="/previewAuction.kh")
@@ -136,15 +142,22 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/auctionPay.kh")
-	public String auctionPay(Order o, RedirectAttributes redirect) {
+	public String auctionPay(Order o, Model model) {
 		
 		int result = service.updateOrderPay(o);
-  		if(result>0) {
-  			redirect.addFlashAttribute("msg", "결제가 완료되었습니다!");
-  		}else {
-  			redirect.addFlashAttribute("msg", "결제에 실패했습니다. 주문내역을 다시 확인해 주세요.");
-  		}
-		return "redirect:/";
+  		
+		if(result>0) {
+			model.addAttribute("icon", "success");
+			model.addAttribute("title", "결제 완료");
+			model.addAttribute("msg", "결제가 완료되었습니다!");
+			model.addAttribute("loc", "/");
+		}else {			
+			model.addAttribute("icon", "error");
+			model.addAttribute("title", "결제 실패");
+			model.addAttribute("msg", "결제에 실패했어요! 주문내역을 다시 확인해 주세요.");
+			model.addAttribute("loc", "/manageAuction.kh");
+		}
+		return "common/msg";
 	}
 	
 	@RequestMapping(value="/gotoModifyAuction.kh")
@@ -207,13 +220,22 @@ public class AuctionController {
 		}
 				
 		if(result>0) {
-			model.addAttribute("alert", "경매 진행정보가 수정되었습니다!");
-		}else {
-			model.addAttribute("alert", "경매 수정에 실패했습니다. 관리자에게 문의하세요!");
+			model.addAttribute("icon", "success");
+			model.addAttribute("title", "수정 완료");
+			model.addAttribute("msg", "경매 진행정보가 수정되었습니다!");
+			model.addAttribute("loc", "/exitPage.kh");
+		}else {			
+			model.addAttribute("icon", "error");
+			model.addAttribute("title", "수정 실패");
+			model.addAttribute("msg", "수정에 실패했어요! 관리자에게 문의하세요!");
+			model.addAttribute("loc", "/exitPage.kh");
 		}
+		return "common/msg";
+	}
+	@RequestMapping(value="exitPage.kh")
+	public String exitPage() {
 		return "auction/exit";
 	}
-	
 	@ResponseBody
 	@RequestMapping(value="/addLike.kh")
 	public String addLike(@SessionAttribute(required=false) Member m, String projectNo) {
@@ -286,7 +308,19 @@ public class AuctionController {
 		ArrayList<Bid> list = service.getBidHistory(projectNo);
 		
 		return new Gson().toJson(list);
-	}	
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/addComment.kh", produces="application/json; charset=utf-8")
+	public String addComment(@SessionAttribute(required=false) Member m, Comment c) {
+		c.setMemberNo(m.getMemberNo());		
+		c = service.addComment(c);
+		if(c==null) {
+			return "error";
+		}else {
+			return new Gson().toJson(c);
+		}
+	}
 	
 	@ResponseBody
 	@RequestMapping(value="/auctionImgUpload.kh")

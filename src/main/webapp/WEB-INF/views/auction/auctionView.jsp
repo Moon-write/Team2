@@ -170,7 +170,7 @@
 		display: flex;
 		margin: 5px 0px;
 		width: 100%;
-		justify-content: center;
+		flex-wrap: nowrap;
 		align-items: center;
 	}
 	ul.comment-wrap>li>.comment-writer{
@@ -180,8 +180,25 @@
 		font-family: ns-bold;
 	}
 	ul.comment-wrap>li>.comment-content{
-		width: calc( 100% - 250px );
 		padding-left: 20px;
+	}
+	ul.comment-wrap>li>.insert-content{
+		flex-grow: 1;
+	}
+	ul.comment-wrap>li>.comment-md{
+		width: 80px;
+		padding-left: 20px;
+		flex-grow: 1;
+	}
+	ul.comment-wrap>li>.comment-md>span{
+		font-size: 0.9em;
+		font-family: ns-light;
+		color : rgb(255,130,171);
+		margin-right: 10px;
+	}
+	ul.comment-wrap>li>.comment-md>span:hover{
+		text-decoration: underline;
+		font-family: ns-m;		
 	}
 	ul.comment-wrap>li>.comment-date{
 		width: 150px;
@@ -322,7 +339,7 @@
 				<c:if test="${not empty sessionScope.m}">
 					<li style="margin-bottom: 20px">
 						<div class='comment-writer'>${sessionScope.m.memberName }</div>
-						<div class='comment-content'><textarea id="commentContent" class="input-form" style="min-height: 50px;"></textarea></div>
+						<div class='insert-content'><textarea id="commentContent" class="input-form" style="min-height: 50px;"></textarea></div>
 						<div class='comment-date'>
 							<button onclick="addComment()" class="btn bc22">등록</button>
 						</div>
@@ -676,6 +693,9 @@
 		}
 		function commentList(pageNo){
 			const projectNo = $("input#projectNo").val();
+			if(pageNo+1 <= $("#moreBtn").val()){
+				$(".comment-wrap>li:not(:first-child)").remove();				
+			}
 			$(".comment-wrap>button").remove();
 			
 			$.ajax({
@@ -686,7 +706,9 @@
 				},
 				success : function(list){
 					if(list.length==0){
-						$(".comment-wrap").text("등록된 댓글이 없습니다!");
+						const none = $("<div style='height: 100px; display: flex; align-items: center;'>");
+						none.text("등록된 댓글이 없습니다!");
+						$(".comment-wrap").append(none);
 					}else{
 						for(let i=0;i<list.length;i++){
 							const commentRow = $("<li style='display: none;'>");
@@ -694,10 +716,16 @@
 							commenter.text(list[i].memberName);
 							const commentContent = $("<div class='comment-content'>");
 							commentContent.text(list[i].commentContent);
+							const commentMD  = $("<div class='comment-md'>");
+							let str ;
+							if(list[i].memberNo==$("input#memberNo").val()){
+								str = "<span onclick='modifyComment()'>수정</span><span onclick='deleteComment()'>삭제</span><input type='hidden' value='"+list[i].commentNo+"'>";
+							}
+							commentMD.html(str);
 							const commentDate = $("<div class='comment-date'>");
 							commentDate.text(list[i].commentDate);
 							
-							commentRow.append(commenter).append(commentContent).append(commentDate);
+							commentRow.append(commenter).append(commentContent).append(commentMD).append(commentDate);
 							$(".comment-wrap").append(commentRow);
 							commentRow.slideDown();
 						}
@@ -712,6 +740,41 @@
 		$(document).on("click","#moreBtn",function(){
 			commentList($(this).val());
 		})
+		function addComment(){
+			const value = $("#moreBtn").val();
+			const content =  $("#commentContent").val();
+			
+			$.ajax({
+				url : "/addComment.kh",
+				data : {
+					commentContent : content,
+					projectNo : $("input#projectNo").val() 
+				},
+				success : function(result){
+					if(result=="error"){
+						alert("댓글 등록에 실패했습니다! 잠시 뒤 다시 시도해 주세요");
+					}else{
+						
+						const commentRow = $("<li style='display: none;'>");
+						const commenter = $("<div class='comment-writer'>");
+						commenter.text("${sessionScope.m.memberName}");
+						const commentContent = $("<div class='comment-content'>");
+						commentContent.text(content);
+						const commentMD  = $("<div class='comment-md'>");
+						let str = "<span onclick='modifyComment()'>수정</span><span onclick='deleteComment()'>삭제</span><input type='hidden' value='"+result.commentNo+"'>";
+						commentMD.html(str);
+						const commentDate = $("<div class='comment-date'>");
+						commentDate.text(result.commentDate);
+						
+						commentRow.append(commenter).append(commentContent).append(commentMD).append(commentDate);
+						$(".comment-wrap>li:first-child").after(commentRow);
+						commentRow.slideDown();
+						$("#commentContent").val("");
+												
+					}
+				}
+			})
+		}
 	</script>
 </body>
 </html>

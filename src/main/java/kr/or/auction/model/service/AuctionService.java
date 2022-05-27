@@ -458,7 +458,7 @@ public class AuctionService {
 		
 		// 페이지설정
 		// 한페이지당 컨텐츠수
-		int rowOflist = 10;
+		int rowOflist = 5;
 		// 시작컨텐츠번호
 		int startNum = rowOflist * (pageNo-1) +1;
 		// 끝컨텐츠번호
@@ -469,5 +469,15 @@ public class AuctionService {
 		map.put("endNum", endNum);
 		ArrayList<Comment> list = dao.selectAuctionComment(map);
 		return list;
+	}
+
+	public Comment addComment(Comment c) {
+		int result = dao.addComment(c);
+		if(result>0) {
+			Comment comment = dao.selectLastComment(c);
+			return comment;
+		}else {
+			return null;
+		}
 	}
 }

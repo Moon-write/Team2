@@ -8,8 +8,6 @@
 </head>
 <body>
 	<script type="text/javascript">
-		const alertMsg = '${alert}';
-		alert(alertMsg);
 		window.close();
 	</script>
 </body>
