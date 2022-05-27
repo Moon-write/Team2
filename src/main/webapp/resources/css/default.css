@@ -170,6 +170,10 @@ footer > .footer-content * {
   padding: 0.7rem;
   text-align: center;
 }
+.tbl .tr-0 {
+  background-color: #fff;
+  color : #000;
+}
 .tbl .tr-1 {
   border-top : 2px solid rgb(30,144,255);
   border-bottom : 2px solid rgb(30,144,255);
@@ -203,6 +207,10 @@ footer > .footer-content * {
 }
 .tbl .td-5 {
   background-color: rgba(255, 46, 999, 0.1);
+}
+.tbl.tbl-hover .tr-0:hover {
+  transition: background-color 0.3s;
+  background-color: rgba(30, 144, 255, 0.1);
 }
 .tbl.tbl-hover .tr-1:hover {
   transition: background-color 0.3s;
