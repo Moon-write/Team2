@@ -312,7 +312,11 @@
   </select>
   
    <update id="updateAuctionContent" parameterType="a">
-  		UPDATE AUCTION_TBL SET AUCTION_CONTENT= #{auctionContent} WHERE PROJECT_NO=#{projectNo}
+  		UPDATE AUCTION_TBL SET AUCTION_CONTENT= #{auctionContent}
+  				<if test="auctionPic!=null and !auctionPic.equals('')">
+					,AUCTION_PIC = #{auctionPic}
+  			</if>
+  		 WHERE PROJECT_NO=#{projectNo}
   </update>
   
     <update id="updateAuctionInfo" parameterType="a">
@@ -324,9 +328,22 @@
   				AUCTION_END = TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'),
   				AUCTION_PRICE = #{auctionPrice},
   				AUCTION_CONTENT= #{auctionContent} 
-  				<if test="!auctionPic.equals('')">
+  				<if test="auctionPic!=null and !auctionPic.equals('')">
 	  				,AUCTION_PIC = #{auctionPic}
   				</if>
 	  		WHERE PROJECT_NO=#{projectNo}
   </update>
+  
+  <select id="selectAuctionComment" parameterType="map" resultType="c">
+  		SELECT * FROM (  		
+  			SELECT ROWNUM AS RNUM,
+  				COMMENT_NO AS commentNo,
+  				PROJECT_NO AS projectNo,
+  				MEMBER_NO AS memberNo,
+  				MEMBER_NAME AS memberName,
+  				COMMENT_CONTENT AS commentContent,
+  				COMMENT_DATE AS commentDate
+  				FROM COMMENT_TBL JOIN MEMBER USING(MEMBER_NO) WHERE PROJECT_NO=#{projectNo} ORDER BY COMMENT_DATE DESC
+  			<![CDATA[) WHERE RNUM>=#{startNum} AND RNUM<=#{endNum}]]> 				
+  </select>
 </mapper>

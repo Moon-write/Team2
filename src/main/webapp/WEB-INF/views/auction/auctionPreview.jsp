@@ -205,7 +205,7 @@
 				<div class="auction-right">
 					<div class="info-time">
 						<h2>
-							경매 오픈 전
+							잔여시간이 표시됩니다.
 						</h2>
 					</div>
 					<h1>
@@ -270,13 +270,15 @@
 				<div class="page-titleC">회원 한마디</div>
 			</div>
 			<div class="auction-direct">
-				<a class="btn bc11" >목록으로</a>
+				<button class="btn bc11" onclick="closing()" >미리보기 닫기</button>
 			</div>
 		</div>
 
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
-
+		function closing(){
+			window.close();	
+		}
 	</script>
 </body>
 </html>

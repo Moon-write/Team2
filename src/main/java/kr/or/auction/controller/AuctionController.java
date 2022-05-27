@@ -25,6 +25,7 @@ import kr.or.auction.model.service.AuctionService;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.AuctionList;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.member.model.vo.Member;
 
@@ -154,7 +155,7 @@ public class AuctionController {
 	}
 	
 	@RequestMapping(value="/modifyAuction.kh")
-	public String modifyAuction(Auction a, MultipartFile[] auctionPicture, HttpServletRequest request, RedirectAttributes redirect) {
+	public String modifyAuction(Auction a, MultipartFile[] auctionPicture, HttpServletRequest request, Model model) {
 		
 		String filepath = null;
 		int result = 0;
@@ -178,19 +179,39 @@ public class AuctionController {
 				filepath = fileIo(file, savePath);
 				
 				a.setAuctionPic(filepath);
-				result = service.modifyAuction(a);
 			}
+			result = service.modifyAuction(a);
 		}else {
-			// 불러온 값이 없다 = 내용만 수정 가능하다
+			// 불러온 값이 없다 = 내용과 프로필만 수정 가능하다
+
+			if(!auctionPicture[0].isEmpty()) {
+				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/auction/");
+				
+				Auction auction2 = service.pickOneAuction(a.getProjectNo());
+				
+				// 원래 있던 파일 삭제
+				if(!auction2.getAuctionPic().equals("preview.jpg")) {
+					// 프로필사진 파일명이 preview가 아니면
+					String deleteFile = savePath+auction2.getAuctionPic();
+					File delFile = new File(deleteFile);
+					delFile.delete();					
+				}
+				
+				MultipartFile file = auctionPicture[0];
+				
+				filepath = fileIo(file, savePath);
+				
+				a.setAuctionPic(filepath);
+			}
 			result = service.modifyAuctionContent(a);
 		}
 				
 		if(result>0) {
-			redirect.addFlashAttribute("msg", "경매 진행정보가 수정되었습니다!");
+			model.addAttribute("alert", "경매 진행정보가 수정되었습니다!");
 		}else {
-			redirect.addFlashAttribute("msg", "경매 수정에 실패했습니다. 관리자에게 문의하세요!");
+			model.addAttribute("alert", "경매 수정에 실패했습니다. 관리자에게 문의하세요!");
 		}
-		return "redirect:/manageAuction.kh";
+		return "auction/exit";
 	}
 	
 	@ResponseBody
@@ -237,6 +258,17 @@ public class AuctionController {
 		
 		return new Gson().toJson(list);
 	}
+
+	@ResponseBody
+	@RequestMapping(value="/selectCommentList.kh", produces="application/json; charset=utf-8")
+	public String selectCommentList(int projectNo, int pageNo) {
+
+		ArrayList<Comment> list = service.selectCommentList(projectNo, pageNo);		
+		
+		return new Gson().toJson(list);
+	}
+
+	
 	
 	@ResponseBody
 	@RequestMapping(value="/bidUpdate.kh", produces="application/json; charset=utf-8")

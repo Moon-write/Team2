@@ -12,6 +12,7 @@ import kr.or.auction.model.dao.AuctionDao;
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.AuctionList;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 
@@ -32,7 +33,7 @@ public class AuctionService {
 		dao.checkViewCount(projectNo);
 				
 		Auction a = dao.selectAuction(projectNo);
-		a = getMoreInfo(a, memberNo);	
+		a = getMoreInfo(a, memberNo);
 
 		return a;
 	}
@@ -154,6 +155,7 @@ public class AuctionService {
 		int startNum = rowOfList*(pageNo-1)+1;
 		int endNum = rowOfList*pageNo;
 		
+		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", memberNo);
 		map.put("startNum", startNum);
@@ -161,6 +163,7 @@ public class AuctionService {
 		
 		// 프로젝트 숫자 불러오기
 		List<Integer> projectlist = dao.selectLikeList(map);
+		
 		if(projectlist.isEmpty()) {
 			return null;
 		}else {
@@ -180,6 +183,7 @@ public class AuctionService {
 				}
 				a.setBestPrice(bestPrice);
 			}
+			
 			return list;			
 		}
 	}
@@ -447,5 +451,23 @@ public class AuctionService {
 	public int modifyAuctionContent(Auction a) {
 		int  result  =dao.updateAuctionContent(a);
 		return result;
+	}
+
+	public ArrayList<Comment> selectCommentList(int projectNo, int pageNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		// 페이지설정
+		// 한페이지당 컨텐츠수
+		int rowOflist = 10;
+		// 시작컨텐츠번호
+		int startNum = rowOflist * (pageNo-1) +1;
+		// 끝컨텐츠번호
+		int endNum = rowOflist * pageNo ;
+		
+		map.put("projectNo", projectNo);
+		map.put("startNum", startNum);
+		map.put("endNum", endNum);
+		ArrayList<Comment> list = dao.selectAuctionComment(map);
+		return list;
 	}
 }

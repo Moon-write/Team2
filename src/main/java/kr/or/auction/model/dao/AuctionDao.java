@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 
@@ -181,5 +182,10 @@ public class AuctionDao {
 	public int updateAuctionContent(Auction a) {
 		int result = sqlSession.update("auction.updateAuctionContent", a);
 		return result;
+	}
+
+	public ArrayList<Comment> selectAuctionComment(HashMap<String, Object> map) {
+		List list = sqlSession.selectList("auction.selectAuctionComment", map); 
+		return (ArrayList<Comment>) list;
 	}
 }

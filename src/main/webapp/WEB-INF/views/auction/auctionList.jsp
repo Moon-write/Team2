@@ -175,7 +175,6 @@
 		<div class="page-content">
 		<c:if test="${not empty sessionScope.m}">
 			<div class="page-titleC">관심상품 모아보기</div>
-			<a href="/addAuction.kh">경매 등록</a>
 			<div class="likeList-wrap">
 				<div class='pageArrow' id='prevP'></div>
 				<div class='likeList-contents'></div>
@@ -420,7 +419,7 @@
 					pageNo : pageNo
 				},
 				success : function(list){
-					
+					console.log(list);
 					if(list==null){
 						return;
 					}
