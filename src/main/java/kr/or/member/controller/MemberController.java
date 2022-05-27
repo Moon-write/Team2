@@ -26,11 +26,8 @@ public class MemberController {
 	public String login(Member m, HttpSession session) {
 		Member member = service.selectOneMember(m);
 		if(member != null) {
-			System.out.println("멤버 아이디 : " +member.getMemberId());
-			System.out.println("멤버 비밀번호 : " +member.getMemberPw());
 			session.setAttribute("m", member);
-		}
-		System.out.println("멤버 객체 못가져옴");
+		}	
 		return "redirect:/";
 	}
 	
@@ -71,9 +68,9 @@ public class MemberController {
 	public String mypageMain() {
 		return "member/mypageMain";
 	}
-	@RequestMapping(value="/changePwFrm.kh")
+	@RequestMapping(value="/updatePwFrm.kh")
 	public String changePwFrm() {
-		return "member/changePwFrm";
+		return "member/updatePwFrm";
 	}
 	@RequestMapping(value="/pwChange.kh")
 	public String pwChange(Member m, String memberPwNew) {
@@ -95,15 +92,18 @@ public class MemberController {
 		int result = service.deleteMember(m.getMemberNo());
 		if(result == 1) {
 			request.setAttribute("title", "회원탈퇴완료");
-			request.setAttribute("msg", "성공적으로 탈퇴되었습니다.");
+			request.setAttribute("msg", "성공적으로 탈퇴했습니다.");
 			request.setAttribute("icon", "success");
 		}else {
 			request.setAttribute("title", "회원탈퇴실패");
 			request.setAttribute("msg", "탈퇴에 실패했습니다.");
 			request.setAttribute("icon", "error");
-			request.setAttribute("loc", "/");
 		}
 		request.setAttribute("loc", "/");
 		return "common/msg";
+	}
+	@RequestMapping(value="/updateMemberFrm.kh")
+	public String updateMemberFrm() {
+		return "member/updateMemberFrm";
 	}
 }

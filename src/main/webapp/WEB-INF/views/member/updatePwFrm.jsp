@@ -19,7 +19,6 @@
 	margin: 15px;
 }
 .info-tbl input{
-	border: 1px solid #a7a7a7;
 	width: 360px;
 	display:inline;
 }
