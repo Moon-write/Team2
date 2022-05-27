@@ -37,14 +37,15 @@
 		ws.onclose = onClose;
 				
 		memberNo = $("#memberNo").val();
+		
 		setTimeout(function(){
 			
 			if(memberNo!=""){
-			const data = {
-				type : "login",
-				memberNo : memberNo
-			};
-			ws.send(JSON.stringify(data));
+				const data = {
+					type : "login",
+					memberNo : memberNo
+					};
+				ws.send(JSON.stringify(data));
 			};	
 		},1000);
 

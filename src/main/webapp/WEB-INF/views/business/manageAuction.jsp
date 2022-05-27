@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="js/jquery-3.6.0.js"></script>
+<script src="resources/js/jquery-3.6.0.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
 <script
@@ -228,7 +228,7 @@ input[type="number"] {
 						const sdTd=$("<td>");
 						const edTd=$("<td>");
 						const priceTd=$("<td>");
-						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
+						const modiTd=$("<td><button class=\"btn2 bc1 modifyBtn\">수정하기</button></td>"); <!--지음: 수정하기에 클래스 하나 넣었어요-->
 						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
 						const projectNo=$("<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>");
 						const modal=$("<td><button class=\"btn2 bc1 modal-open-btn chart\" target=\"#test-modal\">통계</button></td>");
@@ -480,7 +480,13 @@ input[type="number"] {
 					}
 				});
 			}
-		};		
+		};
+		<!--지음: 수정하기용 메소드 하나 넣었어요 -->
+		$(document).on("click",".modifyBtn",function(){
+			const value = $(this).parent().next().next("div").text();
+			const link = "/gotoModifyAuction.kh?projectNo="+value;
+			window.open(link,"_blank");
+		})
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

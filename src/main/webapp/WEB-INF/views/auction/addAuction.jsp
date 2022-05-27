@@ -83,7 +83,6 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
-	<%@include file="/WEB-INF/views/auction/msg.jsp" %>
 	<script src="../../../resources/js/auction/mobiscroll.jquery.min.js"></script>
 	<script src="../../../resources/js/summernote-lite.js"></script>
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
