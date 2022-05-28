@@ -6,40 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="/resources/css/board/boardMain.css">
 <style>
-.notice-tbl a:hover {
-	text-decoration: underline;
-}
-.notice-tbl tr {
-	border-bottom: 1px solid #ccc;
-}
-
-.notice-tbl tr>th:first-child {
-	width: 10%;
-}
-
-.notice-tbl tr>th:nth-child(2) {
-	width: 45%;
-}
-
-.notice-tbl tr>td:nth-child(2) {
-	text-align: left;
-}
-
-.notice-tbl tr>th:nth-child(3) {
-	width: 15%;
-}
-
-.notice-tbl tr>th:nth-child(4) {
-	width: 20%;
-}
-
-.notice-tbl tr>th:nth-child(5) {
-	width: 10%;
-}
-#pageNavi {
-	margin: 30px;
-}
 .hr-0{
 	color: #ac9e89;
 }
@@ -55,33 +23,58 @@
 }
 .my_book_list_tbl tr>th:nth-child(1){
 	width: 7%;
-} 
+}
 .my_book_list_tbl tr>th:nth-child(2){
+	width: 7%;
+} 
+.my_book_list_tbl tr>th:nth-child(3){
 	width: 10%;
 }
-.my_book_list_tbl tr>th:nth-child(3){
+.my_book_list_tbl tr>th:nth-child(4){
 	width: 24%;
 }
-.my_book_list_tbl tr>th:nth-child(4){
+.my_book_list_tbl tr>th:nth-child(5){
 	width: 12%;
 }
-.my_book_list_tbl tr>th:nth-child(5){
+.my_book_list_tbl tr>th:nth-child(6){
 	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(1){
 	width: 7%;
-} 
-#my_book_list_tbl tr>td:nth-child(2){
-	width: 10%;
 }
+#my_book_list_tbl tr>td:nth-child(2){
+	width: 7%;
+} 
 #my_book_list_tbl tr>td:nth-child(3){
-	width: 24%;
+	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(4){
-	width: 12%;
+	width: 24%;
 }
 #my_book_list_tbl tr>td:nth-child(5){
+	width: 12%;
+}
+#my_book_list_tbl tr>td:nth-child(6){
 	width: 10%;
+}
+select{
+	float: right;
+	margin: 20px 0;
+}
+.tbl th, .tbl>td {
+    padding: 1rem;
+    text-align: center;
+    
+}
+#tr-00>*{
+	padding: 1rem;
+}
+#tr-01>*{
+	padding: 1.2rem;
+}
+#pageNavi>*{
+	margin-top: 60px;
+	margin-bottom: 30px;
 }
 </style>
 </head>
@@ -92,9 +85,17 @@
 			<%@include file="/WEB-INF/views/member/mypage_common.jsp"%>
 			<div class="mypage-content">
 				<div class="mypage-content-title">나의 리뷰</div>
+				<div class="content-title">
+					<div class="title-txt">내가 쓴 리뷰를 확인해보세요</div>
+				</div>
+					<select name="sort">
+						<option value="new">최신순</option>
+						<option value="old">오래된순</option>
+					</select>
 					<!-- 헤더 테이블 -->
 					<table class="tbl my_book_list_tbl">
-						<tr class="tr-2 tr-head">
+						<tr class="tr-2 tr-head" id="tr-00">
+							<th>No.</th>
 							<th>구분</th>
 							<th>프로젝트명</th>
 							<th>한마디</th>
@@ -107,14 +108,13 @@
 						<c:when test="${not empty commentList}">
 							<c:forEach items="${commentList }" var="c" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
-									<tr class="tr-0">
-										<a href=#>
+									<tr class="tr-00" id="tr-01">
+											<td>${c.commentNo }</td>
 											<td>${c.divNo }</td>
 											<td>${c.projectNo }</td>
 											<td>${c.commentContent }</td>
 											<td>${c.commentDate }</td>
-											<td>${c.commentNo }</td>
-										</a>
+											<td>구매완료</td>
 									</tr>
 								</table>
 							</c:forEach>

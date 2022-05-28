@@ -171,6 +171,8 @@ footer > .footer-content * {
   text-align: center;
 }
 .tbl .tr-0 {
+  border-top : 2px solid rgb(30,144,255);
+  border-bottom : 2px solid rgb(30,144,255);
   background-color: #fff;
   color : #000;
 }
@@ -208,9 +210,9 @@ footer > .footer-content * {
 .tbl .td-5 {
   background-color: rgba(255, 46, 999, 0.1);
 }
-.tbl.tbl-hover .tr-0:hover {
+.tbl.tbl-hover .tr-00:hover {
   transition: background-color 0.3s;
-  background-color: rgba(30, 144, 255, 0.1);
+  background-color: rgba(30, 144, 255, 0.3);
 }
 .tbl.tbl-hover .tr-1:hover {
   transition: background-color 0.3s;
@@ -437,7 +439,7 @@ textarea.input-form {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  text-align: center;
 }
 .pagination > li {
   width: 40px;
@@ -456,6 +458,7 @@ textarea.input-form {
   height: 100%;
   font-size: 18px;
   color : #191F28;
+  text-align: center;
 }
 .pagination > li > a.page-item > span.material-icons {
   display: block;
@@ -463,6 +466,10 @@ textarea.input-form {
   height: 100%;
   line-height: 40px;
   color : #191F28;
+  text-align: center;
+}
+.pagination > li > a.page-item > span.material-icons:hover {
+  color : rgb(30,144,255);
 }
 .pagination .page-item.active-page {
   background-color: rgb(30,144,255);

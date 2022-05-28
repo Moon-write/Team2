@@ -6,41 +6,41 @@
 <meta charset="UTF-8">
 <title>:: 회원정보 ::</title>
 <style>
-	.info-tbl{
-		margin: 15px;
-	}
-	.info-tbl input{
-		border: 1px solid #a7a7a7;
-		width: 360px;
-		display:inline;
-	}
-	#memberId{
-		color: #757279;
-	}
-	.info-tbl tr>td:first-child{
-		width: 20%;
-	}
-	.info-tbl tr:nth-child(2)>td:last-child{
-		text-align: left;
-		text-decoration: underline;
-	}
-	.info-tbl tr:last-child a{
-		text-decoration: underline;
-	}
-	.updateInfo-btn{
-		width: 100%;
-		height: 50px;
-		font-size: 18px;
-		border: none;
-	}
-	.check-msg{
-		text-align: left;
-		color: #c87431;
-		font-size: 12px;
-		height: 30px;
-		padding-left: 10px;
-		vertical-align: top;
-	}
+.info-tbl{
+	margin: 0 auto;
+	margin-top: 170px;
+}
+.info-tbl input{
+	width: 360px;
+	display:inline;
+}
+#memberId{
+	color: #757279;
+}
+.info-tbl tr>td:first-child{
+	width: 20%;
+}
+.info-tbl tr:nth-child(2)>td:last-child{
+	text-align: left;
+	text-decoration: underline;
+}
+.info-tbl tr:last-child a{
+	text-decoration: underline;
+}
+.updateInfo-btn{
+	width: 100%;
+	height: 50px;
+	font-size: 18px;
+	border: none;
+}
+.check-msg{
+	text-align: left;
+	color: #c87431;
+	font-size: 12px;
+	height: 30px;
+	padding-left: 10px;
+	vertical-align: top;
+}
 </style>
 </head>
 <body>
@@ -51,12 +51,12 @@
 			<%@include file="/WEB-INF/views/member/mypage_common.jsp"%>
 			<div class="mypage-content">
 				<div class="mypage-content-title">내정보관리</div>
-				<div class="member-info">
+				<div class="member-info" id="member-info">
 					<form method="post">
 						<table class="info-tbl" id="info-tbl">
 							<tr class="tr-3">
 								<td>이메일(ID)</td>
-								<td><input class="input-form" type="text" id="memberId" value="${memberId }" readonly></td>
+								<td><input class="input-form" type="text" id="memberId" value="${sessionScope.m.memberId }" readonly>${SessionScope.m.memberId }</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -64,7 +64,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>이름</td>
-								<td><input class="input-form" type="text" id="changeName" value="${memberName }"></td>
+								<td><input class="input-form" type="text" id="changeName" value="${sessionScope.m.memberName }"></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -73,19 +73,16 @@
 							
 							<tr class="tr-3">
 								<td>휴대폰번호</td>
-								<td><input class="input-form" type="text" id="changePhone" value="${memberPhone }"></td>
+								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberPhone }"></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td class="check-msg"></td>
 							</tr>
+							<!-- 나중에 주소넣기 -->
 							<tr class="tr-3">
 								<td></td>
-								<td><button class="btn bc1 updateInfo-btn" type="button" value="">정보 수정하기</button></td>
-							</tr>
-							<tr class="tr-3">
-								<td></td>
-								<td style="text-align: center; height: 100px;"><a href="/deleteMemberFrm.kh" class=fc-8>회원탈퇴</a></td>
+								<td><input type="button" class="btn bc1 updateInfo-btn" value="정보 수정하기"></td>
 							</tr>
 						</table>
 					</form>

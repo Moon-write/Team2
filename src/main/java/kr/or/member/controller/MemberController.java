@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.or.member.model.service.MemberService;
 import kr.or.member.model.vo.Member;
@@ -16,6 +17,8 @@ public class MemberController {
 	private MemberService service;
 	@Autowired
 	private HttpServletRequest request;
+	@Autowired
+	private HttpSession session;
 	
 	@RequestMapping(value="/loginFrm.kh")
 	public String loginFrm() {
@@ -80,7 +83,7 @@ public class MemberController {
 		return "member/deleteMemberFrm";
 	}
 	@RequestMapping(value="deleteMember.kh")
-	public String deleteMember(Member m, HttpServletRequest request) {
+	public String deleteMember(@SessionAttribute(required = false) Member m, HttpServletRequest request) {
 		int result = service.deleteMember(m.getMemberNo());
 		if(result == 1) {
 			request.setAttribute("title", "회원탈퇴완료");
@@ -92,6 +95,7 @@ public class MemberController {
 			request.setAttribute("icon", "error");
 		}
 		request.setAttribute("loc", "/");
+		session.invalidate();
 		return "common/msg";
 	}
 	@RequestMapping(value="/updateMemberFrm.kh")
@@ -99,7 +103,7 @@ public class MemberController {
 		return "member/updateMemberFrm";
 	}
 	@RequestMapping(value="/updateMember.kh")
-	public String updateMember(Member m, HttpSession session) {
+	public String updateMember(Member m, HttpServletRequest request, HttpSession session) {
 		int result = service.memberUpdate(m);
 		if(result == 1) {
 			session.setAttribute("m", m);

@@ -4,6 +4,10 @@
 <html>
 <head>
 <style>
+.info-tbl{
+	margin: 0 auto;
+	margin-top: 170px;
+}
 .mypage-header {
 	display: flex;
 	height: 30px;
@@ -15,15 +19,13 @@
 	display: flex;
 	flex-wrap: wrap;
 }
-.info-tbl{
-	margin: 15px;
-}
 .info-tbl input{
 	width: 360px;
 	display:inline;
 }
+
 .info-tbl tr>td:first-child{
-	width: 25%;
+	width: 28%;
 }
 .info-tbl tr:nth-child(2)>td:last-child{
 	text-align: left;
@@ -44,6 +46,9 @@
 	height: 30px;
 	padding-left: 10px;
 	vertical-align: top;
+}
+.member-info{
+	margin: auto;
 }	
 </style>
 <meta charset="UTF-8">
