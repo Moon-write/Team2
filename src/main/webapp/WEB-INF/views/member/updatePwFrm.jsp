@@ -4,6 +4,10 @@
 <html>
 <head>
 <style>
+.info-tbl{
+	margin: 0 auto;
+	margin-top: 170px;
+}
 .mypage-header {
 	display: flex;
 	height: 30px;
@@ -14,9 +18,6 @@
 .flex-wrap {
 	display: flex;
 	flex-wrap: wrap;
-}
-.info-tbl{
-	margin: 15px;
 }
 .info-tbl input{
 	width: 360px;

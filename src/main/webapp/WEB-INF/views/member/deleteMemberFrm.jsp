@@ -17,7 +17,7 @@
 }
 .info-tbl{
 	width: 60%;
-	margin: 150px auto;
+	margin: 170px auto;
 }
 .info-tbl tr{
 	height: 50px;

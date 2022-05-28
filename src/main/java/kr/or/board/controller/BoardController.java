@@ -42,7 +42,7 @@ public class BoardController {
 	@RequestMapping(value="/qnaList.kh")
 	public String qnaList(int reqPage, Model model, int memberNo) {
 		QnaPageData qpd = service.selectQnaList(reqPage, memberNo);
-		model.addAttribute("qnatList",qpd.getQnaList());
+		model.addAttribute("qnaList",qpd.getQnaList());
 		model.addAttribute("pageNavi",qpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "board/qnaList";

@@ -7,7 +7,8 @@
 <title>:: 회원정보 ::</title>
 <style>
 .info-tbl{
-	margin: 15px;
+	margin: 0 auto;
+	margin-top: 170px;
 }
 .info-tbl input{
 	width: 360px;
@@ -40,9 +41,6 @@
 	padding-left: 10px;
 	vertical-align: top;
 }
-.member-info{
-margin: 0 auto;
-}	
 </style>
 </head>
 <body>
@@ -53,7 +51,7 @@ margin: 0 auto;
 			<%@include file="/WEB-INF/views/member/mypage_common.jsp"%>
 			<div class="mypage-content">
 				<div class="mypage-content-title">내정보관리</div>
-				<div class="member-info">
+				<div class="member-info" id="member-info">
 					<form method="post">
 						<table class="info-tbl" id="info-tbl">
 							<tr class="tr-3">

@@ -2,17 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
   	<select id="selectCommentList" parameterType="map" resultType="c">
-		select * from 
-		(select rownum as rnum, c.* from 
-		(select
+		select
+			comment_no as commentNo, 
 			div_no as divNo,
 			project_no as projectNo,
 			comment_content as commentContent,
-			substr(comment_date,1,10) as commentDate,
-			comment_no as commentNo
-		from comment_tbl where member_no=#{memberNo} order by comment_no desc)c) 
+			substr(comment_date,1,10) as commentDate
+		 from 
+		(select rownum as rnum, c.* from 
+		(select * from comment_tbl where member_no=#{memberNo} order by comment_no desc)c) 
 		where rnum between #{start} and #{end}  		
   	</select>
+  	
+  	
   	<select id="selectLikeList" parameterType="map" resultType="l">
 		select * from 
 		(select rownum as rnum, c.* from 
@@ -24,7 +26,8 @@
 			comment_no as commentNo
 		from like_tbl where member_no=#{memberNo} order by like_no desc)c) 
 		where rnum between #{start} and #{end}  		
-  	</select><select id="selectOrderList" parameterType="map" resultType="o">
+  	</select>
+  	<select id="selectOrderList" parameterType="map" resultType="o">
 		select * from 
 		(select rownum as rnum, c.* from 
 		(select
