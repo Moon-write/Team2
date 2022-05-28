@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.or.board.model.dao.BoardDao;
 import kr.or.board.model.vo.CommentPageData;
+import kr.or.board.model.vo.LikePageData;
+import kr.or.board.model.vo.OrderPageData;
+import kr.or.board.model.vo.QnaPageData;
 import kr.or.common.model.vo.Comment;
 
 @Service
@@ -29,11 +32,12 @@ public class BoardService {
 		ArrayList<Comment> commentList = dao.selectCommentList(map);
 		
 		//pageNavi작성
-		//totalCount = 전체 게시물 수 / totalPage = 전체 페이지 수
+		//totalCount = 전체 게시물 수 
 		HashMap<String, Object> commentMap = new HashMap<String, Object>();
 		commentMap.put("boardName",boardName);
 		commentMap.put("memberNo",memberNo);
 		int totalCount = dao.selectCount(commentMap);
+		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
 			totalPage = totalCount/numPerPage;
@@ -42,21 +46,30 @@ public class BoardService {
 		}
 		
 		//pageNaviSize = 페이지 네비 길이 / pageNo = 페이지 번호
-		int pageNaviSize = 10;
-		int pageNo = 1;
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
 		
 		//pageNavi 생성시작
-		String pageNavi = "";
+		String pageNavi = "<ul class='pagination circle-style'>";
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<a href='/commentList.kh?reqPage="+(reqPage-1)+"'></a>";
+			pageNavi += "<li>";
+			pageNavi += "<a class='page-item' href='/commentList.kh?reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<span class='material-icons'>chevron_left</span>";
+			pageNavi += "</a></li>";
 		}
-		//페이지번호생성
+		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<span>"+pageNo+"</span>";
+				pageNavi += "<li>";
+				pageNavi += "<a class='page-item active-item' href='/commentList.kh?reqPage="+pageNo+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<a href='/commentList.kh?reqPage="+pageNo+"'>"+pageNo+"</a>"; 
+				pageNavi += "<li>";
+				pageNavi += "<a class='page-item' href='/commentList.kh?reqPage="+pageNo+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
 			}
 			pageNo++;
 			if(pageNo > totalPage) {
@@ -65,10 +78,28 @@ public class BoardService {
 		}
 		//다음버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<a href='/commentList.kh?reqPage="+(reqPage+1)+"'></a>";
+			pageNavi += "<a class='page-item' href='/commentList.kh?reqPage="+(pageNo+1)+"'>";
+			pageNavi += "<span class='material-icons'>chevron_right</span>";
+			pageNavi += "</a></li>";
 		}
+		pageNavi += "</ul>";
 		CommentPageData cpd = new CommentPageData(commentList, pageNavi);
 		return cpd;
+	}
+
+	public OrderPageData selectOrderList(int reqPage, int memberNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public LikePageData selectLikeList(int reqPage, int memberNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public QnaPageData selectQnaList(int reqPage, int memberNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

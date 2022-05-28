@@ -22,13 +22,9 @@
 .info-tbl tr{
 	height: 50px;
 }
-.info-tbl input{
-	border: 1px solid #a7a7a7;
-}
-
 .info-tbl tr>td:first-child{
 	width: 10%;
-	text-align: center;
+	text-align: right;
 }
 
 .info-tbl tr>td:nth-child(2){
@@ -43,7 +39,7 @@
 	height: 50px;
 	font-size: 18px;
 	border: none;
-}	
+}
 </style>
 <meta charset="UTF-8">
 <title>:: 회원 페이지 ::</title>

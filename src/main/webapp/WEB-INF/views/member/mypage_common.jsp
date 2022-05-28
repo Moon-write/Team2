@@ -84,6 +84,22 @@
 	height: 1px;
 	border: none;
 }
+.left-menu .material-symbols-outlined {
+	font-size: 62px;
+	color: rgb(30,144,255);
+	margin-top: -15px;
+	margin-bottom: 42px;
+}
+.left-menu>ul>li:first-child {
+    margin-top: 30px;
+    margin-bottom: 8px;
+    padding-left: 25px;
+    height: 30px;
+}
+.left-menu li:nth-child(2):hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
 </style>
 
 <!-- 
@@ -96,7 +112,8 @@
         </header>
         <div class="left-menu">
           <ul>
-          	  <li class="f-bold">프로필 정보</li>
+          	  <li><span class="material-symbols-outlined">mood</span></li>
+          	  <li class="f-bold"><a href="/updateMemberFrm.kh" class="f-bold">프로필 정보 ></a></li>
           	  <hr>
               <li class="f-bold">활동정보</li>
               <li><a href="/projectList.kh?reqPage=1&memberNo=${m.memberNo}">참여중인 프로젝트</a></li>

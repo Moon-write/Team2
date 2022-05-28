@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.or.board.model.service.BoardService;
 import kr.or.board.model.vo.CommentPageData;
+import kr.or.board.model.vo.LikePageData;
+import kr.or.board.model.vo.OrderPageData;
+import kr.or.board.model.vo.QnaPageData;
 
 @Controller
 public class BoardController {
@@ -28,17 +31,29 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/orderList.kh")
-	public String orderList() {
+	public String orderList(int reqPage, Model model, int memberNo) {
+		OrderPageData opd = service.selectOrderList(reqPage, memberNo);
+		model.addAttribute("ordertList",opd.getOrderList());
+		model.addAttribute("pageNavi",opd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
 		return "board/orderList";
 	}
 	
 	@RequestMapping(value="/qnaList.kh")
-	public String qnaList() {
+	public String qnaList(int reqPage, Model model, int memberNo) {
+		QnaPageData qpd = service.selectQnaList(reqPage, memberNo);
+		model.addAttribute("qnatList",qpd.getQnaList());
+		model.addAttribute("pageNavi",qpd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
 		return "board/qnaList";
 	}
 	
 	@RequestMapping(value="/likeList.kh")
-	public String likeList() {
+	public String likeList(int reqPage, Model model, int memberNo) {
+		LikePageData lpd = service.selectLikeList(reqPage, memberNo);
+		model.addAttribute("likeList",lpd.getLikeList());
+		model.addAttribute("pageNavi",lpd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
 		return "board/likeList";
 	}
 	
