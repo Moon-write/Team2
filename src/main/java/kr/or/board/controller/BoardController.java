@@ -10,6 +10,7 @@ import kr.or.board.model.vo.CommentPageData;
 import kr.or.board.model.vo.LikePageData;
 import kr.or.board.model.vo.OrderPageData;
 import kr.or.board.model.vo.QnaPageData;
+import kr.or.member.model.vo.Member;
 
 @Controller
 public class BoardController {
@@ -17,8 +18,8 @@ public class BoardController {
 	BoardService service;
 	
 	@RequestMapping(value="/commentList.kh")
-	public String commentList(int reqPage, Model model, int memberNo) {
-		CommentPageData cpd = service.selectCommentList(reqPage, memberNo);
+	public String commentList(int reqPage, Model model, Member m) {
+		CommentPageData cpd = service.selectCommentList(reqPage, m.getMemberNo());
 		model.addAttribute("commentList",cpd.getCommentList());
 		model.addAttribute("pageNavi",cpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
@@ -31,8 +32,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/orderList.kh")
-	public String orderList(int reqPage, Model model, int memberNo) {
-		OrderPageData opd = service.selectOrderList(reqPage, memberNo);
+	public String orderList(int reqPage, Model model, Member m) {
+		OrderPageData opd = service.selectOrderList(reqPage, m.getMemberNo());
 		model.addAttribute("ordertList",opd.getOrderList());
 		model.addAttribute("pageNavi",opd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
@@ -40,8 +41,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/qnaList.kh")
-	public String qnaList(int reqPage, Model model, int memberNo) {
-		QnaPageData qpd = service.selectQnaList(reqPage, memberNo);
+	public String qnaList(int reqPage, Model model, Member m) {
+		QnaPageData qpd = service.selectQnaList(reqPage, m.getMemberNo());
 		model.addAttribute("qnaList",qpd.getQnaList());
 		model.addAttribute("pageNavi",qpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
@@ -49,8 +50,8 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/likeList.kh")
-	public String likeList(int reqPage, Model model, int memberNo) {
-		LikePageData lpd = service.selectLikeList(reqPage, memberNo);
+	public String likeList(int reqPage, Model model, Member m) {
+		LikePageData lpd = service.selectLikeList(reqPage, m.getMemberNo());
 		model.addAttribute("likeList",lpd.getLikeList());
 		model.addAttribute("pageNavi",lpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);

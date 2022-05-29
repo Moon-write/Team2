@@ -15,7 +15,7 @@
 
 		<!-- 신영 -->		
 		<typeAlias type="kr.or.member.model.vo.Member" alias="m"/>
-
+		<typeAlias type="kr.or.board.model.vo.Board" alias="bo"/>
 		<!-- 용욱 -->
 		<typeAlias type="kr.or.shop.model.vo.Shop" alias="s"/>
 		<typeAlias type="kr.or.shop.model.vo.ShopCategory" alias="sc"/>

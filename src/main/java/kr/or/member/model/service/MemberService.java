@@ -18,11 +18,9 @@ public class MemberService {
 	public Member selectOneMember(Member m) {
 		return dao.selectOneMember(m);
 	}
-
 	public int insertMember(Member m) {
 		return dao.insertMember(m);
 	}
-
 	public int changePw(Member m, String memberPwNew) {
 		try {
 			String oldPwEnc = enc.endData(m.getMemberPw());
@@ -47,6 +45,8 @@ public class MemberService {
 	public int memberUpdate(Member m) {
 		return dao.memberUpdate(m);
 	}
+
+	
 
 
 

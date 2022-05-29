@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.or.member.model.service.MemberService;
@@ -45,19 +46,14 @@ public class MemberController {
 	public String joinFrmMember() {
 		return "member/joinFrmMember";
 	}
-	@RequestMapping(value="/joinMember.kh")
-	public String joinMember(Member m) {
-		int result = service.insertMember(m);
-		return "member/joinMember";
-	}
 	@RequestMapping(value="/joinFrmBiz.kh")
 	public String joinFrmBiz() {
 		return "member/joinFrmBiz";
 	}
-	@RequestMapping(value="/joinBiz.kh")
-	public String joinFrmMe(Member m) {
+	@RequestMapping(value="/joinMember.kh")
+	public String joinMember(Member m) {
 		int result = service.insertMember(m);
-		return "member/joinBiz";
+		return "member/joinMember";
 	}
 	@RequestMapping(value="/mypageMain.kh")
 	public String mypageMain() {
@@ -76,6 +72,16 @@ public class MemberController {
 			return "redirect:/";
 		}else {
 			return "member/changePwFrm";
+		}
+	}
+	@ResponseBody
+	@RequestMapping(value="/idCheck.kh")
+	public String idCheck(Member m) { 
+		Member member = service.selectOneMember(m);
+		if(member == null) {
+			return "0";
+		}else {
+			return "1";
 		}
 	}
 	@RequestMapping(value="deleteMemberFrm.kh")

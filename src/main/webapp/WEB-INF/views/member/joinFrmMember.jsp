@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JAVADICE CITY</title>
+<title>일반회원가입</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <style>
 .join-wrap{
@@ -127,69 +129,77 @@
 				<table class="join-table">
 					<!-- 이메일 -->
 					<tr class="form-name">
-						<th colspan="2">이메일(ID)<span class="idChkMsg"></span></th>
+						<th colspan="2">이메일(ID)<span class="idChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td><input type="text" name="memberId" class="input-form"></td>
+						<td colspan="1"><input type="text" name="memberId" class="input-form"></td>
+						<td>@</td>
+						<td colspan="1">
+							<select name="email" class="input-form select">
+								<option disabled selected>이메일</option>
+								<option value="@naver.com">naver.com</option>
+								<option value="@gmail.com">gmail.com</option>
+							</select>
+						</td>
 						<td><button class="btn bc1 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
 					</tr>
 					<tr class="form-name">
-						<th colspan="2">이메일 재확인<span class="idChkMsg"></span></th>
+						<th colspan="4">인증번호<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요."></td>
+						<td colspan="3"><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요."></td>
 						<td><button class="btn bc1 bs1" id="authBtn" type="button">확인</button></td>
 					</tr>
 					<tr>
-						<td colspan="2"><span id="timeLimit"></span></td>
+						<td colspan="4"><span id="timeLimit"></span></td>
 					</tr>
 					<!-- 비밀번호 -->
 					<tr class="form-name">
-						<th colspan="2" class="join-pass">비밀번호<span class="pwChkMsg"></span></th>
+						<th colspan="4" class="join-pass">비밀번호<span class="pwChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="password" name="memberPw" class="input-form"></td>
+						<td colspan="4"><input type="password" name="memberPw" class="input-form"></td>
 					</tr>
 					<tr class="form-name">
-						<th colspan="2">비밀번호 재확인<span class="pwReChkMsg"></span></th>
+						<th colspan="4">비밀번호 재확인<span class="pwReChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="password" name="memberPwRe" class="input-form"></td>
+						<td colspan="4"><input type="password" name="memberPwRe" class="input-form"></td>
 					</tr>
 					<!-- 이름 -->
 					<tr class="form-name">
-						<th colspan="2" class="join-name">이름<span class="nameChkMsg"></span></th>
+						<th colspan="4" class="join-name">이름<span class="nameChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="text" name="memberName" class="input-form"></td>
+						<td colspan="4"><input type="text" name="memberName" class="input-form"></td>
 					</tr>
 					<!-- 전화번호 -->
 					<tr class="form-name">
-						<th colspan="2">전화번호<span class="phoneChkMsg"></span></th>
+						<th colspan="4">전화번호<span class="phoneChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234"></td>
+						<td colspan="4"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234"></td>
 					</tr>
 					<!-- 주소 -->
 					<tr class="form-name">
-						<th colspan="2">주소<span class="idChkMsg"></span></th>
+						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td><input type="text" id="sample6_postcode" class="input-form" placeholder="우편번호"></td>
-						<td><button class="btn bc2 bs1" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
+						<td colspan="3"><input type="text" id="member_postcode" name="member_postcode" class="input-form" placeholder="우편번호" readonly></td>
+						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="text" id="sample6_address" class="input-form" placeholder="주소" readonly></td>
+						<td colspan="4"><input type="text" id="member_addr1" name="member_addr1" class="input-form" placeholder="주소" readonly></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="text" id="sample6_detailAddress" class="input-form" placeholder="상세주소" readonly></td>
+						<td colspan="4"><input type="text" id="member_addr2" name="member_addr2" class="input-form" placeholder="상세주소"></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
-						<th colspan="2">생년월일<span class="idChkMsg"></span></th>
+						<th colspan="4">생년월일</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2">
+						<td colspan="4">
 							<div class="form-select-wrap select">
 								<select class="birthday-year">
 								</select>
@@ -204,10 +214,10 @@
 					</tr>
 					<!-- 성별 -->
 					<tr class="form-name">
-						<th colspan="2">성별<span class="idChkMsg"></span></th>
+						<th colspan="4">성별</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2">
+						<td colspan="4">
 							<select name="gender" class="input-form select">
 								<option disabled selected>성별</option>
 								<option value="female">여성</option>
@@ -216,7 +226,7 @@
 						</td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="2"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
+						<td colspan="4"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
 					</tr>
 				</table>
 			</form>
@@ -231,9 +241,26 @@
 	<br><br><br><br>
 		
 	<script>
-		const checkArr = [false,false,false,false,false,false];
+		//다음 주소찾기 API
+		window.onload = function(){
+		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+		        //카카오 지도 발생
+		        new daum.Postcode({
+		            oncomplete: function(data) { //선택시 입력값 세팅
+		            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
+		                document.getElementById("member_addr1").value = data.address; // 주소 넣기
+		                document.querySelector("input[name=member_addr2]").focus(); //상세입력 포커싱
+		                console.log(data);
+		            }
+		        }).open();
+		    });
+		}
+		
+		const checkArr = [false,false,false,false,false,false,false,false,false];
 		let authChk = 0;
 		
+		//아이디 형식체크
+		/*
 		const id = $("[name=memberId]");
 		id.on("change",function(){
 			const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}.[a-zA-Z]{2,3}$/i;
@@ -247,6 +274,24 @@
 				$(".idChkMsg").css("color","red");
 				checkArr[0] = false;
 			};
+		});
+		*/
+		//아이디 중복체크
+		$("[name=memberId]").on("change",function(){
+			const memberId = $(this).val();
+			$.ajax({
+				url : "/idCheck.kh",
+				data : {memberId : memberId},
+				success : function(data){
+					if(data == 0){
+						$(".idChk").text("사용 가능한 이메일입니다.");
+						$(".idChk").css("color","blue");
+					}else{
+						$(".idChk").text("이미 가입된 이메일입니다.");
+						$(".idChk").css("color","red");
+					}
+				}
+			});
 		});
 				
 		const pw = $("[name=memberPw]");
@@ -305,21 +350,6 @@
 				checkArr[3] = false;
 			};
 		});
-		
-		const nick = $("[name=memberNick]");
-		nick.on("change",function(){
-			const nickReg = /^[가-힣]{2,8}$/;
-			const nickVal = nick.val();
-			if(nickVal.match(nickReg) != null){
-				$(".nickChkMsg").text("올바른 형식의 닉네임입니다.");
-				$(".nickChkMsg").css("color","green");
-				checkArr[4] = true;
-			}else{
-				$(".nickChkMsg").text("닉네임은 2~8 글자의 한글만 입력가능합니다.");
-				$(".nickChkMsg").css("color","red");
-				checkArr[4] = false;
-			};
-		}); 
 				
 		const phone = $("[name=memberPhone]");
 		phone.on("change",function(){
@@ -418,33 +448,6 @@
 			}
 		}
 		
-		const nickChkBtn = $("#nickChkBtn");
-		nickChkBtn.on("click",function(){
-			if(checkArr[4]){
-				const nickChk = $("[name=memberNick]").val();
-				$.ajax({
-					url : "/memberNickChk.do",
-					data : {nickChk:nickChk},
-					type : "post",
-					success : function(data){
-						if(data == 1){
-							const title = "해당 닉네임은 사용중 입니다.";
-							const icon = "warning";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
-						}else{
-							if(confirm("해당 닉네임은 사용가능합니다. 사용하시겠습니까?")){
-								$("[name=memberNick]").attr("readonly",true);
-								authChk++;
-							}
-						}
-					},
-					error : function(){
-						console.log("nickChkBtn ajax 에러");
-					}
-				});	
-			}
-		})
 		
 		$("#join-submit").on("click",function(e){
 			let count = 0;
@@ -458,6 +461,45 @@
 			}
 		})
 		
+		//생년월일 시작
+		let userBirthdayYear = document.querySelector('.birthday-year');
+		let userBirthdayMonth = document.querySelector('.birthday-month');
+		let userBirthdayDay = document.querySelector('.birthday-day');
+		
+		function createOptionForElements(elem, val) {
+		  let option = document.createElement('option');
+		  option.text = val;
+		  option.value = val;
+		  elem.appendChild(option);
+		}
+		
+		
+		for(let i = 1920; i <= 2022; i++) {
+		  createOptionForElements(userBirthdayYear, i);
+		}
+		for(let i = 1; i <= 12; i++) {
+		  createOptionForElements(userBirthdayMonth, i);
+		}
+		for(let i = 1; i <= 31; i++) {
+		  createOptionForElements(userBirthdayDay, i);
+		}
+		
+		function changeTheDay() {
+		  userBirthdayDay.innerHTML = '';
+		
+		  let lastDayOfTheMonth = new Date(userBirthdayYear.value, userBirthdayMonth.value, 0).getDate();
+		
+		  for(let i = 1; i <= lastDayOfTheMonth; i++) {
+		    createOptionForElements(userBirthdayDay, i);
+		  }
+		}
+		userBirthdayYear.addEventListener('change', function() {
+		  changeTheDay();
+		});
+		userBirthdayMonth.addEventListener('change', function() {
+		  changeTheDay();
+		});
+		//생년월일 끝
 		//토스트 알림 함수		
 		function toastShow(title,icon,msgTime){
 			const Toast = Swal.mixin({
