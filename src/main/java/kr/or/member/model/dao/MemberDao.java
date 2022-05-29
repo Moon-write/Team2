@@ -15,22 +15,20 @@ public class MemberDao {
 		Member member = sqlSession.selectOne("member.selectOneMember",m);
 		return member;
 	}
-
 	public int insertMember(Member m) {
 		int result = sqlSession.insert("member.insertMember",m);
 		return result;
 	}
-
 	public int newPwMember(Member m) {
 		return sqlSession.update("member.newPw",m);
 	}
-
 	public int deleteMember(int memberNo) {
 		return sqlSession.delete("member.deleteMember",memberNo);
 	}
-
 	public int memberUpdate(Member m) {
 		return sqlSession.update("member.updateMember",m);
 	}
+
+	
 
 }

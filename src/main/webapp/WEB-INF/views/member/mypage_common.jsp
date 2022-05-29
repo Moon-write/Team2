@@ -87,7 +87,7 @@
 .left-menu .material-symbols-outlined {
 	font-size: 62px;
 	color: rgb(30,144,255);
-	margin-top: -15px;
+	margin-top: -21px;
 	margin-bottom: 42px;
 }
 .left-menu>ul>li:first-child {
@@ -112,20 +112,20 @@
         </header>
         <div class="left-menu">
           <ul>
-          	  <li><span class="material-symbols-outlined">mood</span></li>
+          	  <li><div class="material-symbols-outlined">mood</div></li>
           	  <li class="f-bold"><a href="/updateMemberFrm.kh" class="f-bold">프로필 정보 ></a></li>
           	  <hr>
               <li class="f-bold">활동정보</li>
-              <li><a href="/projectList.kh?reqPage=1&memberNo=${m.memberNo}">참여중인 프로젝트</a></li>
-              <li><a href="/orderList.kh?reqPage=1&memberNo=${m.memberNo}">결제내역</a></li>
-              <li><a href="/commentList.kh?reqPage=1&memberNo=${m.memberNo}">나의리뷰</a></li>
-              <li><a href="/likeList.kh?reqPage=1&memberNo=${m.memberNo}">찜목록</a></li>
-              <li><a href="/qnaList.kh?reqPage=1&memberNo=${m.memberNo}">나의 Q&A</a></li>
+              <li><a href="/projectList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">참여중인 프로젝트</a></li>
+              <li><a href="/orderList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">결제내역</a></li>
+              <li><a href="/commentList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">나의리뷰</a></li>
+              <li><a href="/likeList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">찜목록</a></li>
+              <li><a href="/qnaList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
-              <li><a href="/updateMemberFrm.kh">정보관리</a></li>
-              <li><a href="/updatePwFrm.kh">비밀번호 변경</a></li>
-              <li><a href="/deleteMemberFrm.kh">회원탈퇴</a></li>               
+              <li><a href="/updateMemberFrm.kh?memberNo=${sessionScope.m.memberNo }">정보관리</a></li>
+              <li><a href="/updatePwFrm.kh?memberNo=${sessionScope.m.memberNo }">비밀번호 변경</a></li>
+              <li><a href="/deleteMemberFrm.kh?memberNo=${sessionScope.m.memberNo }">회원탈퇴</a></li>               
           </ul>
       </div>
 </html>

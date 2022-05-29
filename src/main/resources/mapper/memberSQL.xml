@@ -16,7 +16,10 @@
 		member_addr1 as memberAddr1,
 		member_addr2 as memberAddr2,
 		member_point as memberPoint
-	from member where member_id=#{memberId} and member_pw=#{memberPw}
+	from member where member_id=#{memberId} 
+	<if test="memberPw != null">
+	 	and member_pw=#{memberPw}
+	</if>
 	</select>
   	<insert id="insertMember" parameterType="m">
   		insert into member values (member_seq.nextval,

@@ -76,6 +76,24 @@ select{
 	margin-top: 60px;
 	margin-bottom: 30px;
 }
+.content-title{
+	background-image: url(/resources/img/board/banner5.jpg);
+	background-size: cover;
+	background-position: center;
+}
+.title-txt {
+    margin: auto;
+    padding: 10px;
+    width: 1000px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    background-color: rgba(39, 39, 39, 0.5);
+    animation-name: up;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-direction: alternate;
+}
 </style>
 </head>
 <body>
@@ -109,18 +127,23 @@ select{
 							<c:forEach items="${commentList }" var="c" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
-											<td>${c.commentNo }</td>
-											<td>${c.divNo }</td>
-											<td>${c.projectNo }</td>
-											<td>${c.commentContent }</td>
-											<td>${c.commentDate }</td>
-											<td>구매완료</td>
+										<td>${c.commentNo }</td>
+										<c:choose>
+											<c:when test="${c.divNo eq 1}"><td>펀딩</td></c:when>
+											<c:when test="${c.divNo eq 2}"><td>기부</td></c:when>
+											<c:when test="${c.divNo eq 3}"><td>공동구매</td></c:when>
+											<c:when test="${c.divNo eq 4}"><td>경매</td></c:when>
+										</c:choose>
+										<td>${c.projectNo }</td>
+										<td>${c.commentContent }</td>
+										<td>${c.commentDate }</td>
+										<td>구매완료</td>
 									</tr>
 								</table>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<p class="p-0">예약내역이 없습니다.</p>
+							<p class="p-0">리뷰내역이 없습니다. 더 많은 리뷰를 작성해보세요!</p>
 						</c:otherwise>
 					</c:choose>
 				<div id="pageNavi">${pageNavi }</div>
