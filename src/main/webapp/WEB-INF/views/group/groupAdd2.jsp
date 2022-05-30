@@ -179,8 +179,16 @@
 							<td><input type="text" name="grpLowest" class="input-form" style="width: 250px;"><span>원</span></td>
 						</tr>
 						<tr>
-							<th>목표 인원</th>
-							<td><input type="text" name="" class="input-form" style="width: 250px;"><span>원</span></td>
+							<th>할인률</th>
+							<td>
+								<select name="" class="input-form">
+									<option>단계 선택</option>
+									<option value="1">2단계</option>
+									<option value="2">3단계</option>
+									<option value="3">4단계</option>
+									<option value="4">5단계</option>
+								</select>
+							</td>
 						</tr>
 					</table>
 				</div>
