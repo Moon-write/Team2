@@ -2,41 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="board">
   	<select id="selectCommentList" parameterType="map" resultType="bo">
+		<if test="#{divNo eq 1}">
+		select * from 
+			(select rownum as rnum, c.* from 
+			(select 
+				b.comment_no as commentNo, 
+				b.div_no as divNo,
+				f.funding_name as projectName,
+				b.comment_content as commentContent,
+				substr(b.comment_date,1,10) as commentDate
+			from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
+			where b.member_no=f.member_no
+			and b.member_no=#{memberNo} order by comment_no desc)c) 
+		where rnum between #{start} and #{end} 
+		</if>
+		<if test="#{divNo eq 2}">
+		select * from 
+			(select rownum as rnum, c.* from 
+			(select 
+				b.comment_no as commentNo, 
+				b.div_no as divNo,
+				d.donation_title as projectName,
+				b.comment_content as commentContent,
+				substr(b.comment_date,1,10) as commentDate
+			from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
+			where b.member_no=d.member_no
+		where rnum between #{start} and #{end} 
+		</if>
+		<if test="#{divNo eq 3}">
 		select * from 
 		(select rownum as rnum, c.* from 
 		(select 
-			comment_no as commentNo, 
-			div_no as divNo
-				<if test="#{divNo eq 1}">
-					f.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=f.member_no
-				</if>
-				<if test="#{divNo eq 2}">
-					d.donation_title as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=d.member_no
-				</if>
-				<if test="#{divNo eq 3}">
-					g.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=g.member_no
-				</if>
-				<if test="#{divNo eq 4}">
-					a.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=a.member_no
-				</if>
-				and where member_no=#{memberNo} order by comment_no desc)c) 
-		where rnum between #{start} and #{end}  		
+			b.comment_no as commentNo, 
+			b.div_no as divNo,
+			g.project_name as projectName,
+			b.comment_content as commentContent,
+			substr(b.comment_date,1,10) as commentDate
+		from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
+		where b.member_no=g.member_no
+			and b.member_no=#{memberNo} order by comment_no desc)c) 
+		where rnum between #{start} and #{end}  
+		</if>
+		<if test="#{divNo eq 4}">
+		select * from 
+			(select rownum as rnum, c.* from 
+			(select 
+				b.comment_no as commentNo, 
+				b.div_no as divNo,
+				a.project_name as projectName,
+				b.comment_content as commentContent,
+				substr(b.comment_date,1,10) as commentDate
+			from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
+			where b.member_no=a.member_no
+			and b.member_no=#{memberNo} order by comment_no desc)c) 
+		where rnum between #{start} and #{end}  	
+		</if>	
   	</select>
   	<select id="selectLikeList" parameterType="map" resultType="bo">
 		select * from 

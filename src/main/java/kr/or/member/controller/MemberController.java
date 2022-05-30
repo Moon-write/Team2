@@ -124,4 +124,5 @@ public class MemberController {
 		request.setAttribute("loc", "/");
 		return "common/msg";
 	}
+	
 }

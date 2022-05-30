@@ -49,8 +49,7 @@
 			</c:when>
 			<c:otherwise>
 				<a href="/loginFrm.kh">로그인</a>
-				<!-- 회원가입 /joinSelect.kh로 바꾸기(신영) -->
-				<a href="/joinFrmMember.kh">회원가입</a>
+				<a href="/joinSelect.kh">회원가입</a>
 			</c:otherwise>
 		</c:choose>
 	</div>

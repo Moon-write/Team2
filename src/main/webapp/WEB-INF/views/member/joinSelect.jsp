@@ -105,15 +105,14 @@
 						<span class="material-symbols-outlined">account_circle</span><br>
 						<span class="member-title">일반회원</span><br>
 						<span class="member-intro">일반회원 가입</span>
+						<a type="button" class="btn bc1 bs5" href="/joinFrmMember.kh">다음</a>
 					</div>
 					<div class="select-biz">
 						<span class="material-symbols-outlined">apartment</span><br>
 						<span class="member-title">사업자회원</span><br>
 						<span class="member-intro">사업자/법인회원 가입</span>
+						<a type="button" class="btn bc1 bs5" href="/joinFrmBiz.kh">다음</a>
 					</div>
-				</div>
-				<div class="select-btn-wrap">
-					<button type="submit" class="btn bc1 bs5">다음</button>
 				</div>
 			</form>
 		</div>
