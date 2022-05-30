@@ -192,4 +192,40 @@ public class BusinessService {
 		return dao.genderGraph(mns);
 	}
 
+	public ArrayList<String> selectOrderList(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderList(memberNo);
+	}
+
+	public ArrayList<String> selectStatusList(int memberNo, int status) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", status);
+		map.put("memberNo", memberNo);
+		return dao.selectStatusList(map);
+	}
+
+	public int orderCancel(String orderNos) {
+		// TODO Auto-generated method stub
+		StringTokenizer sT = new StringTokenizer(orderNos, "/");
+		int result=1;
+		while (sT.hasMoreTokens()) {
+			int orderNo = Integer.parseInt(sT.nextToken());
+			int updateResult = dao.orderCancel(orderNo);
+		}
+		return result;
+	}
+
+	public ArrayList<String> searchDelivery(String projectName, int memberNo, String startDate, String endDate, int divNo,
+			int orderStatus) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("projectName",projectName);
+		map.put("orderStatus", orderStatus);
+		map.put("memberNo", memberNo);
+		map.put("divNo", divNo);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return dao.searchDelivery(map);
+	}
+
 }

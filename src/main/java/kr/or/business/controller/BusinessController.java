@@ -21,6 +21,7 @@ import kr.or.auction.model.vo.Bid;
 import kr.or.business.model.service.BusinessService;
 import kr.or.business.model.vo.View;
 import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
@@ -38,7 +39,7 @@ public class BusinessController {
 	}
 	
 	@RequestMapping(value="/sumChart.kh")
-	public String sumChart(int memberNo, Model model) {
+	public String sumChart() {
 		return "business/sumChart";
 	}
 	
@@ -59,7 +60,33 @@ public class BusinessController {
 	public String manageAuction() {
 		return "business/manageAuction";
 	}
-	
+	@RequestMapping(value="/manageDelivery.kh")
+	public String manageDelivery() {		
+		return "business/manageDelivery";
+	}
+	@ResponseBody
+	@RequestMapping(value="/selectOrderList.kh",produces="application/json;charset=utf-8")
+	public String selectOrderList(int memberNo) {
+		ArrayList<String> ol=service.selectOrderList(memberNo);
+		return new Gson().toJson(ol);
+	}
+	@ResponseBody
+	@RequestMapping(value="/selectStatusList.kh",produces="application/json;charset=utf-8")
+	public String selectStatusList(int memberNo, int status) {
+		ArrayList<String> ol=service.selectStatusList(memberNo,status);
+		return new Gson().toJson(ol);
+	}
+	@RequestMapping(value="/orderCancel.kh")
+	public String orderCancel(String orderNos,int memberNo,HttpServletRequest request) {		
+		int result = service.orderCancel(orderNos);
+		return "redirect:manageDelivery.kh?memberNo="+memberNo;	
+	}
+	@ResponseBody
+	@RequestMapping(value="/searchDelivery.kh",produces="application/json;charset=utf-8")
+	public String searchDelivery(String projectName, String startDate, String endDate, int divNo, int orderStatus, int memberNo) {
+		ArrayList<String> list=service.searchDelivery(projectName, memberNo,startDate, endDate, divNo, orderStatus);		
+		return new Gson().toJson(list);
+	}
 	
 	
 	
@@ -172,7 +199,7 @@ public class BusinessController {
 		ArrayList<String> gl=service.selectExpiredGList(memberNo);
 		return new Gson().toJson(gl);
 	}
-
+	
 	
 	
 	

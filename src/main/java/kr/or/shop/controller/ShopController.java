@@ -123,6 +123,7 @@ public class ShopController {
 		}
 		*/
 		int result = service.deleteShopPic(shopPicNos);
+		System.out.println(shopPicNos);
 		return "business/business";
 	}
 	
