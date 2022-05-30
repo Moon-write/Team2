@@ -211,4 +211,19 @@ public class BusinessDao {
 		List list = sqlSession.selectList("business.selectOrderProduct",orderNo);
 		return (ArrayList<String>) list;
 	}
+
+	public int deliveryComplete(int orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("business.deliveryComplete",orderNo);
+	}
+
+	public int insertDelivery(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("business.insertDelivery",map);
+	}
+
+	public int deleteDelivery(int invoiceNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteDelivery",invoiceNo);
+	}
 }

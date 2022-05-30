@@ -88,8 +88,23 @@ public class BusinessController {
 		ArrayList<String> ol=service.selectOrderProduct(orderNo);
 		return new Gson().toJson(ol);
 	}
-	
-	
+	@RequestMapping(value="/deliveryComplete.kh")
+	public String deliveryComplete(String orderNos,int memberNo,HttpServletRequest request) {		
+		int result = service.deliveryComplete(orderNos);
+		return "redirect:manageDelivery.kh?memberNo="+memberNo;	
+	}
+	@ResponseBody
+	@RequestMapping(value="/insertDelivery.kh")
+	public String insertDelivery(int orderNo, String carrier, int invoiceNo) {
+		int result=service.insertDelivery(orderNo, carrier, invoiceNo);		
+		return "/manageDelivery.kh";
+	}
+	@ResponseBody
+	@RequestMapping(value="/deleteDelivery.kh")
+	public String deleteDelivery(int invoiceNo) {
+		int result=service.deleteDelivery(invoiceNo);		
+		return "/manageDelivery.kh";
+	}
 	
 	
 	

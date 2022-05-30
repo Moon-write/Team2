@@ -225,4 +225,29 @@ public class BusinessService {
 		return dao.selectOrderProduct(orderNo);
 	}
 
+	public int deliveryComplete(String orderNos) {
+		// TODO Auto-generated method stub
+		StringTokenizer sT = new StringTokenizer(orderNos, "/");
+		int result=1;
+		while (sT.hasMoreTokens()) {
+			int orderNo = Integer.parseInt(sT.nextToken());
+			int updateResult = dao.deliveryComplete(orderNo);
+		}
+		return result;
+	}
+
+	public int insertDelivery(int orderNo, String carrier, int invoiceNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("orderNo",orderNo);
+		map.put("carrier", carrier);
+		map.put("invoiceNo", invoiceNo);
+		return dao.insertDelivery(map);
+	}
+
+	public int deleteDelivery(int invoiceNo) {
+		// TODO Auto-generated method stub
+		return dao.deleteDelivery(invoiceNo);
+	}
+
 }

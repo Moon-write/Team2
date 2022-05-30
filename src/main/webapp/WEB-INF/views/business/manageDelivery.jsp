@@ -82,9 +82,6 @@ td:last-child{
 .tbl3{
 	border:1px solid #ccc;
 }
-.tbl3 td{
-	border-bottom:none;
-}
 .tbl3 tr th{
 	
 }
@@ -192,13 +189,54 @@ td:last-child{
 			                </select>
                			</td>
                		</tr>                		
-               	</table>	            	                                       
+               	</table>
+               	<button class="btn bc1 deliveryComplete" style="display:none;">배송완료</button>	            	                                       
                 <button class="btn bc1 orderCancel" style="display:none;">주문취소</button>
 				<table class="tbl tbl2"></table>				
 			</div>
 		</div>		
 	</div>	
 	<script>
+		$(document).on("click", "td #insertDelivery",function(){
+			const carrier=$(this).prev().prev().val();
+			const invoiceNo=$(this).prev().val();
+			const orderNo=$(this).next().next().val();
+			if(invoiceNo.length==0){
+				alert("송장번호를 입력하세요.");
+				return;
+			}
+			$.ajax({
+				url:"/insertDelivery.kh",
+				data:{orderNo:orderNo, carrier:carrier, invoiceNo:invoiceNo},
+				success : function(result){
+					window.location.replace(result);					
+				},
+				error:function(){
+					alert("이미 등록된 송장번호입니다.");
+				}
+			});
+		});
+		$(document).on("click", "td #deleteDelivery",function(){
+			const invoiceNo=$(this).prev().val();
+			if(confirm("배송정보를 삭제하시겠습니까?")==true){
+				$.ajax({
+					url:"/deleteDelivery.kh",
+					data:{invoiceNo:invoiceNo},
+					success : function(result){
+						window.location.replace(result);					
+					}
+				});
+			}						
+		});
+		$(document).on("click", "td #trackingDelivery",function(){
+			const carrier=$(this).prev().prev().prev().val();
+			const invoiceNo=$(this).prev().prev().val();
+			if(invoiceNo.length==0){
+				alert("송장번호를 입력하세요.");
+				return;
+			}
+			window.open('https://tracker.delivery/#/'+carrier+'/'+invoiceNo);
+		});
 		$(document).on("click", "td .detail",function(event){					
 			const orderNo=$(this).parent().prev().prev().prev().prev().prev().prev().prev().text();
 			const tr=$(this).parent().parent().next();
@@ -244,10 +282,13 @@ td:last-child{
 				data:{projectName:projectName,startDate:startDate,endDate:endDate,divNo:divNo,orderStatus:orderStatus,memberNo:memberNo},
 				success:function(list){
 					table.empty();
-					if(orderStatus==1 || orderStatus==3 || orderStatus==4){
-						$(".orderCancel").css("display","flex");
+					if(orderStatus==1 || orderStatus==2 || orderStatus==4){
+						$(".orderCancel").css("display","inline-block");
 					}else{
 						$(".orderCancel").css("display","none");
+					}
+					if(orderStatus==1){
+						$(".deliveryComplete").css("display","inline-block");
 					}
 					tr.empty();					
 					table.append(tr);
@@ -329,7 +370,7 @@ td:last-child{
 				success : function(list){		
 					for(let i=0;i<list.length;i++){
 						const tr2=$("<tr>");
-						const noTd=$("<td>");
+						const noTd=$("<td id=\"orderNo\">");
 						const divTd=$("<td>");
 						const pTd=$("<td>");
 						const timeTd=$("<td>");
@@ -379,6 +420,7 @@ td:last-child{
 						const odnTd=$("<td>");
 						const phoneTd=$("<td>");
 						const addrTd=$("<td>");
+												
 						
 						dummyTr.append("<td colspan=\"6\">");
 						odnTd.append(list[i].ORDERDELNAME);
@@ -490,6 +532,40 @@ td:last-child{
 				const phoneTd=$("<td>");
 				const addrTd=$("<td>");
 				
+				const carrierTr=$("<tr>");
+				const carrierTd=$("<td colspan=\"6\">");
+				const selectCarrier=$("<select name=\"selectCarrier\" style=\"padding: 0.8rem;background-color: #fff;outline: none;border: 1px solid #ccc;\">");
+				const carrierOption=$("<option value=\"kr.cjlogistics\">CJ대한통운</option><option value=\"kr.hanjin\">한진택배</option><option value=\"kr.logen\">로젠택배</option><option value=\"kr.lotte\">롯데택배</option><option value=\"kr.cupost\">CU 편의점택배</option><option value=\"kr.cvsnet\">GS Postbox 택배</option><option value=\"kr.epost\">우체국 택배</option>");					
+				const inputNumber=$("<input type=\"number\" name=\"inputNumber\" style=\"margin-left:10px;margin-right:10px;padding: 0.8rem;background-color: #fff;outline: none;border: 1px solid #ccc;\" placeholder=\"송장번호\">");
+				const insertDelivery=$("<button class=\"btn\" id=\"insertDelivery\" style=\"margin-right:10px;\">배송정보 저장</button>");
+				const deleteDelivery=$("<button class=\"btn\" id=\"deleteDelivery\" style=\"margin-right:10px;\">배송정보 삭제</button>");
+				const trackingDelivery=$("<button class=\"btn\" id=\"trackingDelivery\">배송조회</button>");
+				const orderNo2=$("<input type=\"hidden\" value="+list[i].ORDERNO+">");				
+				if(list[i].CARRIER=="kr.cjlogistics"){
+					selectCarrier.append("<option value=\"kr.cjlogistics\">CJ대한통운</option>");
+				}else if(list[i].CARRIER=="kr.hanjin"){
+					selectCarrier.append("<option value=\"kr.hanjin\">한진택배</option>");
+				}else if(list[i].CARRIER=="kr.logen"){
+					selectCarrier.append("<option value=\"kr.logen\">로젠택배</option>");
+				}else if(list[i].CARRIER=="kr.lotte"){
+					selectCarrier.append("<option value=\"kr.lotte\">롯데택배</option>");
+				}else if(list[i].CARRIER=="kr.cupost"){
+					selectCarrier.append("<option value=\"kr.cupost\">CU 편의점택배</option>");
+				}else if(list[i].CARRIER=="kr.cvsnet"){
+					selectCarrier.append("<option value=\"kr.cvsnet\">GS Postbox 택배</option>");
+				}else if(list[i].CARRIER=="kr.epost"){
+					selectCarrier.append("<option value=\"kr.epost\">우체국 택배</option>");
+				}else{
+					selectCarrier.append(carrierOption);
+				}
+				inputNumber.val(list[i].INVOICENO);				
+				carrierTr.append(carrierTd);
+				if(list[i].INVOICENO){
+					carrierTd.append(selectCarrier).append(inputNumber).append(deleteDelivery).append(trackingDelivery).append(orderNo2);
+				}else{
+					carrierTd.append(selectCarrier).append(inputNumber).append(insertDelivery).append(trackingDelivery).append(orderNo2);	
+				}													
+				
 				dummyTr.append("<td colspan=\"6\">");
 				odnTd.append(list[i].ORDERDELNAME);
 				phoneTd.append(list[i].ORDERDELPHONE);
@@ -520,8 +596,13 @@ td:last-child{
 							opPrTd.append(list[i].PRODUCTPRICE);
 							amountTd.append(list[i].PRODUCTAMOUNT);
 							
-							detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
-							table2.append(detailTr3);
+							if(orderStatus==1){
+								detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
+								table2.append(detailTr3).append(carrierTr);
+							}else{
+								detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
+								table2.append(detailTr3);	
+							}							
 						}
 						table.append(tr2).append(detailTr1);
 					}
@@ -552,7 +633,7 @@ td:last-child{
 		$(".orderCancel").on("click",function(){
 			const check=$(".chk:checked");
 			if(check.length==0){
-				alert("취소할 주문을 선택하십시오.");
+				alert("취소할 주문을 선택하세요.");
 				return;
 			}
 			var orderNos=[];
@@ -561,6 +642,19 @@ td:last-child{
 			});
 			var on = orderNos.map(Number);
 			location.href="/orderCancel.kh?orderNos="+orderNos.join("/")+"&memberNo="+memberNo;
+		});
+		$(".deliveryComplete").on("click",function(){
+			const check=$(".chk:checked");
+			if(check.length==0){
+				alert("배송이 완료된 주문을 선택하세요.");
+				return;
+			}
+			var orderNos=[];
+			check.each(function(index,item){
+				orderNos.push($(item).parent().next().text());
+			});
+			var on = orderNos.map(Number);
+			location.href="/deliveryComplete.kh?orderNos="+orderNos.join("/")+"&memberNo="+memberNo;
 		});
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
