@@ -56,7 +56,7 @@
 						<table class="info-tbl" id="info-tbl">
 							<tr class="tr-3">
 								<td>이메일(ID)</td>
-								<td><input class="input-form" type="text" id="memberId" value="${sessionScope.m.memberId }" readonly>${SessionScope.m.memberId }</td>
+								<td><input class="input-form" type="text" id="memberId" value="${sessionScope.m.memberId }" readonly></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -70,7 +70,6 @@
 								<td></td>
 								<td class="check-msg"></td>
 							</tr>
-							
 							<tr class="tr-3">
 								<td>휴대폰번호</td>
 								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberPhone }"></td>
@@ -79,7 +78,39 @@
 								<td></td>
 								<td class="check-msg"></td>
 							</tr>
-							<!-- 나중에 주소넣기 -->
+							<tr class="tr-3">
+								<td>주소</td>
+								<td><input type="text" id="member_postcode" name="member_postcode" class="input-form" value="${sessionScope.m.memberPostcode }" placeholder="우편번호" readonly></td>
+								<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>							
+							</tr>
+							<tr class="tr-3">
+								<td></td>
+								<td><input type="text" id="member_addr1" name="member_addr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
+							</tr>
+							<tr class="tr-3">
+								<td></td>
+								<td><input type="text" id="member_addr2" name="member_addr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="check-msg"></td>
+							</tr>
+							<tr class="tr-3">
+								<td>생년월일</td>
+								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberBirth }" readonly></td>				
+							</tr>
+							<tr>
+								<td></td>
+								<td class="check-msg"></td>
+							</tr>
+							<tr class="tr-3">
+								<td>성별</td>
+								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberGender }" readonly></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="check-msg"></td>
+							</tr>
 							<tr class="tr-3">
 								<td></td>
 								<td><input type="button" class="btn bc1 updateInfo-btn" value="정보 수정하기"></td>

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class board {
+public class Board {
 	//펀딩
 	private int fundingNo;
 	private String fundingName;
@@ -77,3 +77,4 @@ public class board {
 	private String qnaDate;
 	private int qnaRef;
 }
+
