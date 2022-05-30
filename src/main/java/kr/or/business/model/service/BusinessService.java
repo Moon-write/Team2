@@ -197,14 +197,6 @@ public class BusinessService {
 		return dao.selectOrderList(memberNo);
 	}
 
-	public ArrayList<String> selectStatusList(int memberNo, int status) {
-		// TODO Auto-generated method stub
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("status", status);
-		map.put("memberNo", memberNo);
-		return dao.selectStatusList(map);
-	}
-
 	public int orderCancel(String orderNos) {
 		// TODO Auto-generated method stub
 		StringTokenizer sT = new StringTokenizer(orderNos, "/");
@@ -226,6 +218,11 @@ public class BusinessService {
 		map.put("startDate", startDate);
 		map.put("endDate", endDate);
 		return dao.searchDelivery(map);
+	}
+
+	public ArrayList<String> selectOrderProduct(int orderNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderProduct(orderNo);
 	}
 
 }

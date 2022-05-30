@@ -70,12 +70,7 @@ public class BusinessController {
 		ArrayList<String> ol=service.selectOrderList(memberNo);
 		return new Gson().toJson(ol);
 	}
-	@ResponseBody
-	@RequestMapping(value="/selectStatusList.kh",produces="application/json;charset=utf-8")
-	public String selectStatusList(int memberNo, int status) {
-		ArrayList<String> ol=service.selectStatusList(memberNo,status);
-		return new Gson().toJson(ol);
-	}
+	
 	@RequestMapping(value="/orderCancel.kh")
 	public String orderCancel(String orderNos,int memberNo,HttpServletRequest request) {		
 		int result = service.orderCancel(orderNos);
@@ -87,7 +82,12 @@ public class BusinessController {
 		ArrayList<String> list=service.searchDelivery(projectName, memberNo,startDate, endDate, divNo, orderStatus);		
 		return new Gson().toJson(list);
 	}
-	
+	@ResponseBody
+	@RequestMapping(value="/selectOrderProduct.kh",produces="application/json;charset=utf-8")
+	public String selectOrderProduct(int orderNo) {
+		ArrayList<String> ol=service.selectOrderProduct(orderNo);
+		return new Gson().toJson(ol);
+	}
 	
 	
 	

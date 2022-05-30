@@ -57,14 +57,36 @@
 .tbl{
 	border:1px solid #ccc;
 }
+td{
+	border-right:1px solid #ccc;
+}
+td:last-child{
+	border-right:0px solid #ccc;
+}
 .th{
 	border-bottom:1px solid #ccc;
 	border-right:1px solid #ccc;
 	width:15%;
 }
+.th2{
+	border-bottom:1px solid #ccc;
+	border-right:1px solid #ccc;
+}
 .datepicker{
 	width:75px;
 	text-align:center;
+}
+.detailContent{
+	display:none;
+}
+.tbl3{
+	border:1px solid #ccc;
+}
+.tbl3 td{
+	border-bottom:none;
+}
+.tbl3 tr th{
+	
 }
 </style>
 
@@ -175,18 +197,14 @@
 				<table class="tbl tbl2"></table>				
 			</div>
 		</div>		
-	</div>
-	<div id="test-modal" class="modal-bg">
-		<div class="modal-wrap">
-			<div class="modal-head">
-				<h2 id="graph-title">그래프</h2>
-				<span class="material-icons close-icon modal-close">close</span>
-			</div>
-			<div class="modal-content"></div>
-		</div>
-	</div>
+	</div>	
 	<script>
-	
+		$(document).on("click", "td .detail",function(event){					
+			const orderNo=$(this).parent().prev().prev().prev().prev().prev().prev().prev().text();
+			const tr=$(this).parent().parent().next();
+			tr.toggle();
+			
+		});
 		$("#datepicker1").change(function(){
 			const startDate=new Date($("input[name=startDate]").val());
 			const endDate=new Date($("input[name=endDate]").val());
@@ -233,7 +251,7 @@
 					}
 					tr.empty();					
 					table.append(tr);
-					dt(list);
+					dt(list, orderStatus);
 					if(list.length==0){						
 						alert("조회할 내용이 없습니다.");
 						window.location.href = '/manageDelivery.kh?memberNo='+memberNo;
@@ -296,8 +314,8 @@
 		const memberNo=$("input[name=memberNo]").val();
 		const table=$(".tbl2");
 		const tr=$("<tr class=\"tr-2\">");
-		const th=$("<th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th>");
-		const cTh=$("<th><input type=\"checkBox\" id=\"allChk\"></th><th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th>");
+		const th=$("<th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th><th></th>");
+		const cTh=$("<th><input type=\"checkBox\" id=\"allChk\"></th><th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th><th></th>");
 		const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');
 		const oc=$(".orderCancel");
 		tr.append(th);
@@ -307,17 +325,18 @@
 			$.ajax({
 				url : "/selectOrderList.kh",
 				data:{memberNo:memberNo},
+				async: false,
 				success : function(list){		
 					for(let i=0;i<list.length;i++){
 						const tr2=$("<tr>");
 						const noTd=$("<td>");
 						const divTd=$("<td>");
 						const pTd=$("<td>");
-						const detailTd=$("<a class=\"modal-open-btn\" target=\"#test-modal\">");
 						const timeTd=$("<td>");
 						const priceTd=$("<td>");
 						const nameTd=$("<td>");
 						const sTd=$("<td>");
+						const detailTd=$("<td><button class=\"btn detail\">상세보기</button></td>");
 						noTd.append(list[i].ORDERNO);
 						if(list[i].DIVNO==1){
 							divTd.append("펀딩");
@@ -327,9 +346,8 @@
 							divTd.append("공동구매");
 						}else if(list[i].DIVNO==4){
 							divTd.append("경매");
-						} 
-						detailTd.append(list[i].PROJECTNAME);						
-						pTd.append(detailTd);
+						} 								
+						pTd.append(list[i].PROJECTNAME);
 						timeTd.append(list[i].ORDERDATE);
 						priceTd.append(thousands(list[i].ORDERPRICE+list[i].ORDERPOINT)+"원");
 						nameTd.append(list[i].ORDERDELNAME);
@@ -344,24 +362,78 @@
 						}else if(list[i].ORDERSTATUS==5){
 							sTd.append("주문취소");
 						}
-						tr2.append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd);
-						table.append(tr2);
+						tr2.append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
+
+						let orderNo=list[i].ORDERNO;											
+						
+						const detailTr1=$("<tr style=\"display:none;border:10px solid rgb(139,149,161);\">");
+						const detailTd2=$("<td colspan=\"8\">");
+						const table2=$("<table border=\"1\" class=\"tbl tbl3\" style=\"margin-bottom:0px;\">");
+						const detailTr2=$("<tr>");
+						const detailTr3=$("<tr>");
+						const dummyTr=$("<tr>");
+						const odnTh=$("<th>주문자 이름</th>");
+						const phoneTh=$("<th>전화번호</th>");
+						const addrTh=$("<th>주소</th>");
+						
+						const odnTd=$("<td>");
+						const phoneTd=$("<td>");
+						const addrTd=$("<td>");
+						
+						dummyTr.append("<td colspan=\"6\">");
+						odnTd.append(list[i].ORDERDELNAME);
+						phoneTd.append(list[i].ORDERDELPHONE);
+						addrTd.append("("+list[i].ORDERDELPOST+") "+list[i].ORDERDELADDR1+" "+list[i].ORDERDELADDR2);
+						
+						
+						detailTr1.append(detailTd2);
+						detailTd2.append(table2);
+						table2.append(detailTr2).append(dummyTr);
+						detailTr2.append(odnTh).append(odnTd).append(phoneTh).append(phoneTd).append(addrTh).append(addrTd);
+						
+						$.ajax({
+							url:"/selectOrderProduct.kh",
+							data:{orderNo:orderNo},
+							async: false,
+							success:function(list){																
+								for(let i=0;i<list.length;i++){
+									const detailTr3=$("<tr>");
+									const opNoTh=$("<th>옵션번호</th>");
+									const opPrTh=$("<th>옵션가격</th>");
+									const amountTh=$("<th>구매수량</th>");
+									
+									const opNoTd=$("<td>");
+									const opPrTd=$("<td>");
+									const amountTd=$("<td>");
+									
+									opNoTd.append(list[i].OPTIONNO);
+									opPrTd.append(list[i].PRODUCTPRICE);
+									amountTd.append(list[i].PRODUCTAMOUNT);
+									
+									detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
+									table2.append(detailTr3);
+								}
+								table.append(tr2).append(detailTr1);
+							}
+						});
+						
+						
 		            }					
 				}
 			});
-		};
-		function dt(list){
+		};		
+		function dt(list, orderStatus){
 			for(let i=0;i<list.length;i++){
 				const tr2=$("<tr>");
 				const checkBox=$("<td><input type=\"checkBox\" class=\"chk\"></td>");
 				const noTd=$("<td>");
 				const divTd=$("<td>");
 				const pTd=$("<td>");
-				const detailTd=$("<a class=\"modal-open-btn\" target=\"#test-modal\">");
 				const timeTd=$("<td>");
 				const priceTd=$("<td>");
 				const nameTd=$("<td>");
 				const sTd=$("<td>");
+				const detailTd=$("<td><button class=\"btn detail\">상세보기</button></td>");
 				noTd.append(list[i].ORDERNO);
 				if(list[i].DIVNO==1){
 					divTd.append("펀딩");
@@ -372,8 +444,7 @@
 				}else if(list[i].DIVNO==4){
 					divTd.append("경매");
 				}
-				detailTd.append(list[i].PROJECTNAME);
-				pTd.append(detailTd);
+				pTd.append(list[i].PROJECTNAME);
 				timeTd.append(list[i].ORDERDATE);
 				priceTd.append(thousands(list[i].ORDERPRICE+list[i].ORDERPOINT)+"원");
 				nameTd.append(list[i].ORDERDELNAME);
@@ -384,51 +455,81 @@
 				}else if(list[i].ORDERSTATUS==3){
 					sTd.append("주문완료");
 				}else if(list[i].ORDERSTATUS==4){
-					sTd.append("결제대기");
+					sTd.append("결제대기");z
 				}else if(list[i].ORDERSTATUS==5){
 					sTd.append("주문취소");
 				}
-				if(list[i].ORDERSTATUS==1 || list[i].ORDERSTATUS==3 || list[i].ORDERSTATUS==4){
+				
+				if(orderStatus==1 || orderStatus==3 || orderStatus==4){
 					tr.append(cTh);
-					tr2.append(checkBox).append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd);
+					tr2.append(checkBox).append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
 				}else {
 					tr.append(th);
-					tr2.append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd);
-				}				
-				table.append(tr2);
+					tr2.append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
+				}
+				
+				let orderNo=list[i].ORDERNO;											
+				
+				const detailTr1=$("<tr style=\"display:none;\">");
+				let detailTd2=null;
+				if(orderStatus==1 || orderStatus==3 || orderStatus==4){
+					detailTd2=$("<td colspan=\"9\">");
+				}else{
+					detailTd2=$("<td colspan=\"8\">");
+				}
+				
+				const table2=$("<table border=\"1\" class=\"tbl tbl3\" style=\"margin-bottom:0px;\">");
+				const detailTr2=$("<tr>");
+				const detailTr3=$("<tr>");
+				const dummyTr=$("<tr>");
+				const odnTh=$("<th>주문자 이름</th>");
+				const phoneTh=$("<th>전화번호</th>");
+				const addrTh=$("<th>주소</th>");
+				
+				const odnTd=$("<td>");
+				const phoneTd=$("<td>");
+				const addrTd=$("<td>");
+				
+				dummyTr.append("<td colspan=\"6\">");
+				odnTd.append(list[i].ORDERDELNAME);
+				phoneTd.append(list[i].ORDERDELPHONE);
+				addrTd.append("("+list[i].ORDERDELPOST+") "+list[i].ORDERDELADDR1+" "+list[i].ORDERDELADDR2);
+				
+				
+				detailTr1.append(detailTd2);
+				detailTd2.append(table2);
+				table2.append(detailTr2).append(dummyTr);
+				detailTr2.append(odnTh).append(odnTd).append(phoneTh).append(phoneTd).append(addrTh).append(addrTd);
+				
+				$.ajax({
+					url:"/selectOrderProduct.kh",
+					data:{orderNo:orderNo},
+					async: false,
+					success:function(list){																
+						for(let i=0;i<list.length;i++){
+							const detailTr3=$("<tr>");
+							const opNoTh=$("<th>옵션번호</th>");
+							const opPrTh=$("<th>옵션가격</th>");
+							const amountTh=$("<th>구매수량</th>");
+							
+							const opNoTd=$("<td>");
+							const opPrTd=$("<td>");
+							const amountTd=$("<td>");
+							
+							opNoTd.append(list[i].OPTIONNO);
+							opPrTd.append(list[i].PRODUCTPRICE);
+							amountTd.append(list[i].PRODUCTAMOUNT);
+							
+							detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
+							table2.append(detailTr3);
+						}
+						table.append(tr2).append(detailTr1);
+					}
+				});
+				
             }
 		}
-		function divChange(e) {
-			table.empty();
-			tr.empty();
-			tr.append(cTh);
-			table.append(tr);
-			if(e.value=="0"){
-				oc.css("display","");
-				$("#allChk").prop("checked",false);
-				init();
-				$("th:first").remove();
-			}else if(e.value=="1"){
-				oc.css("display","");
-				$("#allChk").prop("checked",false);
-				$.ajax({
-					url : "/selectStatusList.kh",
-					data:{memberNo:memberNo,status:1},
-					success : function(list){
-						dt(list);
-					}
-				});
-			}else if(e.value=="2"){
-				oc.css("display","");
-				$("#allChk").prop("checked",false);
-				$.ajax({
-					url : "/selectStatusList.kh",
-					data:{memberNo:memberNo,status:2},
-					success : function(list){
-						dt(list);
-					}
-				});
-			}else if(e.value=="3"){
+		/* if(e.value=="3"){
 				oc.css("display","none");
 				$("#allChk").prop("checked",false);
 				$.ajax({
@@ -440,30 +541,7 @@
 						$("tr td:first-child").remove();
 					}
 				});
-			}else if(e.value=="4"){
-				oc.css("display","");
-				$("#allChk").prop("checked",false);
-				$.ajax({
-					url : "/selectStatusList.kh",
-					data:{memberNo:memberNo,status:4},
-					success : function(list){
-						dt(list);
-					}
-				});
-			}else if(e.value=="5"){
-				oc.css("display","none");
-				$("#allChk").prop("checked",false);
-				$.ajax({
-					url : "/selectStatusList.kh",
-					data:{memberNo:memberNo,status:5},
-					success : function(list){
-						dt(list);
-						$("th:first").remove();
-						$("tr td:first-child").remove();
-					}
-				});
-			}			
-		}
+			} */
 		$(document).on("click","#allChk",function () { 
 			if ($("#allChk").prop("checked")) {
 				$(".chk").prop("checked", true);
@@ -484,15 +562,6 @@
 			var on = orderNos.map(Number);
 			location.href="/orderCancel.kh?orderNos="+orderNos.join("/")+"&memberNo="+memberNo;
 		});
-		$(function () {
-			  $(document).on("click", ".modal-open-btn", function () {
-			    $($(this).attr("target")).css("display", "flex");
-			  });
-			  $(document).on("click", ".modal-close", function () {
-			    $(this).parents(".modal-wrap").parent().css("display", "none");
-			  });  
-			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
-			});
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
