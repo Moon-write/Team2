@@ -198,4 +198,24 @@ public class AuctionDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("auction.selectLastComment",c);
 	}
+
+	public Comment selectOneComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.selectOneComment",c);
+	}
+
+	public int modifyComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("auction.modifyComment", c);
+	}
+
+	public int deleteComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("auction.deleteComment", c);
+	}
+
+	public int checkCommentCount(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.checkCommentCount", c);
+	}
 }

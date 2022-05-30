@@ -480,4 +480,24 @@ public class AuctionService {
 			return null;
 		}
 	}
+
+	public Comment selectOneComment(Comment c) {
+		// TODO Auto-generated method stub
+		return dao.selectOneComment(c);
+	}
+
+	public int modifyComment(Comment c) {
+		// TODO Auto-generated method stub
+		return dao.modifyComment(c);
+	}
+
+	public int deleteComment(Comment c) {
+		// TODO Auto-generated method stub
+		return dao.deleteComment(c);
+	}
+
+	public int checkCommentCount(Comment c) {
+		// TODO Auto-generated method stub
+		return dao.checkCommentCount(c);
+	}
 }

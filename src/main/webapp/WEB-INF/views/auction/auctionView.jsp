@@ -181,6 +181,7 @@
 	}
 	ul.comment-wrap>li>.comment-content{
 		padding-left: 20px;
+		max-width: 730px;
 	}
 	ul.comment-wrap>li>.insert-content{
 		flex-grow: 1;
@@ -214,6 +215,14 @@
 	#moreBtn{
 		width : 100%; height: 50px;	
 		margin-top: 20px;
+	}
+	.modify-form{
+		width: 700px;
+		padding: 0.8rem;
+		outline : none;
+		border : 1px solid #ccc;
+		box-sizing: border-box;
+		resize: none;
 	}
 </style>
 </head>
@@ -709,7 +718,7 @@
 						const none = $("<div style='height: 100px; display: flex; align-items: center;'>");
 						none.text("등록된 댓글이 없습니다!");
 						$(".comment-wrap").append(none);
-					}else{
+					}else{						
 						for(let i=0;i<list.length;i++){
 							const commentRow = $("<li style='display: none;'>");
 							const commenter = $("<div class='comment-writer'>");
@@ -719,7 +728,7 @@
 							const commentMD  = $("<div class='comment-md'>");
 							let str ;
 							if(list[i].memberNo==$("input#memberNo").val()){
-								str = "<span onclick='modifyComment()'>수정</span><span onclick='deleteComment()'>삭제</span><input type='hidden' value='"+list[i].commentNo+"'>";
+								str = "<span id='modifyBtn'>수정</span><span id='deleteBtn'>삭제</span><input type='hidden' value='"+list[i].commentNo+"'>";
 							}
 							commentMD.html(str);
 							const commentDate = $("<div class='comment-date'>");
@@ -729,10 +738,24 @@
 							$(".comment-wrap").append(commentRow);
 							commentRow.slideDown();
 						}
-						const moreBtn = $("<button id='moreBtn' class='btn bc22'>");
-						moreBtn.text("더보기");
-						moreBtn.val((Number)(pageNo)+1);
-						$(".comment-wrap").append(moreBtn);
+						
+						let commentCount;
+						$.ajax({
+							url : "/checkCommentCount.kh",
+							data : {
+								projectNo : projectNo
+							},
+							success: function(data){
+								commentCount = data;
+								
+								if(commentCount>pageNo*5){
+									const moreBtn = $("<button id='moreBtn' class='btn bc22'>");
+									moreBtn.text("더보기");
+									moreBtn.val((Number)(pageNo)+1);
+									$(".comment-wrap").append(moreBtn);
+								}
+							}
+						})
 					}
 				}
 			})
@@ -761,7 +784,7 @@
 						const commentContent = $("<div class='comment-content'>");
 						commentContent.text(content);
 						const commentMD  = $("<div class='comment-md'>");
-						let str = "<span onclick='modifyComment()'>수정</span><span onclick='deleteComment()'>삭제</span><input type='hidden' value='"+result.commentNo+"'>";
+						let str = "<span id='modifyBtn'>수정</span><span id='deleteBtn'>삭제</span><input type='hidden' value='"+result.commentNo+"'>";
 						commentMD.html(str);
 						const commentDate = $("<div class='comment-date'>");
 						commentDate.text(result.commentDate);
@@ -775,6 +798,80 @@
 				}
 			})
 		}
+		$(document).on("click","#modifyBtn",function(){
+			const value = $(this).next().next().val();
+			const textArea = $("<textarea class='modify-form'>");
+			textArea.text($(this).parent().prev().text());
+			$(this).parent().prev().html(textArea);
+			
+			$(this).text("수정완료");
+			$(this).attr("id","sendModify");
+			$(this).next().text("취소");
+			$(this).next().attr("id","cancelBtn");
+		})
+		$(document).on("click","#sendModify",function(){
+			const msg = $(this).parent().prev().children().val();
+			const commentNo = $(this).next().next().val();
+			
+			const msgBox = $(this).parent().prev();
+			const btn1 = $(this);
+			
+			$.ajax({
+				url : "/modifyComment.kh",
+				data : {
+					commentContent : msg,
+					commentNo : commentNo
+				},
+				success: function(data){
+					msgBox.text(msg);
+					btn1.text("수정");
+					btn1.attr("id","modifyBtn");
+					
+					btn1.next().text("삭제");
+					btn1.next().attr("id","deleteBtn");
+				}			
+			})
+		})
+		$(document).on("click","#cancelBtn",function(){
+			$(this).prev().text("수정");
+			$(this).prev().attr("id","modifyBtn");
+			
+			$(this).text("삭제");
+			$(this).attr("id","deleteBtn");
+			const commentNo = $(this).next().val();
+			const commentDiv = $(this).parent().prev();
+			
+			$.ajax({
+				url : "/selectOneComment.kh",
+				data : {
+					commentNo : commentNo
+				},
+				success: function(data){
+					if(data=="1"){
+						commentDiv.text(data.commentContent);						
+					}
+				}
+			})
+		})
+		$(document).on("click","#deleteBtn",function(){
+			
+			if(confirm("댓글 삭제 후 복구가 불가능합니다! 정말 삭제하시겠어요?")){
+				const commentDiv = $(this).parent().parent();
+				const value = $(this).next().val();
+				$.ajax({
+					url : "/deleteComment.kh",
+					data : {
+						commentNo : value
+					},
+					success : function(data){
+						if(data=="1"){
+							$(".comment-wrap>li:not(:first-child)").remove();
+							commentList(1);
+						}
+					}
+				})
+			};
+		})
 	</script>
 </body>
 </html>
