@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펀딩리스트</title>
+<title>Insert title here</title>
 </head>
 <body>
-	<a href="/fundingInsert.kh">상품등록으로 이동</a>
-	
+	<h2>인서트 성공</h2>
+	<a href="/fundingAllList.kh">펀딩리스트로 가기</a>
 </body>
 </html>

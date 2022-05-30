@@ -4,6 +4,80 @@
 	<select id="selectShopNo" parameterType="int" resultType="s">
 		select shop_no as shopNo from shop where member_no=#{memberNo}
 	</select>
+	<select id="selectOrderList" parameterType="int" resultType="HashMap">
+		select distinct
+			order_no as orderNo,
+			div_no as divNo, 
+			project_no as projectNo,
+			project_name as projectName,
+			member_no as memberNo,
+			seller_no as sellerNo, 
+			order_date as orderDate, 
+			order_price as orderPrice,
+			order_point as orderPoint,
+			order_del_name as orderDelName,
+			order_del_post as orderDelPost, 
+			order_del_addr1 as orderDelAddr1, 
+			order_del_addr2 as orderDelAddr2, 
+			order_del_phone as orderDelPhone, 
+			order_del_ask as orderDelAsk, 
+			order_status as orderStatus
+		from order_tbl      
+		where seller_no=#{memberNo} order by order_no asc
+	</select>
+	
+	<update id="orderCancel" parameterType="int">
+		update order_tbl
+		set order_status=5
+		where order_no=#{orderNo}
+	</update>
+	
+	<select id="searchDelivery" parameterType="map" resultType="HashMap">
+		select distinct
+			order_no as orderNo,
+			div_no as divNo, 
+			project_no as projectNo,
+			project_name as projectName,
+            member_no as memberNo,
+			seller_no as sellerNo, 
+			order_date as orderDate, 
+			order_price as orderPrice,
+			order_point as orderPoint,
+			order_del_name as orderDelName,
+			order_del_post as orderDelPost, 
+			order_del_addr1 as orderDelAddr1, 
+			order_del_addr2 as orderDelAddr2, 
+			order_del_phone as orderDelPhone, 
+			order_del_ask as orderDelAsk, 
+			order_status as orderStatus
+		from order_tbl
+		where seller_no=#{memberNo}
+		<if test='!projectName.equals("")'>
+		and project_name like '%'||#{projectName}||'%'
+		</if>
+		<if test='!startDate.equals("")'>
+		and to_number(To_char(to_date(order_date,'YYYY-MM-DD HH24:MI:SS'),'yyyymmdd')) 
+        between to_number(To_char(to_date(#{startDate},'YYYY-MM-DD'),'yyyymmdd')) and to_number(To_char(to_date(#{endDate},'YYYY-MM-DD'),'yyyymmdd')) 
+		</if>
+		<if test="divNo != 0 ">
+		and div_no=#{divNo}
+		</if>
+		<if test="orderStatus != 0">
+		and order_status=#{orderStatus}
+		</if>
+        order by order_no asc
+	</select>
+	
+	<select id="selectOrderProduct" parameterType="int" resultType="HashMap">
+		select
+			product_no as productNo,
+			option_no as optionNo,
+			product_price as productPrice,
+			product_amount as productAmount
+		from order_product
+		where order_no=#{orderNo}
+	</select>
+	
 	<select id="selectAList" parameterType="int" resultType="HashMap">
 		select * from (select rownum as rnum,n.* from (
 			select distinct
@@ -193,7 +267,7 @@
 	
 	<select id="selectAcList" parameterType="int" resultType="HashMap">
 		select distinct
-			div_no as divNo,
+			v.div_no as divNo,
 			a.project_no as projectNo,
 			project_name as projectName, 
 			nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
@@ -202,11 +276,11 @@
 	    	nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
 	    	nvl((select view_count from view_tbl where div_no=4 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join auction_tbl a on (a.project_no=v.project_no)
-		where member_no=#{memberNo} and div_no=4
+		where member_no=#{memberNo} and v.div_no=4
 	</select>
 	<select id="selectFcList" parameterType="int" resultType="HashMap">
 		select distinct
-			div_no as divNo,
+			v.div_no as divNo,
 			funding_no as projectNo,
 			funding_name as projectName, 
 			nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
@@ -215,11 +289,11 @@
 	    	nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
 	    	nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join funding a on (funding_no=v.project_no)
-		where member_no=#{memberNo} and div_no=1
+		where member_no=#{memberNo} and v.div_no=1
 	</select>
 	<select id="selectGcList" parameterType="int" resultType="HashMap">
 		select distinct
-			div_no as divNo,
+			v.div_no as divNo,
 			a.project_no as projectNo,
 			project_name as projectName, 
 			nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
@@ -228,11 +302,11 @@
 	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
 	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join group_tbl a on (a.project_no=v.project_no)
-		where member_no=#{memberNo} and div_no=3
+		where member_no=#{memberNo} and v.div_no=3
 	</select>
 	<select id="selectDcList" parameterType="int" resultType="HashMap">
 		select distinct
-			div_no as divNo,
+			v.div_no as divNo,
 			a.project_no as projectNo,
 			donation_title as projectName, 
 			nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
@@ -241,7 +315,7 @@
 	    	nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
 	    	nvl((select view_count from view_tbl where div_no=2 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join donation a on (a.project_no=v.project_no)
-		where member_no=#{memberNo} and div_no=2
+		where member_no=#{memberNo} and v.div_no=2
 	</select>
 	
 	<select id="genderGraph" resultType="int">

@@ -5,7 +5,7 @@
   	INSERT INTO AUCTION_TBL VALUES(
   		AUCTION_SEQ.NEXTVAL, #{projectName}, #{auctionItem}, #{auctionCategory}, #{auctionAmount},
   		TO_DATE(#{auctionStart}, 'YYYY-MM-DD HH24:MI'),
-  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'), #{memberNo}, #{auctionPrice}, #{auctionPic}, #{auctionContent} , 0
+  		TO_DATE(#{auctionEnd}, 'YYYY-MM-DD HH24:MI'), #{memberNo}, #{auctionPrice}, #{auctionPic}, #{auctionContent} , 0, 4
   	)  	
   </insert>
   
@@ -227,7 +227,7 @@
   </select>
   
   <insert id="insertOrder" parameterType="o">
-  		INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL, 4, #{projectNo}, #{memberNo}, #{sellerNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), #{orderPrice}, 0, '','','','','','',3)
+  		INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL, 4, #{projectNo}, #{memberNo}, #{sellerNo}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'), #{orderPrice}, 0, '','','','','','',3, (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO=#{projectNo}) )
   		<selectKey resultType="int" order="AFTER" keyProperty="orderNo">
   			SELECT * FROM (SELECT ORDER_NO FROM ORDER_TBL WHERE DIV_NO=4 ORDER BY ORDER_DATE DESC) WHERE ROWNUM=1
   		</selectKey>
@@ -343,7 +343,7 @@
 	                    MEMBER_NAME AS memberName,
 	                    COMMENT_CONTENT AS commentContent,
 	                    COMMENT_DATE AS commentDate
-	            FROM COMMENT_TBL JOIN MEMBER USING(MEMBER_NO) WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} ORDER BY COMMENT_DATE DESC
+	            FROM COMMENT_TBL JOIN MEMBER USING(MEMBER_NO) WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo} ORDER BY COMMENT_NO DESC
   			<![CDATA[)N ) WHERE RNUM>=#{startNum} AND RNUM<=#{endNum}]]> 				
   </select>
   
@@ -355,5 +355,27 @@
   	SELECT MAX(COMMENT_NO) AS commentNo,
            MAX(COMMENT_DATE) AS commentDate
     FROM COMMENT_TBL WHERE DIV_NO=4 AND PROJECT_NO= #{projectNo} AND MEMBER_NO=#{memberNo}
+  </select>
+  
+  <select id="selectOneComment" parameterType="c" resultType="c">
+	SELECT 	COMMENT_NO AS commentNo,
+             PROJECT_NO AS projectNo,
+             MEMBER_NO AS memberNo,
+             MEMBER_NAME AS memberName,
+             COMMENT_CONTENT AS commentContent,
+             COMMENT_DATE AS commentDate
+     FROM COMMENT_TBL JOIN MEMBER USING(MEMBER_NO) WHERE DIV_NO=4 AND COMMENT_NO=#{commentNo}
+  </select>
+  
+  <update id="modifyComment" parameterType="c">
+  	UPDATE COMMENT_TBL SET COMMENT_CONTENT = #{commentContent}, COMMENT_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS')  WHERE COMMENT_NO = #{commentNo}
+  </update>
+  
+  <delete id="deleteComment" parameterType="c">
+  	DELETE COMMENT_TBL WHERE COMMENT_NO= #{commentNo}
+  </delete>
+  
+  <select id="checkCommentCount" parameterType="c" resultType="int">
+  	SELECT COUNT(*) FROM COMMENT_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo}
   </select>
 </mapper>

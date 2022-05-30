@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="funding">
+  <insert id="insertFunding" parameterType="f" >
+  	INSERT INTO FUNDING VALUES(
+  	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
+  	SYSDATE,
+  	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
+  	#{fundingSum},0,0,100,1)
+  </insert>
+  <select id="selectFundingMaxNo" resultType="int">
+  	SELECT MAX(FUNDING_NO) FROM FUNDING
+  </select>
+  <insert id="insertFundingOptionPrice" parameterType="map">
+  	INSERT INTO FUNDING_OPTION_PRICE VALUES(
+  	FUNDING_OPTION_PRICE_SEQ.NEXTVAL,#{fundingOptionList},#{fundingOptionPrice},#{fundingNo}
+  	)
+  </insert>
+  <insert id="insertFundingFile" parameterType="ff">
+  	INSERT INTO FUNDING_FILE VALUES(
+  	FUNDING_FILE_SEQ.NEXTVAL,#{fundingFilePath},#{fundingNo}
+  	)
   
+  </insert> 
 </mapper>

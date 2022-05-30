@@ -24,7 +24,9 @@ import com.google.gson.Gson;
 
 import kr.or.funding.model.service.FundingService;
 import kr.or.funding.model.vo.Funding;
+import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingOption;
+import kr.or.funding.model.vo.FundingOptionPrice;
 
 @Controller
 public class FundingController {
@@ -40,18 +42,40 @@ public class FundingController {
 	public String FundingList() {
 		return "funding/fundingList";
 	}
+	@RequestMapping(value = "/test.kh")
+	public String test(MultipartFile[] upfile) {
+		System.out.println("파일길이 :"+upfile.length);
+		return "funding/fundingInsertSuccess";
+	}
+	@RequestMapping(value = "/fundingInsertFrm.kh")
+	public String fundingInsertFrm(MultipartFile[] upfile,Funding f,FundingOptionPrice fop, HttpServletRequest request) {
+		System.out.println("------Funding f------");
+		System.out.println("펀딩네임 : "+f.getFundingName());
+		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
+		System.out.println("펀딩디테일써머놑 : "+f.getFundingDetail());
+		System.out.println("펀딩종료날짜 : "+f.getFundingEndDate());
+		System.out.println("펀딩옵션리스트 : "+fop.getFundingOptionList());
+		System.out.println("펀딩옵션리스트가격 : "+fop.getFundingOptionPrice());
 
-	@RequestMapping(value = "")
-	public String fundingInsertFrm(Funding f, MultipartFile[] fundingFilepath, HttpServletRequest request) {
-
+		for(int i = 0; i< fop.getFundingOptionList().length;i++) {
+			System.out.println(fop.getFundingOptionList());
+		}
+		
+		for(int i = 0; i< fop.getFundingOptionPrice().length;i++) {
+			System.out.println(fop.getFundingOptionPrice());
+		}
+		
+		
+		//System.out.println(f.getFundingCategory());
+		System.out.println("파일 개수 : "+upfile.length);//파일업로드 잘들어오는지 확인용
 		// System.out.println(f); 입력값 잘 들어오는지확인
-		// System.out.println(upfile.length);//파일업로드 잘들어오는지 확인용
-
-		// 파일목록을 저장할 리스트를 생성
-		ArrayList<Funding> funding = new ArrayList<Funding>();
+		//Funding f,,FundingOptionPrice fop,HttpServletRequest request
+		
+		// 파일목록을 저장할 리스트를 생성 >>**안필요 할 수 도있음
+		ArrayList<FundingFile> fundingList = new ArrayList<FundingFile>();
 		// 멀티파일 배열을 첨부파일의 갯수만큼 길이가생성 (단 , 첨부파일이 없어도 기리는 무조건 1)
 		// 첨부파일이 없는경우는 배열의 첫번쨰 파이링 비어 있는지 체크하는 방식
-		if (fundingFilepath[0].isEmpty()) {
+		if (upfile[0].isEmpty()) {
 			// 첨부파일이 있는겨웅 파일업로드 작업진행
 		} else {
 			// 첨부파일이 있는경우 파일업로드 작업 진행
@@ -60,7 +84,7 @@ public class FundingController {
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/funding/");
 			// 2.반복문을 이용한 파일업로드 처리
 
-			for (MultipartFile file : fundingFilepath) {
+			for (MultipartFile file : upfile) {
 				// 파일명이 기존파일과 겹치는 경우 기존파일을 삭제하고 새 파일만 남는 현사잉 생김(덮어쓰기)
 				// 파일명 중복처리
 				// 사용자가 업로드한 파일이름
@@ -107,14 +131,19 @@ public class FundingController {
 				// 서버 파일 업로드 끝(파일1개단위) 여기까지가 멀티파티리퀘스트 객체만든거 수작업으로 진행한 것.
 				///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				// 이제 위에서만든 리스트를 이용해서 DB에 넣는작업
-				f.setFundingFilepath(filepath);
-				funding.add(f);
-
-				// int result = service.insertFunding();
+				FundingFile fundingFilePath = new FundingFile();	
+				fundingFilePath.setFundingFilePath(filepath);
+				fundingList.add(fundingFilePath);
+				
 
 			}
 		}
-		return "redirect:/어디로보낼찌 안정했어요";
+		//성공 실패시 결과 RESULT 비교 해줄것 지금 안해놨음
+		int result = service.insertFunding(f,fop,fundingList);
+		System.out.println("최종 insert result 값 : "+result);
+		
+		System.out.println("fundingList : "+ fundingList);
+		return "funding/fundingInsertSuccess";
 	}
 
 	@ResponseBody
@@ -201,6 +230,8 @@ public class FundingController {
 	 * HashMap<Integer, HashMap<Integer, String>>(); //map.put(0,optionName);
 	 * map.put(1, optionValue); return map; }
 	 */
+	
+	//토크나이저 함수
 	public ArrayList<String> tokenizer(String fundingOptionValue){
 		StringTokenizer sT = new StringTokenizer(fundingOptionValue,",");
 		ArrayList<String> optionValue = new ArrayList<String>();

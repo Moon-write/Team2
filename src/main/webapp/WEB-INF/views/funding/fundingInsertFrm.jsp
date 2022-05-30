@@ -16,7 +16,7 @@
     overflow: hidden;
 }
 .basic-information{
-    height: 1000px;
+
     width: 200px;
     float: left;
     
@@ -33,7 +33,7 @@
 
 .input-value{
     width: 960px;
-    height: 1000px;
+
     background-color: royalblue;
     float: left;
     padding-left: 40px;
@@ -104,27 +104,42 @@ table{
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
+<!-- 써머노트 -->
 <script src="/resources/js/summernote-lite.js"></script>
 <script src="/resources/js/lang/summernote-ko-KR.js"></script>
 <link rel="stylesheet" href="/resources/css/summernote-lite.css">
+
+<!-- jquery_datepicker -->
+<!-- jQuery UI CSS파일 -->
+<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css">-->
+<!-- jquery 기본 js 파일 -->
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+<!-- jQuery UI 라이브러리 js파일 -->
+<!--<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>-->
+
+<link rel="stylesheet" type="text/css" href="/resources/js/funding/jquery.datetimepicker.css"/ >
+<!-- <script src="/jquery.js"></script> 제이쿼리 헤더랑 중복이라 안써도 될 것 같음.-->
+<script src="/resources/js/funding/jquery.datetimepicker.full.min.js"></script>
+
 	<div class="main">
-		<form action="" method="post" enctype="multipart/form-data">
+		<form action="/fundingInsertFrm.kh" method="post" enctype="multipart/form-data">
 	        <h1>펀딩상품 등록</h1>
 	        <hr>
 	        <div class="basic-information"><span>기본정보</span></div>
 	        <div class="input-value">
 	            <div class="funding-basic">
+	            <!-- <input type="hidden" name="memberNo" value="${session.m.memberNo }"> -->
 	                <table>
 	                    <tr>
-	                        <th>상품명</th><td><input type="text" class="input-form" name="fundingName" type="text"></td>
+	                        <th>상품명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td><input type="text" class="input-form" name="bizName" type="text" value="bizName"></td>
+	                        <th>회사명</th><td><input type="text" class="input-form" type="text" value="bizName"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>카테고리</th>
 	                        <td><select class="input-form" name="fundingCategory">
-	                            <option>카테고리 선택</option>
+	                            <option valye="none">카테고리 선택</option>
 	                            <option value="테크가전">테크가전</option>
 	                            <option value="식품">식품</option>
 	                            <option value="패션잡화">패션잡화</option>
@@ -135,7 +150,7 @@ table{
 	                    </tr>
 	                    <tr>
 	                        <th>옵션명 개수</th><td>
-	                            <select class="input-form" id="fundingOptionCount" name="fundingOptionCount">
+	                            <select class="input-form" id="fundingOptionCount">
 	                                <option value="1">1개</option>
 	                                <option	value="2">2개</option>
 	                                <option value="3">3개</option>
@@ -152,8 +167,8 @@ table{
 		                        <th>옵션명</th><th>옵션값</th>
 		                    </tr>
 		                    <tr id="option-table-tr">
-		                        <td><input type="text" class="input-form" name="fundingOptionName" placeholder="사이즈"></td>
-		                        <td><input type="text" class="input-form" name="fundingOptionValue" placeholder="M,L(,로 구분)"></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionName" value="사이즈"></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M,L"></td>
 		                    </tr>
 	                	</tbody>
 	                </table>
@@ -170,7 +185,7 @@ table{
 	
 	            <div>
 	                <div class="main-img">
-						<input type="file" name="fundingFilepath" multiple>
+						<input type="file" name="upfile" multiple>
 					</div>
 	                <div class="sub-img"><img></div>
 	                <div class="sub-img"><img></div>
@@ -181,11 +196,11 @@ table{
 	            <div class="funding-end-table">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 종료일</th><td><input type="text" class="input-form" name="fundingEndDate" value="1993년"></td><td><input class="input-form" value="9월"></td><td><input class="input-form" value="9일"></td>
+	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate"></td>
 	                    </tr>
 	                    <tr><td><br></td></tr>
 	                    <tr>
-	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" placeholder="124567890"></td><td>원</td>
+	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="124567890"></td><td>원</td>
 	                    </tr>
 	                </table>
 	            </div>
@@ -198,7 +213,7 @@ table{
 	                <textarea id="summernote" name="fundingDetail"></textarea>
 	            </div>
 	            <div class="insert-button">
-			        <input type="submit" class="btn bc1" value="등록하기">
+			        <input type="submit" class="btn bc1" id="insertButton" value="등록하기">
 			        <input type="button" class="btn bc11" value="취소하기">
 			        <input type="button" class="btn bc2" value="미리보기(시간나면)">
 		        </div>
@@ -223,11 +238,11 @@ table{
 			const optionNameTd2 = $("<td>");
 			const optionValueTd2 = $("<td>");
 			
-			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","색상");
-			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","블랙,화이트(,로 구분)");
+			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","색상");
+			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","블랙,화이트");
 			
-			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","맛");
-			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","딸기,포도(,로 구분)");
+			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","맛");
+			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","딸기,포도");
 				
 			add.remove();
 			
@@ -253,6 +268,7 @@ table{
 	});
 
 	 //써머노트
+	 $(function(){
 	 $("#summernote").summernote({
 		height:400,
 		lang : "ko-KR",
@@ -266,24 +282,27 @@ table{
 		 //ajax를통해 서버에 이미지를 업로드하고 업로드경로를 받아옴
 		 //form태그와 동일한 효과를 내는 formData개체 새성
 		 const form = new FormData();
-		 form.append("file",file);//"file"이라는 네임으로 file을 전송
+		 form.append("fundingDetail",file);//"fundingDetail"이라는 네임으로 file을 전송
 		 $.ajax({
-			 url : "업로드할곳",
+			 url : "/fundingInsertFrm.kh",
 			 type: "post",
 			 data : form,
 			 processData : false,  //아작스로 파일업로드 하려면 꼭 필요
 			 contentType : false,  //아작스로 파일업로드 하려면 꼭 필요
 			 success : function(data){
 					//결과로 받은 이미지파일 경로를 에디터에 추가
-					$(editor).summernote("insertImage",data);
+					$(editor).summernote("insertImage",data);//*****insertImage도 변수이름에 맞게 나중에 조정
 			 }
 		 });
+	 
+	 }
+
 		 //processData : 기본값 true {key1:value1, key2:value2}
 		 //  ->>기본 strig 데이터로 보내야하는데 파일형태로 전송하기 위해서 false사용해서 기본값 제거
 		 //contentType : 기본값 "application/x-www-form-urlencoded;charset=UTF-8"
 		 //->form 태그 전송시 enctype의 기본값임
 		 //			->enctype="multipart/form-data"로 설정하기 위해 기본값을 제거 그럼 자동으로 폼데이타로 변경
-		}
+		});
 	 
 	 //옵션목록으로 적용
 	$(function(){
@@ -335,6 +354,8 @@ table{
 				alert("성공이요");
 				const trPrice = $("#optionListPrice-table-tr");
 				const addPrice = $(".addPrice");
+				addPrice.remove();
+				
 				for(let i=0; i<data.length; i++){//쿼리에선 let..
 				const titleTrPrice = $("<tr>").attr("class","addPrice");
 				const optionList = $("<td>");
@@ -342,44 +363,14 @@ table{
 				optionList.append(inputOptionList);
 				
 				const optionListPrice = $("<td>");
-				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionPrice").attr("placeholder","10000");
+				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionPrice").attr("value","10000");
 				optionListPrice.append(inputOptionListPrice);
 				
 				titleTrPrice.append(optionList).append(optionListPrice);
 				trPrice.after(titleTrPrice);
 				console.log("컨트롤러에서 보내준 데이터 : "+data[i]);
 				}
-				
-				/* const optionList = $("<td>");
-				const optionListPrice = $("<td>");				
-				const inputOptionList=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionList");
-				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionListPrice").attr("placeholder","10000"); 
-				
-				
-				for(let i=0; i<data.length; i++){//쿼리에선 let..
-				optionList.append(inputOptionList);
-				optionList.attr("value",data[i]);
-				optionListPrice.append(inputOptionListPrice);
-				titleTrPrice.append(optionList).append(optionListPrice);
-				trPrice.after(titleTrPrice);	
-				
-				
-
-					const table = ${"result>table"};
-					table.empty();
-					const titleTr = $("<tr>");
-					titleTr.append("<th>번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>전화번호</th><th>이메일</th>");
-					table.append(titleTr);
-					for(let i=0;i<data.length;i++){
-						const tr = $("<tr>");
-						tr.append("<td>"+data[i].memberNo+"</td>");
-						tr.append("<td>"+data[i].memberIo+"</td>");
-						tr.append("<td>"+data[i].memberPw+"</td>");
-						tr.append("<td>"+data[i].memberName+"</td>");
-						tr.append("<td>"+data[i].phone+"</td>");
-						tr.append("<td>"+data[i].email+"</td>");
-						table.append(tr);
-				} */
+			
 				
 			},
 			error : function(data){
@@ -387,7 +378,47 @@ table{
 			}			 
 		 });
 	 });		
-	}); 
+	});
+	//datetimepicker
+	//https://xdsoft.net/jqplugins/datetimepicker/
+	$(function(){
+		$("#datetimepicker").datetimepicker({
+		   dateTimeFormat: "dddd, MMMM dd, yyyy hh-mm-ss tt",
+		   timePopupWidth: "150px",
+		   timeDisplayFormat: "hh:mm:ss tt",
+		   width: '300px',
+		   minDate:'+1970/01/02'
+		   
+		});
+		
+		//콘솔용
+		$("#datetimepicker").on("change",function(){
+			console.log($("#datetimepicker").val());
+			console.log(typeof $("#datetimepicker").val());
+		});
+		$("[name=fundingCategory]").on("change",function(){
+			console.log(typeof $("[name=fundingCategory]").val());
+			console.log(typeof $("[name=fundingOptionValue]").val());
+			console.log(typeof $("[name=fundingOptionList]").val());
+			console.log(typeof $("[name=fundingSum]").val());
+		});
+
+	});
+	 
+	//제출버튼 눌렀을 때 조건
+	/* 	
+		$(function(){
+			$("#insertButton").on("click",function(){
+				var fundingOptionPrice = $("[name=fundingOptionPrice]");
+					if(fundingOptionPrice.val() == null){
+						alert("옵션눌러주세용");
+					}
+					return false;
+				});	
+		});
+		 */
+	
+	
 </script>
 <style>
     .input-form{
