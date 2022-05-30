@@ -7,7 +7,6 @@
 <title>펀딩리스트</title>
 </head>
 <body>
-	<a href="/fundingInsert.kh">상품등록으로 이동</a>
-	
+
 </body>
 </html>

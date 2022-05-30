@@ -27,7 +27,7 @@
 		<typeAlias type="kr.or.funding.model.vo.Funding" alias="f"/>
 		<typeAlias type="kr.or.funding.model.vo.FundingOption" alias="fo"/>
 		<typeAlias type="kr.or.funding.model.vo.FundingOptionPrice" alias="fop"/>
-		
+		<typeAlias type="kr.or.funding.model.vo.FundingFile" alias="ff"/>
 		<!-- 재형 -->
 		<typeAlias type="kr.or.donation.model.vo.Donation" alias="d"/>
 		

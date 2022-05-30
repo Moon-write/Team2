@@ -13,7 +13,6 @@ public class Funding {
 	private String fundingName;
 	private String fundingCategory;
 	private String fundingDetail;
-	private String fundingFilepath;
 	private String fundingStartDate;
 	private String fundingEndDate;
 	private int fundingSum;
