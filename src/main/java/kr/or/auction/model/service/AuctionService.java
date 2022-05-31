@@ -81,7 +81,6 @@ public class AuctionService {
 		}else {
 			pageEnd = contentCount / rowOflist +1 ;
 		}
-		
 		if(contentCount>endNum) {
 			map.put("endNum", contentCount);
 		}
@@ -94,11 +93,11 @@ public class AuctionService {
 		if(reqPage!=pageStart) { // 시작페이지와 현재페이지가 같지않다면 =이전페이지가 있다면
 			pagination += "<li><a class='page-item' href='"+link+(int)(reqPage-1)+"'><span class='material-symbols-outlined'>chevron_left</span></a></li>";
 		}
-		for(int i = 0;i< ((pageEnd<5)? pageEnd : 5);i++) {
-			if(reqPage == (int)(pageStart+i)) {
+		for(int i = pageStart ;i<= ((pageEnd<pageStart+4)? pageEnd : 5);i++) {
+			if(reqPage == (int)(i)) {
 				pagination += "<li><a class='page-item active-page' href='"+link+(reqPage)+"'>"+(int)reqPage+"</a></li>";
 			}else {
-				pagination += "<li><a class='page-item' href='"+link+(int)(pageStart+i)+"'>"+(int)(pageStart+i)+"</a></li>";				
+				pagination += "<li><a class='page-item' href='"+link+(int)(i)+"'>"+(int)(i)+"</a></li>";				
 			}
 		}
 		if(reqPage!=pageEnd) {

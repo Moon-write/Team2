@@ -69,6 +69,12 @@
 		text-align: right;
 		margin: 0px 20px;
 	}
+	.info-seller>div>h5{
+		color: rgb(30,144,255);
+	}
+	.info-seller>div>a{
+		color: black;
+	}
 	.auction-right>h1{
 		text-align: right;
 	}
@@ -279,7 +285,7 @@
 						<span class="material-symbols-rounded" style="color: rgb(30,144,255)">storefront</span>
 						<div>
 							<h5>판매자 정보</h5>
-							${auction.bizName}
+							<a href="/shopInfo.kh?memberNo=${auction.memberNo }">${auction.bizName}</a>
 						</div>
 					</div>				
 				</div>
