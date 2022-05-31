@@ -323,6 +323,36 @@ public class AuctionController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="/selectOneComment.kh", produces="application/json; charset=utf-8")
+	public String selectOneComment(Comment c) {
+		c = service.selectOneComment(c);
+		
+		return new Gson().toJson(c);
+	}
+	@ResponseBody
+	@RequestMapping(value="/modifyComment.kh")
+	public String modifyComment(Comment c) {
+		int result = service.modifyComment(c);
+		
+		return Integer.toString(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/deleteComment.kh")
+	public String deleteComment(Comment c) {
+		int result = service.deleteComment(c);
+		return Integer.toString(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="checkCommentCount.kh")
+	public String checkCommentCount(Comment c) {
+		int result = service.checkCommentCount(c);
+		
+		return Integer.toString(result);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="/auctionImgUpload.kh")
 	public String auctionImgUpload(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
 		String filepath = null;

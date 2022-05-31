@@ -64,7 +64,7 @@
 .index-wrap{
 	width: 565px;
 	padding-top: 20px;
-	padding-bottom: 80px;
+	padding-bottom: 60px;
 	margin: 0 auto;
 }
 .index{
@@ -108,8 +108,26 @@
   border-radius: 4px;
   font-size: 14px;
 }
+.form-select-wrap>td>select{
+  padding: 8px 16px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 14px;
+}
 .select{
   margin: 10px 0px;
+}
+.input-0>td:nth-child(1){
+	width:33%;
+}
+.input-0>td:nth-child(2){
+	width:4%;
+}
+.input-0>td:nth-child(3){
+	width:33%;
+}
+.input-0>td:nth-child(4){
+	width:30%;
 }
 </style>
 <body>
@@ -127,18 +145,21 @@
 			<br><br>
 			<form action="/join.do" method="post">
 				<table class="join-table">
+					<!-- 멤버레벨 -->
+						<input type="hidden" name="memberLevel" value="2" class="input-form" >
 					<!-- 이메일 -->
 					<tr class="form-name">
-						<th colspan="2">이메일(ID)<span class="idChk"></span></th>
+						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
 					</tr>
-					<tr class="form-input">
-						<td colspan="1"><input type="text" name="memberId" class="input-form"></td>
+					<tr class="form-input input-0 form-select-wrap">
+						<td><input type="text" name="memberId" class="input-form" required></td>
 						<td>@</td>
-						<td colspan="1">
-							<select name="email" class="input-form select">
+						<td>
+							<select name="emailAddress" class="input-form select ">
 								<option disabled selected>이메일</option>
 								<option value="@naver.com">naver.com</option>
 								<option value="@gmail.com">gmail.com</option>
+								<option value="@nate.com">nate.com</option>
 							</select>
 						</td>
 						<td><button class="btn bc1 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
@@ -147,7 +168,7 @@
 						<th colspan="4">인증번호<span class="idChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요."></td>
+						<td colspan="3"><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요." required></td>
 						<td><button class="btn bc1 bs1" id="authBtn" type="button">확인</button></td>
 					</tr>
 					<tr>
@@ -158,41 +179,42 @@
 						<th colspan="4" class="join-pass">비밀번호<span class="pwChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="password" name="memberPw" class="input-form"></td>
+						<td colspan="4"><input type="password" name="memberPw" class="input-form" required></td>
 					</tr>
 					<tr class="form-name">
 						<th colspan="4">비밀번호 재확인<span class="pwReChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="password" name="memberPwRe" class="input-form"></td>
+						<td colspan="4"><input type="password" name="memberPwRe" class="input-form" required></td>
 					</tr>
+					
 					<!-- 이름 -->
 					<tr class="form-name">
 						<th colspan="4" class="join-name">이름<span class="nameChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" name="memberName" class="input-form"></td>
+						<td colspan="4"><input type="text" name="memberName" class="input-form" required></td>
 					</tr>
 					<!-- 전화번호 -->
 					<tr class="form-name">
 						<th colspan="4">전화번호<span class="phoneChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234"></td>
+						<td colspan="4"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234" required></td>
 					</tr>
 					<!-- 주소 -->
 					<tr class="form-name">
 						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" id="member_postcode" name="member_postcode" class="input-form" placeholder="우편번호" readonly></td>
+						<td colspan="3"><input type="text" id="member_postcode" name="member_postcode" class="input-form" placeholder="우편번호" readonly required></td>
 						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr1" name="member_addr1" class="input-form" placeholder="주소" readonly></td>
+						<td colspan="4"><input type="text" id="member_addr1" name="member_addr1" class="input-form" placeholder="주소" readonly required></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr2" name="member_addr2" class="input-form" placeholder="상세주소"></td>
+						<td colspan="4"><input type="text" id="member_addr2" name="member_addr2" class="input-form" placeholder="상세주소" required></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
@@ -201,13 +223,13 @@
 					<tr class="form-input">
 						<td colspan="4">
 							<div class="form-select-wrap select">
-								<select class="birthday-year">
+								<select class="birthday-year" required>
 								</select>
 								/ 
-								<select class="birthday-month">
+								<select class="birthday-month" required>
 								</select>
 								/
-								<select class="birthday-day">
+								<select class="birthday-day" required>
 								</select>
 							</div>
 						</td>
@@ -216,9 +238,9 @@
 					<tr class="form-name">
 						<th colspan="4">성별</th>
 					</tr>
-					<tr class="form-input">
+					<tr class="form-input form-select-wrap select"">
 						<td colspan="4">
-							<select name="gender" class="input-form select">
+							<select name="gender" class="input-form select" required>
 								<option disabled selected>성별</option>
 								<option value="female">여성</option>
 								<option value="male">남성</option>
@@ -293,7 +315,21 @@
 				}
 			});
 		});
-				
+		//비밀번호 재확인 일치체크
+		$("[name=memberPwRe]").on("change",function(){
+			const pwVal = $("[name=memberPw]").val();
+			const pwReVal = $("[name=memberPwRe]").val();
+			if(pwVal == pwReVal){
+				$(".pwReChk").text("두 비밀번호가 일치합니다.");
+				$(".pwReChk").css("color","blue");
+				checkArr[2] = true;
+			}else{
+				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
+				$(".pwReChk").css("color","red");
+				checkArr[2] = true;
+			}
+		});
+		
 		const pw = $("[name=memberPw]");
 		pw.on("change",function(){
 			const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
@@ -321,20 +357,7 @@
 			}
 		});
 		
-		const pwRe = $("[name=memberPwRe]")
-		pwRe.on("change",function(){
-			const pwVal = $("[name=memberPw]").val();
-			const pwReVal = pwRe.val();
-			if(pwVal == pwReVal){
-				$(".pwReChkMsg").text("두 비밀번호가 일치합니다.");
-				$(".pwReChkMsg").css("color","green");
-				checkArr[2] = true;
-			}else{
-				$(".pwReChkMsg").text("두 비밀번호가 일치하지 않습니다.");
-				$(".pwReChkMsg").css("color","red");
-				checkArr[2] = true;
-			}
-		})
+
 		
 		const name = $("[name=memberName]");
 		name.on("change",function(){
@@ -500,25 +523,6 @@
 		  changeTheDay();
 		});
 		//생년월일 끝
-		//토스트 알림 함수		
-		function toastShow(title,icon,msgTime){
-			const Toast = Swal.mixin({
-		    toast: true,
-		    position: 'center-center',
-		    showConfirmButton: false,
-		    timer: msgTime,
-		    timerProgressBar: true,
-		    didOpen: (toast) => {
-		     // toast.addEventListener('mouseenter', Swal.stopTimer)
-		      toast.addEventListener('mouseleave', Swal.resumeTimer)
-		    }
-		 	})
-		
-		  Toast.fire({
-		    title: title,
-		    icon: icon
-		  })
-		}//토스트 끝
 	</script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="funding">
+  <insert id="insertFunding" parameterType="f" >
+  	INSERT INTO FUNDING VALUES(
+  	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
+  	SYSDATE,
+  	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
+  	#{fundingSum},0,0,100,1,0)
+  </insert>
+  <select id="selectFundingMaxNo" resultType="int">
+  	SELECT MAX(FUNDING_NO) FROM FUNDING
+  </select>
+  <insert id="insertFundingOptionPrice" parameterType="map">
+  	INSERT INTO FUNDING_OPTION_PRICE VALUES(
+  	FUNDING_OPTION_PRICE_SEQ.NEXTVAL,#{fundingOptionList},#{fundingOptionPrice},#{fundingNo}
+  	)
+  </insert>
+  <insert id="insertFundingFile" parameterType="ff">
+  	INSERT INTO FUNDING_FILE VALUES(
+  	FUNDING_FILE_SEQ.NEXTVAL,#{fundingFilePath},#{fundingNo}
+  	)
   
+  </insert> 
+  <select id="selectAllList" resultType="kr.or.funding.model.vo.FundingJoinFile">
+  	SELECT FUNDING.FUNDING_NO 			AS fundingNo,
+  	FUNDING_NAME 		AS fundingName,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	FUNDING_START_DATE	AS fundingStartDate,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	MEMBER_NO 			AS memberNo, 
+    FUNDING_FILE_PATH    AS fundingFilePath
+    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO 
+    WHERE FUNDING_FILE_NO=(SELECT MIN(FUNDING_FILE_NO) FROM (SELECT * FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO)) ;
+  </select>
 </mapper>

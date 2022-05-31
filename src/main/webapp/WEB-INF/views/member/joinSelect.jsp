@@ -43,13 +43,14 @@
 }	
 .select-wrap{
 	display: flex;
+	margin-bottom: 60px;
 }
 .select-wrap>*{
 	flex-grow: 1;
 	border: solid black 1px;
 	margin: 60px;
 	width: 300px;
-	height: 300px;
+	height: 350px;
 	padding: 30px;
 	text-align: center;
 }
@@ -58,7 +59,7 @@
 	border: solid #1E90FF 1px;
 	margin: 60px;
 	width: 300px;
-	height: 300px;
+	height: 350px;
 	padding: 30px;
 	text-align: center;
 	cursor: pointer;
@@ -86,6 +87,11 @@
 	padding: 13px 65px;
 	font-size: 15px;
 }
+.select-member-form .btn{
+	display: block;
+	width: 70%;
+	margin: 30px auto;
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
@@ -105,15 +111,14 @@
 						<span class="material-symbols-outlined">account_circle</span><br>
 						<span class="member-title">일반회원</span><br>
 						<span class="member-intro">일반회원 가입</span>
+						<a type="button" class="btn bc1 bs5" href="/joinFrmMember.kh">다음</a>
 					</div>
 					<div class="select-biz">
 						<span class="material-symbols-outlined">apartment</span><br>
 						<span class="member-title">사업자회원</span><br>
 						<span class="member-intro">사업자/법인회원 가입</span>
+						<a type="button" class="btn bc1 bs5" href="/joinFrmBiz.kh">다음</a>
 					</div>
-				</div>
-				<div class="select-btn-wrap">
-					<button type="submit" class="btn bc1 bs5">다음</button>
 				</div>
 			</form>
 		</div>

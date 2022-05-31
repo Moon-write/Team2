@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="common">
+  <select id="searchProject" parameterType="string" resultType="p">
+  	SELECT 
+    FUNDING_NO AS projectNo,
+    FUNDING_NAME AS projectName,
+    TO_CHAR(FUNDING_END_DATE, 'YYYY-MM-DD') AS projectEnd,
+    FUNDING_CURRENT_SUM AS projectPrice,
+    DIV_NO AS DIV_NO,
+    FUNDING_FILE_PATH AS projectImg
+    FROM FUNDING JOIN FUNDING_FILE USING(FUNDING_NO) WHERE FUNDING_NAME LIKE '%'||#{keyword}||'%'
+UNION
+SELECT
+    PROJECT_NO,
+    DONATION_TITLE,
+    TO_CHAR(DONATION_ENDDATE, 'YYYY-MM-DD'),
+    DONATION_CASH,
+    DIV_NO,
+    DONATION_IMGPATH
+    FROM DONATION WHERE DONATION_TITLE LIKE '%'||#{keyword}||'%'
+UNION
+SELECT 
+    PROJECT_NO,
+    PROJECT_NAME,
+    GRP_END,
+    ORDER_PRICE,
+    G.DIV_NO,
+    THUMBPATH
+    FROM GROUP_TBL G JOIN PRICE_TBL USING (PROJECT_NO) WHERE PROJECT_NAME LIKE '%'||#{keyword}||'%'
+UNION
+SELECT
+    PROJECT_NO,
+    PROJECT_NAME,
+    TO_CHAR(AUCTION_END, 'YYYY-MM-DD'),
+    ORDER_PRICE,
+    A.DIV_NO,
+    AUCTION_PIC
+    FROM AUCTION_TBL A JOIN PRICE_TBL USING (PROJECT_NO)  WHERE PROJECT_NAME LIKE '%'||#{keyword}||'%'
+  </select>
+</mapper>

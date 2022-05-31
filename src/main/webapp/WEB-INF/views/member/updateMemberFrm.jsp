@@ -32,6 +32,7 @@
 	height: 50px;
 	font-size: 18px;
 	border: none;
+	margin-bottom: 50px;
 }
 .check-msg{
 	text-align: left;
@@ -85,11 +86,11 @@
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td><input type="text" id="member_addr1" name="member_addr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
+								<td colspan="2"><input type="text" id="member_addr1" name="member_addr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td><input type="text" id="member_addr2" name="member_addr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
+								<td colspan="2"><input type="text" id="member_addr2" name="member_addr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -97,7 +98,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>생년월일</td>
-								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberBirth }" readonly></td>				
+								<td colspan="2"><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberBirth }" readonly></td>				
 							</tr>
 							<tr>
 								<td></td>
@@ -105,7 +106,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>성별</td>
-								<td><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberGender }" readonly></td>
+								<td colspan="2"><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberGender }" readonly></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -113,7 +114,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td><input type="button" class="btn bc1 updateInfo-btn" value="정보 수정하기"></td>
+								<td colspan="2"><input type="button" class="btn bc1 updateInfo-btn" value="정보 수정하기"></td>
 							</tr>
 						</table>
 					</form>

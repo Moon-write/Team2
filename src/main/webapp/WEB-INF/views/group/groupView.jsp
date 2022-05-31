@@ -130,7 +130,7 @@
 				<div class="info" name="prj-date"><div class="info-title">참여 인원</div><div class="info-detail">1명</div></div>
 				<div class="info" name="prj-count"><div class="info-title">할인 가격 <span class="discount">0% 적용 중</span></div><div class="info-detail">1원</div></div>
 				<div class="info" name="prj-alarm"> <button class="btn bc6" name="alarm">1명만 더 구매하면 1,000원 할인</button></div>
-				<div class="info" name="prj-sns">소문내러 가기</div>
+				<div class="info" name="prj-sns">소문내러 가기<span style="width: 10px;"><a href="#">링크 복사</a></span></div>
 			</div>
 		</div>
 		<div id="view-body">

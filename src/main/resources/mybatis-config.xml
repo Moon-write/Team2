@@ -12,6 +12,7 @@
 		<typeAlias type="kr.or.common.model.vo.OrderProduct" alias="op"/>
 		<typeAlias type="kr.or.common.model.vo.Qna" alias="q"/>
 		<typeAlias type="kr.or.common.model.vo.Like" alias="l"/>
+		<typeAlias type="kr.or.common.model.vo.Project" alias="p"/>
 
 		<!-- 신영 -->		
 		<typeAlias type="kr.or.member.model.vo.Member" alias="m"/>
@@ -27,7 +28,8 @@
 		<typeAlias type="kr.or.funding.model.vo.Funding" alias="f"/>
 		<typeAlias type="kr.or.funding.model.vo.FundingOption" alias="fo"/>
 		<typeAlias type="kr.or.funding.model.vo.FundingOptionPrice" alias="fop"/>
-		
+		<typeAlias type="kr.or.funding.model.vo.FundingFile" alias="ff"/>
+		<typeAlias type="kr.or.funding.model.vo.FundingJoinFile" alias="fjf"/>
 		<!-- 재형 -->
 		<typeAlias type="kr.or.donation.model.vo.Donation" alias="d"/>
 		

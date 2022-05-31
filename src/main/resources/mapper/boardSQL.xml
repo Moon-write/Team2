@@ -3,76 +3,34 @@
 <mapper namespace="board">
   	<select id="selectCommentList" parameterType="map" resultType="bo">
 		select * from 
-		(select rownum as rnum, c.* from 
-		(select 
-			comment_no as commentNo, 
-			div_no as divNo
-				<if test="#{divNo eq 1}">
-					f.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=f.member_no
-				</if>
-				<if test="#{divNo eq 2}">
-					d.donation_title as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=d.member_no
-				</if>
-				<if test="#{divNo eq 3}">
-					g.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=g.member_no
-				</if>
-				<if test="#{divNo eq 4}">
-					a.project_name as projectName,
-					comment_content as commentContent,
-					substr(b.comment_date,1,10) as commentDate
-				from comment_tbl b, auction_tbl a, donation d, funding f, group_tbl g 
-				where b.member_no=a.member_no
-				</if>
-				and where member_no=#{memberNo} order by comment_no desc)c) 
-		where rnum between #{start} and #{end}  		
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+			    COMMENT_NO as commentNo,
+			    DIV_NO as divNo,
+			    CASE
+			        WHEN DIV_NO = 1
+			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = C.PROJECT_NO)
+			        WHEN DIV_NO = 2
+			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = C.PROJECT_NO)
+			        WHEN DIV_NO = 3
+			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = C.PROJECT_NO)
+			        WHEN DIV_NO = 4
+			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = C.PROJECT_NO)
+			    END
+			    as projectName,
+			    comment_content as commentContent,
+			    comment_date as commentDate
+			FROM COMMENT_TBL C WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}
   	</select>
   	<select id="selectLikeList" parameterType="map" resultType="bo">
-		select * from 
-		(select rownum as rnum, c.* from 
-		(select
-			div_no as divNo,
-			project_no as projectNo,
-			comment_content as commentContent,
-			substr(comment_date,1,10) as commentDate,
-			comment_no as commentNo
-		from like_tbl where member_no=#{memberNo} order by like_no desc)c) 
-		where rnum between #{start} and #{end}  		
+			
   	</select>
   	<select id="selectOrderList" parameterType="map" resultType="bo">
-		select * from 
-		(select rownum as rnum, c.* from 
-		(select
-			div_no as divNo,
-			project_no as projectNo,
-			comment_content as commentContent,
-			substr(comment_date,1,10) as commentDate,
-			comment_no as commentNo
-		from order_tbl where member_no=#{memberNo} order by order_no desc)c) 
-		where rnum between #{start} and #{end}  		
+				
   	</select>
   	<select id="selectQnaList" parameterType="map" resultType="bo">
-		select * from 
-		(select rownum as rnum, c.* from 
-		(select
-			div_no as divNo,
-			project_no as projectNo,
-			comment_content as commentContent,
-			substr(comment_date,1,10) as commentDate,
-			comment_no as commentNo
-		from qna_tbl where member_no=#{memberNo} order by qna_no desc)c) 
-		where rnum between #{start} and #{end}  		
+			
   	</select>
   	<select id="selectCount" parameterType="map" resultType="int">
   		select count(*) from

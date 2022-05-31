@@ -189,5 +189,41 @@ public class BusinessDao {
 		return sqlSession.selectList("business.genderGraph",mns);
 	}
 
+	public ArrayList<String> selectOrderList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectOrderList",memberNo);
+		return (ArrayList<String>) list;
+	}
 
+	public int orderCancel(int orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("business.orderCancel",orderNo);
+	}
+
+	public ArrayList<String> searchDelivery(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.searchDelivery", map);
+		return (ArrayList<String>) list;
+	}
+
+	public ArrayList<String> selectOrderProduct(int orderNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectOrderProduct",orderNo);
+		return (ArrayList<String>) list;
+	}
+
+	public int deliveryComplete(int orderNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("business.deliveryComplete",orderNo);
+	}
+
+	public int insertDelivery(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("business.insertDelivery",map);
+	}
+
+	public int deleteDelivery(int invoiceNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("business.deleteDelivery",invoiceNo);
+	}
 }

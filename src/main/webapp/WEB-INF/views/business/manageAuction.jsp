@@ -97,6 +97,9 @@ input[type="number"] {
 						<li><a href="/manageAuction.kh">경매 관리</a></li>
 					</ul></li>
 				<li><a href="#">Q&A페이지</a></li>
+				<li>
+					<a href="/manageDelivery.kh?memberNo=${sessionScope.m.memberNo }">배송관리</a>
+				</li>
 				<li><a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="#">누적 금액</a></li>

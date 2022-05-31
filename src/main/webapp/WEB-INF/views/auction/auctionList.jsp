@@ -396,7 +396,6 @@
 				type :  "post",
 				success : function(size){
 					if(size==0){
-						console.log("관심글 없음!");
 						$(".likeList-wrap").slideUp();
 						return;
 					}else if(size<=pageNo*3){
@@ -419,7 +418,6 @@
 					pageNo : pageNo
 				},
 				success : function(list){
-					console.log(list);
 					if(list==null){
 						return;
 					}

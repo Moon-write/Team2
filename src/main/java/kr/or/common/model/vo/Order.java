@@ -35,4 +35,8 @@ public class Order {
 	private String projectName;
 	// 해당 테이블 외 정보 - 주문상세내역
 	private ArrayList<OrderProduct> orderProductList;
+	
+	//검색용
+	private String startDate;
+	private String endDate;
 }

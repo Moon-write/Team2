@@ -123,21 +123,21 @@ select{
 					<!-- 본문 테이블 -->
 					<c:choose>
 						<c:when test="${not empty qnaList}">
-							<c:forEach items="${qnaList }" var="q" varStatus="i">
+							<c:forEach items="${qnaList }" var="bo" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
-										<td>${q.qnaNo }</td>
+										<td>${bo.qnaNo }</td>
 										<c:choose>
-											<c:when test="${q.divNo eq 1}"><td>펀딩</td></c:when>
-											<c:when test="${q.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${q.divNo eq 3}"><td>공동구매</td></c:when>
-											<c:when test="${q.divNo eq 4}"><td>경매</td></c:when>
+											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
+											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
+											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
+											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
-										<td>${q.projectNo }</td>
-										<td>${q.qnaDate }</td>
+										<td>${bo.projectName }</td>
+										<td>${bo.qnaDate }</td>
 										<c:choose>
-											<c:when test="${empty q.qnaRef}"><td>답변대기</td></c:when>
-											<c:when test="${not empty q.qnaRef}"><td>답변완료</td></c:when>
+											<c:when test="${empty bo.qnaRef}"><td>답변대기</td></c:when>
+											<c:when test="${not empty bo.qnaRef}"><td>답변완료</td></c:when>
 										</c:choose>
 										<td>구매완료</td>
 									</tr>

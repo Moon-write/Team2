@@ -90,8 +90,10 @@
 					</ul>
 				</li>
 				<li>
-					<a href="#">Q&A페이지</a>
-					
+					<a href="#">Q&A페이지</a>					
+				</li>
+				<li>
+					<a href="/manageDelivery.kh?memberNo=${sessionScope.m.memberNo }">배송관리</a>
 				</li>
 				<li>
 					<a href="#">통계</a>
@@ -149,34 +151,37 @@
 				url : "/auctionCount.kh",
 				data:{memberNo:memberNo},
 				success : function(list){
-					for(let i=0;i<list.length;i++){
-						const tr2=$("<tr>");
-						const noTd=$("<td>");
-						const nameTd=$("<td>");
-						const difTd=$("<td>");
-						const viewTd=$("<td>");
-						noTd.append(i+1);
-						nameTd.append(list[i].PROJECTNAME);
-						if(list[i].VIEWDIF==0){
-							if(list[i].PREVCOUNT==0){
-								if(list[i].VIEWCOUNT>0){
-									difTd.append("▲"+list[i].VIEWCOUNT);	
-								}else{
-									difTd.append("변동없음");
-								}
-							}
-						}else if(list[i].VIEWDIF<0){
-							difTd.append("▼"+list[i].VIEWDIF*-1);
-						}else if(list[i].VIEWDIF>0){
-							difTd.append("▲"+list[i].VIEWDIF);
-						}
-						viewTd.append(list[i].VIEWCOUNT);
-						tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
-						table.append(tr2);
-		            }
+					vt(list);
 				}
 			});
 		};
+		function vt(list){
+			for(let i=0;i<list.length;i++){
+				const tr2=$("<tr>");
+				const noTd=$("<td>");
+				const nameTd=$("<td>");
+				const difTd=$("<td>");
+				const viewTd=$("<td>");
+				noTd.append(i+1);
+				nameTd.append(list[i].PROJECTNAME);
+				if(list[i].VIEWDIF==0){
+					if(list[i].PREVCOUNT==0){
+						if(list[i].VIEWCOUNT>0){
+							difTd.append("▲"+list[i].VIEWCOUNT);	
+						}else{
+							difTd.append("변동없음");
+						}
+					}
+				}else if(list[i].VIEWDIF<0){
+					difTd.append("▼"+list[i].VIEWDIF*-1);
+				}else if(list[i].VIEWDIF>0){
+					difTd.append("▲"+list[i].VIEWDIF);
+				}
+				viewTd.append(list[i].VIEWCOUNT);
+				tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
+				table.append(tr2);
+            }
+		}
 		function divChange(e) {
 			table.empty();
 			tr.append(th);
@@ -188,31 +193,7 @@
 					url : "/donationCount.kh",
 					data:{memberNo:memberNo},
 					success : function(list){
-						for(let i=0;i<list.length;i++){
-							const tr2=$("<tr>");
-							const noTd=$("<td>");
-							const nameTd=$("<td>");
-							const difTd=$("<td>");
-							const viewTd=$("<td>");
-							noTd.append(i+1);
-							nameTd.append(list[i].PROJECTNAME);
-							if(list[i].VIEWDIF==0){
-								if(list[i].PREVCOUNT==0){
-									if(list[i].VIEWCOUNT>0){
-										difTd.append("▲"+list[i].VIEWCOUNT);	
-									}else{
-										difTd.append("변동없음");
-									}
-								}
-							}else if(list[i].VIEWDIF<0){
-								difTd.append("▼"+list[i].VIEWDIF*-1);
-							}else if(list[i].VIEWDIF>0){
-								difTd.append("▲"+list[i].VIEWDIF);
-							}
-							viewTd.append(list[i].VIEWCOUNT);
-							tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
-							table.append(tr2);
-			            }
+						vt(list);
 					}
 				});
 			}else if(e.value=="group"){
@@ -220,31 +201,7 @@
 					url : "/groupCount.kh",
 					data:{memberNo:memberNo},
 					success : function(list){
-						for(let i=0;i<list.length;i++){
-							const tr2=$("<tr>");
-							const noTd=$("<td>");
-							const nameTd=$("<td>");
-							const difTd=$("<td>");
-							const viewTd=$("<td>");
-							noTd.append(i+1);
-							nameTd.append(list[i].PROJECTNAME);
-							if(list[i].VIEWDIF==0){
-								if(list[i].PREVCOUNT==0){
-									if(list[i].VIEWCOUNT>0){
-										difTd.append("▲"+list[i].VIEWCOUNT);	
-									}else{
-										difTd.append("변동없음");
-									}
-								}
-							}else if(list[i].VIEWDIF<0){
-								difTd.append("▼"+list[i].VIEWDIF*-1);
-							}else if(list[i].VIEWDIF>0){
-								difTd.append("▲"+list[i].VIEWDIF);
-							}
-							viewTd.append(list[i].VIEWCOUNT);
-							tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
-							table.append(tr2);
-			            }
+						vt(list);
 					}
 				});
 			}else if(e.value=="funding"){
@@ -252,31 +209,7 @@
 					url : "/fundingCount.kh",
 					data:{memberNo:memberNo},
 					success : function(list){
-						for(let i=0;i<list.length;i++){
-							const tr2=$("<tr>");
-							const noTd=$("<td>");
-							const nameTd=$("<td>");
-							const difTd=$("<td>");
-							const viewTd=$("<td>");
-							noTd.append(i+1);
-							nameTd.append(list[i].PROJECTNAME);
-							if(list[i].VIEWDIF==0){
-								if(list[i].PREVCOUNT==0){
-									if(list[i].VIEWCOUNT>0){
-										difTd.append("▲"+list[i].VIEWCOUNT);	
-									}else{
-										difTd.append("변동없음");
-									}
-								}
-							}else if(list[i].VIEWDIF<0){
-								difTd.append("▼"+list[i].VIEWDIF*-1);
-							}else if(list[i].VIEWDIF>0){
-								difTd.append("▲"+list[i].VIEWDIF);
-							}
-							viewTd.append(list[i].VIEWCOUNT);
-							tr2.append(noTd).append(nameTd).append(difTd).append(viewTd);
-							table.append(tr2);
-			            }
+						vt(list);
 					}
 				});
 			}

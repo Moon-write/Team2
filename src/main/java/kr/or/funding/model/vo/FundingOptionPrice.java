@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class FundingOptionPrice {
 	private int fundingOptionPriceNo;
-	private int fundingOptionPrice;
-	private int fundingOptionNo;
+	private String[] fundingOptionList; //어레이리스트로 해야하나??
+	private int[] fundingOptionPrice;
 	private int fundingNo;
+	
 }

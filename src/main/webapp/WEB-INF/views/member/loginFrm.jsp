@@ -74,6 +74,9 @@
 		text-align: center;
 		font-size: 36px;
 	}
+	.input-wrap>.logSave{
+	margin-top: 15px;
+	}
 </style>
 </head>
 <body>
@@ -90,10 +93,10 @@
 				    <label class="skip" for="memberPw">비밀번호</label>
 				    <input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
 			    </div>
-			  	<span class="logSave">
+			  	<div class="logSave">
 				    <input type="checkbox" class="save_id" name="checkId" id="saveId" >
 				    <label for="saveId">아이디 저장</label>
-				</span>
+				</div>
 			<div class="login-button"><button type="submit" class="btn bc1 bs4" value="로그인">로그인</button></div>                            
 			</div>
 		</form>

@@ -49,8 +49,7 @@
 			</c:when>
 			<c:otherwise>
 				<a href="/loginFrm.kh">로그인</a>
-				<!-- 회원가입 /joinSelect.kh로 바꾸기(신영) -->
-				<a href="/joinFrmMember.kh">회원가입</a>
+				<a href="/joinSelect.kh">회원가입</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -69,7 +68,7 @@
 			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1">경매</a></li>
 			<li>
 				<input type="text" id="site-search">
-				<span class="material-symbols-outlined">search</span>
+				<span class="material-symbols-outlined" id="searchBtn">search</span>
 			</li>
 		</ul>
 	</div>
@@ -78,5 +77,8 @@
 <script>
 	$("#bannerClose").on("click",function(){
 		$(this).parent().slideUp();
+	})
+	$("#searchBtn").on("click",function(){
+		location.href="/searchProject.kh?keyword="+$("#site-search").val();
 	})
 </script>
