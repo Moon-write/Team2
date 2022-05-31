@@ -378,4 +378,5 @@
   <select id="checkCommentCount" parameterType="c" resultType="int">
   	SELECT COUNT(*) FROM COMMENT_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo}
   </select>
+  
 </mapper>

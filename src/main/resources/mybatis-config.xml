@@ -12,6 +12,7 @@
 		<typeAlias type="kr.or.common.model.vo.OrderProduct" alias="op"/>
 		<typeAlias type="kr.or.common.model.vo.Qna" alias="q"/>
 		<typeAlias type="kr.or.common.model.vo.Like" alias="l"/>
+		<typeAlias type="kr.or.common.model.vo.Project" alias="p"/>
 
 		<!-- 신영 -->		
 		<typeAlias type="kr.or.member.model.vo.Member" alias="m"/>
