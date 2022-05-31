@@ -2,11 +2,13 @@ package kr.or.funding.model.dao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.board.model.vo.Board;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
@@ -33,6 +35,11 @@ public class FundingDao {
 
 	public int insertFundingFile(FundingFile file) {
 		return sqlSession.insert("funding.insertFundingFile",file);
+	}
+
+	public ArrayList<Funding> selectAllList() {
+		List list = sqlSession.selectList("funding.selectAllList");
+		return (ArrayList<Funding>)list;
 	}
 
 }

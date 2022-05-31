@@ -43,4 +43,9 @@ public class FundingService {
 		}
 		return result2+result3;
 	}
+
+	public ArrayList<Funding> fundingAllList() {
+		ArrayList<Funding> list  = dao.selectAllList();
+		return (ArrayList<Funding>)list;
+	}
 }

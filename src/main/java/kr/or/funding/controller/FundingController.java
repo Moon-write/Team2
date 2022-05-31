@@ -15,6 +15,7 @@ import javax.swing.plaf.multi.MultiFileChooserUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,7 +49,7 @@ public class FundingController {
 		return "funding/fundingInsertSuccess";
 	}
 	@RequestMapping(value = "/fundingInsertFrm.kh")
-	public String fundingInsertFrm(MultipartFile[] upfile,Funding f,FundingOptionPrice fop, HttpServletRequest request) {
+	public String FundingInsertFrm(MultipartFile[] upfile,Funding f,FundingOptionPrice fop, HttpServletRequest request) {
 		System.out.println("------Funding f------");
 		System.out.println("펀딩네임 : "+f.getFundingName());
 		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
@@ -211,7 +212,25 @@ public class FundingController {
 		return gson.toJson(finalResult);
 
 	}
+	@RequestMapping(value="/fundingAllList.kh")
+	public String FundingAllList(Model model) {
+		ArrayList<Funding> list = service.fundingAllList();
+		model.addAttribute("list",list);
+		return "funding/fundingAllList";		
+	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 옵션 꺼내오기 위한 스트링 토크나이저 메소드
 	/*
 	 * public HashMap<Integer, HashMap<Integer, String>> tokenizerTest(String
@@ -253,4 +272,5 @@ public class FundingController {
 		}
 		return result; //어레이로 리턴
 	}
+
 }
