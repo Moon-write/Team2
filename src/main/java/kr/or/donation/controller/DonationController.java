@@ -28,12 +28,31 @@ import kr.or.member.model.vo.Member;
 public class DonationController {
 	@Autowired
 	private DonationService service;
-
+	
+	
 	// mainAllList
 	@RequestMapping(value = "/donationList.kh")
 	public String donationList(Model model) {
 		ArrayList<Donation> list = service.selectDonationList();
+		ArrayList<Donation> generalList = new ArrayList<Donation>();
+		ArrayList<Donation> cashList = new ArrayList<Donation>();
+		
+		
+		for(Donation d: list) {
+			if(d.getDonationDivision()==2) {
+				cashList.add(d);
+			}else {
+				generalList.add(d);
+			}
+		}
 		model.addAttribute("list", list);
+		model.addAttribute("cashList",cashList);
+		model.addAttribute("generalList",generalList);
+		System.out.println(generalList);
+		return "donation/donationMain";
+	}
+	@RequestMapping(value="/donationMain.kh")
+	public String donationMain() {
 		return "donation/donationMain";
 	}
 
@@ -48,13 +67,16 @@ public class DonationController {
 			String filepath = fileIo(upfile, savePath);
 
 			d.setDonationImgname(filename);
-			d.setDonationImgpath(filepath);
+			String realfilepath = "../../../resources/upload/donation/"+filepath;
+			d.setDonationImgpath(realfilepath);
 			d.setMemberNo(m.getMemberNo());
+			
 
 			int result = service.insertDonation(d);
 			
+			
 		}// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
-		return "donation/donationMain";
+		return "redirect:/donationMain.kh";
 	}
 
 	// update

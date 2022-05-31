@@ -21,4 +21,5 @@ public class Donation {
 	private String donationStartdate;
 	private String donationEnddate;
 	private int donationSum;
+	private int divNo;
 }

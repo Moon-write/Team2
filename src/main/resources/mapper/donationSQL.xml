@@ -5,7 +5,7 @@
    	insert into donation values(
   		DONATION_SEQ.NEXTVAL, #{memberNo}, #{donationDivision}, #{donationTitle}, #{donationImgname}, #{donationImgpath},
   		#{donationCategory}, #{donationContent}, #{donationTarget}, #{donationCash},
-  		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD')
+  		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD'),2
   	)
   </insert>
   
@@ -30,8 +30,10 @@
   		DONATION_TARGET as donationTarget,
   		DONATION_CASH as donationCash,
   		DONATION_STARTDATE as donationStartdate,
-  		DONATION_ENDDATE as donationEnddate
+  		DONATION_ENDDATE as donationEnddate,
+  		DIV_NO as divNo
   	from donation
+  	ORDER BY DONATION_STARTDATE DESC
   </select>
   
   <select id="selectOneDonation" resultType="d" parameterType="d">
@@ -48,6 +50,7 @@
   		DONATION_CASH as donationCash,
   		DONATION_STARTDATE as donationStartdate,
   		DONATION_ENDDATE as donationEnddate
+  		DIV_NO as divNo
   	from donation where PROJECT_NO = #{projectNo}
   </select>
   
@@ -65,6 +68,7 @@
   		DONATION_CASH as donationCash,
   		DONATION_STARTDATE as donationStartdate,
   		DONATION_ENDDATE as donationEnddate
+  		DIV_NO as divNo
   	from donation where DONATION_CATEGORY = #{donationCategory}
   </select>
   

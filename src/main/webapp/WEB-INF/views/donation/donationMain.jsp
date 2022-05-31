@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,8 @@
         chart.draw(data, options);
     }
 </script>
+<!-- 구글폰트 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <style>
 	.slider{
@@ -40,8 +43,8 @@
 	    margin: 0;
 	}
 	ul.imgs li{
-	    position: absolute; /* 슬라이드가 겹쳐서 모여야 하므로 absolute 속성으로 배치 */
-	    opacity: 0; /* 체크한 라디오박스 순서의 슬라이드만 표시되도록 기본 투명도 설정 */
+	    position: absolute;
+	    opacity: 0;
 	    list-style: none;
 	    padding: 0;
 	    margin: 0;
@@ -50,17 +53,17 @@
 	}
 	.bullets{
 	    position: absolute;
-	    left: 50%; /* 가로로 가운데 정렬 */
+	    left: 50%;
 	    transform: translateX(-50%);
-	    bottom: 20px; /* 슬라이드 밑에서 20px 간격 띄움 */
-	    z-index: 2; /* 슬라이드 위에 보이도록 레이어 순위를 높임 */
+	    bottom: 20px; 
+	    z-index: 2;
 	}
 	.bullets label{
-	    display: inline-block; /* 한 줄로 불릿 나열*/
-	    border-radius: 50%; /* 원형 불릿으로 처리 */
+	    display: inline-block;
+	    border-radius: 50%;
 	    background-color: rgba(0,0,0,0.55);
-	    width: 20px; /* 불릿 너비 */
-	    height: 20px; /* 불릿 높이 */
+	    width: 20px;
+	    height: 20px;
 	    cursor: pointer;
 	}
 	.slider input[type=radio]:nth-child(1):checked~.bullets>label:nth-child(1){
@@ -101,7 +104,7 @@
 	    list-style: none;
 	    padding: 0;
 	    margin: 0;
-	    transition-delay: 0.9s; /* 트랜지션 지연 시간 지정 */
+	    transition-delay: 0.9s;
 	   	
 	}
 	.imgs li>img{
@@ -122,11 +125,12 @@
 		width: 9%;
 	}
 	.row-img{
-		width:100%;
-		text-align: center;
+		width:900px;
+		text-align: left;
 	}
 	.row-img>h3{
-		text-align: left;
+		
+		font-size: 15px;
 	}
 	.row-img>div{
 		width:200px;
@@ -175,12 +179,58 @@
 	.saleDonationDiv{
 		text-align: left;
 		margin: 15px;
+		display: flex;
+		justify-content: space-between;
 	}
 	.detail-content>div{
 		width: 100%;
 		height: 100%;
-		background-color: pink;
+		/*background-color: pink;*/
+		overflow:hidden;
+		transition:0.5s;
 	}
+	
+	.detail-content>div:hover{
+		border:none;
+		box-shadow: 2px 2px 1px 1px #1e90ff;
+	}
+	.donationMainImg{
+		width: 100%;
+		height: 100%;
+		
+	}
+	
+
+	.donationMainImgHover img{
+		transition: all 0.2s linear;
+		border: none;
+	}
+	.donationMainImgHover:hover img{
+		transform: scale(1.1);
+		
+	}
+	
+	.detail-content{
+		width:100%;
+		margin: 10px;
+	}
+	.detail-content>p{
+		display:flex;
+		margin-bottom: 5px;
+		justify-content: space-between;
+	}
+	.detail-content>a{
+		display: inline-block;
+		margin-bottom: 5px;
+		
+	}
+	.donationCash{
+		display:flex;
+	}
+	.material-icons{
+		color: #1e90ff;
+	}
+	
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -191,7 +241,9 @@
 		    <input type="radio" name="slide" id="slide3">
 		    <input type="radio" name="slide" id="slide4">
 		    <ul id="imgholder" class="imgs">
-		        <li><img src="/resources/upload/donation/donationSlide001.jpg"></li>
+		        <li>
+		        	<img src="/resources/upload/donation/donationSlide001.jpg">
+		        </li>
 		        <li><img src="/resources/upload/donation/donationSlide002.jpg"></li>
 		        <li><img src="/resources/upload/donation/donationSlide003.jpg"></li>
 		        <li><img src="/resources/upload/donation/donationSlide004.jpg"></li>
@@ -212,72 +264,49 @@
 		</div>
 		<div class="main-content">
 			<div class="saleDonationDiv">
-				<h3 class="saleDonation">상품구입기부펀딩</h3>
+				<h2 class="saleDonation">상품구입기부펀딩</h2>
 				<a href="/donationWriter.kh">기부신규등록</a>
 			</div>
 			<div class="row-img">
-				<div class="detail-content">
-					<div>
-						<a href="/donationClick.kh">z</a>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
+				<c:forEach items="${cashList }" var="c" end="7">
+							<div class="detail-content" name="detail-content">
+								<div>
+									<a href="/donationClick.kh?projectNo=${c.projectNo }" class="donationMainImgHover">
+										<img src="${c.donationImgpath }" class="donationMainImg">
+									</a>
+								</div>
+								<h3 class="title">${c.donationTitle }</h3>
+								<p>
+									<span>00%</span>
+									<a class="donationCash">
+										<span class="material-icons">paid</span>
+										<span>${c.donationCash }</span>
+									</a>
+								</p>
+							</div>
+				</c:forEach>
 			</div>
 			<div class="saleDonationDiv">
-				<h3>일반기부펀딩</h3>
+				<h2 class="saleDonation">일반기부펀딩</h2>
 			</div>
 			<div class="row-img">
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
-				<div class="detail-content">
-					<div>
-					</div>
-					<h3>펀딩이름</h3>
-					<a>00%</a>
-					<a>0,000원</a>
-				</div>
+					<c:forEach items="${generalList }" var="g" end="7">
+							<div class="detail-content" name="detail-content">
+								<div>
+									<a href="/donationClick.kh?projectNo=${g.projectNo }" class="donationMainImgHover">
+										<img src="${g.donationImgpath }" class="donationMainImg">
+									</a>
+								</div>
+								<h3 class="title">${g.donationTitle }</h3>
+								<p>
+									<span>00%</span>
+									<a class="donationCash">
+										<span class="material-icons">paid</span>
+										<span>${g.donationCash }</span>
+									</a>
+								</p>
+							</div>
+				</c:forEach>
 			</div>
 		</div>
 		<div class="footer-content">
