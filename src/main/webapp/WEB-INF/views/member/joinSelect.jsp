@@ -43,13 +43,14 @@
 }	
 .select-wrap{
 	display: flex;
+	margin-bottom: 60px;
 }
 .select-wrap>*{
 	flex-grow: 1;
 	border: solid black 1px;
 	margin: 60px;
 	width: 300px;
-	height: 300px;
+	height: 350px;
 	padding: 30px;
 	text-align: center;
 }
@@ -58,7 +59,7 @@
 	border: solid #1E90FF 1px;
 	margin: 60px;
 	width: 300px;
-	height: 300px;
+	height: 350px;
 	padding: 30px;
 	text-align: center;
 	cursor: pointer;
@@ -85,6 +86,11 @@
 .bs5{
 	padding: 13px 65px;
 	font-size: 15px;
+}
+.select-member-form .btn{
+	display: block;
+	width: 70%;
+	margin: 30px auto;
 }
 </style>
 <body>

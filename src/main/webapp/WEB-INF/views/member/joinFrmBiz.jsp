@@ -145,6 +145,8 @@
 			<br><br>
 			<form action="/join.do" method="post">
 				<table class="join-table">
+					<!-- 멤버레벨 -->
+						<input type="hidden" name="memberLevel" value="1" class="input-form" >
 					<!-- 사업자번호 -->
 					<tr class="form-name">
 						<th colspan="4" class="join-pass">사업자번호<span class="bizNoChk"></span></th>
@@ -291,6 +293,7 @@
 				}
 			});
 		});
+		//사업자번호 정규식
 		//사업자 번호 API
 		var data = {
 		    "b_no": ["2208162517"] // 사업자번호 "xxxxxxx" 로 조회 시,
@@ -306,8 +309,14 @@
 				  accept: "application/json",
 				  success: function(result) {
 				      console.log(result);
+				      console.log(result[0])
+				      if(arraylist(0)){
+				    	  const span = $(".bizNoChk");
+					      const text = span.append("등록되지않은 사업자번호입니다.").css("color","red");
+				      }else{
 				      const span = $(".bizNoChk");
-				      const text = span.append("사용가능한 사업자번호입니다.");
+				      const text = span.append("사용가능한 사업자번호입니다.").css("color","blue");
+				      }
 				  },
 				  error: function(result) {
 				      console.log(result.responseText); //responseText의 에러메세지 확인
@@ -408,9 +417,7 @@
 				}	
 			}
 		});
-		
-
-		
+		//회원이름 정규식
 		const name = $("[name=memberName]");
 		name.on("change",function(){
 			const nameReg = /^[가-힣]{2,6}$/;
@@ -420,12 +427,12 @@
 				$(".nameChkMsg").css("color","green");
 				checkArr[3] = true;
 			}else{
-				$(".nameChkMsg").text("이름은 2~6 글자의 한글만 입력가능합니다.");
+				$(".nameChkMsg").text("이름은 2~7 글자의 한글만 입력가능합니다.");
 				$(".nameChkMsg").css("color","red");
 				checkArr[3] = false;
 			};
 		});
-				
+		//회원전화번호 정규식		
 		const phone = $("[name=memberPhone]");
 		phone.on("change",function(){
 			const phoneReg = /^010-?([0-9]{4})-?([0-9]{4})$/;

@@ -120,16 +120,16 @@ select{
 					<!-- 본문 테이블 -->
 					<c:choose>
 						<c:when test="${not empty likeList}">
-							<c:forEach items="${likeList }" var="l" varStatus="i">
+							<c:forEach items="${likeList }" var="bo" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
 										<c:choose>
-											<c:when test="${l.divNo eq 1}"><td>펀딩</td></c:when>
-											<c:when test="${l.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${l.divNo eq 3}"><td>공동구매</td></c:when>
-											<c:when test="${l.divNo eq 4}"><td>경매</td></c:when>
+											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
+											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
+											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
+											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
-										<td>${l.projectNo }</td>
+										<td>${bo.projectName }</td>
 									</tr>
 								</table>
 							</c:forEach>

@@ -124,26 +124,26 @@ select{
 					<!-- 본문 테이블 -->
 					<c:choose>
 						<c:when test="${not empty orderList}">
-							<c:forEach items="${orderList }" var="o" varStatus="i">
+							<c:forEach items="${orderList }" var="bo" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
 										<c:choose>
-											<c:when test="${c.divNo eq 1}"><td>펀딩</td></c:when>
-											<c:when test="${c.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${c.divNo eq 3}"><td>공동구매</td></c:when>
-											<c:when test="${c.divNo eq 4}"><td>경매</td></c:when>
+											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
+											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
+											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
+											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
-										<td>${o.orderNo }</td>
-										<td>${o.orderNo }</td>
-										<td>${o.projectNo }</td>
-										<td>${o.orderPrice }</td>
-										<td>${o.orderDate }</td>
+										<td>${bo.orderNo }</td>
+										<td>${bo.orderNo }</td>
+										<td>${bo.projectName }</td>
+										<td>${bo.orderPrice }</td>
+										<td>${bo.orderDate }</td>
 										<c:choose>
-											<c:when test="${o.orderStatus eq 1}"><td>결제완료</td></c:when>
-											<c:when test="${o.orderStatus eq 2}"><td>배송완료</td></c:when>
-											<c:when test="${o.orderStatus eq 3}"><td>주문완료</td></c:when>
-											<c:when test="${o.orderStatus eq 4}"><td>결제대기</td></c:when>
-											<c:when test="${o.orderStatus eq 5}"><td>주문취소</td></c:when>
+											<c:when test="${bo.orderStatus eq 1}"><td>결제완료</td></c:when>
+											<c:when test="${bo.orderStatus eq 2}"><td>배송완료</td></c:when>
+											<c:when test="${bo.orderStatus eq 3}"><td>주문완료</td></c:when>
+											<c:when test="${bo.orderStatus eq 4}"><td>결제대기</td></c:when>
+											<c:when test="${bo.orderStatus eq 5}"><td>주문취소</td></c:when>
 										</c:choose>
 										<td>구매완료</td>
 									</tr>

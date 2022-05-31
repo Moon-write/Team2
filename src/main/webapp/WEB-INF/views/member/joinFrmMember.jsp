@@ -145,6 +145,8 @@
 			<br><br>
 			<form action="/join.do" method="post">
 				<table class="join-table">
+					<!-- 멤버레벨 -->
+						<input type="hidden" name="memberLevel" value="2" class="input-form" >
 					<!-- 이메일 -->
 					<tr class="form-name">
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
