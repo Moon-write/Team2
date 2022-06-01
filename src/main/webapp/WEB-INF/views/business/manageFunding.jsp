@@ -104,7 +104,7 @@
 				<li>
 					<a href="#">통계</a>
 					<ul class="sub-menu">
-						<li><a href="#">누적 금액</a></li>
+						<li><a href="/sumChart.kh">누적 금액</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
@@ -404,12 +404,14 @@
 										        {
 										            label: '남성',
 										            data: dataPack1,
-																backgroundColor: "#5DA5DA"
+																backgroundColor: "#5DA5DA",
+																barThickness: 20
 										        },
 										        {
 										            label: '여성',
 										            data: dataPack2,
-																backgroundColor: "#F17CB0"
+																backgroundColor: "#F17CB0",
+																barThickness: 20
 										        },
 										        ]
 										    },

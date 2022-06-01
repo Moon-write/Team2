@@ -24,7 +24,8 @@ import oracle.net.aso.a;
 public class BusinessService {
 	@Autowired
 	private BusinessDao dao;
-
+	
+	
 	public Shop selectShopNo(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectShopNo(memberNo);
@@ -236,7 +237,7 @@ public class BusinessService {
 		return result;
 	}
 
-	public int insertDelivery(int orderNo, String carrier, int invoiceNo) {
+	public int insertDelivery(int orderNo, String carrier, long invoiceNo) {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("orderNo",orderNo);
@@ -245,9 +246,33 @@ public class BusinessService {
 		return dao.insertDelivery(map);
 	}
 
-	public int deleteDelivery(int invoiceNo) {
+	public int deleteDelivery(long invoiceNo) {
 		// TODO Auto-generated method stub
 		return dao.deleteDelivery(invoiceNo);
+	}
+
+	public ArrayList<String> getDates(String startDate, String endDate) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("startDate",startDate);
+		map.put("endDate", endDate);
+		return dao.getDates(map);
+	}
+
+	public ArrayList<String> getAmounts(String startDate, String endDate, int memberNo, int divNo, int projectNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("startDate",startDate);
+		map.put("endDate",endDate);
+		map.put("memberNo", memberNo);
+		map.put("divNo", divNo);
+		map.put("projectNo", projectNo);
+		return dao.getAmounts(map);
+	}
+
+	public String selectStartDate(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectStartDate(memberNo);
 	}
 
 }

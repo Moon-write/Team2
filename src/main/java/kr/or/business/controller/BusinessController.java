@@ -79,7 +79,7 @@ public class BusinessController {
 	@ResponseBody
 	@RequestMapping(value="/searchDelivery.kh",produces="application/json;charset=utf-8")
 	public String searchDelivery(String projectName, String startDate, String endDate, int divNo, int orderStatus, int memberNo) {
-		ArrayList<String> list=service.searchDelivery(projectName, memberNo,startDate, endDate, divNo, orderStatus);		
+		ArrayList<String> list=service.searchDelivery(projectName, memberNo,startDate, endDate, divNo, orderStatus);	
 		return new Gson().toJson(list);
 	}
 	@ResponseBody
@@ -95,16 +95,20 @@ public class BusinessController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/insertDelivery.kh")
-	public String insertDelivery(int orderNo, String carrier, int invoiceNo) {
+	public String insertDelivery(int orderNo, String carrier, long invoiceNo) {
 		int result=service.insertDelivery(orderNo, carrier, invoiceNo);		
 		return "/manageDelivery.kh";
 	}
 	@ResponseBody
 	@RequestMapping(value="/deleteDelivery.kh")
-	public String deleteDelivery(int invoiceNo) {
+	public String deleteDelivery(long invoiceNo) {
 		int result=service.deleteDelivery(invoiceNo);		
 		return "/manageDelivery.kh";
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -322,5 +326,23 @@ public class BusinessController {
 		
 		return new Gson().toJson(list);		
 	}
+	@ResponseBody
+	@RequestMapping(value="/selectStartDate.kh",produces="application/json;charset=utf-8")
+	public String selectStartDay(int memberNo) {
+		String sd=service.selectStartDate(memberNo);
+		return new Gson().toJson(sd);
+	}
 	
+	@ResponseBody
+	@RequestMapping(value="/getDates.kh",produces="application/json;charset=utf-8")
+	public String getDates(String startDate, String endDate) {
+		ArrayList<String> list=service.getDates(startDate, endDate);
+		return new Gson().toJson(list);
+	}
+	@ResponseBody
+	@RequestMapping(value="/getAmounts.kh",produces="application/json;charset=utf-8")
+	public String getAmounts(String startDate, String endDate, int memberNo, int divNo, int projectNo) {
+		ArrayList<String> list=service.getAmounts(startDate, endDate, memberNo, divNo, projectNo);
+		return new Gson().toJson(list);
+	}
 }

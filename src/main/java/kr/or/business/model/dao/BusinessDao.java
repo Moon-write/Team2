@@ -222,8 +222,25 @@ public class BusinessDao {
 		return sqlSession.insert("business.insertDelivery",map);
 	}
 
-	public int deleteDelivery(int invoiceNo) {
+	public int deleteDelivery(long invoiceNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("business.deleteDelivery",invoiceNo);
+	}
+
+	public ArrayList<String> getDates(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.getDates",map);
+		return (ArrayList<String>) list;
+	}
+	
+	public ArrayList<String> getAmounts(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.getAmounts",map);
+		return (ArrayList<String>) list;
+	}
+
+	public String selectStartDate(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("business.selectStartDate",memberNo);
 	}
 }

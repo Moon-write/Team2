@@ -12,7 +12,7 @@
 			project_name as projectName,
 			member_no as memberNo,
 			seller_no as sellerNo, 
-			order_date as orderDate, 
+			to_char(order_date,'yyyy-mm-dd hh24:mi:ss') as orderDate, 
 			order_price as orderPrice,
 			order_point as orderPoint,
 			order_del_name as orderDelName,
@@ -33,13 +33,13 @@
 	</update>
 	<update id="deliveryComplete" parameterType="int">
 		update order_tbl
-		set order_status=3
+		set order_status=2
 		where order_no=#{orderNo}
 	</update>
 	<insert id="insertDelivery" parameterType="map">
 		insert into delivery values(del_seq.nextval,#{orderNo},#{carrier},#{invoiceNo})	
 	</insert>
-	<delete id="deleteDelivery" parameterType="int">
+	<delete id="deleteDelivery" parameterType="long">
 		delete from delivery where invoice_no=#{invoiceNo}
 	</delete>
 	
@@ -51,7 +51,7 @@
 			project_name as projectName,
             member_no as memberNo,
 			seller_no as sellerNo, 
-			order_date as orderDate, 
+			to_char(order_date,'yyyy-mm-dd hh24:mi:ss') as orderDate, 
 			order_price as orderPrice,
 			order_point as orderPoint,
 			order_del_name as orderDelName,
@@ -61,11 +61,11 @@
 			order_del_phone as orderDelPhone, 
 			order_del_ask as orderDelAsk, 
 			order_status as orderStatus
-			<if test="orderStatus == 1">
+			<if test="orderStatus == 1 or orderStatus == 2">
 			, carrier, invoice_no as invoiceNo
 			</if>
 		from order_tbl o
-		<if test="orderStatus == 1">
+		<if test="orderStatus == 1 or orderStatus == 2">
 		left join delivery d on(d.order_no=o.order_no)
 		</if>
 		where seller_no=#{memberNo}		
@@ -73,7 +73,7 @@
 		and project_name like '%'||#{projectName}||'%'
 		</if>
 		<if test='!startDate.equals("")'>
-		and to_number(To_char(to_date(order_date,'YYYY-MM-DD HH24:MI:SS'),'yyyymmdd')) 
+		and to_number(To_char(order_date,'yyyymmdd')) 
         between to_number(To_char(to_date(#{startDate},'YYYY-MM-DD'),'yyyymmdd')) and to_number(To_char(to_date(#{endDate},'YYYY-MM-DD'),'yyyymmdd')) 
 		</if>
 		<if test="divNo != 0 ">
@@ -103,8 +103,8 @@
 				auction_item as auctionItem,
 				auction_category as auctionCategory,
 				auction_amount as auctionAmount,
-				to_char(auction_start,'yyyy/mm/dd') as auctionStart,
-				to_char(auction_end,'yyyy/mm/dd') as auctionEnd,
+				to_char(auction_start,'yyyy-mm-dd') as auctionStart,
+				to_char(auction_end,'yyyy-mm-dd') as auctionEnd,
 				a.member_no as memberNo,
 				auction_price as auctionPrice
 			from auction_tbl a
@@ -122,8 +122,8 @@
 				auction_item as auctionItem,
 				auction_category as auctionCategory,
 				auction_amount as auctionAmount,
-				to_char(auction_start,'yyyy/mm/dd') as auctionStart,
-				to_char(auction_end,'yyyy/mm/dd') as auctionEnd,
+				to_char(auction_start,'yyyy-mm-dd') as auctionStart,
+				to_char(auction_end,'yyyy-mm-dd') as auctionEnd,
 				a.member_no as memberNo,
 				auction_price as auctionPrice
 			from auction_tbl a
@@ -151,9 +151,9 @@
 				donation_category as donationCategory,
 				donation_target as donationTarget, 
 				donation_cash as donationCash,
-				to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
-				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate,
-                (select sum(order_price) from order_tbl where project_no=d.project_no and div_no=2 and seller_no=d.member_no) as donationSum
+				to_char(donation_startdate,'yyyy-mm-dd') as donationStartdate, 
+				to_char(donation_enddate,'yyyy-mm-dd') as donationEnddate,
+                nvl((select sum(order_price) from order_tbl where project_no=d.project_no and div_no=2 and seller_no=d.member_no),0) as donationSum
 			from donation d
             join order_tbl o on(seller_no=d.member_no)
 			where d.member_no=#{memberNo} and
@@ -171,8 +171,8 @@
 				donation_category as donationCategory,
 				donation_target as donationTarget, 
 				donation_cash as donationCash,
-				to_char(donation_startdate,'yyyy/mm/dd') as donationStartdate, 
-				to_char(donation_enddate,'yyyy/mm/dd') as donationEnddate,
+				to_char(donation_startdate,'yyyy-mm-dd') as donationStartdate, 
+				to_char(donation_enddate,'yyyy-mm-dd') as donationEnddate,
                 nvl((select sum(order_price) from order_tbl where project_no=d.project_no and div_no=2 and seller_no=d.member_no),0) as donationSum
 			from donation d
             join order_tbl o on(seller_no=d.member_no)
@@ -189,9 +189,8 @@
 		        funding_name as fundingName,
 		        funding_category as fundingCategory,
 		        funding_detail as fundingDetail,
-		        funding_filepath as fundingFilepath,
-		        to_char(funding_start_date,'yyyy/mm/dd') as fundingStartDate, 
-		        to_char(funding_end_date,'yyyy/mm/dd') as fundingEndDate,
+		        to_char(funding_start_date,'yyyy-mm-dd') as fundingStartDate, 
+		        to_char(funding_end_date,'yyyy-mm-dd') as fundingEndDate,
 		        funding_sum as fundingSum,
 		        (select sum(order_price) from order_tbl where seller_no=f.member_no and project_no=funding_no) as fundingCurrentSum,
 		        trunc(funding_sum_rate*100,0) as fundingSumRate,
@@ -210,9 +209,8 @@
 		        funding_name as fundingName,
 		        funding_category as fundingCategory,
 		        funding_detail as fundingDetail,
-		        funding_filepath as fundingFilepath,
-		        to_char(funding_start_date,'yyyy/mm/dd') as fundingStartDate, 
-		        to_char(funding_end_date,'yyyy/mm/dd') as fundingEndDate,
+		        to_char(funding_start_date,'yyyy-mm-dd') as fundingStartDate, 
+		        to_char(funding_end_date,'yyyy-mm-dd') as fundingEndDate,
 		        funding_sum as fundingSum,
 		        (select sum(order_price) from order_tbl where seller_no=f.member_no and project_no=funding_no) as fundingCurrentSum,
 		        trunc(funding_sum_rate*100,0) as fundingSumRate,
@@ -345,6 +343,7 @@
 		group by member_gender 
 		order by member_gender
 	</select>
+		
 	
 	<select id="selectBidList" parameterType="int" resultType="String">
 		select distinct 
@@ -422,5 +421,58 @@
 		    group by age 
 		) val ON grp.age = val.age
 		order by grp.age asc
+	</select>
+	
+	<select id="getDates" parameterType="map" resultType="String">
+		SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS dates
+		FROM dual
+		CONNECT BY LEVEL <![CDATA[ <= ]]> ((TO_DATE(#{endDate},'YYYY-MM-DD')+ 1 - TO_DATE(#{startDate},'YYYY-MM-DD')))	    
+	</select>
+	
+	<select id="getAmounts" parameterType="map" resultType="int">
+		WITH all_date AS (
+		    SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS dt
+		    FROM dual
+		    CONNECT BY LEVEL <![CDATA[ <= ]]> (TO_DATE(#{endDate},'YYYY-MM-DD') - TO_DATE(#{startDate},'YYYY-MM-DD') + 1)
+		), 
+		your_order AS (
+		    SELECT 
+		        order_price,
+		        TO_CHAR(order_date,'YYYY-MM-DD') AS order_date,
+		        seller_no,
+		        project_no,
+		        div_no
+		    FROM order_tbl
+		),
+		your_sum AS (
+		    SELECT ad.dt, SUM(CASE WHEN yo.seller_no = #{memberNo} 
+		    <if test="divNo != 0 ">
+		    and yo.div_no=#{divNo}
+		    </if> 
+		    <if test="projectNo != 0 ">
+		    and yo.project_no=#{projectNo}
+		    </if>
+		    THEN yo.order_price ELSE 0 END) AS bth
+		    FROM all_date ad
+		    LEFT JOIN your_order yo ON ad.dt = yo.order_date
+		    GROUP BY ad.dt
+		)
+		
+		SELECT SUM(bth) OVER(ORDER BY dt) AS bth
+		FROM your_sum
+		ORDER BY dt	    
+	</select>
+	
+	<select id="selectStartDate" parameterType="int" resultType="String">
+		select to_char(least,'yyyy-mm-dd') as startDay from (select rownum as rnum,n.least from (
+			select least(auction_start, funding_start_date, donation_startdate, to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy/mm/dd')) as least
+		from member m
+		join auction_tbl a on(a.member_no=m.member_no)
+		join donation d on(d.member_no=m.member_no)
+		join funding f on(f.member_no=m.member_no)
+		join group_tbl g on(g.member_no=m.member_no)
+		where m.member_no=#{memberNo}
+		order by least
+		)n) where rnum=1
 	</select>
 </mapper>

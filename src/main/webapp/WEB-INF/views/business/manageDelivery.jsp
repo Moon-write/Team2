@@ -130,7 +130,7 @@ td:last-child{
 				<li>
 					<a href="#">통계</a>
 					<ul class="sub-menu">
-						<li><a href="#">누적 금액</a></li>
+						<li><a href="/sumChart.kh">누적 금액</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
@@ -182,8 +182,8 @@ td:last-child{
                				<select name="orderStatus" id="orderStatus" style="float:left;">
                					<option value="0">선택</option>									
 			                    <option value="1">결제완료</option>
-			                    <option value="2">주문완료</option>
-			                    <option value="3">배송완료</option>
+			                    <option value="2">배송완료</option>
+			                    <option value="3">주문완료</option>
 			                    <option value="4">결제대기</option>
 			                    <option value="5">주문취소</option>
 			                </select>
@@ -282,13 +282,15 @@ td:last-child{
 				data:{projectName:projectName,startDate:startDate,endDate:endDate,divNo:divNo,orderStatus:orderStatus,memberNo:memberNo},
 				success:function(list){
 					table.empty();
-					if(orderStatus==1 || orderStatus==2 || orderStatus==4){
+					if(orderStatus==1 || orderStatus==3 || orderStatus==4){
 						$(".orderCancel").css("display","inline-block");
 					}else{
 						$(".orderCancel").css("display","none");
 					}
 					if(orderStatus==1){
 						$(".deliveryComplete").css("display","inline-block");
+					}else{
+						$(".deliveryComplete").css("display","none");
 					}
 					tr.empty();					
 					table.append(tr);
@@ -411,7 +413,7 @@ td:last-child{
 						const detailTd2=$("<td colspan=\"8\">");
 						const table2=$("<table border=\"1\" class=\"tbl tbl3\" style=\"margin-bottom:0px;\">");
 						const detailTr2=$("<tr>");
-						const detailTr3=$("<tr>");
+						const detailTr3=$("<tr style=\"display:none;border:10px solid rgb(139,149,161);\">");
 						const dummyTr=$("<tr>");
 						const odnTh=$("<th>주문자 이름</th>");
 						const phoneTh=$("<th>전화번호</th>");
@@ -497,7 +499,7 @@ td:last-child{
 				}else if(list[i].ORDERSTATUS==3){
 					sTd.append("주문완료");
 				}else if(list[i].ORDERSTATUS==4){
-					sTd.append("결제대기");z
+					sTd.append("결제대기");
 				}else if(list[i].ORDERSTATUS==5){
 					sTd.append("주문취소");
 				}
@@ -596,7 +598,7 @@ td:last-child{
 							opPrTd.append(list[i].PRODUCTPRICE);
 							amountTd.append(list[i].PRODUCTAMOUNT);
 							
-							if(orderStatus==1){
+							if(orderStatus==1 || orderStatus==2){
 								detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
 								table2.append(detailTr3).append(carrierTr);
 							}else{
@@ -606,8 +608,7 @@ td:last-child{
 						}
 						table.append(tr2).append(detailTr1);
 					}
-				});
-				
+				});				
             }
 		}
 		/* if(e.value=="3"){

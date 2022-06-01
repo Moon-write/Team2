@@ -104,7 +104,7 @@
 				<li>
 					<a href="#">통계</a>
 					<ul class="sub-menu">
-						<li><a href="#">누적 금액</a></li>
+						<li><a href="/sumChart.kh">누적 금액</a></li>
 						<li><a href="/checkCount.kh">일별 카운트</a></li>
 					</ul>
 				</li>
@@ -138,7 +138,7 @@
           <span class="material-icons close-icon modal-close">close</span>
         </div>
         <div class="modal-content">
-        	<canvas id="chart" width=600 height=600></canvas>
+        	<canvas id="chart" width=500 height=200></canvas>
         </div>
       </div>
     </div>
@@ -287,7 +287,7 @@
 				modalContent.empty();		
 				var mnList=[];
 				var gen = [];
-		    	const canvas=$("<canvas id=\"chart\" width=600 height=600></canvas>");
+		    	const canvas=$("<canvas id=\"chart\" width=500 height=200></canvas>");
 		    	modalContent.append(canvas);		    	
 				$.ajax({
 					url:"/selectMemberNo.kh",
@@ -387,7 +387,7 @@
 												female[6]+=obj[j];											
 											};
 										var femaleCount = female.map(Number);	
-										const canvas=$("<canvas id=\"bar-chart\" width=\"600\" height=\"350\"></canvas>");
+										const canvas=$("<canvas id=\"bar-chart\" width=\"500\" height=\"200\"></canvas>");
 										modalContent.append(canvas);
 										 // Return with commas in between
 										
@@ -405,12 +405,14 @@
 										        {
 										            label: '남성',
 										            data: dataPack1,
-																backgroundColor: "#5DA5DA"
+																backgroundColor: "#5DA5DA",
+																barThickness: 20
 										        },
 										        {
 										            label: '여성',
 										            data: dataPack2,
-																backgroundColor: "#F17CB0"
+																backgroundColor: "#F17CB0",
+																barThickness: 20
 										        },
 										        ]
 										    },
