@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import kr.or.board.model.vo.Board;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
+import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
 
 @Repository
@@ -37,9 +38,21 @@ public class FundingDao {
 		return sqlSession.insert("funding.insertFundingFile",file);
 	}
 
-	public ArrayList<Funding> selectAllList() {
+	public ArrayList<FundingJoinFile> selectAllList() {
 		List list = sqlSession.selectList("funding.selectAllList");
-		return (ArrayList<Funding>)list;
+		return (ArrayList<FundingJoinFile>)list;
 	}
+	
+
+	public Funding selectOneFunding(int fundingNo) {
+		
+		return sqlSession.selectOne("funding.selectOneFunding",fundingNo);
+	}
+	
+	public ArrayList<FundingFile> selectOneFundingFile(int fundingNo) {
+		List list = sqlSession.selectList("funding.selectOneFundingFile",fundingNo);
+		return (ArrayList<FundingFile>)list ;
+	}
+
 
 }

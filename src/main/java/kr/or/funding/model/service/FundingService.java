@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import kr.or.funding.model.dao.FundingDao;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
+import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
 
 @Service
@@ -44,8 +45,19 @@ public class FundingService {
 		return result2+result3;
 	}
 
-	public ArrayList<Funding> fundingAllList() {
-		ArrayList<Funding> list  = dao.selectAllList();
-		return (ArrayList<Funding>)list;
+	public ArrayList<FundingJoinFile> fundingAllList() {
+		ArrayList<FundingJoinFile> list  = dao.selectAllList();
+		return (ArrayList<FundingJoinFile>)list;
 	}
+	
+	public Funding selectOneFunding(int fundingNo) {
+		return dao.selectOneFunding(fundingNo);
+	}
+
+	public ArrayList<FundingFile> selectOneFundingFile(int fundingNo) {
+		ArrayList<FundingFile> list = dao.selectOneFundingFile(fundingNo);
+		return (ArrayList<FundingFile>)list ;
+	}
+
+	
 }

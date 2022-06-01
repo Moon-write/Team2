@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import kr.or.funding.model.service.FundingService;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
+import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOption;
 import kr.or.funding.model.vo.FundingOptionPrice;
 
@@ -214,9 +215,31 @@ public class FundingController {
 	}
 	@RequestMapping(value="/fundingAllList.kh")
 	public String FundingAllList(Model model) {
-		ArrayList<Funding> list = service.fundingAllList();
+		ArrayList<FundingJoinFile> list = service.fundingAllList();
 		model.addAttribute("list",list);
 		return "funding/fundingAllList";		
+	}
+	///////////////////fundingDetail/////////
+	@RequestMapping(value="/fundingDetailStory.kh")
+	public String FundingDetailStory(int fundingNo, Model model) {
+		Funding f = service.selectOneFunding(fundingNo);
+		ArrayList<FundingFile> list = service.selectOneFundingFile(fundingNo);
+		model.addAttribute("list",list);
+		model.addAttribute("f",f);
+		return "funding/fundingDetailStory";
+	}
+	@RequestMapping(value="/fundingDetailCommunity.kh")
+	public String FundingDetailCommunity() {
+		return "funding/fundingDetailCommunity";
+	}
+	@RequestMapping(value="/fundingDetailNotice.kh")
+	public String FundingDetailNotice() {
+		return "funding/fundingDetailNotice";
+	}
+	@RequestMapping(value="/fundingDetailSupporter.kh")
+	public String FundingDetailSupporter() {
+
+		return "funding/fundingDetailSupporter";
 	}
 
 	

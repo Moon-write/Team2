@@ -6,7 +6,7 @@
   	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
   	SYSDATE,
   	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
-  	#{fundingSum},0,0,100,1,0)
+  	#{fundingSum},0,157,100,1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE))
   </insert>
   <select id="selectFundingMaxNo" resultType="int">
   	SELECT MAX(FUNDING_NO) FROM FUNDING
@@ -22,8 +22,8 @@
   	)
   
   </insert> 
-  <select id="selectAllList" resultType="kr.or.funding.model.vo.FundingJoinFile">
-  	SELECT FUNDING.FUNDING_NO 			AS fundingNo,
+  <select id="selectAllList" resultType="fjf">
+  SELECT * FROM (SELECT FUNDING.FUNDING_NO 			AS fundingNo,
   	FUNDING_NAME 		AS fundingName,
   	FUNDING_CATEGORY	AS fundingCategory,
   	FUNDING_START_DATE	AS fundingStartDate,
@@ -32,8 +32,31 @@
   	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
   	FUNDING_SUM_RATE	AS fundingSumRate,
   	MEMBER_NO 			AS memberNo, 
-    FUNDING_FILE_PATH    AS fundingFilePath
-    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO 
-    WHERE FUNDING_FILE_NO=(SELECT MIN(FUNDING_FILE_NO) FROM (SELECT * FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO)) ;
+    FUNDING_FILE_PATH    AS fundingFilePath,
+    FUNDING_DEADLINE    AS fundingDeadline,
+    ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING.FUNDING_NO) AS RN
+    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1
   </select>
+  <select id="selectOneFunding" parameterType="int" resultType="f">
+  	SELECT
+  	FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	FUNDING_DETAIL		AS fundingDetail,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	MEMBER_NO			AS memberNo,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	FUNDING_END			AS fundingEnd,
+  	FUNDING_DEADLINE	AS fundingDeadline
+  	From FUNDING WHERE FUNDING_NO=#{fundingNo}
+  </select>
+  <select id="selectOneFundingFile" parameterType="int" resultType="ff">
+  	SELECT
+  		FUNDING_FILE_NO		AS fundingFileNo,
+  		FUNDING_FILE_PATH	AS fundingFilePath
+  		FROM FUNDING_FILE
+  		WHERE FUNDING_NO = #{fundingNo}
+  </select>
+ 
 </mapper>

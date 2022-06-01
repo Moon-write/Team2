@@ -18,4 +18,5 @@ public class FundingJoinFile {
 	private int fundingCurrentSum;
 	private int memberNo;//나중에 이걸로 회사명도 조인해서 가져올 꺼임.
 	private String fundingFilePath;
+	private int fundingDeadline;
 }

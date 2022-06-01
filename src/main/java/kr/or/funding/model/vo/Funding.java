@@ -19,4 +19,5 @@ public class Funding {
 	private int fundingSumRate;
 	private int memberNo;
 	private int fundingCurrentSum;
+	private int fundingDeadline;
 }
