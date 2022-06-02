@@ -345,4 +345,16 @@ public class BusinessController {
 		ArrayList<String> list=service.getAmounts(startDate, endDate, memberNo, divNo, projectNo);
 		return new Gson().toJson(list);
 	}
+	@ResponseBody
+	@RequestMapping(value="/selectFundingSum.kh",produces="application/json;charset=utf-8")
+	public String selectFundingSum(int memberNo, int projectNo) {
+		String sum=service.selectFundingSum(memberNo, projectNo);
+		return new Gson().toJson(sum);
+	}
+	@ResponseBody
+	@RequestMapping(value="/selectDonationTarget.kh",produces="application/json;charset=utf-8")
+	public String selectDonationTarget(int memberNo, int projectNo) {
+		String sum=service.selectDonationTarget(memberNo, projectNo);
+		return new Gson().toJson(sum);
+	}
 }

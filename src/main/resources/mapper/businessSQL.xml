@@ -424,7 +424,7 @@
 	</select>
 	
 	<select id="getDates" parameterType="map" resultType="String">
-		SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS dates
+		SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'MM-DD') AS dates
 		FROM dual
 		CONNECT BY LEVEL <![CDATA[ <= ]]> ((TO_DATE(#{endDate},'YYYY-MM-DD')+ 1 - TO_DATE(#{startDate},'YYYY-MM-DD')))	    
 	</select>
@@ -474,5 +474,13 @@
 		where m.member_no=#{memberNo}
 		order by least
 		)n) where rnum=1
+	</select>
+	
+	<select id="selectFundingSum" parameterType="map" resultType="String">
+		select funding_sum from funding where member_no=#{memberNo} and funding_no=#{projectNo}
+	</select>
+	
+	<select id="selectDonationTarget" parameterType="map" resultType="String">
+		select donation_target from donation where member_no=#{memberNo} and project_no=#{projectNo}
 	</select>
 </mapper>
