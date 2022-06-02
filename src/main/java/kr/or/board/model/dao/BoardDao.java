@@ -8,7 +8,8 @@
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Repository;
 
-	import kr.or.common.model.vo.Comment;
+import kr.or.board.model.vo.Board;
+import kr.or.common.model.vo.Comment;
 	import kr.or.common.model.vo.Like;
 	import kr.or.common.model.vo.Order;
 	import kr.or.common.model.vo.Qna;
@@ -18,21 +19,21 @@
 		@Autowired
 		SqlSessionTemplate sqlSession;
 
-		public ArrayList<Comment> selectCommentList(HashMap<String, Object> map) {
+		public ArrayList<Board> selectCommentList(HashMap<String, Object> map) {
 			List commentList = sqlSession.selectList("board.selectCommentList",map);
-			return (ArrayList<Comment>)commentList;
+			return (ArrayList<Board>)commentList;
 		}
-		public ArrayList<Order> selectOrderList(HashMap<String, Object> map) {
+		public ArrayList<Board> selectOrderList(HashMap<String, Object> map) {
 			List orderList = sqlSession.selectList("board.selectOrderList",map);
-			return (ArrayList<Order>)orderList;
+			return (ArrayList<Board>)orderList;
 		}
-		public ArrayList<Like> selectLikeList(HashMap<String, Object> map) {
+		public ArrayList<Board> selectLikeList(HashMap<String, Object> map) {
 			List likeList = sqlSession.selectList("board.selectLikeList",map);
-			return (ArrayList<Like>)likeList;
+			return (ArrayList<Board>)likeList;
 		}
-		public ArrayList<Qna> selectQnaList(HashMap<String, Object> map) {
+		public ArrayList<Board> selectQnaList(HashMap<String, Object> map) {
 			List qnaList = sqlSession.selectList("board.selectQnaList",map);
-			return (ArrayList<Qna>)qnaList;
+			return (ArrayList<Board>)qnaList;
 		}
 		public int selectCommentCount(HashMap<String, Object> commentMap) {
 			int totalCount = sqlSession.selectOne("board.selectCount",commentMap);

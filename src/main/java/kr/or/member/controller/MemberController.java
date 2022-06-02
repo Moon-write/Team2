@@ -1,16 +1,21 @@
 package kr.or.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import kr.or.board.model.vo.CommentPageData;
 import kr.or.member.model.service.MemberService;
 import kr.or.member.model.vo.Member;
+import kr.or.member.model.vo.MemberPageData;
 
 @Controller
 public class MemberController {
@@ -37,6 +42,12 @@ public class MemberController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	@RequestMapping(value="/selectOneMember.kh")
+	public String searchOneMember(Member m,Model model) {
+		Member member = service.selectOneMember(m);
+		model.addAttribute("m",member);
+		return "member/searchMember";
 	}
 	@RequestMapping(value = "/joinSelect.kh")
 	public String joinSelect() {
@@ -84,6 +95,16 @@ public class MemberController {
 			return "1";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="/pwcheck.kh")
+	public String selectOneMember(Member m) {
+		Member member = service.selectOneMember(m);
+		if(member != null) {
+			return "0";
+		}else {
+			return "1";
+		}
+	}
 	@RequestMapping(value="deleteMemberFrm.kh")
 	public String deleteMemberFrm() {
 		return "member/deleteMemberFrm";
@@ -123,6 +144,26 @@ public class MemberController {
 		}
 		request.setAttribute("loc", "/");
 		return "common/msg";
+	}
+	@RequestMapping(value="/admin.kh")
+	public String admin() {
+		return "admin/manageMember";
+	}
+	@RequestMapping(value="/memberList.kh")
+	public String memberList(int reqPage, Model model) {
+		MemberPageData mpd = service.selectMemberList(reqPage);
+		model.addAttribute("memberList",mpd.getMemberList());
+		model.addAttribute("pageNavi",mpd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
+		return "board/memberList";
+	}
+	@RequestMapping(value="/searchMemberList.kh")
+	public String searchMemberList(int reqPage, Model model) {
+		MemberPageData mpd = service.selectMemberList(reqPage);
+		model.addAttribute("memberList",mpd.getMemberList());
+		model.addAttribute("pageNavi",mpd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
+		return "board/memberList";
 	}
 	
 }

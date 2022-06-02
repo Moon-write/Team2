@@ -8,6 +8,24 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/resources/css/board/boardMain.css">
 <style>
+.content-title{
+	background-image: url(/resources/img/board/banner.jpg);
+	background-size: cover;
+	background-position: top;
+}
+.title-txt {
+    margin: auto;
+    padding: 10px;
+    width: 1000px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    background-color: rgba(39, 39, 39, 0.5);
+    animation-name: up;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-direction: alternate;
+}
 .hr-0{
 	color: #ac9e89;
 }
@@ -76,24 +94,6 @@ select{
 	margin-top: 60px;
 	margin-bottom: 30px;
 }
-.content-title{
-	background-image: url(/resources/img/board/banner5.jpg);
-	background-size: cover;
-	background-position: center;
-}
-.title-txt {
-    margin: auto;
-    padding: 10px;
-    width: 1000px;
-    text-align: center;
-    font-size: 35px;
-    color: white;
-    background-color: rgba(39, 39, 39, 0.5);
-    animation-name: up;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-    animation-direction: alternate;
-}
 </style>
 </head>
 <body>
@@ -134,7 +134,6 @@ select{
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
 										<td>${bo.orderNo }</td>
-										<td>${bo.orderNo }</td>
 										<td>${bo.projectName }</td>
 										<td>${bo.orderPrice }</td>
 										<td>${bo.orderDate }</td>
@@ -145,16 +144,15 @@ select{
 											<c:when test="${bo.orderStatus eq 4}"><td>결제대기</td></c:when>
 											<c:when test="${bo.orderStatus eq 5}"><td>주문취소</td></c:when>
 										</c:choose>
-										<td>구매완료</td>
 									</tr>
 								</table>
 							</c:forEach>
+							<div id="pageNavi">${pageNavi }</div>
 						</c:when>
 						<c:otherwise>
 							<p class="p-0">주문내역이 없습니다. WeNeedYou를 더 즐겨보세요!</p>
 						</c:otherwise>
 					</c:choose>
-				<div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</div>

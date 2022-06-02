@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class QnaPageData {
-	private ArrayList<Qna> qnaList;
+	private ArrayList<Board> qnaList;
 	private String pageNavi;
 }

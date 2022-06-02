@@ -109,7 +109,18 @@
 		<p class="login-p2" ><a href="/joinSelect.kh" style="color:rgb(30,144,255);">회원 가입 하러 가기</a></p>
 		<br><br><br><br>
 	</div>
-	<script type="text/javascript">
+	<script>
+	//로그인 실패시 
+	$.ajax({
+		url: "/selectOneMember.kh", // Controller의 mapping값
+		type: "post",  // get, post 방식 中
+		data: "{memberId : memberId , memberPw : memberPw}",  // Controller로 보낼 데이터
+		success: function(data) {
+			
+		},  // 정상적으로 return 받았을 때 실행할 함수
+	});
+	
+	//아이디 쿠키 저장
      $(function() {
            fnInit();
      });

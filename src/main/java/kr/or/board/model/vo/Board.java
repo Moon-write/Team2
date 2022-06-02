@@ -76,5 +76,6 @@ public class Board {
 	private String qnaContent;
 	private String qnaDate;
 	private int qnaRef;
+	private int qnaComplete;
 }
 

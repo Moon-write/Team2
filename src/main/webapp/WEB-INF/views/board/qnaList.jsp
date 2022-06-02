@@ -28,16 +28,13 @@
 	width: 7%;
 } 
 .my_book_list_tbl tr>th:nth-child(3){
-	width: 10%;
+	width: 24%;
 }
 .my_book_list_tbl tr>th:nth-child(4){
-	width: 24%;
+	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(5){
 	width: 12%;
-}
-.my_book_list_tbl tr>th:nth-child(6){
-	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(1){
 	width: 7%;
@@ -46,16 +43,13 @@
 	width: 7%;
 } 
 #my_book_list_tbl tr>td:nth-child(3){
-	width: 10%;
+	width: 24%;
 }
 #my_book_list_tbl tr>td:nth-child(4){
-	width: 24%;
+	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(5){
 	width: 12%;
-}
-#my_book_list_tbl tr>td:nth-child(6){
-	width: 10%;
 }
 select{
 	float: right;
@@ -77,7 +71,7 @@ select{
 	margin-bottom: 30px;
 }
 .content-title{
-	background-image: url(/resources/img/board/banner5.jpg);
+	background-image: url(/resources/img/board/banner10.jpg);
 	background-size: cover;
 	background-position: center;
 }
@@ -113,7 +107,7 @@ select{
 					<!-- 헤더 테이블 -->
 					<table class="tbl my_book_list_tbl">
 						<tr class="tr-2 tr-head" id="tr-00">
-							<th>No.</th>
+							<th>질문번호</th>
 							<th>구분</th>
 							<th>프로젝트명</th>
 							<th>날짜</th>
@@ -136,19 +130,18 @@ select{
 										<td>${bo.projectName }</td>
 										<td>${bo.qnaDate }</td>
 										<c:choose>
-											<c:when test="${empty bo.qnaRef}"><td>답변대기</td></c:when>
-											<c:when test="${not empty bo.qnaRef}"><td>답변완료</td></c:when>
+											<c:when test="${bo.qnaComplete eq 0}"><td>답변대기</td></c:when>
+											<c:when test="${bo.qnaComplete eq 1}"><td>답변완료</td></c:when>
 										</c:choose>
-										<td>구매완료</td>
 									</tr>
 								</table>
 							</c:forEach>
+							<div id="pageNavi">${pageNavi }</div>
 						</c:when>
 						<c:otherwise>
 							<p class="p-0">Q&A내역이 없습니다.</p>
 						</c:otherwise>
 					</c:choose>
-				<div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</div>

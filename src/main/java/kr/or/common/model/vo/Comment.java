@@ -18,7 +18,6 @@ public class Comment {
 	private String commentContent;
 	private String commentDate;
 	private int commentRef;
-	
 	// 추가
 	private String memberName;
 }

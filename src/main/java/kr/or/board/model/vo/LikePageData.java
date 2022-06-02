@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class LikePageData {
-	private ArrayList<Like> likeList;
+	private ArrayList<Board> likeList;
 	private String pageNavi;
 }

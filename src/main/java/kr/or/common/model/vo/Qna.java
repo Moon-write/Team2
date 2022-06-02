@@ -19,4 +19,5 @@ public class Qna {
 	private String qnaContent;
 	private String qnaDate;
 	private int qnaRef;
+	private int qnaComplete;
 }

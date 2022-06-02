@@ -275,4 +275,20 @@ public class BusinessService {
 		return dao.selectStartDate(memberNo);
 	}
 
+	public String selectFundingSum(int memberNo, int projectNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("projectNo", projectNo);
+		return dao.selectFundingSum(map);
+	}
+
+	public String selectDonationTarget(int memberNo, int projectNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("projectNo", projectNo);
+		return dao.selectDonationTarget(map);
+	}
+
 }

@@ -28,7 +28,6 @@ public class Order {
 	private String orderDelAddr2;
 	private String orderDelPhone;
 	private String orderDelAsk;
-	
 	private int orderStatus;
 	
 	// 프로젝트명

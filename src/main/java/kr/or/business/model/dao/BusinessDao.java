@@ -243,4 +243,14 @@ public class BusinessDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("business.selectStartDate",memberNo);
 	}
+
+	public String selectFundingSum(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("business.selectFundingSum", map);
+	}
+
+	public String selectDonationTarget(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("business.selectDonationTarget", map);
+	}
 }
