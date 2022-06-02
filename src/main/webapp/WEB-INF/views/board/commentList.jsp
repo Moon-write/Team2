@@ -22,40 +22,40 @@
 	left: 0px;
 }
 .my_book_list_tbl tr>th:nth-child(1){
-	width: 7%;
+	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(2){
-	width: 7%;
+	width: 9%;
 } 
 .my_book_list_tbl tr>th:nth-child(3){
-	width: 10%;
+	width: 20%;
 }
 .my_book_list_tbl tr>th:nth-child(4){
-	width: 24%;
+	width: 36%;
 }
 .my_book_list_tbl tr>th:nth-child(5){
-	width: 12%;
+	width: 13%;
 }
 .my_book_list_tbl tr>th:nth-child(6){
-	width: 10%;
+	width: 11%;
 }
 #my_book_list_tbl tr>td:nth-child(1){
-	width: 7%;
+	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(2){
-	width: 7%;
+	width: 9%;
 } 
 #my_book_list_tbl tr>td:nth-child(3){
-	width: 10%;
+	width: 20%;
 }
 #my_book_list_tbl tr>td:nth-child(4){
-	width: 24%;
+	width: 36%;
 }
 #my_book_list_tbl tr>td:nth-child(5){
-	width: 12%;
+	width: 13%;
 }
 #my_book_list_tbl tr>td:nth-child(6){
-	width: 10%;
+	width: 11%;
 }
 select{
 	float: right;
@@ -113,7 +113,7 @@ select{
 					<!-- 헤더 테이블 -->
 					<table class="tbl my_book_list_tbl">
 						<tr class="tr-2 tr-head" id="tr-00">
-							<th>No.</th>
+							<th>리뷰번호</th>
 							<th>구분</th>
 							<th>프로젝트명</th>
 							<th>한마디</th>
@@ -138,15 +138,16 @@ select{
 										<td>${bo.commentContent }</td>
 										<td>${bo.commentDate }</td>
 										<td>구매완료</td>
+										<!-- 구매상태 및 미구매 넣어야함 -->
 									</tr>
 								</table>
 							</c:forEach>
+							<div id="pageNavi">${pageNavi }</div>
 						</c:when>
 						<c:otherwise>
 							<p class="p-0">리뷰내역이 없습니다. 더 많은 리뷰를 작성해보세요!</p>
 						</c:otherwise>
 					</c:choose>
-				<div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</div>

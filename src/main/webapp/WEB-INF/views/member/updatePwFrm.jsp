@@ -87,7 +87,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td class="check-msg"></td>
+								<td class="check-msg"><span class="pwReChk"></span></td>
 							</tr>
 							<tr class="tr-3">
 								<td></td>
@@ -99,21 +99,23 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		//비밀번호 정규식
+		//비밀번호 재확인 일치체크
+		$("[name=memberPwNew]").on("change",function(){
+			const pwVal = $("[name=memberPw]").val();
+			const pwReVal = $("[name=memberPwNew]").val();
+			if(pwVal == pwReVal){
+				$(".pwReChk").text("두 비밀번호가 일치합니다.");
+				$(".pwReChk").css("color","blue");
+				checkArr[2] = true;
+			}else{
+				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
+				$(".pwReChk").css("color","red");
+				checkArr[2] = true;
+			}
+		});
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-
-
-<script>
-//ajax 사용템플릿
-$.ajax({
-	url: '', // Controller의 mapping값
-	type: '',  // get, post 방식 中
-	data: '',  // Controller로 보낼 데이터
-	contentType: '',  // 보내는 data의 타입
-	dataType: '', // 받을 데이터 타입
-	success: function() {},  // 정상적으로 return 받았을 때 실행할 함수
-	error: function(){} // 실패했을 때 작동할 함수
-});
-
-</script>
 </body>
 </html>

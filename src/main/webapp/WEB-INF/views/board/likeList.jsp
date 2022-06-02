@@ -21,42 +21,6 @@
 	top: 0px;
 	left: 0px;
 }
-.my_book_list_tbl tr>th:nth-child(1){
-	width: 7%;
-}
-.my_book_list_tbl tr>th:nth-child(2){
-	width: 7%;
-} 
-.my_book_list_tbl tr>th:nth-child(3){
-	width: 10%;
-}
-.my_book_list_tbl tr>th:nth-child(4){
-	width: 24%;
-}
-.my_book_list_tbl tr>th:nth-child(5){
-	width: 12%;
-}
-.my_book_list_tbl tr>th:nth-child(6){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(1){
-	width: 7%;
-}
-#my_book_list_tbl tr>td:nth-child(2){
-	width: 7%;
-} 
-#my_book_list_tbl tr>td:nth-child(3){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(4){
-	width: 24%;
-}
-#my_book_list_tbl tr>td:nth-child(5){
-	width: 12%;
-}
-#my_book_list_tbl tr>td:nth-child(6){
-	width: 10%;
-}
 select{
 	float: right;
 	margin: 20px 0;
@@ -77,7 +41,7 @@ select{
 	margin-bottom: 30px;
 }
 .content-title{
-	background-image: url(/resources/img/board/banner5.jpg);
+	background-image: url(/resources/img/board/banner9.jpg);
 	background-size: cover;
 	background-position: center;
 }
@@ -93,6 +57,24 @@ select{
     animation-duration: 1.5s;
     animation-fill-mode: forwards;
     animation-direction: alternate;
+}
+#tr-00>th:nth-child(1){
+	width: 15%;
+}
+#tr-00>th:nth-child(2){
+	width: 30%;
+}
+#tr-00>th:nth-child(3){
+	width: 55%;
+}
+#tr-01>td:nth-child(1){
+	width: 15%;
+}
+#tr-01>td:nth-child(2){
+	width: 30%;
+}
+#tr-01>td:nth-child(3){
+	width: 55%;
 }
 </style>
 </head>
@@ -114,6 +96,7 @@ select{
 					<table class="tbl my_book_list_tbl">
 						<tr class="tr-2 tr-head" id="tr-00">
 							<th>구분</th>
+							<th>프로젝트번호</th>
 							<th>프로젝트명</th>
 						</tr>
 					</table>
@@ -129,16 +112,17 @@ select{
 											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
+										<td>${bo.projectNo }</td>
 										<td>${bo.projectName }</td>
 									</tr>
 								</table>
 							</c:forEach>
+							<div id="pageNavi">${pageNavi }</div>
 						</c:when>
 						<c:otherwise>
 							<p class="p-0">찜목록이 없습니다. 더 많은 좋아요를 눌러보세요!</p>
 						</c:otherwise>
 					</c:choose>
-				<div id="pageNavi">${pageNavi }</div>
 			</div>
 		</div>
 	</div>

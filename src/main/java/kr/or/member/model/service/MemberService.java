@@ -1,11 +1,15 @@
 package kr.or.member.model.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.or.member.common.SHA256Enc;
 import kr.or.member.model.dao.MemberDao;
 import kr.or.member.model.vo.Member;
+import kr.or.member.model.vo.MemberPageData;
 
 @Service
 public class MemberService {
@@ -44,6 +48,10 @@ public class MemberService {
 
 	public int memberUpdate(Member m) {
 		return dao.memberUpdate(m);
+	}
+	public MemberPageData selectMemberList(int reqPage) {
+		ArrayList<Member> memberList = dao.selectMemberList(reqPage);
+		return null;
 	}
 
 	

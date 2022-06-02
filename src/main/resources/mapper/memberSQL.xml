@@ -21,6 +21,31 @@
 	 	and member_pw=#{memberPw}
 	</if>
 	</select>
+	<select id="selectMemberList" resultType="m">
+	select 
+		member_no as memberNo,
+		biz_no as bizNo,
+		biz_name as bizName,
+		member_id as memberId,
+		member_pw as memberPw,
+		member_name as memberName,
+		member_level as memberLevel,
+		member_gender as memberGender,
+		member_birth as memberBirth,
+		member_postcode as memberPostcode,
+		member_addr1 as memberAddr1,
+		member_addr2 as memberAddr2,
+		member_point as memberPoint
+	from member 
+	<choose>
+		<when test="memberLevel == 2">
+		where member_level=2
+		</when>
+		<when test="memberLevel == 1">
+		where member_level=1
+		</when>
+	</choose>
+	</select>
   	<insert id="insertMember" parameterType="m">
   		insert into member values (member_seq.nextval,
   		<choose>

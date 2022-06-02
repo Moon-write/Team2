@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class CommentPageData {
-	private ArrayList<Comment> commentList;
+	private ArrayList<Board> commentList;
 	private String pageNavi;
 }

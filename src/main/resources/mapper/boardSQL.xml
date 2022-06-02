@@ -19,18 +19,74 @@
 			    END
 			    as projectName,
 			    comment_content as commentContent,
-			    comment_date as commentDate
+			    substr(comment_date,1,10) as commentDate
 			FROM COMMENT_TBL C WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
             where rnum between #{start} and #{end}
   	</select>
   	<select id="selectLikeList" parameterType="map" resultType="bo">
-			
+		select * from 
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+          		DIV_NO as divNo,
+			    CASE
+			        WHEN DIV_NO = 1
+			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = L.PROJECT_NO)
+			        WHEN DIV_NO = 2
+			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = L.PROJECT_NO)
+			        WHEN DIV_NO = 3
+			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = L.PROJECT_NO)
+			        WHEN DIV_NO = 4
+			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = L.PROJECT_NO)
+			    END
+			    as projectName,
+			    project_no as projectNo
+			FROM LIKE_TBL L WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}		
   	</select>
   	<select id="selectOrderList" parameterType="map" resultType="bo">
-				
+		select * from 
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+			    DIV_NO as divNo,
+			    ORDER_NO as orderNo,
+			    CASE
+			        WHEN DIV_NO = 1
+			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = O.PROJECT_NO)
+			        WHEN DIV_NO = 2
+			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = O.PROJECT_NO)
+			        WHEN DIV_NO = 3
+			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = O.PROJECT_NO)
+			        WHEN DIV_NO = 4
+			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = O.PROJECT_NO)
+			    END
+			    as projectName,
+			    order_price as orderPrice,
+			    substr(order_date,1,10) as orderDate,
+			    order_status as orderStatus
+			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}		
   	</select>
   	<select id="selectQnaList" parameterType="map" resultType="bo">
-			
+		select * from 
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+			    QNA_NO as qnaNo,
+			    DIV_NO as divNo,
+			    CASE
+			        WHEN DIV_NO = 1
+			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = Q.PROJECT_NO)
+			        WHEN DIV_NO = 2
+			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = Q.PROJECT_NO)
+			        WHEN DIV_NO = 3
+			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = Q.PROJECT_NO)
+			        WHEN DIV_NO = 4
+			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = Q.PROJECT_NO)
+			    END
+			    as projectName,
+			    substr(qna_date,1,10) as qnaDate,
+			    qna_complete as qnaComplete
+			FROM QNA_TBL Q WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}
   	</select>
   	<select id="selectCount" parameterType="map" resultType="int">
   		select count(*) from

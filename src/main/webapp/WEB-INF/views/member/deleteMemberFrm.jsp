@@ -83,21 +83,31 @@
 			</div>
 		</div>
 	</div>
+	
+	<script>
+	//비밀번호 확인
+	$.ajax({
+		url: "/pwcheck.kh", // Controller의 mapping값
+		type: "post",  // get, post 방식 中
+		data: {memberNo : memberNo},  // Controller로 보낼 데이터
+		success: function(data) {if(data == "1"){
+					$(".fc-9").text("");
+					inputCheck = true;
+				}else if(data == "0"){
+					$(".fc-9").text("비밀번호를 확인해주세요.").css("color","#c87431");
+					inputCheck = false;
+				}
+	});
+	//탈퇴실행
+	$.ajax({
+		url: "/deleteMember.kh", // Controller의 mapping값
+		type: "post",  // get, post 방식 中
+		data: {memberNo : memberNo},  // Controller로 보낼 데이터
+		success: function(data) {},  // 정상적으로 return 받았을 때 실행할 함수
+		error: function(){data} // 실패했을 때 작동할 함수
+	});
+	
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-
-
-<script>
-//ajax 사용템플릿
-$.ajax({
-	url: '', // Controller의 mapping값
-	type: '',  // get, post 방식 中
-	data: '',  // Controller로 보낼 데이터
-	contentType: '',  // 보내는 data의 타입
-	dataType: '', // 받을 데이터 타입
-	success: function() {},  // 정상적으로 return 받았을 때 실행할 함수
-	error: function(){} // 실패했을 때 작동할 함수
-});
-
-</script>
 </body>
 </html>

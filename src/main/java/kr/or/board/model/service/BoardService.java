@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kr.or.board.model.dao.BoardDao;
+import kr.or.board.model.vo.Board;
 import kr.or.board.model.vo.CommentPageData;
 import kr.or.board.model.vo.LikePageData;
 import kr.or.board.model.vo.OrderPageData;
@@ -32,7 +33,7 @@ public class BoardService {
 		map.put("start",start);
 		map.put("end",end);
 		map.put("memberNo",memberNo);
-		ArrayList<Comment> commentList = dao.selectCommentList(map);
+		ArrayList<Board> commentList = dao.selectCommentList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
@@ -103,7 +104,7 @@ public class BoardService {
 		map.put("start",start);
 		map.put("end",end);
 		map.put("memberNo",memberNo);
-		ArrayList<Order> orderList = dao.selectOrderList(map);
+		ArrayList<Board> orderList = dao.selectOrderList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
@@ -128,19 +129,19 @@ public class BoardService {
 		//첫페이지 버튼
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage=1'>";
+			pageNavi += "<li><a class='page-item' href='/orderList.kh?memberNo="+memberNo+"&reqPage=1'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<li><a class='page-item' href='/orderList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
 		}
 		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<li><a class='page-item active-page' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item active-page' href='/orderList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item' href='/orderList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}
@@ -152,9 +153,9 @@ public class BoardService {
 		//다음버튼
 		//마지막페이지 버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+			pageNavi += "<li><a class='page-item' href='/orderList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
+			pageNavi += "<li><a class='page-item' href='/orderList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
@@ -174,7 +175,7 @@ public class BoardService {
 		map.put("start",start);
 		map.put("end",end);
 		map.put("memberNo",memberNo);
-		ArrayList<Like> likeList = dao.selectLikeList(map);
+		ArrayList<Board> likeList = dao.selectLikeList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
@@ -199,19 +200,19 @@ public class BoardService {
 		//첫페이지 버튼
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage=1'>";
+			pageNavi += "<li><a class='page-item' href='/likeList.kh?memberNo="+memberNo+"&reqPage=1'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<li><a class='page-item' href='/likeList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
 		}
 		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<li><a class='page-item active-page' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item active-page' href='/likeList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item' href='/likeList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}
@@ -223,9 +224,9 @@ public class BoardService {
 		//다음버튼
 		//마지막페이지 버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+			pageNavi += "<li><a class='page-item' href='/likeList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
+			pageNavi += "<li><a class='page-item' href='/likeList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
@@ -245,7 +246,7 @@ public class BoardService {
 		map.put("start",start);
 		map.put("end",end);
 		map.put("memberNo",memberNo);
-		ArrayList<Qna> qnaList = dao.selectQnaList(map);
+		ArrayList<Board> qnaList = dao.selectQnaList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
@@ -270,19 +271,19 @@ public class BoardService {
 		//첫페이지 버튼
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage=1'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage=1'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
 		}
 		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<li><a class='page-item active-page' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item active-page' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}
@@ -294,9 +295,9 @@ public class BoardService {
 		//다음버튼
 		//마지막페이지 버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/commentList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";

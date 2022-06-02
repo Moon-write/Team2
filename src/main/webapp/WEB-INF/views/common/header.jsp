@@ -42,7 +42,7 @@
 						<a href="/business.kh" class="f-light fc-2">사업자 페이지로 이동</a>
 					  </c:when>
 					  <c:when test="${sessionScope.m.memberLevel eq 0}">
-						<a href="#" class="f-light fc-2">관리자 페이지로 이동</a>
+						<a href="/admin.kh" class="f-light fc-2">관리자 페이지로 이동</a>
 					  </c:when>
 				</c:choose>
 			<a href="/logout.kh">로그아웃</a>
