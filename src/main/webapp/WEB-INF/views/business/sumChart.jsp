@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script src="js/jquery-3.6.0.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+
 <style>
 .menu {
 	margin-top:30px;
@@ -178,12 +178,16 @@ td:last-child{
                		</tr>               		               	
                	</table>			
 			</div>
+			<div><h4>1. 드래그로 범위 지정 2. 휠로 확대 및 축소 3. ctrl 누르고 위치 이동</h4></div>
 			<div id="chartArea">
 				
 			</div>			
 		</div>
 	</div>
-	<script>			
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js" integrity="sha512-UXumZrZNiOwnTcZSHLOfcTs0aos2MzBWHXOHOuB0J/R44QB0dwY5JgfbvljXcklVf65Gc4El6RjZ+lnwd2az2g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js" integrity="sha512-klQv6lz2YR+MecyFYMFRuU2eAl8IPRo6zHnsc9n142TJuJHS8CG0ix4Oq9na9ceeg1u5EkBfZsFcV3U7J51iew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/1.4.0/chartjs-plugin-annotation.min.js"></script>
+	<script>
 		window.onload=init();	
 		
 		function init(){
@@ -200,7 +204,7 @@ td:last-child{
 			var dateString = year + '-' + month  + '-' + day;
 			$.ajax({
 				url:"/selectStartDate.kh",
-				data:{memberNo:memberNo},
+				data:{memberNo:memberNo, divNo:0},
 				success:function(list){
 					startDate=list;
 					$.ajax({
@@ -228,28 +232,122 @@ td:last-child{
 			});					
 		}
 		function graph(dates,amounts){			
+			const options = {
+		        plugins: {		           
+		            zoom:{
+                        zoom:{
+                            wheel:{
+                            	mode:'x',
+                                enabled:true
+                            },
+                            mode:'x',
+                            drag:{
+                                enabled:true,
+                                backgroundColor:'rgba(255,99,132,0.2)',
+                                borderColor:'rgba(255,99,132,1)',
+                                borderWidth:1,
+                                threshold:30
+                            }
+                        },
+                        pan:{
+                        	modifierKey:'ctrl',
+                        	enabled:true
+                        }
+                    }
+		            
+		        },
+		        indexAxix:'x',
+	        	scales:{
+	        		y:{
+	        			beginAtZero:true
+	        		}
+	        	}
+	        };
 			const config = {
 			        type: 'line',
 			        data: {
 			            labels: dates,
 			            datasets: [{
-			            label: '누적금액',
-			            data: amounts,
-			            fill: false,
-			            borderColor: 'rgb(30,144,255)',
-			            tension: 0.1
+				            label: '누적금액',
+				            data: amounts,
+				            fill: false,
+				            borderColor: 'rgb(30,144,255)',
+				            tension: 0.1
 			            }]
 			        },
-			        options:{
-			        	indexAxix:'x',
-			        	scales:{
-			        		y:{
-			        			beginAtZero:true
-			        		}
-			        	}
-			        }
+			        options
 		        };
 	        const myChart = new Chart('myChart', config);
+		}
+		function graphWithAnnotation(dates, amounts, targetPrice){
+			const options = {
+		        plugins: {
+		            autocolors: false,
+		            annotation: {
+		            annotations: {
+		                line1: {
+		                    type: 'line',
+		                    yMin: targetPrice,
+		                    yMax: targetPrice,
+		                    borderColor: 'rgb(255,130,171)',
+		                    hoverBorderColor:'rgb(30,144,255)',
+		                    borderWidth: 2,
+		                    label:{
+		                        enabled:true,
+		                        backgroundColor:'rgba(255,26,104,1)',
+		                                                
+		                        content:'목표금액 : '+thousands(targetPrice)+'원',
+		                        position:'end'
+		                        }   
+		                    }
+		                }
+		            },
+		            zoom:{
+                        zoom:{
+                            wheel:{
+                            	mode:'x',
+                                enabled:true
+                            },
+                            mode:'x',
+                            drag:{
+                                enabled:true,
+                                backgroundColor:'rgba(255,99,132,0.2)',
+                                borderColor:'rgba(255,99,132,1)',
+                                borderWidth:1,
+                                threshold:30
+                            }
+                        },
+                        pan:{
+                        	modifierKey:'ctrl',
+                        	enabled:true
+                        }
+                    }
+		            
+		        },
+		        indexAxix:'x',
+	        	scales:{
+	        		y:{
+	        			beginAtZero:true
+	        		}
+	        	}
+	        };
+	        const config = {
+	        type: 'line',
+	        data: {
+	            labels: dates,
+	            datasets: [{
+		            label: '누적금액',
+		            data: amounts,
+		            fill: false,
+		            borderColor: 'rgb(30,144,255)',
+		            tension: 0.1
+	            }]
+	        },
+	        options
+	        };
+
+	        const myChart = new Chart('myChart', config);
+	        Chart.register(zoomPlugin);
 		}
 		
 		$(".selectChart").on("click",function(){
@@ -261,7 +359,9 @@ td:last-child{
 			const datePicker2 = $("input[name=endDate]").val();
 			const divNo=$("#divNo").val();
 			const projectNo=$("#divList").val();
+			let targetPrice;
 			var startDate;
+			var endDate;
 			var dates=[];
 			var amounts=[];
 			var today = new Date();
@@ -295,38 +395,114 @@ td:last-child{
 								for(let i=0;i<list.length;i++){
 									amounts.push(list[i]);										
 								}
-								graph(dates,amounts);
+								if(divNo==3 || divNo==4){
+									graph(dates,amounts);	
+								}else{
+									if(divNo==1 && projectNo!=0){
+										$.ajax({
+											url:"/selectFundingSum.kh",
+											data:{memberNo:memberNo, projectNo:projectNo},
+											success:function(list){
+												targetPrice=list;
+												graphWithAnnotation(dates, amounts, targetPrice);
+											}
+										});
+									}else if(divNo==2 && projectNo!=0){
+										$.ajax({
+											url:"/selectDonationTarget.kh",
+											data:{memberNo:memberNo, projectNo:projectNo},
+											success:function(list){
+												targetPrice=list;
+												graphWithAnnotation(dates, amounts, targetPrice);
+											}
+										});
+									}else{
+										graph(dates, amounts);
+									}
+								}
 							}
 						});
 					}
 				});	
 			}else{
-				$.ajax({
-					url:"/selectStartDate.kh",
-					data:{memberNo:memberNo},
-					success:function(list){
-						startDate=list;
-						$.ajax({
-							url:"/getDates.kh",
-							data:{startDate:startDate, endDate:dateString},
-							success:function(list){
-								for(let i=0;i<list.length;i++){
-									dates.push(list[i]);
-								}
-								$.ajax({
-									url:"/getAmounts.kh",
-									data:{memberNo:memberNo, startDate:startDate, endDate:dateString, divNo:divNo,projectNo:projectNo},
-									success:function(list){
-										for(let i=0;i<list.length;i++){
-											amounts.push(list[i]);										
-										}
-										graph(dates,amounts);
+				if(projectNo!=0){
+					$.ajax({
+						url:"/selectStartEndDate.kh",
+						data:{memberNo:memberNo, projectNo:projectNo, divNo:divNo},
+						success:function(list){
+							startDate=list[0].STARTDATE;
+							endDate=list[0].ENDDATE;
+							$.ajax({
+								url:"/getDates.kh",
+								data:{startDate:startDate, endDate:endDate},
+								success:function(list){
+									for(let i=0;i<list.length;i++){
+										dates.push(list[i]);
 									}
-								});
-							}
-						});
-					}
-				});				
+									$.ajax({
+										url:"/getAmounts.kh",
+										data:{memberNo:memberNo, startDate:startDate, endDate:dateString, divNo:divNo,projectNo:projectNo},
+										success:function(list){
+											for(let i=0;i<list.length;i++){
+												amounts.push(list[i]);										
+											}
+											if(divNo==1 && projectNo!=0){
+												$.ajax({
+													url:"/selectFundingSum.kh",
+													data:{memberNo:memberNo, projectNo:projectNo},
+													success:function(list){
+														targetPrice=list;
+														graphWithAnnotation(dates, amounts, targetPrice);
+													}
+												});
+											}else if(divNo==2 && projectNo!=0){
+												$.ajax({
+													url:"/selectDonationTarget.kh",
+													data:{memberNo:memberNo, projectNo:projectNo},
+													success:function(list){
+														targetPrice=list;
+														graphWithAnnotation(dates, amounts, targetPrice);
+													}
+												});
+											}else{
+												graph(dates, amounts);
+											}
+										}
+									});
+								}
+							});
+						}
+					});
+				}else{
+					$.ajax({
+						url:"/selectStartDate.kh",
+						data:{memberNo:memberNo, divNo:divNo},
+						success:function(list){
+							startDate=list;
+							$.ajax({
+								url:"/getDates.kh",
+								data:{startDate:startDate, endDate:dateString},
+								success:function(list){
+									for(let i=0;i<list.length;i++){
+										dates.push(list[i]);
+									}
+									$.ajax({
+										url:"/getAmounts.kh",
+										data:{memberNo:memberNo, startDate:startDate, endDate:dateString, divNo:0, projectNo:0},
+										success:function(list){
+											for(let i=0;i<list.length;i++){
+												amounts.push(list[i]);										
+											}									
+											chartArea.empty();
+											chartArea.append(canvas);
+											graph(dates,amounts);
+										}
+									});
+								}
+							});
+						}
+					});	
+				}			
 			}			
 		});
 		
@@ -403,17 +579,6 @@ td:last-child{
 	        });                           
 	    });
 		$('#datepicker').datepicker('setDate', 'today');
-		$(function() {
-			$(".sub-menu").prev().append("<span class='more'></span>")
-			$(".more").parent().parent().on(
-					"click",
-					function(e) {
-						$(this).children().last().slideToggle();
-						$(this).children().first().children(".more")
-								.toggleClass("menu-active");
-						e.stopPropagation();
-					});			
-		});
 		function divChange(e) {
 			const memberNo=$("input[name=memberNo]").val();
 			const divNoTd=$("#divNoTd");
@@ -523,6 +688,7 @@ td:last-child{
 				});		
 			}
 		}
+		const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

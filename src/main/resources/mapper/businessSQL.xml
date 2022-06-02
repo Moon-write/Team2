@@ -424,7 +424,7 @@
 	</select>
 	
 	<select id="getDates" parameterType="map" resultType="String">
-		SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'YYYY-MM-DD') AS dates
+		SELECT TO_CHAR(TO_DATE(#{startDate},'YYYY-MM-DD') + LEVEL - 1, 'MM-DD') AS dates
 		FROM dual
 		CONNECT BY LEVEL <![CDATA[ <= ]]> ((TO_DATE(#{endDate},'YYYY-MM-DD')+ 1 - TO_DATE(#{startDate},'YYYY-MM-DD')))	    
 	</select>
@@ -463,16 +463,70 @@
 		ORDER BY dt	    
 	</select>
 	
-	<select id="selectStartDate" parameterType="int" resultType="String">
+	<select id="selectStartDate" parameterType="map" resultType="String">
 		select to_char(least,'yyyy-mm-dd') as startDay from (select rownum as rnum,n.least from (
-			select least(auction_start, funding_start_date, donation_startdate, to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy/mm/dd')) as least
-		from member m
-		join auction_tbl a on(a.member_no=m.member_no)
-		join donation d on(d.member_no=m.member_no)
-		join funding f on(f.member_no=m.member_no)
-		join group_tbl g on(g.member_no=m.member_no)
-		where m.member_no=#{memberNo}
-		order by least
+    	select least(
+		<if test="divNo == 1 ">funding_start_date</if> 
+	    <if test="divNo == 2 ">donation_startdate</if>
+	    <if test="divNo == 3 ">to_date(grp_start,'yyyy/mm/dd')</if>
+	    <if test="divNo == 4 ">auction_start</if>
+	    <if test="divNo == 0 ">auction_start, funding_start_date, donation_startdate, to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy/mm/dd')</if>
+	    ) as least
+	    from
+	    <if test="divNo == 1 ">funding</if> 
+	    <if test="divNo == 2 ">donation</if>
+	    <if test="divNo == 3 ">group_tbl</if>
+	    <if test="divNo == 4 ">auction_tbl</if>
+	    <if test="divNo == 0 ">
+		auction_tbl a
+		join donation d on(d.member_no=a.member_no)
+		join funding f on(f.member_no=a.member_no)
+		join group_tbl g on(g.member_no=a.member_no)
+	    </if>
+	    where 
+	    <if test="divNo != 0 ">member_no=#{memberNo}</if>
+	    <if test="divNo == 0 ">a.member_no=#{memberNo}</if>
+	    order by least
 		)n) where rnum=1
 	</select>
+	
+	<select id="selectFundingSum" parameterType="map" resultType="String">
+		select funding_sum from funding where member_no=#{memberNo} and funding_no=#{projectNo}
+	</select>
+	
+	<select id="selectDonationTarget" parameterType="map" resultType="String">
+		select donation_target from donation where member_no=#{memberNo} and project_no=#{projectNo}
+	</select>
+	
+	<select id="selectStartEndDate" parameterType="map" resultType="HashMap">
+		select 
+		<if test="divNo == 1 ">
+			to_char(funding_start_date,'yyyy-mm-dd') as startDate, 
+			to_char(funding_end_date,'yyyy-mm-dd') as endDate 
+		</if>
+		<if test="divNo == 2 ">
+			to_char(donation_startdate,'yyyy-mm-dd') as startDate, 
+			to_char(donation_enddate,'yyyy-mm-dd') as endDate 
+		</if>
+		<if test="divNo == 3 ">
+			to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy-mm-dd') as startDate, 
+			to_char(to_date(grp_end,'yyyy/mm/dd'),'yyyy-mm-dd') as endDate 
+		</if>
+		<if test="divNo == 4 ">
+			to_char(auction_start,'yyyy-mm-dd') as startDate, 
+			to_char(auction_end,'yyyy-mm-dd') as endDate 
+		</if>
+		from
+		<if test="divNo == 1 ">funding</if>
+		<if test="divNo == 2 ">donation</if>
+		<if test="divNo == 3 ">group_tbl </if>
+		<if test="divNo == 4 ">auction_tbl</if>		
+		where member_no=#{memberNo} and 
+		<if test="divNo == 1 ">funding_no=#{projectNo}</if>
+		<if test="divNo != 1 ">project_no=#{projectNo}</if>		
+	</select>
+	
+	<insert id="insertNumber">
+		insert into count values(1)
+	</insert>
 </mapper>

@@ -328,8 +328,8 @@ public class BusinessController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/selectStartDate.kh",produces="application/json;charset=utf-8")
-	public String selectStartDay(int memberNo) {
-		String sd=service.selectStartDate(memberNo);
+	public String selectStartDay(int memberNo, int divNo) {
+		String sd=service.selectStartDate(memberNo, divNo);
 		return new Gson().toJson(sd);
 	}
 	
@@ -343,6 +343,25 @@ public class BusinessController {
 	@RequestMapping(value="/getAmounts.kh",produces="application/json;charset=utf-8")
 	public String getAmounts(String startDate, String endDate, int memberNo, int divNo, int projectNo) {
 		ArrayList<String> list=service.getAmounts(startDate, endDate, memberNo, divNo, projectNo);
+		return new Gson().toJson(list);
+	}
+	@ResponseBody
+	@RequestMapping(value="/selectFundingSum.kh",produces="application/json;charset=utf-8")
+	public String selectFundingSum(int memberNo, int projectNo) {
+		String sum=service.selectFundingSum(memberNo, projectNo);
+		return new Gson().toJson(sum);
+	}
+	@ResponseBody
+	@RequestMapping(value="/selectDonationTarget.kh",produces="application/json;charset=utf-8")
+	public String selectDonationTarget(int memberNo, int projectNo) {
+		String sum=service.selectDonationTarget(memberNo, projectNo);
+		return new Gson().toJson(sum);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectStartEndDate.kh",produces="application/json;charset=utf-8")
+	public String selectStartEndDate(int memberNo, int projectNo, int divNo) {
+		ArrayList<String> list=service.selectStartEndDate(memberNo, projectNo, divNo);
 		return new Gson().toJson(list);
 	}
 }

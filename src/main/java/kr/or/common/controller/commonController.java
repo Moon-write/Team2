@@ -20,6 +20,7 @@ public class commonController {
 	public String searchProject(String keyword, Model model) {
 		
 		ArrayList<Project> list = service.searchProject(keyword);
+		model.addAttribute("keyword", keyword);
 		model.addAttribute("list", list);
 		return "common/searchResult";
 	}
