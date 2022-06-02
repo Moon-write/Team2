@@ -36,19 +36,19 @@ import kr.or.common.model.vo.Comment;
 			return (ArrayList<Board>)qnaList;
 		}
 		public int selectCommentCount(HashMap<String, Object> commentMap) {
-			int totalCount = sqlSession.selectOne("board.selectCount",commentMap);
+			int totalCount = sqlSession.selectOne("board.selectCommentCount",commentMap);
 			return totalCount;
 		}
 		public int selectOrderCount(HashMap<String, Object> orderMap) {
-			int totalCount = sqlSession.selectOne("board.selectCount",orderMap);
+			int totalCount = sqlSession.selectOne("board.selectOrderCount",orderMap);
 			return totalCount;
 		}
 		public int selectLikeCount(HashMap<String, Object> likeMap) {
-			int totalCount = sqlSession.selectOne("board.selectCount",likeMap);
+			int totalCount = sqlSession.selectOne("board.selectLikeCount",likeMap);
 			return totalCount;
 		}
 		public int selectQnaCount(HashMap<String, Object> qnaMap) {
-			int totalCount = sqlSession.selectOne("board.selectCount",qnaMap);
+			int totalCount = sqlSession.selectOne("board.selectQnaCount",qnaMap);
 			return totalCount;
 		}
 	}

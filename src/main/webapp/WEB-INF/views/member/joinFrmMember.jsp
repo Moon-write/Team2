@@ -155,7 +155,7 @@
 						<td><input type="text" name="memberId" class="input-form" required></td>
 						<td>@</td>
 						<td>
-							<select name="emailAddress" class="input-form select ">
+							<select name="emailAddr" class="input-form select">
 								<option disabled selected>이메일</option>
 								<option value="@naver.com">naver.com</option>
 								<option value="@gmail.com">gmail.com</option>
@@ -282,25 +282,9 @@
 		let authChk = 0;
 		
 		//아이디 형식체크
-		/*
-		const id = $("[name=memberId]");
-		id.on("change",function(){
-			const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}.[a-zA-Z]{2,3}$/i;
-			const idVal = id.val();
-			if(idVal.match(emailReg) != null){
-				$(".idChkMsg").text("올바른 형식의 이메일입니다.");
-				$(".idChkMsg").css("color","green");
-				checkArr[0] = true;
-			}else{
-				$(".idChkMsg").text("이메일 형식을 확인하여주세요.");
-				$(".idChkMsg").css("color","red");
-				checkArr[0] = false;
-			};
-		});
-		*/
-		//아이디 중복체크
 		$("[name=memberId]").on("change",function(){
 			const memberId = $(this).val();
+			console.log(memberId);
 			$.ajax({
 				url : "/idCheck.kh",
 				data : {memberId : memberId},
@@ -357,8 +341,6 @@
 			}
 		});
 		
-
-		
 		const name = $("[name=memberName]");
 		name.on("change",function(){
 			const nameReg = /^[가-힣]{2,6}$/;
@@ -368,7 +350,7 @@
 				$(".nameChkMsg").css("color","green");
 				checkArr[3] = true;
 			}else{
-				$(".nameChkMsg").text("이름은 2~6 글자의 한글만 입력가능합니다.");
+				$(".nameChkMsg").text("이름은 2~7 글자의 한글만 입력가능합니다.");
 				$(".nameChkMsg").css("color","red");
 				checkArr[3] = false;
 			};
@@ -392,26 +374,20 @@
 		let mailCode;
 		function sendMail(){
 			if(checkArr[0]){
-				const email = $("[name=memberId]").val();
+				const emailId = $("[name=memberId]").val();
+				const emailAddr = $("[name=emailAddr]").val();
+				const email = emailId+emailAddr;
+				console.log(email)
 				const title = "입력하신 아이디를 조회중입니다.";
-				const icon = "info";
-				const msgTime = 6500;
-				toastShow(title,icon,msgTime);
 				$.ajax({
-					url : "/sendMail.do",
+					url : "/sendMail.kh",
 					data : {email:email},
 					type : "post",
 					success : function(data){
 						if(data == "null"){
-							const title = "이미 가입된 이메일입니다.";
-							const icon = "warning";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							alert("이미 가입된 이메일입니다.");
 						}else{
-							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
-							const icon = "success";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							alert("입력하신 이메일로 인증번호가 발송되었습니다.");
 							mailCode = data;
 							authTime();	
 						}
