@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.donation.model.vo.Donation;
+import kr.or.member.model.vo.Member;
 
 
 
@@ -31,9 +32,9 @@ public class DonationDao {
 		return (ArrayList<Donation>)list;
 	}
 
-	public Donation selectOneDonation(Donation d) {
+	public Donation selectOneDonation(int projectNo) {
 		// TODO Auto-generated method stub
-		Donation donation = sqlSession.selectOne("donation.selectOneDonation",d);
+		Donation donation = sqlSession.selectOne("donation.selectOneDonation",projectNo);
 		return donation;
 	}
 
@@ -46,6 +47,11 @@ public class DonationDao {
 	public int selectsumDonationCategory(String donationCategory) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("donation.selectsumDonationCategory",donationCategory);
+	}
+
+	public Member selectOneMember(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectOneMember",memberNo);
 	}
 
 

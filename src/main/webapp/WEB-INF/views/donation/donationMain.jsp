@@ -129,7 +129,6 @@
 		text-align: left;
 	}
 	.row-img>h3{
-		
 		font-size: 15px;
 	}
 	.row-img>div{
@@ -218,6 +217,7 @@
 		display:flex;
 		margin-bottom: 5px;
 		justify-content: space-between;
+		
 	}
 	.detail-content>a{
 		display: inline-block;
@@ -230,7 +230,15 @@
 	.material-icons{
 		color: #1e90ff;
 	}
+	.bct2{
+		background-color: rgb(255,130,171);
+	  	color: #fff;
+	}
 	
+	.bct2:hover{
+		background-color: rgba(30,144,255);
+  		cursor: pointer;
+	}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -265,7 +273,7 @@
 		<div class="main-content">
 			<div class="saleDonationDiv">
 				<h2 class="saleDonation">상품구입기부펀딩</h2>
-				<a href="/donationWriter.kh">기부신규등록</a>
+				<a href="/donationWriter.kh" class="btn bct2">기부펀딩등록</a>
 			</div>
 			<div class="row-img">
 				<c:forEach items="${cashList }" var="c" end="7">
@@ -286,6 +294,7 @@
 							</div>
 				</c:forEach>
 			</div>
+			<br><br><br>
 			<div class="saleDonationDiv">
 				<h2 class="saleDonation">일반기부펀딩</h2>
 			</div>
@@ -309,6 +318,7 @@
 				</c:forEach>
 			</div>
 		</div>
+		<br><br><br>
 		<div class="footer-content">
 			<div id="donation_sumgraph"></div>
 			<div><h2>총 기부 금액 1,000,000</h2></div>

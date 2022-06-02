@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.donation.model.dao.DonationDao;
 import kr.or.donation.model.vo.Donation;
+import kr.or.member.model.vo.Member;
 
 
 @Service
@@ -32,9 +33,9 @@ public class DonationService {
 		return dao.selectDonationList();
 	}
 
-	public Donation selectOneDonation(Donation d) {
+	public Donation selectOneDonation(int projectNo) {
 		// TODO Auto-generated method stub
-		return dao.selectOneDonation(d);
+		return dao.selectOneDonation(projectNo);
 	}
 
 	public ArrayList<Donation> selectHashtag(String donationCategory) {
@@ -45,5 +46,10 @@ public class DonationService {
 	public int selectsumDonationCategory(String donationCategory) {
 		// TODO Auto-generated method stub
 		return dao.selectsumDonationCategory(donationCategory);
+	}
+
+	public Member selectOneMember(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneMember(memberNo);
 	}
 }
