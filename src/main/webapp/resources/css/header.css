@@ -68,7 +68,8 @@ input#site-search{
     border-bottom: 1px solid #1E90FF;
     outline: none;
     width: 100px; height: 90%;
-    margin: 1px 0px;
+    margin: 2px 0px 1px 0px;
+    padding-left: 10px;
 }
 input#site-search+span{
     height: 100%;

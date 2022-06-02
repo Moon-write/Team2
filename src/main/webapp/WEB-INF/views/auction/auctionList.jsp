@@ -216,7 +216,7 @@
 					<div class="auction-content">
 						<a href="/auctionView.kh?projectNo=${l.projectNo }">
 							<div class="auction-pic">
-								<img src="../../../resources/img/auction/${l.auctionPic }">
+								<img src="../../../resources/upload/auction/${l.auctionPic }">
 							</div>
 							<div class="auction-info">
 								<div class="auction-title">
