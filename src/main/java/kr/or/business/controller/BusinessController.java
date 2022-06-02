@@ -328,8 +328,8 @@ public class BusinessController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/selectStartDate.kh",produces="application/json;charset=utf-8")
-	public String selectStartDay(int memberNo) {
-		String sd=service.selectStartDate(memberNo);
+	public String selectStartDay(int memberNo, int divNo) {
+		String sd=service.selectStartDate(memberNo, divNo);
 		return new Gson().toJson(sd);
 	}
 	
@@ -356,5 +356,12 @@ public class BusinessController {
 	public String selectDonationTarget(int memberNo, int projectNo) {
 		String sum=service.selectDonationTarget(memberNo, projectNo);
 		return new Gson().toJson(sum);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectStartEndDate.kh",produces="application/json;charset=utf-8")
+	public String selectStartEndDate(int memberNo, int projectNo, int divNo) {
+		ArrayList<String> list=service.selectStartEndDate(memberNo, projectNo, divNo);
+		return new Gson().toJson(list);
 	}
 }

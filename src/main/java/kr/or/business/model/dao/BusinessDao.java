@@ -239,9 +239,9 @@ public class BusinessDao {
 		return (ArrayList<String>) list;
 	}
 
-	public String selectStartDate(int memberNo) {
+	public String selectStartDate(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("business.selectStartDate",memberNo);
+		return sqlSession.selectOne("business.selectStartDate",map);
 	}
 
 	public String selectFundingSum(HashMap<String, Object> map) {
@@ -252,5 +252,16 @@ public class BusinessDao {
 	public String selectDonationTarget(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("business.selectDonationTarget", map);
+	}
+
+	public ArrayList<String> selectStartEndDate(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("business.selectStartEndDate",map);
+		return (ArrayList<String>) list;
+	}
+
+	public int insertNumber() {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("business.insertNumber");
 	}
 }

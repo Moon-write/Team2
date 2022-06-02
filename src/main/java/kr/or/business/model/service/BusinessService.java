@@ -270,9 +270,12 @@ public class BusinessService {
 		return dao.getAmounts(map);
 	}
 
-	public String selectStartDate(int memberNo) {
+	public String selectStartDate(int memberNo, int divNo) {
 		// TODO Auto-generated method stub
-		return dao.selectStartDate(memberNo);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("divNo", divNo);
+		return dao.selectStartDate(map);
 	}
 
 	public String selectFundingSum(int memberNo, int projectNo) {
@@ -289,6 +292,20 @@ public class BusinessService {
 		map.put("memberNo", memberNo);
 		map.put("projectNo", projectNo);
 		return dao.selectDonationTarget(map);
+	}
+
+	public ArrayList<String> selectStartEndDate(int memberNo, int projectNo, int divNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("projectNo", projectNo);
+		map.put("divNo", divNo);
+		return dao.selectStartEndDate(map);
+	}
+
+	public int insertNumber() {
+		// TODO Auto-generated method stub
+		return dao.insertNumber();
 	}
 
 }
