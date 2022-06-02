@@ -55,11 +55,13 @@
 	</div>
 	<div class="menu-wrap">
 		<ul>
-			<li><a href="/fundingList.kh">펀딩</a>
+			<li><a href="/fundingAllList.kh">펀딩</a>
 				<ul class="sub-menu-wrap">
-					<li><a href="#">소메뉴1</a></li>
-					<li><a href="#">소메뉴2</a></li>
-					<li><a href="#">소메뉴3</a></li>
+					<li><a href="/fundingTechList.kh">테크·가전</a></li>
+					<li><a href="/fundingFashionList.kh">패션·잡화</a></li>
+					<li><a href="/fundingHomeList.kh">홈·리빙</a></li>
+					<li><a href="/fundingFoodList.kh">식품</a></li>
+					<li><a href="/fundingBeautyList">뷰티</a></li>
 				</ul>
 			</li>
 			<li><a href="/donationList.kh">기부</a></li>

@@ -122,9 +122,10 @@
 			</tr>
 		</c:forEach>
 	</table>
+
 	
 	<div class="page-content">
-		<div class="page-title"><a href="/foodList.do?reqPage=1">그냥링크임</a></div>
+		<div class="page-title"><a href="/foodList.do?reqPage=1">그냥링크임</a>	<a href="/fundingInsert.kh">상품등록으로 이동</a></div>
 			<div class="product-simple">
 						<c:forEach items="${list }" var="fjf">
 							<a href="/fundingDetailStory.kh?fundingNo=${fjf.fundingNo }">
