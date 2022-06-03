@@ -63,7 +63,7 @@
 			    order_price as orderPrice,
 			    substr(order_date,1,10) as orderDate,
 			    order_status as orderStatus
-			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
+			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 3 DESC)C)
             where rnum between #{start} and #{end}		
   	</select>
   	<select id="selectQnaList" parameterType="map" resultType="bo">

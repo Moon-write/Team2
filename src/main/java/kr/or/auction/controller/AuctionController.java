@@ -277,7 +277,6 @@ public class AuctionController {
 			return null;
 		}
 		ArrayList<Auction> list = service.selectLikeList(m.getMemberNo(), pageNo);		
-		
 		return new Gson().toJson(list);
 	}
 
