@@ -249,9 +249,7 @@
 		    <input type="radio" name="slide" id="slide3">
 		    <input type="radio" name="slide" id="slide4">
 		    <ul id="imgholder" class="imgs">
-		        <li>
-		        	<img src="/resources/upload/donation/donationSlide001.jpg">
-		        </li>
+		        <li><img src="/resources/upload/donation/donationSlide001.jpg"></li>
 		        <li><img src="/resources/upload/donation/donationSlide002.jpg"></li>
 		        <li><img src="/resources/upload/donation/donationSlide003.jpg"></li>
 		        <li><img src="/resources/upload/donation/donationSlide004.jpg"></li>
@@ -264,11 +262,11 @@
 		    </div>
 		</div>
 		<div class="hash-tag">
-			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=pet" name="pet">#애견</a>
-			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=child" name="child">#아동</a>
-			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=female" name="female">#여성</a>
-			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=help" name="help">#불우이웃</a>
-			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=old" name="old">#독거노인</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=pet" name="hashTag">#애견</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=child" name="hashTag">#아동</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=female" name="hashTag">#여성</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=help" name="hashTag">#불우이웃</a>
+			<a class="btn bc1" href="/donationHashtag.kh?donationCategory=old" name="hashTag">#독거노인</a>
 		</div>
 		<div class="main-content">
 			<div class="saleDonationDiv">
@@ -280,7 +278,9 @@
 							<div class="detail-content" name="detail-content">
 								<div>
 									<a href="/donationClick.kh?projectNo=${c.projectNo }" class="donationMainImgHover">
+									
 										<img src="${c.donationImgpath }" class="donationMainImg">
+										
 									</a>
 								</div>
 								<h3 class="title">${c.donationTitle }</h3>

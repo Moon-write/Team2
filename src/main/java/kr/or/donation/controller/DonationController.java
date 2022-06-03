@@ -36,12 +36,18 @@ public class DonationController {
 		ArrayList<Donation> list = service.selectDonationList();
 		ArrayList<Donation> generalList = new ArrayList<Donation>();
 		ArrayList<Donation> cashList = new ArrayList<Donation>();
-		
+		String noImgPath = "../../../resources/upload/donation/no_image.png";
 		
 		for(Donation d: list) {
 			if(d.getDonationDivision()==2) {
+				if(d.getDonationImgpath() == null) {
+					d.setDonationImgpath(noImgPath);
+				}
 				cashList.add(d);
 			}else {
+				if(d.getDonationImgpath() == null) {
+					d.setDonationImgpath(noImgPath);
+				}
 				generalList.add(d);
 			}
 		}
@@ -51,10 +57,7 @@ public class DonationController {
 		System.out.println(generalList);
 		return "donation/donationMain";
 	}
-	@RequestMapping(value="/donationMain.kh")
-	public String donationMain() {
-		return "donation/donationMain";
-	}
+
 
 	// insert
 	@RequestMapping(value = "/insertDonation.kh")
@@ -76,16 +79,25 @@ public class DonationController {
 			
 			
 		}// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
-		return "redirect:/donationMain.kh";
+		return "redirect:/donationList.kh";
 	}
 
 	// update
+
+
+	@RequestMapping(value = "/donationUpdateWriter.kh") // 기부 수정페이지로 이동할 form
+	public String updateDonation(int projectNo, Model model) {
+		Donation donation = service.selectOneDonation(projectNo);
+		model.addAttribute("donation", donation);
+		return "donation/donationUpdateForm";
+	}
 	@RequestMapping(value = "/updateDonation.kh")
 	public String updateDonation(Donation d) {
 		int result = service.updateDonation(d);
-		return "donation/donationMain";
+		
+		return "redirect:/donationList.kh";
 	}
-
+	
 	// select
 	@RequestMapping(value = "/donationClick.kh")
 	public String donationView(int projectNo, Model model) {
@@ -94,15 +106,42 @@ public class DonationController {
 		int memberNo = donation.getMemberNo();
 		Member member = service.selectOneMember(memberNo); 
 		model.addAttribute("donation", donation);
+		System.out.println(donation);
 		model.addAttribute("member",member);
 		if(donation.getDonationDivision() == 1) { //일반기부
 			return "donation/donationView";
 		}else { //판매기부
 			return "donation/donationView2";
 		}
-		
-		
 	}
+	
+
+	@RequestMapping(value="/donationHashtag.kh")
+	public String donationHashtag(String donationCategory, Model model) {
+		ArrayList<Donation> list = service.selectHashtag(donationCategory); //카테고리 리스트 불러오기
+		System.out.println(donationCategory);
+		//int sumDonationCategory = service.selectsumDonationCategory(hashTag); //각 카테고리 총 기부 합계
+		
+		model.addAttribute("list",list);
+		//model.addAttribute("sumDonationCategory",sumDonationCategory);
+		return "donation/donationHashtagView";
+	}
+
+//-------------------------------페이지이동
+	@RequestMapping(value = "/donationWriter.kh") // 기부신규등록 버튼 클릭 시 이동할 form
+	public String donationWriter() {
+		return "donation/donationWriterForm";
+	}
+
+
+
+	//------------------------------- 임시
+
+
+	
+
+	//삭제예정로직
+	/*
 	@RequestMapping(value = "//donationClick.kh")
 	public String donationClick() {
 		return "donation/donationView";
@@ -114,38 +153,15 @@ public class DonationController {
 		model.addAttribute("donation", donation);
 		return "donation/donationView2";
 	}
-	@RequestMapping(value="//donationHashtag.kh")
-	public String donationHashtag(HttpServletRequest request, Model model) {
-		String donationCategory = request.getParameter("donationCategory"); //카테고리명가져오기
-		
-		ArrayList<Donation> list = service.selectHashtag(donationCategory); //카테고리 리스트 불러오기
-		int sumDonationCategory = service.selectsumDonationCategory(donationCategory); //각 카테고리 총 기부 합계
-		
-		model.addAttribute("list",list);
-		model.addAttribute("sumDonationCategory",sumDonationCategory);
-		model.addAttribute("donationCategory",donationCategory);
-		return "donation/donationHashtagView";
-	}
-
-//-------------------------------페이지이동
-	@RequestMapping(value = "/donationWriter.kh") // 기부신규등록 버튼 클릭 시 이동할 form
-	public String donationWriter() {
-		return "donation/donationWriterForm";
-	}
-
-	@RequestMapping(value = "/donationUpdateWriter.kh") // 기부 수정페이지로 이동할 form
-	public String updateDonation() {
-		return "donation/donationUpdateWriterForm";
-	}
-
-	//------------------------------- 임시
-	
-
 	@RequestMapping(value = "/donationClick2.kh")
 	public String donationClick2() {
 		return "donation/donationView2";
 	}
 
+	@RequestMapping(value="/donationMain.kh")
+	public String donationMain() {
+		return "donation/donationMain";
+	}
 	@RequestMapping(value = "/donationUpdate.kh")
 	public String donationUpdate() {
 		return "donation/donationUpdateForm";
@@ -154,8 +170,7 @@ public class DonationController {
 	public String donationHashtag() {
 		return "donation/donationHashtagView";
 	}
-	
-
+	*/
 //-------------------------------기타
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {

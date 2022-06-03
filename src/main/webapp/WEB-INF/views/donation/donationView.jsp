@@ -89,6 +89,18 @@ h5 {
 	width: 100%;
 	height: 100%;
 }
+.donation-update{
+	display: flex;
+	justify-content: space-between;
+}
+.update-btn{
+	font-size:10px;
+	width: 60px;
+	height: 20px;
+	text-align: center;
+	border-radius: 3px;
+	line-height:20px; 
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -100,7 +112,14 @@ h5 {
 			<div class="donation-explanation">
 				<h5>일반 기부 펀딩은 1,000원으로 값이 고정 됩니다.</h5>
 				<h3>${donation.donationTitle }</h3>
-				<p>00%</p>
+				<div class="donation-update">
+					<p>00%</p>
+					<c:set var="sessionScopeMemberNo" value="${sessionScope.m.memberNo}"/>
+					<c:set var="donationMemberNo" value="${donation.memberNo}"/>
+					<c:if test="${donationMemberNo eq sessionScopeMemberNo}">
+						<a class="bc2 update-btn" href="/donationUpdateWriter.kh?projectNo=${donation.projectNo }">수정하기</a>
+					</c:if>
+				</div>
 				<hr>
 				<div class="donation-target">
 					<p>목표금액 ${donation.donationTarget }원</p>

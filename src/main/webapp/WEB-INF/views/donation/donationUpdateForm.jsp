@@ -101,7 +101,10 @@ input:disabled {
 	width: 100%;
 	text-align: left;
 }
-
+.note-editor .note-editing-area .note-editable {
+    outline: none;
+    text-align: left;
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -114,12 +117,12 @@ input:disabled {
 			<div class="content-name">
 				<h1 class="sub-title">기부펀딩 수정</h1>
 			</div>
-			<form action="/insertDonation.kh" method="post">
+			<form action="/updateDonation.kh" method="post">
 				<table class="tbl">
 					<tr>
 						<th>제목</th>
 						<td colspan="3"><input type="text" name="donationTitle"
-							id="donationTitle" class="donationTitle" disabled></td>
+							id="donationTitle" class="donationTitle" value="${donation.donationTitle }" disabled></td>
 					</tr>
 					<tr>
 						<th>카테고리</th>
@@ -128,6 +131,7 @@ input:disabled {
 								<option value="child">아동</option>
 								<option value="female">여성</option>
 								<option value="help">불우이웃</option>
+								<option value="old">독거노인</option>
 						</select></td>
 						<th><label for="donationEnddate">종료날짜</label></th>
 						<td><input type="date" id="donationEnddate"></td>
@@ -135,20 +139,23 @@ input:disabled {
 					<tr>
 						<th>목표금액</th>
 						<td><input type="text" name="donationTarget"
-							id="donationTarget" class="donationTarget" disabled></td>
+							id="donationTarget" class="donationTarget" value="${donation.donationTarget }" disabled></td>
 						<th>상품가격</th>
-						<td><input type="text" name="donationCash" id="donationCash" class="donationCash" value="" disabled></td>
+						<td><input type="text" name="donationCash" id="donationCash" class="donationCash" value="${donation.donationCash }" disabled></td>
 					</tr>
 					<tr>
 						<th>내용</th>
 						<td colspan="3">
-						<textarea name="donationContent" id="donationContent" class="input-form" style="width:100%"></textarea></td>
+							<textarea name="donationContent" id="donationContent" class="input-form" style="width:100%">
+								${donation.donationContent }
+							</textarea>
+						</td>
 					</tr>
 				</table>
 				<div class="submit-btn">
-					<button type="submit" name="signUp-btn" class="bc1 btn subtn">등록하기</button>
+					<button type="submit" name="signUp-btn" class="bc1 btn subtn">수정하기</button>
 				</div>
-				<input type="hidden">
+				<input type="hidden" name="projectNo" value="${donation.projectNo }">
 			</form>
 		</div>
 	</div>
