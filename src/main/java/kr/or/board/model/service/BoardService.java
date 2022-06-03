@@ -88,6 +88,9 @@ public class BoardService {
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
+		System.out.println("comment의 totalPage : "+totalPage);
+		System.out.println("comment의 totalCount : "+totalCount);
+		System.out.println("comment의 pageNo : "+pageNo);
 		CommentPageData cpd = new CommentPageData(commentList, pageNavi);
 		return cpd;
 	}
@@ -159,6 +162,9 @@ public class BoardService {
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
+		System.out.println("order의 totalPage : "+totalPage);
+		System.out.println("order의 totalCount : "+totalCount);
+		System.out.println("order의 pageNo : "+pageNo);
 		OrderPageData opd = new OrderPageData(orderList, pageNavi);
 		return opd;
 	}
@@ -182,15 +188,15 @@ public class BoardService {
 		HashMap<String, Object> likeMap = new HashMap<String, Object>();
 		likeMap.put("boardName",boardName);
 		likeMap.put("memberNo",memberNo);
-		int totalCount = dao.selectLikeCount(likeMap);
+		int totalLikeCount = dao.selectLikeCount(likeMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
-		if(totalCount % numPerPage == 0) {
-			totalPage = totalCount/numPerPage;
+		if(totalLikeCount % numPerPage == 0) {
+			totalPage = totalLikeCount/numPerPage;
 		}else {
-			totalPage = totalCount/numPerPage + 1;
+			totalPage = totalLikeCount/numPerPage + 1;
 		}
-		
+
 		//pageNaviSize = 페이지 네비 길이 / pageNo = 페이지 번호
 		int pageNaviSize = 5;
 		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
@@ -230,6 +236,9 @@ public class BoardService {
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
+		System.out.println("like의 totalPage : "+totalPage);
+		System.out.println("like의 totalCount : "+totalLikeCount);
+		System.out.println("like의 pageNo : "+pageNo);
 		LikePageData lpd = new LikePageData(likeList, pageNavi);
 		return lpd;
 	}
@@ -301,6 +310,9 @@ public class BoardService {
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
+		System.out.println("qna의 totalPage : "+totalPage);
+		System.out.println("qna의 totalCount : "+totalCount);
+		System.out.println("qna의 pageNo : "+pageNo);
 		QnaPageData qpd = new QnaPageData(qnaList, pageNavi);
 		return qpd;
 	}

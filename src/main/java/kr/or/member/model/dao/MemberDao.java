@@ -19,6 +19,10 @@ public class MemberDao {
 		Member member = sqlSession.selectOne("member.selectOneMember",m);
 		return member;
 	}
+	public Member selectOneMemberId(String memberId) {
+		Member member = sqlSession.selectOne("member.selectOneMemberId",memberId);
+		return member;
+	}
 	public int insertMember(Member m) {
 		int result = sqlSession.insert("member.insertMember",m);
 		return result;
@@ -36,6 +40,11 @@ public class MemberDao {
 		List<Member> memberList = sqlSession.selectList("member.selectMemberList",map);
 		return (ArrayList<Member>)memberList;
 	}
+	public int selectMemberCount(HashMap<String, Object> memberMap) {
+		int totalMemberCount = sqlSession.selectOne("member.selectMemberCount",memberMap);
+		return totalMemberCount;
+	}
+	
 
 	
 

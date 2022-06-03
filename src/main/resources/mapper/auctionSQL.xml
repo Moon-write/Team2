@@ -44,7 +44,7 @@
 		  		ORDER BY PROJECT_NO DESC  			
   			</when>
   			<otherwise>
-		  		ORDER BY LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC  			
+		  		ORDER BY AUCTIONCLOSE ASC, LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC  			
   			</otherwise>
   		</choose>
   		
@@ -148,6 +148,7 @@
 	    PROJECT_NAME AS projectName,
 	    AUCTION_ITEM AS auctionItem,
 	    AUCTION_PIC AS auctionPic,
+	    AUCTION_PRICE AS auctionPrice,
 	    LASTDAY AS lastDay,
 	    LASTHOUR AS lastHour,
 	    LASTMIN AS lastMin,
@@ -196,19 +197,19 @@
 		        LASTDAY AS lastDay,
 		        LASTHOUR AS lastHour,
 		        LASTMIN AS lastMin,
-		        LIKEC
+		        NVL(EXLIKE, -99) AS LIKEC
 			FROM(
 				SELECT PROJECT_NO, 
 			<choose>
 				<when test="order==3">
-					COUNT(*) AS LIKEC FROM LIKE_TBL 			
+					COUNT(*) AS EXLIKE FROM LIKE_TBL 			
 				</when>
 				<otherwise>
-					SUM(VIEW_COUNT) AS LIKEC FROM VIEW_TBL
+					SUM(VIEW_COUNT) AS EXLIKE FROM VIEW_TBL
 				</otherwise>
 			</choose>
 				WHERE DIV_NO=4 GROUP BY PROJECT_NO)	
-				JOIN AUCTION_TBL USING(PROJECT_NO)
+				RIGHT JOIN AUCTION_TBL USING(PROJECT_NO)
 				JOIN LASTTIME USING(PROJECT_NO)
 				
 		<trim prefix="WHERE" prefixOverrides="AND">

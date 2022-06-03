@@ -178,7 +178,7 @@ public class AuctionService {
 				if(bidCount==0) {
 					bestPrice = a.getAuctionPrice();
 				}else {
-					bestPrice = dao.getMinBidPrice(a.getProjectNo());			
+					bestPrice = dao.getMinBidPrice(a.getProjectNo());
 				}
 				a.setBestPrice(bestPrice);
 			}

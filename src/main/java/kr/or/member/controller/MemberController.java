@@ -149,21 +149,31 @@ public class MemberController {
 	public String admin() {
 		return "admin/manageMember";
 	}
-	@RequestMapping(value="/memberList.kh")
-	public String memberList(int reqPage, Model model) {
-		MemberPageData mpd = service.selectMemberList(reqPage);
+	@RequestMapping(value="/selectMemberList.kh")
+	public String searchMemberList(int reqPage, Model model, int memberLevel) {
+		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
-		return "board/memberList";
+		return "admin/memberList";
 	}
-	@RequestMapping(value="/searchMemberList.kh")
-	public String searchMemberList(int reqPage, Model model) {
-		MemberPageData mpd = service.selectMemberList(reqPage);
+	@RequestMapping(value="/selectBizList.kh")
+	public String searchBizList(int reqPage, Model model, int memberLevel) {
+		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
-		return "board/memberList";
+		return "admin/bizList";
 	}
-	
+	@ResponseBody
+	@RequestMapping(value="/sendMail.kh")
+	public String sendMail(String email) {
+		String code = null;
+		Member m = service.selectOneMemberId(email);
+		System.out.println(email);
+		if(m == null) {
+			code = new MailSender().sendMail(email);
+		}
+		return "code";
+	}
 }

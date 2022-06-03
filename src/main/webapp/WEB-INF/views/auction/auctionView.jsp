@@ -349,7 +349,7 @@
 				${auction.auctionContent }
 			</div>
 			<div class="auction-comment">
-				<div class="page-titleC">회원 한마디</div>
+				<div class="page-titleC" id="comment">회원 한마디</div>
 				<ul class="comment-wrap">
 				<c:if test="${not empty sessionScope.m}">
 					<li style="margin-bottom: 20px">

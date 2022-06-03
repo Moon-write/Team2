@@ -87,17 +87,31 @@ public class DonationController {
 	}
 
 	// select
+	@RequestMapping(value = "/donationClick.kh")
+	public String donationView(int projectNo, Model model) {
+		int selectProjectNo = projectNo;
+		Donation donation = service.selectOneDonation(selectProjectNo);
+		int memberNo = donation.getMemberNo();
+		Member member = service.selectOneMember(memberNo); 
+		model.addAttribute("donation", donation);
+		model.addAttribute("member",member);
+		if(donation.getDonationDivision() == 1) { //일반기부
+			return "donation/donationView";
+		}else { //판매기부
+			return "donation/donationView2";
+		}
+		
+		
+	}
 	@RequestMapping(value = "//donationClick.kh")
-	public String donationView(Donation d, Model model) {
-		Donation donation = service.selectOneDonation(d);
-		model.addAttribute("donation", d);
+	public String donationClick() {
 		return "donation/donationView";
 	}
 
 	@RequestMapping(value = "//donationClick2.kh")
-	public String donationView2(Donation d, Model model) {
-		Donation donation = service.selectOneDonation(d);
-		model.addAttribute("donation", d);
+	public String donationView2(int projectNo, Model model) {
+		Donation donation = service.selectOneDonation(projectNo);
+		model.addAttribute("donation", donation);
 		return "donation/donationView2";
 	}
 	@RequestMapping(value="//donationHashtag.kh")
@@ -125,10 +139,7 @@ public class DonationController {
 	}
 
 	//------------------------------- 임시
-	@RequestMapping(value = "/donationClick.kh")
-	public String donationClick() {
-		return "donation/donationView";
-	}
+	
 
 	@RequestMapping(value = "/donationClick2.kh")
 	public String donationClick2() {

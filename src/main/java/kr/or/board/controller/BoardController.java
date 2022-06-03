@@ -34,7 +34,7 @@ public class BoardController {
 	@RequestMapping(value="/orderList.kh")
 	public String orderList(int reqPage, Model model, Member m) {
 		OrderPageData opd = service.selectOrderList(reqPage, m.getMemberNo());
-		model.addAttribute("ordertList",opd.getOrderList());
+		model.addAttribute("orderList",opd.getOrderList());
 		model.addAttribute("pageNavi",opd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "board/orderList";

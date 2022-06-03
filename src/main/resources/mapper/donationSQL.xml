@@ -36,7 +36,7 @@
   	ORDER BY DONATION_STARTDATE DESC
   </select>
   
-  <select id="selectOneDonation" resultType="d" parameterType="d">
+  <select id="selectOneDonation" resultType="d" parameterType="int">
   	  	select
   		PROJECT_NO as projectNo,
   		MEMBER_NO as memberNo,
@@ -49,7 +49,7 @@
   		DONATION_TARGET as donationTarget,
   		DONATION_CASH as donationCash,
   		DONATION_STARTDATE as donationStartdate,
-  		DONATION_ENDDATE as donationEnddate
+  		DONATION_ENDDATE as donationEnddate,
   		DIV_NO as divNo
   	from donation where PROJECT_NO = #{projectNo}
   </select>
@@ -78,5 +78,22 @@
   	from donation where DONATION_CATEGORY = #{donationCategory}
   </select>
   
+  <select id="selectOneMember" resultType="m" parameterType="int">
+  	select
+  		member_no as memberNo,
+		biz_no as bizNo,
+		biz_name as bizName,
+		member_id as memberId,
+		member_pw as memberPw,
+		member_name as memberName,
+		member_level as memberLevel,
+		member_gender as memberGender,
+		member_birth as memberBirth,
+		member_postcode as memberPostcode,
+		member_addr1 as memberAddr1,
+		member_addr2 as memberAddr2,
+		member_point as memberPoint
+  	from member where member_no = #{memberNo}
+  </select>
   
 </mapper>
