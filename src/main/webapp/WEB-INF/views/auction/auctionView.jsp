@@ -358,7 +358,8 @@
 						<div class='comment-date'>
 							<button onclick="addComment()" class="btn bc22">등록</button>
 						</div>
-					</li>				
+					</li>
+					<div id='noComment' style='height: 100px; display: none; align-items: center;'>등록된 댓글이 없습니다!</div>				
 				</c:if>
 				</ul>
 			</div>
@@ -721,9 +722,10 @@
 				},
 				success : function(list){
 					if(list.length==0){
-						const none = $("<div style='height: 100px; display: flex; align-items: center;'>");
-						none.text("등록된 댓글이 없습니다!");
-						$(".comment-wrap").append(none);
+						// const none = $("<div id='noComment' style='height: 100px; display: flex; align-items: center;'>");
+						// none.text("등록된 댓글이 없습니다!");
+						// $(".comment-wrap").append(none);
+						$("#noComment").css("display","flex");
 					}else{						
 						for(let i=0;i<list.length;i++){
 							const commentRow = $("<li style='display: none;'>");
@@ -783,7 +785,7 @@
 					if(result=="error"){
 						alert("댓글 등록에 실패했습니다! 잠시 뒤 다시 시도해 주세요");
 					}else{
-						
+						$("#noComment").css("display","none");
 						const commentRow = $("<li style='display: none;'>");
 						const commenter = $("<div class='comment-writer'>");
 						commenter.text("${sessionScope.m.memberName}");

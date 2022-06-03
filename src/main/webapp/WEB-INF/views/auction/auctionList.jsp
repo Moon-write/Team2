@@ -19,7 +19,6 @@
 		justify-content: center;
 	}
 	.likeList-content{
-		width: 20%;
 		margin: 0px 10px;
 		padding: 20px;
 		position: relative;
@@ -36,18 +35,23 @@
 		background-color: white;
 		border-radius: 30%;
 	}
-	.likeList-content>div:first-child{
-		width: 100%;
-		margin-bottom: 20px;
+	.likeList-content>a>div:first-of-type{
+		width: 200px; height: 200px;
+		margin-bottom: 10px;
 	}
 	.likeList-content a{
-		color : black;	
+		display: flex;
+		height: 320px;
+		color : black;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 	.likeList-content div>img{
-		width: 100%;
+		width: 100%; height: 100%;
 		object-fit: cover;
 		border-radius: 10px;
 	}
+
 	.likeList-title{
 		text-align: left;
 	}
@@ -449,7 +453,7 @@
 										"<span class='material-symbols-rounded likeB-yellow'>star</span>"+
 										"<a href='/auctionView.kh?projectNo="+list[i].projectNo+"'>"+
 										"<div>"+
-										"<img src='../../../resources/img/auction/"+list[i].auctionPic+"'>"+
+										"<img src='../../../resources/upload/auction/"+list[i].auctionPic+"'>"+
 										"</div>"+
 										"<div class='likeList-title'>"+
 											"<h4>"+list[i].projectName+"</h4>"+

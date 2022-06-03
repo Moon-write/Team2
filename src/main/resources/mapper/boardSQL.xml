@@ -12,8 +12,6 @@
 			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = C.PROJECT_NO)
 			        WHEN DIV_NO = 2
 			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = C.PROJECT_NO)
-			        WHEN DIV_NO = 3
-			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = C.PROJECT_NO)
 			        WHEN DIV_NO = 4
 			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = C.PROJECT_NO)
 			    END
@@ -33,8 +31,6 @@
 			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = L.PROJECT_NO)
 			        WHEN DIV_NO = 2
 			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = L.PROJECT_NO)
-			        WHEN DIV_NO = 3
-			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = L.PROJECT_NO)
 			        WHEN DIV_NO = 4
 			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = L.PROJECT_NO)
 			    END
@@ -54,8 +50,6 @@
 			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = O.PROJECT_NO)
 			        WHEN DIV_NO = 2
 			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = O.PROJECT_NO)
-			        WHEN DIV_NO = 3
-			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = O.PROJECT_NO)
 			        WHEN DIV_NO = 4
 			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = O.PROJECT_NO)
 			    END
@@ -63,7 +57,7 @@
 			    order_price as orderPrice,
 			    substr(order_date,1,10) as orderDate,
 			    order_status as orderStatus
-			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 3 DESC)C)
+			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 2 DESC)C)
             where rnum between #{start} and #{end}		
   	</select>
   	<select id="selectQnaList" parameterType="map" resultType="bo">
@@ -77,8 +71,6 @@
 			        THEN (SELECT FUNDING_NAME FROM FUNDING WHERE FUNDING_NO = Q.PROJECT_NO)
 			        WHEN DIV_NO = 2
 			        THEN (SELECT DONATION_TITLE FROM DONATION WHERE PROJECT_NO = Q.PROJECT_NO)
-			        WHEN DIV_NO = 3
-			        THEN (SELECT PROJECT_NAME FROM GROUP_TBL WHERE PROJECT_NO = Q.PROJECT_NO)
 			        WHEN DIV_NO = 4
 			        THEN (SELECT PROJECT_NAME FROM AUCTION_TBL WHERE PROJECT_NO = Q.PROJECT_NO)
 			    END
@@ -104,4 +96,35 @@
   		</if>
   		 where member_no=#{memberNo}
   	</select>
+  	
+  	<select id="selectOneOrder" parameterType="int" resultType="o">
+  	SELECT ORDER_NO AS orderNo,
+  		DIV_NO AS divNo,
+  		PROJECT_NO AS projectNo,
+  		MEMBER_NO AS memberNo,
+  		SELLER_NO AS sellerNo,
+  		TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS') AS orderDate,
+  		ORDER_PRICE AS orderPrice,
+  		ORDER_POINT AS orderPoint,
+  		ORDER_DEL_NAME AS orderDelName,
+  		ORDER_DEL_POST AS orderDelPost,
+  		ORDER_DEL_ADDR1 AS orderDelAddr1,
+  		ORDER_DEL_ADDR2 AS orderDelAddr2,
+  		ORDER_DEL_PHONE AS orderDelPhone,
+  		ORDER_DEL_ASK AS orderDelAsk,
+  		ORDER_STATUS AS orderStatus,
+        PROJECT_NAME AS projectName
+  		FROM ORDER_TBL WHERE ORDER_NO = #{orderNo}  	
+  	</select>
+  	
+  	 <select id="selectOrderProduct" parameterType="int" resultType="op">
+  	SELECT PRODUCT_NO AS productNo,
+        ORDER_NO AS orderNo,
+        OPTION_NO AS optionNo,
+        PRODUCT_PRICE AS productPrice,
+        PRODUCT_AMOUNT AS productAmount,
+        AUCTION_ITEM AS productName,
+        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN AUCTION_TBL USING(PROJECT_NO) WHERE ORDER_NO = #{orderNo}
+        <!-- DIVNO별로 컬럼명 다르게해줘야함! 이건추후 작업 -->
+  </select>
 </mapper>

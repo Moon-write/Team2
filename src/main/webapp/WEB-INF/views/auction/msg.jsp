@@ -54,6 +54,7 @@
 	function onOpen(){
 	}
 	function receiveMsg(msg){
+		console.log(msg);
 		let result = msg.data.split("/");
 		console.log(result[1]);
 		if(result[0] =="drop"){

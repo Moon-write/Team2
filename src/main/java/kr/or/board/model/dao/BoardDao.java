@@ -12,7 +12,8 @@ import kr.or.board.model.vo.Board;
 import kr.or.common.model.vo.Comment;
 	import kr.or.common.model.vo.Like;
 	import kr.or.common.model.vo.Order;
-	import kr.or.common.model.vo.Qna;
+import kr.or.common.model.vo.OrderProduct;
+import kr.or.common.model.vo.Qna;
 
 	@Repository
 	public class BoardDao {
@@ -50,5 +51,13 @@ import kr.or.common.model.vo.Comment;
 		public int selectQnaCount(HashMap<String, Object> qnaMap) {
 			int totalCount = sqlSession.selectOne("board.selectQnaCount",qnaMap);
 			return totalCount;
+		}
+		public Order selectOneOrder(int orderNo) {
+			// TODO Auto-generated method stub
+			return sqlSession.selectOne("board.selectOneOrder", orderNo);
+		}
+		public ArrayList<OrderProduct> selectOrderProduct(int orderNo) {
+			List list = sqlSession.selectList("board.selectOrderProduct", orderNo);
+			return (ArrayList<OrderProduct>)list;
 		}
 	}

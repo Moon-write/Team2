@@ -10,6 +10,7 @@ import kr.or.board.model.vo.CommentPageData;
 import kr.or.board.model.vo.LikePageData;
 import kr.or.board.model.vo.OrderPageData;
 import kr.or.board.model.vo.QnaPageData;
+import kr.or.common.model.vo.Order;
 import kr.or.member.model.vo.Member;
 
 @Controller
@@ -58,4 +59,17 @@ public class BoardController {
 		return "board/likeList";
 	}
 	
+	
+	@RequestMapping(value = "/orderView.kh")
+	public String orderView(int orderNo, Model model) {
+		Order order = service.selectOneOrder(orderNo);
+		model.addAttribute("order", order);
+		return "board/orderView";
+	}
+	@RequestMapping(value = "/modifyOrder.kh")
+	public String modifyOrder(int orderNo, Model model) {
+		Order order = service.selectOneOrder(orderNo);
+		model.addAttribute("order", order);
+		return "board/modifyOrder";
+	}
 }

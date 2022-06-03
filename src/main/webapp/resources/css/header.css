@@ -60,6 +60,11 @@ div.menu-wrap>ul>li>a{
     font-family: ns-m;
     color: #191F28;
 }
+div.menu-wrap>ul>li:last-child{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 div.menu-wrap>ul>li>a:hover+ul, ul.sub-menu-wrap:hover{
     display: flex;
 }
@@ -68,7 +73,6 @@ input#site-search{
     border-bottom: 1px solid #1E90FF;
     outline: none;
     width: 100px; height: 90%;
-    margin: 2px 0px 1px 0px;
     padding-left: 10px;
 }
 input#site-search+span{

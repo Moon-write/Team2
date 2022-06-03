@@ -317,5 +317,10 @@ public class BoardService {
 		return qpd;
 	}
 
+	public Order selectOneOrder(int orderNo) {
+		Order order = dao.selectOneOrder(orderNo);
+		order.setOrderProductList(dao.selectOrderProduct(orderNo));
+		return order;
+	}
 	
 }

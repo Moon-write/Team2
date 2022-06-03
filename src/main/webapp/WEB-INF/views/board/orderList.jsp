@@ -40,40 +40,40 @@
 	left: 0px;
 }
 .my_book_list_tbl tr>th:nth-child(1){
-	width: 7%;
+	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(2){
-	width: 7%;
+	width: 10%;
 } 
 .my_book_list_tbl tr>th:nth-child(3){
-	width: 10%;
+	width: 30%;
 }
 .my_book_list_tbl tr>th:nth-child(4){
-	width: 24%;
+	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(5){
-	width: 12%;
+	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(6){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(1){
-	width: 7%;
-}
-#my_book_list_tbl tr>td:nth-child(2){
-	width: 7%;
-} 
-#my_book_list_tbl tr>td:nth-child(3){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(4){
-	width: 24%;
-}
-#my_book_list_tbl tr>td:nth-child(5){
 	width: 12%;
 }
-#my_book_list_tbl tr>td:nth-child(6){
+#my_book_list_tbl tr>td:nth-child(1){
 	width: 10%;
+}
+#my_book_list_tbl tr>td:nth-child(2){
+	width: 10%;
+} 
+#my_book_list_tbl tr>td:nth-child(3){
+	width: 30%;
+}
+#my_book_list_tbl tr>td:nth-child(4){
+	width: 10%;
+}
+#my_book_list_tbl tr>td:nth-child(5){
+	width: 10%;
+}
+#my_book_list_tbl tr>td:nth-child(6){
+	width: 12%;
 }
 select{
 	float: right;
@@ -93,6 +93,9 @@ select{
 #pageNavi>*{
 	margin-top: 60px;
 	margin-bottom: 30px;
+}
+.payBtn{
+	margin-top: 5px;
 }
 </style>
 </head>
@@ -127,21 +130,27 @@ select{
 							<c:forEach items="${orderList }" var="bo" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
-										<c:choose>
-											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
-											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
-											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
-										</c:choose>
-										<td>${bo.orderNo }</td>
+										<td>
+											<c:choose>
+												<c:when test="${bo.divNo eq 1}">펀딩</c:when>
+												<c:when test="${bo.divNo eq 2}">기부</c:when>
+												<c:when test="${bo.divNo eq 4}">경매</c:when>
+											</c:choose> 
+										</td>
+										<td id="orderNo">${bo.orderNo }</td>
 										<td>${bo.projectName }</td>
 										<td>${bo.orderPrice }</td>
 										<td>${bo.orderDate }</td>
 										<c:choose>
 											<c:when test="${bo.orderStatus eq 1}"><td>결제완료</td></c:when>
 											<c:when test="${bo.orderStatus eq 2}"><td>배송완료</td></c:when>
-											<c:when test="${bo.orderStatus eq 3}"><td>주문완료</td></c:when>
-											<c:when test="${bo.orderStatus eq 4}"><td>결제대기</td></c:when>
+											<c:when test="${bo.orderStatus eq 3}"><td>입찰완료</td></c:when>
+											<c:when test="${bo.orderStatus eq 4}">
+												<td>
+												결제대기
+												<button class="btn bc11 payBtn">결제하기</button>
+												</td>
+											</c:when>
 											<c:when test="${bo.orderStatus eq 5}"><td>주문취소</td></c:when>
 										</c:choose>
 									</tr>
@@ -157,5 +166,16 @@ select{
 		</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<script type="text/javascript">
+		$("#my_book_list_tbl tr").on("click",function(){
+			const orderNo = $(this).children("td#orderNo").text();
+			location.href = "/orderView.kh?orderNo="+orderNo;
+		})
+		$(".payBtn").on("click",function(event){
+			window.event.stopPropagation();			
+			const orderNo = $(this).parent().prev().prev().prev().prev().text();
+			location.href = "/addOrder.kh?orderNo="+orderNo;
+		})
+	</script>
 </body>
 </html>

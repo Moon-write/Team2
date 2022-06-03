@@ -65,11 +65,9 @@
 				</ul>
 			</li>
 			<li><a href="/donationList.kh">기부</a></li>
-			<li><a href="/groupList.kh">공동구매</a>
-			</li>
 			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1">경매</a></li>
 			<li>
-				<form action="/searchProject.kh" style="margin-top:10px;">
+				<form action="/searchProject.kh" style="margin-top: 5px">
 					<input type="text" name="keyword" id="site-search" autocomplete='off'>
 					<span class="material-symbols-outlined" id="searchBtn">search</span>
 					<div class="popKeyArea">
@@ -124,7 +122,7 @@
 					div.append(a);
 					keyword.append(div);
 				}
-			}
+			}			
 		});			
 	}
 	$("#closePopKey").on("click",function(){

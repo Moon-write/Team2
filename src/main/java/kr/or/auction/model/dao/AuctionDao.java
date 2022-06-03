@@ -166,7 +166,7 @@ public class AuctionDao {
 
 	public int updateOrderPay(Order o) {
 		int result = sqlSession.update("auction.updateOrderPay", o);
-		return 0;
+		return result;
 	}
 
 	public float checkUpdatable(int projectNo) {
@@ -217,5 +217,10 @@ public class AuctionDao {
 	public int checkCommentCount(Comment c) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("auction.checkCommentCount", c);
+	}
+
+	public int updateFailOrderStatus(Bid b) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("auction.updateFailOrderStatus", b);
 	}
 }

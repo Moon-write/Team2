@@ -252,6 +252,11 @@
 	 	UPDATE ORDER_TBL SET ORDER_STATUS=4, ORDER_PRICE= #{bidPrice}*#{bidAmount} WHERE ORDER_NO = #{orderNo}
 	</update>
   
+     <update id="updateFailOrderStatus" parameterType="bid">			
+	 	UPDATE ORDER_TBL SET ORDER_STATUS=5 WHERE ORDER_NO = #{orderNo}
+	</update>
+  
+  
   <select id="getSuccessBidList" parameterType="a" resultType="bid">
   	SELECT BID_NO AS bidNo,
   		MEMBER_NO AS memberNo,
@@ -266,8 +271,8 @@
   </update>
   
   <select id="selectOneOrder" parameterType="int" resultType="o">
-  	SELECT ORDER_NO AS orderNo,
-  		DIV_NO AS divNo,
+  	  	SELECT ORDER_NO AS orderNo,
+  		O.DIV_NO AS divNo,
   		PROJECT_NO AS projectNo,
   		O.MEMBER_NO AS memberNo,
   		SELLER_NO AS sellerNo,
@@ -281,7 +286,7 @@
   		ORDER_DEL_PHONE AS orderDelPhone,
   		ORDER_DEL_ASK AS orderDelAsk,
   		ORDER_STATUS AS orderStatus,
-        PROJECT_NAME AS projectName
+        O.PROJECT_NAME AS projectName
   		FROM ORDER_TBL O JOIN AUCTION_TBL P USING(PROJECT_NO) WHERE ORDER_NO = #{orderNo}
   </select>
   

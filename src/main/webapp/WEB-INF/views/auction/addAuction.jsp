@@ -46,7 +46,7 @@
 		border: 1px solid #ccc;
 	}
 	.pic-upload>img{
-		width: 100%;
+		width: 100%; height: 100%;
 		object-fit: cover;
 	}
 	.auction-notice{

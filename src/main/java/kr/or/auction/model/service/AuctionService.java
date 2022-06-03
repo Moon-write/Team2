@@ -249,10 +249,14 @@ public class AuctionService {
 						// 수량변경은 ORDER_PRODUCT에서 변경
 						result = dao.updateOrderAmount(b);
 						if(result<=0) return -3;
+					}else if(b.getBidSuccess()==0) {
+						// 떨어진 경우
+						result = dao.updateFailOrderStatus(b);
+						if(result<=0) return -4;
 					}
 					// 4 낙찰자에게 메세지 보낼 수 있으면 메세지까지 보내기
 					try {
-						bidHandler.sendBidSuccessMsg(a.getMemberNo());
+						bidHandler.sendBidSuccessMsg(b.getMemberNo());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
