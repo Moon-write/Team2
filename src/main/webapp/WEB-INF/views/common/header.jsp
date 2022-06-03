@@ -105,10 +105,10 @@
 	$("#site-search").on("click",function(){
 		const pk=$(".popKeyArea");
 		pk.css("display","block");
-		const keyword=$("#keyword");
-		keyword.empty();
-		popKey();
 	})
+	
+	window.onload=popKey();
+	
 	function popKey(){
 		$.ajax({
 			url: "/popKey.kh",

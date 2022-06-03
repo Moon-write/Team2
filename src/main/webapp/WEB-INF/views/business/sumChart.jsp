@@ -107,21 +107,14 @@ td:last-child{
 						<li><a href="#">기부 등록</a></li>
 						<li><a href="/manageDonation.kh">기부 관리</a></li>
 					</ul>
-				</li>
-				<li>
-					<a href="#">공동구매</a>
-					<ul class="sub-menu">
-						<li><a href="#">공동구매 등록</a></li>
-						<li><a href="/manageGroup.kh">공동구매 관리</a></li>
-					</ul>
-				</li>
+				</li>				
 				<li>
 					<a href="#">경매</a>
 					<ul class="sub-menu">
 						<li><a href="addAuction.kh">경매 등록</a></li>
 						<li><a href="/manageAuction.kh">경매 관리</a></li>
 					</ul>
-				</li>				
+				</li>
 				<li>
 					<a href="#">Q&A페이지</a>					
 				</li>
@@ -132,7 +125,7 @@ td:last-child{
 					<a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="/sumChart.kh">누적 금액</a></li>
-						<li><a href="/checkCount.kh">일별 카운트</a></li>
+						<li><a href="/checkCount.kh">조회수 전일비교</a></li>
 					</ul>
 				</li>
 				<li>
@@ -168,7 +161,6 @@ td:last-child{
                					<option value="0">선택</option>                								
 			                    <option value="1">펀딩</option>
 			                    <option value="2">기부</option>
-			                    <option value="3">공동구매</option>
 			                    <option value="4">경매</option>
 			                </select>
 			                <span id="divNoTd">
@@ -632,31 +624,6 @@ td:last-child{
 								for(let i=0;i<list.length;i++){
 									const option=$("<option value=\""+list[i].PROJECTNO+"\">");
 									option.append(list[i].DONATIONTITLE);
-									select.append(option);
-								}
-							}
-						});		
-					}
-				});		
-			}else if(e.value=="3"){
-				divNoTd.empty();
-				$.ajax({
-					url:"/selectGList.kh",
-					data:{memberNo:memberNo},
-					success:function(list){
-						divNoTd.append(select);
-						for(let i=0;i<list.length;i++){
-							const option=$("<option value=\""+list[i].PROJECTNO+"\">");
-							option.append(list[i].PROJECTNAME);
-							select.append(option);							
-						}
-						$.ajax({
-							url:"/selectExpiredGList.kh",
-							data:{memberNo:memberNo},
-							success:function(list){
-								for(let i=0;i<list.length;i++){
-									const option=$("<option value=\""+list[i].PROJECTNO+"\">");
-									option.append(list[i].PROJECTNAME);
 									select.append(option);
 								}
 							}

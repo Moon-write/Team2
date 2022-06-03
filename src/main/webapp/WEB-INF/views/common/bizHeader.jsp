@@ -28,7 +28,7 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <!-- sweetalarm.js -->
-<script src="../../../resources/js/sweetalert2.min.js"></script>
+<script src="../../../resources/js/sweetalert.min.js"></script>
 
 
 <!-- -- -- -- -- -- html 시작 -- -- -- -- --  -->

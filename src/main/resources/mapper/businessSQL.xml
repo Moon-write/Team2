@@ -223,52 +223,12 @@
 		)n)
 	</select>
 	
-	<select id="selectGList" parameterType="int" resultType="HashMap">
-		select * from (select rownum as rnum,n.* from (
-		    select distinct
-		        project_no as projectNo,
-		        project_name as projectName,
-		        grp_count as grpCount,
-		        grp_start as grpStart, 
-		        grp_end as grpEnd,
-                grp_orig_price as grpOrigPrice,
-                grp_lowest as grpLowest,
-                grp_prd_no as grpPrdNo,
-                grp_category as grpCategory
-		    from group_tbl
-		    where member_no=#{memberNo} and
-		    to_number(substr(grp_end,9,2)) <![CDATA[ >= ]]> to_number(to_char(sysdate,'dd'))
-		    order by project_no desc
-		)n)
-	</select>
-	
-	<select id="selectExpiredGList" parameterType="int" resultType="HashMap">
-		select * from (select rownum as rnum,n.* from (
-		    select distinct
-		        project_no as projectNo,
-		        project_name as projectName,
-		        grp_count as grpCount,
-		        grp_start as grpStart, 
-		        grp_end as grpEnd,
-                grp_orig_price as grpOrigPrice,
-                grp_lowest as grpLowest,
-                grp_prd_no as grpPrdNo,
-                grp_category as grpCategory
-		    from group_tbl
-		    where member_no=#{memberNo} and
-		    to_number(substr(grp_end,9,2)) <![CDATA[ < ]]> to_number(to_char(sysdate,'dd'))
-		    order by project_no desc
-		)n)
-	</select>
 	
 	
 	
 	
 	<delete id="deleteAuction" parameterType="int">
 		delete from auction_tbl where project_no=#{projectNo}		
-	</delete>
-	<delete id="deleteGroup" parameterType="int">
-		delete from group_tbl where project_no=#{projectNo}		
 	</delete>
 	<delete id="deleteFunding" parameterType="int">
 		delete from funding where funding_no=#{fundingNo}
@@ -305,19 +265,6 @@
 	    	nvl((select view_count from view_tbl where div_no=1 and project_no=funding_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
 		from view_tbl v join funding a on (funding_no=v.project_no)
 		where member_no=#{memberNo} and v.div_no=1
-	</select>
-	<select id="selectGcList" parameterType="int" resultType="HashMap">
-		select distinct
-			v.div_no as divNo,
-			a.project_no as projectNo,
-			project_name as projectName, 
-			nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd'))
-	   		-(select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) 
-	    	as viewDif,
-	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate-1,'yymmdd')),0) as prevCount,
-	    	nvl((select view_count from view_tbl where div_no=3 and project_no=a.project_no and to_char(view_date,'yymmdd')=to_char(sysdate,'yymmdd')),0) as viewCount
-		from view_tbl v join group_tbl a on (a.project_no=v.project_no)
-		where member_no=#{memberNo} and v.div_no=3
 	</select>
 	<select id="selectDcList" parameterType="int" resultType="HashMap">
 		select distinct
@@ -468,21 +415,18 @@
     	select least(
 		<if test="divNo == 1 ">funding_start_date</if> 
 	    <if test="divNo == 2 ">donation_startdate</if>
-	    <if test="divNo == 3 ">to_date(grp_start,'yyyy/mm/dd')</if>
 	    <if test="divNo == 4 ">auction_start</if>
-	    <if test="divNo == 0 ">nvl(auction_start,sysdate), nvl(funding_start_date,sysdate), nvl(donation_startdate,sysdate), nvl(to_date(grp_start,'yyyy/mm/dd'),sysdate)</if>
+	    <if test="divNo == 0 ">nvl(auction_start,sysdate), nvl(funding_start_date,sysdate), nvl(donation_startdate,sysdate)</if>
 	    ) as least
 	    from
 	    <if test="divNo == 1 ">funding</if> 
 	    <if test="divNo == 2 ">donation</if>
-	    <if test="divNo == 3 ">group_tbl</if>
 	    <if test="divNo == 4 ">auction_tbl</if>
 	    <if test="divNo == 0 ">
 	    order_tbl
 		left join auction_tbl a on(a.member_no=seller_no)
 		left join donation d on(d.member_no=seller_no)
 		left join funding f on(f.member_no=seller_no)
-		left join group_tbl g on(g.member_no=seller_no)
 	    </if>
 	    where 
 	    <if test="divNo != 0 ">member_no=#{memberNo}</if>
@@ -509,10 +453,6 @@
 			to_char(donation_startdate,'yyyy-mm-dd') as startDate, 
 			to_char(donation_enddate,'yyyy-mm-dd') as endDate 
 		</if>
-		<if test="divNo == 3 ">
-			to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy-mm-dd') as startDate, 
-			to_char(to_date(grp_end,'yyyy/mm/dd'),'yyyy-mm-dd') as endDate 
-		</if>
 		<if test="divNo == 4 ">
 			to_char(auction_start,'yyyy-mm-dd') as startDate, 
 			to_char(auction_end,'yyyy-mm-dd') as endDate 
@@ -520,7 +460,6 @@
 		from
 		<if test="divNo == 1 ">funding</if>
 		<if test="divNo == 2 ">donation</if>
-		<if test="divNo == 3 ">group_tbl </if>
 		<if test="divNo == 4 ">auction_tbl</if>		
 		where member_no=#{memberNo} and 
 		<if test="divNo == 1 ">funding_no=#{projectNo}</if>
