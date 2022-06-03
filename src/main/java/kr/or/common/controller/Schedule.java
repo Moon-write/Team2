@@ -14,7 +14,7 @@ public class Schedule {
 	private commonService service;
 
 	@Scheduled(cron = "0 0 0/1 * * *")
-	public void test2() {
+	public void deleteKeyword() {
 		int result=service.deleteKeyword();
 	}
 
