@@ -79,15 +79,18 @@
 	}
 </style>
 <link rel="stylesheet" href="../../../resources/css/summernote-lite.css">
-<link rel="stylesheet" href="../../../resources/css/auction/mobiscroll.jquery.min.css"/>
+<link rel="stylesheet" href="../../../resources/css/auction/datepicker.min.css">
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
-	<script src="../../../resources/js/auction/mobiscroll.jquery.min.js"></script>
+	<script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
+	<script src="../../../resources/js/auction/datepicker.min.js"></script>
+	<script src="../../../resources/js/auction/i18n/datepicker.ko.js"></script>
 	<script src="../../../resources/js/summernote-lite.js"></script>
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
 			<form method='post' enctype='multipart/form-data'>
+			
 			<div class="page-titleC">경매 등록</div>
 			<div class="auction-wrap">
 				<div class="auction-pic">
@@ -129,12 +132,12 @@
 						<tr>
 							<th rowspan="2">경매 기간</th>
 							<td>
-								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionStart" />
+								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionStart" />
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionEnd" />
+								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionEnd" />
 							</td>
 						</tr>
 						<tr>
@@ -174,7 +177,7 @@
 					uploadImage(files[0],this);
 				}
 			}
-		})
+		});
 
 		function uploadImage(file, editor){
 			const form = new FormData();
@@ -206,6 +209,7 @@
 		})
 
 		function checkDate(){
+			
 			const startDate = $("input[name=auctionStart]").val();
 			const endDate = $("input[name=auctionEnd]").val();
 			const today = new Date();
@@ -316,25 +320,22 @@
 				return false;
 			}
 		};
-		mobiscroll.setOptions({
-		    locale: mobiscroll.localeKo,
-		    theme: 'windows',
-		    themeVariant: 'light'
-		});
 
 		$(function () {
-		    $('#date-start').mobiscroll().datepicker({
-		        controls: ['datetime'],
-				dateFormat : 'YYYY-MM-DD',
-				timeFormat : 'HH:mm',
-		        stepMinute: 10
-		    });
-		    $('#date-end').mobiscroll().datepicker({
-		        controls: ['datetime'],
-				dateFormat : 'YYYY-MM-DD',
-				timeFormat : 'HH:mm',
-		        stepMinute: 10
-		    });
+			
+			$("#date-start").datepicker({
+				language : 'ko',
+				timepicker:true,
+				timeFormat: "hh:ii",
+				minutesStep: 10
+			})
+			
+			$("#date-end").datepicker({
+				language : 'ko',
+				timepicker:true,
+				timeFormat: "hh:ii",
+				minutesStep: 10
+			})
 		});
 	</script>
 </body>

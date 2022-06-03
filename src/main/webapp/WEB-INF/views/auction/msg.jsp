@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <style>
-    	div.msg-banner>span{
+    	div.msg-banner>span:first-child{
     		font-family: ns-light;
     	}
 		div.msg-banner>span>a{
