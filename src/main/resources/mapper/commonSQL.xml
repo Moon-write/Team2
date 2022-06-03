@@ -52,6 +52,6 @@
 		insert into popkey values(#{keyword},sysdate)
 	</insert>
 	<delete id="deleteKeyword">
-		delete from popKey where to_number(to_char(sysdate,'hhmi'))>(to_number(to_char(search_date+2/24,'hhmi')))
+		delete from popKey where to_number(to_char(sysdate,'yyyymmddhh24mi'))>(to_number(to_char(search_date+2/24,'yyyymmddhh24mi')))
 	</delete>
 </mapper>
