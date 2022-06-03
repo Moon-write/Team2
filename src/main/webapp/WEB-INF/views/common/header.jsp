@@ -69,8 +69,29 @@
 			</li>
 			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1">경매</a></li>
 			<li>
-				<input type="text" id="site-search">
-				<span class="material-symbols-outlined" id="searchBtn">search</span>
+				<form action="/searchProject.kh" style="margin-top:10px;">
+					<input type="text" name="keyword" id="site-search" autocomplete='off'>
+					<span class="material-symbols-outlined" id="searchBtn">search</span>
+					<div class="popKeyArea">
+						<div style="text-align: center;margin-top:5px;padding-bottom:5px;">인기검색어</div>
+						<fieldset class="keywordList">
+							<div id="rankNo" style="float: left;text-align: center;">
+								<div>1</div>
+								<div>2</div>
+								<div>3</div>
+								<div>4</div>
+								<div>5</div>
+								<div>6</div>
+								<div>7</div>
+								<div>8</div>
+								<div>9</div>
+								<div>10</div>
+							</div>
+							<div id="keyword" style="float: left;margin-left: 10px;"></div>
+						</fieldset>
+						<a href="#" id="closePopKey">닫기</a>
+					</div>									
+				</form>
 			</li>
 		</ul>
 	</div>
@@ -82,5 +103,36 @@
 	})
 	$("#searchBtn").on("click",function(){
 		location.href="/searchProject.kh?keyword="+$("#site-search").val();
+	})
+	$("#site-search").on("click",function(){
+		const pk=$(".popKeyArea");
+		pk.css("display","block");
+		const keyword=$("#keyword");
+		keyword.empty();
+		popKey();
+	})
+	function popKey(){
+		$.ajax({
+			url: "/popKey.kh",
+			type:"get",
+			success:function(list){		
+				for(let i=0;i<list.length;i++){
+					const keyword=$("#keyword");
+					const div=$("<div>");
+					const a=$("<a class=\"searchKeyword\" href=\"#\" style=\"color:black\">");
+					a.append(list[i]);
+					div.append(a);
+					keyword.append(div);
+				}
+			}
+		});			
+	}
+	$("#closePopKey").on("click",function(){
+		const pk=$(".popKeyArea");
+		pk.css("display","none");
+	})
+	$(document).on("click", ".searchKeyword",function(){
+		const keyword=$(this).text();
+		location.href="/searchProject.kh?keyword="+keyword;
 	})
 </script>

@@ -207,6 +207,8 @@ td:last-child{
 				data:{memberNo:memberNo, divNo:0},
 				success:function(list){
 					startDate=list;
+					console.log(startDate);
+					console.log(memberNo);
 					$.ajax({
 						url:"/getDates.kh",
 						data:{startDate:startDate, endDate:dateString},

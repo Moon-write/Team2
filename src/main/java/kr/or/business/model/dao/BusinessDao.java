@@ -260,8 +260,4 @@ public class BusinessDao {
 		return (ArrayList<String>) list;
 	}
 
-	public int insertNumber() {
-		// TODO Auto-generated method stub
-		return sqlSession.insert("business.insertNumber");
-	}
 }

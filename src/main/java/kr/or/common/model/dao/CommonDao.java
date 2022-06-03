@@ -19,5 +19,19 @@ public class CommonDao {
 		List<Project> list = sqlSession.selectList("common.searchProject", keyword);
 		return (ArrayList<Project>) list;
 	}
-	
+	public ArrayList<String> selectPopKeyList() {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("common.selectPopKeyList");
+		return (ArrayList<String>)list;
+	}
+
+	public int insertPopKey(String keyword) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("common.insertPopKey",keyword);
+	}
+
+	public int deleteKeyword() {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("common.deleteKeyword");
+	}
 }

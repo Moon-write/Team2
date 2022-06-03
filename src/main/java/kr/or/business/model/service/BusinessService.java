@@ -303,9 +303,4 @@ public class BusinessService {
 		return dao.selectStartEndDate(map);
 	}
 
-	public int insertNumber() {
-		// TODO Auto-generated method stub
-		return dao.insertNumber();
-	}
-
 }

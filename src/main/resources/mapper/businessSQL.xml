@@ -470,7 +470,7 @@
 	    <if test="divNo == 2 ">donation_startdate</if>
 	    <if test="divNo == 3 ">to_date(grp_start,'yyyy/mm/dd')</if>
 	    <if test="divNo == 4 ">auction_start</if>
-	    <if test="divNo == 0 ">auction_start, funding_start_date, donation_startdate, to_char(to_date(grp_start,'yyyy/mm/dd'),'yyyy/mm/dd')</if>
+	    <if test="divNo == 0 ">nvl(auction_start,sysdate), nvl(funding_start_date,sysdate), nvl(donation_startdate,sysdate), nvl(to_date(grp_start,'yyyy/mm/dd'),sysdate)</if>
 	    ) as least
 	    from
 	    <if test="divNo == 1 ">funding</if> 
@@ -478,14 +478,15 @@
 	    <if test="divNo == 3 ">group_tbl</if>
 	    <if test="divNo == 4 ">auction_tbl</if>
 	    <if test="divNo == 0 ">
-		auction_tbl a
-		join donation d on(d.member_no=a.member_no)
-		join funding f on(f.member_no=a.member_no)
-		join group_tbl g on(g.member_no=a.member_no)
+	    order_tbl
+		left join auction_tbl a on(a.member_no=seller_no)
+		left join donation d on(d.member_no=seller_no)
+		left join funding f on(f.member_no=seller_no)
+		left join group_tbl g on(g.member_no=seller_no)
 	    </if>
 	    where 
 	    <if test="divNo != 0 ">member_no=#{memberNo}</if>
-	    <if test="divNo == 0 ">a.member_no=#{memberNo}</if>
+	    <if test="divNo == 0 ">seller_no=#{memberNo}</if>
 	    order by least
 		)n) where rnum=1
 	</select>
@@ -525,8 +526,4 @@
 		<if test="divNo == 1 ">funding_no=#{projectNo}</if>
 		<if test="divNo != 1 ">project_no=#{projectNo}</if>		
 	</select>
-	
-	<insert id="insertNumber">
-		insert into count values(1)
-	</insert>
 </mapper>

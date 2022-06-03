@@ -41,4 +41,17 @@
 		    
     ) ORDER BY PROJECTEND DESC
   </select>
+  
+	<select id="selectPopKeyList" resultType="String">
+		select keyword from
+		    (select rownum as rank, b.*from
+		    (select keyword from popKey group by keyword order by count(keyword) desc)b)
+		where rank between 1 and 10
+	</select>	
+	<insert id="insertPopKey" parameterType="String">
+		insert into popkey values(#{keyword},sysdate)
+	</insert>
+	<delete id="deleteKeyword">
+		delete from popKey where to_number(to_char(sysdate,'hhmi'))>(to_number(to_char(search_date+2/24,'hhmi')))
+	</delete>
 </mapper>

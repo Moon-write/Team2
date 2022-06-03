@@ -99,3 +99,27 @@ ul.sub-menu-wrap>li>a{
     color: #191F28;
     color: #fff;
 }
+.popKeyArea {
+    display: none;
+    width: 150px;
+    background-color: white;
+    position: absolute;            
+    border: 1px solid #ccc;
+    border-bottom-left-radius:5px;
+    border-bottom-right-radius:5px;
+    z-index: 3;
+}
+.keywordList{
+	border: none;
+	padding-left:10px;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+#closePopKey{
+	float: right; 
+	margin-right: 10px;
+	margin-bottom: 5px;
+	padding-top:5px;
+}
