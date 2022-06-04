@@ -103,13 +103,13 @@
 .form-select-wrap>select{
   width:30%;
   justify-content:space-between;
-  padding: 8px 16px;
+  padding: 12px 16px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 14px;
 }
 .form-select-wrap>td>select{
-  padding: 8px 16px;
+  padding: 12px 16px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 14px;
@@ -152,10 +152,10 @@
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
 					</tr>
 					<tr class="form-input input-0 form-select-wrap">
-						<td><input type="text" name="memberId" class="input-form" required></td>
+						<td><input type="text" name="emailId" class="input-form" required></td>
 						<td>@</td>
 						<td>
-							<select name="emailAddr" class="input-form select">
+							<select name="emailAddr" class="input-form select" onchange="emailAddrChange(this.value);">
 								<option disabled selected>이메일</option>
 								<option value="@naver.com">naver.com</option>
 								<option value="@gmail.com">gmail.com</option>
@@ -176,13 +176,13 @@
 					</tr>
 					<!-- 비밀번호 -->
 					<tr class="form-name">
-						<th colspan="4" class="join-pass">비밀번호<span class="pwChk"></span></th>
+						<th colspan="4" class="join-pass">비밀번호<span class="pwChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="password" name="memberPw" class="input-form" required></td>
+						<td colspan="4"><input type="password" name="memberPw" class="input-form" placeholder="4~6자의 영소문자와 숫자조합만 가능합니다." required></td>
 					</tr>
 					<tr class="form-name">
-						<th colspan="4">비밀번호 재확인<span class="pwReChk"></span></th>
+						<th colspan="4">비밀번호 재확인<span class="pwReChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="password" name="memberPwRe" class="input-form" required></td>
@@ -190,14 +190,14 @@
 					
 					<!-- 이름 -->
 					<tr class="form-name">
-						<th colspan="4" class="join-name">이름<span class="nameChk"></span></th>
+						<th colspan="4" class="join-name">이름<span class="nameChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="text" name="memberName" class="input-form" required></td>
 					</tr>
 					<!-- 전화번호 -->
 					<tr class="form-name">
-						<th colspan="4">전화번호<span class="phoneChk"></span></th>
+						<th colspan="4">전화번호<span class="phoneChkMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234" required></td>
@@ -281,7 +281,13 @@
 		const checkArr = [false,false,false,false,false,false,false,false,false];
 		let authChk = 0;
 		
+		
+		
 		//아이디 형식체크
+		const emailAddrChange = function(value){
+			console.log("값 변경 테스트: "+value);
+		}
+		//아이디 가입체크(input값 채워지고+select 선택됐을때)
 		$("[name=memberId]").on("change",function(){
 			const memberId = $(this).val();
 			console.log(memberId);
@@ -290,11 +296,11 @@
 				data : {memberId : memberId},
 				success : function(data){
 					if(data == 0){
-						$(".idChk").text("사용 가능한 이메일입니다.");
-						$(".idChk").css("color","blue");
+						$(".idChkMsg").text("사용 가능한 이메일입니다.");
+						$(".idChkMsg").css("color","blue");
 					}else{
-						$(".idChk").text("이미 가입된 이메일입니다.");
-						$(".idChk").css("color","red");
+						$(".idChkMsg").text("이미 가입된 이메일입니다.");
+						$(".idChkMsg").css("color","red");
 					}
 				}
 			});
@@ -304,12 +310,12 @@
 			const pwVal = $("[name=memberPw]").val();
 			const pwReVal = $("[name=memberPwRe]").val();
 			if(pwVal == pwReVal){
-				$(".pwReChk").text("두 비밀번호가 일치합니다.");
-				$(".pwReChk").css("color","blue");
+				$(".pwReChkMsg").text("두 비밀번호가 일치합니다.");
+				$(".pwReChkMsg").css("color","blue");
 				checkArr[2] = true;
 			}else{
-				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
-				$(".pwReChk").css("color","red");
+				$(".pwReChkMsg").text("두 비밀번호가 일치하지 않습니다.");
+				$(".pwReChkMsg").css("color","red");
 				checkArr[2] = true;
 			}
 		});
@@ -319,12 +325,12 @@
 			const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
 			const pwVal = pw.val();
 			if(pwVal.match(pwReg) != null){
-				$(".pwChkMsg").text("사용할 수 있는 패스워드 입니다.");
-				$(".pwChkMsg").css("color","green");
+				$(".pwChkMsgMsg").text("사용할 수 있는 패스워드 입니다.");
+				$(".pwChkMsgMsg").css("color","green");
 				checkArr[1] = true;
 			}else{
-				$(".pwChkMsg").text("6자~15자 영어, 숫자, 특수기호를 사용하세요.");
-				$(".pwChkMsg").css("color","red");
+				$(".pwChkMsgMsg").text("4자~15자 영어, 숫자, 특수기호를 사용하세요.");
+				$(".pwChkMsgMsg").css("color","red");
 				checkArr[1] = false;
 			};
 			const pwReVal = $("[name=memberPwRe]").val();
@@ -340,17 +346,17 @@
 				}	
 			}
 		});
-		
+		//회원 이름 정규식(2~7자 한글)
 		const name = $("[name=memberName]");
 		name.on("change",function(){
-			const nameReg = /^[가-힣]{2,6}$/;
+			const nameReg = /^[가-힣]{2,7}$/;
 			const nameVal = name.val();
 			if(nameVal.match(nameReg) != null){
 				$(".nameChkMsg").text("사용할 수 있는 이름입니다.");
-				$(".nameChkMsg").css("color","green");
+				$(".nameChkMsg").css("color","blue");
 				checkArr[3] = true;
 			}else{
-				$(".nameChkMsg").text("이름은 2~7 글자의 한글만 입력가능합니다.");
+				$(".nameChkMsg").text("이름은 2~7 글자의 한글만 가능합니다.");
 				$(".nameChkMsg").css("color","red");
 				checkArr[3] = false;
 			};
@@ -362,10 +368,10 @@
 			const phoneVal = phone.val();
 			if(phoneVal.match(phoneReg) != null){
 				$(".phoneChkMsg").text("사용할 수 있는 연락처입니다.");
-				$(".phoneChkMsg").css("color","green");
+				$(".phoneChkMsg").css("color","blue");
 				checkArr[5] = true;
 			}else{
-				$(".phoneChkMsg").text("연락처 형식을 맞춰주세요 010-XXXX-XXXX");
+				$(".phoneChkMsg").text("연락처 형식을 맞춰주세요 010-1234-1234");
 				$(".phoneChkMsg").css("color","red");
 				checkArr[5] = false;
 			};
@@ -460,7 +466,7 @@
 			}
 		})
 		
-		//생년월일 시작
+		//생년월일 시작(14세 미만 가입못하도록 막기/오늘 이후도 선택못하도록 막기)
 		let userBirthdayYear = document.querySelector('.birthday-year');
 		let userBirthdayMonth = document.querySelector('.birthday-month');
 		let userBirthdayDay = document.querySelector('.birthday-day');

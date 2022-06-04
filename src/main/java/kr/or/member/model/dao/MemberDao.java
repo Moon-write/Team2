@@ -19,10 +19,6 @@ public class MemberDao {
 		Member member = sqlSession.selectOne("member.selectOneMember",m);
 		return member;
 	}
-	public Member selectOneMemberId(String memberId) {
-		Member member = sqlSession.selectOne("member.selectOneMemberId",memberId);
-		return member;
-	}
 	public int insertMember(Member m) {
 		int result = sqlSession.insert("member.insertMember",m);
 		return result;

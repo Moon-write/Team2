@@ -25,9 +25,6 @@ public class MemberService {
 	public Member selectOneMember(Member m) {
 		return dao.selectOneMember(m);
 	}
-	public Member selectOneMemberId(String memberId) {
-		return dao.selectOneMemberId(memberId);
-	}
 	public int insertMember(Member m) {
 		return dao.insertMember(m);
 	}

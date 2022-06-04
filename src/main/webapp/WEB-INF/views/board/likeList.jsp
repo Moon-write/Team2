@@ -88,10 +88,6 @@ select{
 				<div class="content-title">
 					<div class="title-txt">내가 찜한 프로젝트를 확인해보세요</div>
 				</div>
-					<select name="sort">
-						<option value="new">최신순</option>
-						<option value="old">오래된순</option>
-					</select>
 					<!-- 헤더 테이블 -->
 					<table class="tbl my_book_list_tbl">
 						<tr class="tr-2 tr-head" id="tr-00">

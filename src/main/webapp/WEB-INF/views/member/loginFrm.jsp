@@ -83,7 +83,7 @@
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="page-content">
 		<span class="page-content-title">로그인</span>
-		<br><br><form id="loginForm" name="loginForm" action="/login.kh" method="post" onsubmit="return frm_check();">
+		<br><br><form action="/login.kh" id="loginForm" name="loginForm" method="post">
 			<div class="input-wrap">
 				<div class="login-input">
 				    <label class="skip" for="memberId">아이디</label>
@@ -110,6 +110,8 @@
 		<br><br><br><br>
 	</div>
 	<script>
+	//아이디 비밀번호 미입력시
+	
 	//로그인 실패시 
 	$.ajax({
 		url: "/selectOneMember.kh", // Controller의 mapping값

@@ -7,6 +7,45 @@
 <meta charset="UTF-8">
 <title>회원목록</title>
 <style>
+.noticemenu{
+    width: 800px;
+    margin: 0 auto;
+    padding: 0;
+}
+.noticemenu>ul{
+    list-style-type: none;
+    border-right: none;
+}
+.noticemenu>ul>li{
+    height: 40px;
+    text-align: center;
+    float: left;
+    width: 180px;
+    border-right: solid 0px #333333;
+}
+.noticemenu>ul>li>a{
+    margin: 0 auto;
+    vertical-align: middle;
+    text-decoration: none;
+    font-size: 18px;
+    color: #333333;
+    line-height:40px;
+}
+.noticemenu>ul>li:last-child{
+    border: none;
+}
+.noticemenu>ul>li>a:hover{
+    color: #998465;
+}
+
+.noticemenu>ul{
+	display: flex;
+	justify-content: space-between;	
+}
+.title-div-line{
+	 line-height:40px;
+	 font-size:12px;
+}
 .flex-wrap {
 	display: flex;
 	flex-wrap: wrap;
@@ -15,8 +54,9 @@
 	display: flex;
 	height: 30px;
 }
-.page-content{
-
+.mypage-content{
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
 .tbl tr>th{
 		border-top: 1px solid #ccc;
@@ -119,6 +159,10 @@
 #my_book_list_tbl tr>td:nth-child(11){
 	width: 4%;
 }
+form{
+	margin-top: 20px; 
+	margin-bottom: 20px; 
+}
 </style>
 </head>
 <body>
@@ -127,9 +171,15 @@
 		<div class="flex-wrap">
 			<div class="mypage-content">
 				<div class="mypage-content-title">
-					<span style="font-family: ns-bold;">회원 목록</span>
-					<form action="/searchMember.do">
-						<input type="text" name="searchMember" placeholder="회원 검색(아이디/이름/닉네임)" style="height:29px; width:230px; padding-left:5px;" >
+				<div class="noticemenu">
+			        <ul>
+			            <li><a href="/selectMemberList.kh?reqPage=1&memberLevel=2">회원목록</a></li>
+			            <li class="title-div-line">|</li>
+			            <li><a href="/selectBizList.kh?reqPage=1&memberLevel=1">사업자목록</a></li>
+			        </ul>
+			    </div> 
+					<form action="/searchMember.kh">
+						<input type="text" name="searchMember" placeholder="회원 검색(아이디/이름)" style="height:29px; width:230px; padding-left:5px;" >
 						<button type="submit" class="material-icons">search</button>
 					</form>
 				</div>

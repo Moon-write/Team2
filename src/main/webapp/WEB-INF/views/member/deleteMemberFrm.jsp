@@ -66,7 +66,7 @@
 							<tr class="tr-3">
 								<td>비밀번호 확인</td>
 								<td>
-									<input type="password" class="input-form" id="currentPw">
+									<input type="password" class="input-form" id="memberPw">
 								</td>
 							</tr>
 							<tr>

@@ -35,8 +35,16 @@ public class MemberController {
 		Member member = service.selectOneMember(m);
 		if(member != null) {
 			session.setAttribute("m", member);
-		}	
-		return "redirect:/";
+			request.setAttribute("title", "로그인성공");
+			request.setAttribute("msg", "환영합니다!");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "로그인실패");
+			request.setAttribute("msg", "아이디나 비밀번호를 확인하세요.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/");
+		return "common/msg";
 	}
 	@RequestMapping(value="/logout.kh")
 	public String logout(HttpSession session) {
@@ -169,9 +177,11 @@ public class MemberController {
 	@RequestMapping(value="/sendMail.kh")
 	public String sendMail(String email) {
 		String code = null;
-		Member m = service.selectOneMemberId(email);
+		Member m = null;
+		m.setMemberId(email);
+		Member member = service.selectOneMember(m);
 		System.out.println(email);
-		if(m == null) {
+		if(member == null) {
 			code = new MailSender().sendMail(email);
 		}
 		return "code";
