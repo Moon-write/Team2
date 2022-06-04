@@ -76,27 +76,30 @@ input[type="number"] {
 	<div class="page-content">
 		<div class="menu">
 			<ul class="main-menu">
-				<li><a href="#">펀딩</a>
+				<li>
+					<a href="#">펀딩</a>
 					<ul class="sub-menu">
 						<li><a href="#">펀딩 등록</a></li>
 						<li><a href="/manageFunding.kh">펀딩 관리</a></li>
-					</ul></li>
-				<li><a href="#">기부</a>
+					</ul>
+				</li>
+				<li>
+					<a href="#">기부</a>
 					<ul class="sub-menu">
 						<li><a href="#">기부 등록</a></li>
 						<li><a href="/manageDonation.kh">기부 관리</a></li>
-					</ul></li>
-				<li><a href="#">공동구매</a>
-					<ul class="sub-menu">
-						<li><a href="#">공동구매 등록</a></li>
-						<li><a href="/manageGroup.kh">공동구매 관리</a></li>
-					</ul></li>
-				<li><a href="#">경매</a>
+					</ul>
+				</li>				
+				<li>
+					<a href="#">경매</a>
 					<ul class="sub-menu">
 						<li><a href="addAuction.kh">경매 등록</a></li>
 						<li><a href="/manageAuction.kh">경매 관리</a></li>
-					</ul></li>
-				<li><a href="#">Q&A페이지</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#">Q&A페이지</a>					
+				</li>
 				<li>
 					<a href="/manageDelivery.kh?memberNo=${sessionScope.m.memberNo }">배송관리</a>
 				</li>
@@ -104,16 +107,17 @@ input[type="number"] {
 					<a href="#">통계</a>
 					<ul class="sub-menu">
 						<li><a href="/sumChart.kh">누적 금액</a></li>
-						<li><a href="/checkCount.kh">일별 카운트</a></li>
+						<li><a href="/checkCount.kh">조회수 전일비교</a></li>
 					</ul>
 				</li>
 				<li>
 					<a href="/shopUploadFrm.kh?memberNo=${sessionScope.m.memberNo }">상호등록</a>
 				</li>
-				<li><a
-					href="/updateInfo.kh?memberNo=${sessionScope.m.memberNo }">마이페이지</a>
+				<li>
+					<a href="/updateInfo.kh?memberNo=${sessionScope.m.memberNo }">마이페이지</a>
 				</li>
-				<li><a href="/shopInfo.kh?memberNo=${sessionScope.m.memberNo }">샵</a>
+				<li>
+					<a href="/shopInfo.kh?memberNo=${sessionScope.m.memberNo }">샵</a>
 				</li>
 			</ul>
 		</div>

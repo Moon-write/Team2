@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>주문 등록</title>
+<title>Insert title here</title>
 <style type="text/css">
     table#itemTbl, table#orderTbl, table#delTbl{
         width: 70%;
@@ -60,12 +60,10 @@
         font-size: 0.9em;
     }
 </style>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
-    <form action="/auctionPay.kh" method="post"> <!--insert 용 form이 필요한 경우 여기에 태그를 넣어주세요-->
+ 
         <input type="hidden" id="orderNo" value="${order.orderNo}" name="orderNo">
         <input type="hidden" id="projectNo" value="${order.projectNo}" name="projectNo">
 	    <input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
@@ -180,92 +178,6 @@
                 </c:if>
             </div>
 		</div>
-    </form><!--insert용 form태그 닫는곳 -->
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
-	<script>
-        const memberName = '${sessionScope.m.memberName}';
-        const memberPhone = '${sessionScope.m.memberPhone}';
-        const memberEmail = '${sessionScope.m.memberId}';
-        const memberPoint = '${sessionScope.m.memberPoint}';
-        const memberAddrFull = '${sessionScope.m.memberAddr1}'+'${sessionScope.m.memberAddr2}';
-        const memberPost = '${sessionScope.m.memberPostcode}'
-        const memberAddr1 = '${sessionScope.m.memberAddr1}';
-        const memberAddr2 = '${sessionScope.m.memberAddr2}';
-
-        $("input#equalChk").on("click",function(){
-            if($(this).prop("checked")==true){
-                $("input[name=orderDelName]").val(memberName);
-                $("input[name=orderDelPhone]").val(memberPhone);
-                $("input[name=orderDelPost]").val(memberPost);
-                $("input[name=orderDelAddr1]").val(memberAddr1);
-                $("input[name=orderDelAddr2]").val(memberAddr2);
-            }else{
-                $("input[name=orderDelName]").val("");
-                $("input[name=orderDelPhone]").val("");
-                $("input[name=orderDelPost]").val("");
-                $("input[name=orderDelAddr1]").val("");
-                $("input[name=orderDelAddr2]").val("");
-            }
-        })
-        function back(){
-            history.back();
-        }
-        $("input[name=orderPoint]").on("change",function(){
-            // 1 기본 소지포인트보다 많으면 무효
-            if($(this).val()>memberPoint){
-                alert("보유 포인트보다 많이 입력하실 수 없습니다!");
-                $(this).val("");
-                return;
-            }else{
-                $("span#orderPrice").text($("input#totalPrice").val()-$(this).val());
-                $("input[name=orderPrice]").val($("input#totalPrice").val()-$(this).val());
-            }
-        })
-        function searchAddr(){
-            new daum.Postcode({
-                oncomplete: function(data) {
-                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-                    // 선택한 주소가 data 매개변수로 돌아옴 (json 타입으로)
-                    $("#orderDelPost").val(data.zonecode);
-                    $("#orderDelAddr1").val(data.roadAddress);
-                    $("#orderDelAddr2").val(data.buildingName+" ");
-                    $("#orderDelAddr2").focus();
-                }
-            }).open();
-	    };
-        function payment(){
-            const price = $("span#orderPrice").text(); // 총결제금액 가져오기
-            const d = new Date();
-            const date = d.getFullYear()+""+(d.getMonth()+1)+""+d.getDate()+""
-                                    +d.getHours()+""+d.getMinutes()+""+d.getSeconds();
-
-            IMP.init("imp14793007");
-
-            IMP.request_pay({
-                merchant_uid : $("input#projectNo").val()+"_"+date,	// 거래ID
-                name : "weNeedYou", 				// 결제이름
-                amount : price, 				// 결제금액
-                buyer_email: memberEmail,	// 구매자의 email주소
-                buyer_name : memberName,				// 구매자 이름
-                buyer_tel :	memberPhone,		// 구매자 전번
-                buyer_addr : memberAddrFull, // 구매자 주소
-                buyer_postcode : memberPost				// 구매자 우편번호
-            },function(rsp){
-                if(rsp.success){
-                    // 결제 성공시 DB insert 작업할 공간
-                    console.log("여기")
-                    
-                }else{
-                        alert("결제가 취소되었습니다.");
-                }
-            }); 
-        };
-        $("input").on("keydown",function(event){
-            if(event.keyCode==13){
-                event.preventDefault();
-            }
-        })
-	</script>
 </body>
 </html>

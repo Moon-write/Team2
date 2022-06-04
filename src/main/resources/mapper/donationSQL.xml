@@ -14,7 +14,7 @@
   		set DONATION_CATEGORY = #{donationCategory},
   			DONATION_ENDDATE = #{donationEnddate},
   			DONATION_CONTENT = #{donationContent}
-  		where MEMBER_NO = #{memberNo}
+  		where PROJECT_NO = #{projectNo}
   </update>
   
   <select id="selectDonationList" resultType="d">
@@ -67,7 +67,7 @@
   		DONATION_TARGET as donationTarget,
   		DONATION_CASH as donationCash,
   		DONATION_STARTDATE as donationStartdate,
-  		DONATION_ENDDATE as donationEnddate
+  		DONATION_ENDDATE as donationEnddate,
   		DIV_NO as divNo
   	from donation where DONATION_CATEGORY = #{donationCategory}
   </select>

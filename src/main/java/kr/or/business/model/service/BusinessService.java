@@ -105,11 +105,6 @@ public class BusinessService {
 		return dao.selectFcList(memberNo);
 	}
 
-	public ArrayList<String> selectGcList(int memberNo) {
-		// TODO Auto-generated method stub
-		return dao.selectGcList(memberNo);
-	}
-
 	public ArrayList<String> selectAList(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectAList(memberNo);
@@ -143,15 +138,6 @@ public class BusinessService {
 		return dao.selectExpiredFList(memberNo);
 	}
 
-	public ArrayList<String> selectGList(int memberNo) {
-		// TODO Auto-generated method stub
-		return dao.selectGList(memberNo);
-	}
-
-	public ArrayList<String> selectExpiredGList(int memberNo) {
-		// TODO Auto-generated method stub
-		return dao.selectExpiredGList(memberNo);
-	}
 
 	public int deleteGroup(int projectNo) {
 		// TODO Auto-generated method stub

@@ -205,20 +205,6 @@ public class BusinessController {
 		return new Gson().toJson(fl);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/selectGList.kh",produces="application/json;charset=utf-8")
-	public String selectGList(int memberNo) {
-		ArrayList<String> gl=service.selectGList(memberNo);
-		return new Gson().toJson(gl);
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/selectExpiredGList.kh",produces="application/json;charset=utf-8")
-	public String selectExpiredGList(int memberNo) {
-		ArrayList<String> gl=service.selectExpiredGList(memberNo);
-		return new Gson().toJson(gl);
-	}
-	
 	
 	
 	
@@ -249,12 +235,6 @@ public class BusinessController {
 	@RequestMapping(value="/fundingCount.kh",produces="application/json;charset=utf-8")
 	public String fundingCount(int memberNo) {
 		ArrayList<String> ac=service.selectFcList(memberNo);
-		return new Gson().toJson(ac);
-	}
-	@ResponseBody
-	@RequestMapping(value="/groupCount.kh",produces="application/json;charset=utf-8")
-	public String groupCount(int memberNo) {
-		ArrayList<String> ac=service.selectGcList(memberNo);
 		return new Gson().toJson(ac);
 	}
 	

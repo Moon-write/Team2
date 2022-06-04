@@ -98,11 +98,6 @@ public class BusinessDao {
 		List list = sqlSession.selectList("business.selectFcList", memberNo);
 		return (ArrayList<String>) list;
 	}
-	public ArrayList<String> selectGcList(int memberNo) {
-		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.selectGcList", memberNo);
-		return (ArrayList<String>) list;
-	}
 
 	public Shop selectShopNo(int memberNo) {
 		// TODO Auto-generated method stub
@@ -138,17 +133,6 @@ public class BusinessDao {
 		return (ArrayList<String>) list;
 	}
 
-	public ArrayList<String> selectGList(int memberNo) {
-		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.selectGList", memberNo);
-		return (ArrayList<String>) list;
-	}
-
-	public ArrayList<String> selectExpiredGList(int memberNo) {
-		// TODO Auto-generated method stub
-		List list = sqlSession.selectList("business.selectExpiredGList", memberNo);
-		return (ArrayList<String>) list;
-	}
 
 	public int deleteGroup(int projectNo) {
 		// TODO Auto-generated method stub

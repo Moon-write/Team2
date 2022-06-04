@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +62,7 @@ h5 {
 .plusMinus{
 	font-size: 20px;
 	color: #1e90ff;
+	cursor: pointer;
 }
 
 .donation-allcash{
@@ -97,6 +99,22 @@ h5 {
 	width: 100%;
 	height: 100%;
 }
+.donation-update{
+	display: flex;
+	justify-content: space-between;
+}
+.update-btn{
+	font-size:10px;
+	width: 60px;
+	height: 20px;
+	text-align: center;
+	border-radius: 3px;
+	line-height:20px; 
+}
+.update-btn:hover{
+	transition: 0.5s;
+	
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -110,7 +128,14 @@ h5 {
 			</div>
 			<div class="donation-explanation">
 				<h3>${donation.donationTitle }</h3>
-				<p>00%</p>
+				<div class="donation-update">
+					<p>00%</p>
+					<c:set var="sessionScopeMemberNo" value="${sessionScope.m.memberNo}"/>
+					<c:set var="donationMemberNo" value="${donation.memberNo}"/>
+					<c:if test="${donationMemberNo eq sessionScopeMemberNo}">
+						<a class="bc2 update-btn" href="/donationUpdateWriter.kh?projectNo=${donation.projectNo }">수정하기</a>
+					</c:if>
+				</div>
 				<hr>
 				<div class="donation-target">
 					<p>목표금액 ${donation.donationTarget }원</p>

@@ -145,7 +145,7 @@ public class AuctionController {
 	public String auctionPay(Order o, Model model) {
 		
 		int result = service.updateOrderPay(o);
-  		
+  		System.out.println(result);
 		if(result>0) {
 			model.addAttribute("icon", "success");
 			model.addAttribute("title", "결제 완료");
@@ -155,7 +155,7 @@ public class AuctionController {
 			model.addAttribute("icon", "error");
 			model.addAttribute("title", "결제 실패");
 			model.addAttribute("msg", "결제에 실패했어요! 주문내역을 다시 확인해 주세요.");
-			model.addAttribute("loc", "/manageAuction.kh");
+			model.addAttribute("loc", "/addOrder.kh?orderNo="+o.getOrderNo());
 		}
 		return "common/msg";
 	}
