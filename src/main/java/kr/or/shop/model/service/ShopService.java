@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.member.model.vo.Member;
 import kr.or.shop.model.dao.ShopDao;
 import kr.or.shop.model.vo.Shop;
 import kr.or.shop.model.vo.ShopCategory;
@@ -96,5 +97,10 @@ public class ShopService {
 			int insertResult = dao.insertCategory(map);
 		}
 		return result;
+	}
+
+	public Member selectOneMember(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneMember(memberNo);
 	}	
 }

@@ -18,5 +18,10 @@ public class Shop {
 	private String shopBirth;
 	private String category;
 	private int grossIncome;
+	
+	private String memberPhone;
+	private String memberAddr1;
+	private String memberAddr2;
+	
 	private ArrayList<ShopPic> fileList;
 }
