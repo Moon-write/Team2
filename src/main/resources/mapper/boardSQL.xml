@@ -117,14 +117,38 @@
   		FROM ORDER_TBL WHERE ORDER_NO = #{orderNo}  	
   	</select>
   	
-  	 <select id="selectOrderProduct" parameterType="int" resultType="op">
-  	SELECT PRODUCT_NO AS productNo,
+  	<select id="selectOrderProduct" parameterType="o" resultType="op">        
+    SELECT PRODUCT_NO AS productNo,
         ORDER_NO AS orderNo,
         OPTION_NO AS optionNo,
         PRODUCT_PRICE AS productPrice,
         PRODUCT_AMOUNT AS productAmount,
-        AUCTION_ITEM AS productName,
-        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN AUCTION_TBL USING(PROJECT_NO) WHERE ORDER_NO = #{orderNo}
-        <!-- DIVNO별로 컬럼명 다르게해줘야함! 이건추후 작업 -->
+        
+        <choose>
+        	<when test="divNo==1">
+		        FUNDING_OPTION_LIST AS productName,        	
+        	</when>
+        	<when test="divNo==2">
+		        DONATION_CATEGORY AS productName,        	
+        	</when>
+        	<when test="divNo==4">
+		        AUCTION_ITEM AS productName,        	
+        	</when>
+        </choose>
+        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN 
+        
+        <choose>
+        	<when test="divNo==1">
+        		FUNDING_OPTION_PRICE ON(PROJECT_NO=FUNDING_NO)
+        	</when>
+        	<when test="divNo==2">
+        		DONATION USING(PROJECT_NO)
+        	</when>
+        	<when test="divNo==4">
+        		AUCTION_TBL USING(PROJECT_NO)
+        	</when>
+        </choose>
+        
+        WHERE ORDER_NO = #{orderNo}
   </select>
 </mapper>
