@@ -154,7 +154,7 @@
                 <div class="funding">
                     <div class="funding-deadline">${f.fundingDeadline }일 남았습니다</div>
                     <c:choose>
-    					<c:when test="${fjf.fundingSumRate gt 100 }">
+    					<c:when test="${f.fundingSumRate gt 100 }">
 							<div class="bar-back"><div class="bar" style="width:100%;"></div></div>
 						</c:when>
 						<c:otherwise>
@@ -163,7 +163,12 @@
 					</c:choose>	
                     <div class="funding-sum-rate">${f.fundingSumRate }%달성</div>
                     <div class="supporter-num">xx명의 서포터 이건 사람수 조회</div>
-                    <input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">
+                	<div class="button-wrap">
+                	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
+                    	<input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">          
+                    </form>      	
+                	</div>
+                    
                     <div class="like-qna-share">
                         <div class="like">좋아요</div>
                         <div class="qna">문의</div>

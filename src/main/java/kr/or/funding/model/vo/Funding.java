@@ -20,4 +20,5 @@ public class Funding {
 	private int memberNo;
 	private int fundingCurrentSum;
 	private int fundingDeadline;
+	private String bizName;
 }

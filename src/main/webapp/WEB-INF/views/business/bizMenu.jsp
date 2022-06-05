@@ -59,7 +59,7 @@
 		<ul class="main-menu">
 			<li><a href="#">펀딩</a>
 				<ul class="sub-menu">
-					<li><a href="#">펀딩 등록</a></li>
+					<li><a href="/fundingInsert.kh">펀딩 등록</a></li>
 					<li><a href="/manageFunding.kh">펀딩 관리</a></li>
 				</ul></li>
 			<li><a href="#">기부</a>

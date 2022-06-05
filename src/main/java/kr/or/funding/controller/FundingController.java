@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOption;
 import kr.or.funding.model.vo.FundingOptionPrice;
+import kr.or.member.model.vo.Member;
 
 @Controller
 public class FundingController {
@@ -50,7 +52,7 @@ public class FundingController {
 		return "funding/fundingInsertSuccess";
 	}
 	@RequestMapping(value = "/fundingInsertFrm.kh")
-	public String FundingInsertFrm(MultipartFile[] upfile,Funding f,FundingOptionPrice fop, HttpServletRequest request) {
+	public String FundingInsertFrm(MultipartFile[] upfile,Funding f,FundingOptionPrice fop, HttpServletRequest request,@SessionAttribute(required=false) Member m,Model model) {
 		System.out.println("------Funding f------");
 		System.out.println("펀딩네임 : "+f.getFundingName());
 		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
@@ -58,6 +60,9 @@ public class FundingController {
 		System.out.println("펀딩종료날짜 : "+f.getFundingEndDate());
 		System.out.println("펀딩옵션리스트 : "+fop.getFundingOptionList());
 		System.out.println("펀딩옵션리스트가격 : "+fop.getFundingOptionPrice());
+		System.out.println("비즈니스네임 : "+m.getBizName());
+		f.setBizName(m.getBizName());
+		f.setMemberNo(m.getMemberNo());
 
 		for(int i = 0; i< fop.getFundingOptionList().length;i++) {
 			System.out.println(fop.getFundingOptionList());
@@ -145,7 +150,18 @@ public class FundingController {
 		System.out.println("최종 insert result 값 : "+result);
 		
 		System.out.println("fundingList : "+ fundingList);
-		return "funding/fundingInsertSuccess";
+		if(result>0) {
+			model.addAttribute("icon", "success");
+			model.addAttribute("title", "등록 완료");
+			model.addAttribute("msg", "펀딩등록이 완료되었습니다!");
+			model.addAttribute("loc", "/manageFunding.kh");
+		}else {			
+			model.addAttribute("icon", "error");
+			model.addAttribute("title", "등록 실패");
+			model.addAttribute("msg", "펀딩 등록에 실패했습니다! 다시한번 확인해주세요.");
+			model.addAttribute("loc", "/manageFunding.kh");
+		}
+		return "common/msg";	
 	}
 
 	@ResponseBody
@@ -241,6 +257,15 @@ public class FundingController {
 
 		return "funding/fundingDetailSupporter";
 	}
+	@RequestMapping(value="/selectFundingOptionPrice.kh")
+	public String SelectFundingOptionPrice(int fundingNo,Model model) {
+		ArrayList<FundingOptionPrice> list = service.selectFundingOptionPrice(fundingNo);
+		Funding f = service.selectOneFunding2(fundingNo);
+		model.addAttribute("list", list);
+		model.addAttribute("f",f);
+		return "funding/selectFundingOptionPrice";
+	}
+	
 
 	
 	

@@ -105,6 +105,7 @@
 			<th>멤버넘버</th>
 			<th>파일패스</th>
 			<th>마감날짜</th>
+			<th>회사명</th>
 		</tr>
 		<c:forEach items="${list }" var="fjf">
 			<tr>
@@ -118,7 +119,8 @@
 				<td>${fjf.fundingSumRate}</td>
 				<td>${fjf.memberNo}</td>
 				<td>${fjf.fundingFilePath}</td>
-				<td>${fjf.fundingDeadline}</td>			
+				<td>${fjf.fundingDeadline}</td>	
+				<td>${fjf.bizName }		
 			</tr>
 		</c:forEach>
 	</table>
@@ -134,7 +136,7 @@
 										<img src="/resources/upload/funding/${fjf.fundingFilePath}">
 									</div>
 									<div class="text-box">
-										<div><span>${fjf.memberNo}회사명</span></div>	
+										<div><span>${fjf.bizName }</span></div>	
 										<div><span>${fjf.fundingName}</span></div>
 										<c:choose>
 											<c:when test="${fjf.fundingSumRate gt 100 }">

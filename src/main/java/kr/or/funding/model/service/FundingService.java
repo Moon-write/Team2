@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import kr.or.funding.model.dao.FundingDao;
 import kr.or.funding.model.vo.Funding;
@@ -57,6 +58,16 @@ public class FundingService {
 	public ArrayList<FundingFile> selectOneFundingFile(int fundingNo) {
 		ArrayList<FundingFile> list = dao.selectOneFundingFile(fundingNo);
 		return (ArrayList<FundingFile>)list ;
+	}
+
+	public ArrayList<FundingOptionPrice> selectFundingOptionPrice(int fundingNo) {
+		ArrayList<FundingOptionPrice> list = dao.selectFundingOptionPrice(fundingNo);
+		return (ArrayList<FundingOptionPrice>) list;
+	}
+
+	public Funding selectOneFunding2(int fundingNo) {
+		
+		return dao.selectOneFunding2(fundingNo);
 	}
 
 	

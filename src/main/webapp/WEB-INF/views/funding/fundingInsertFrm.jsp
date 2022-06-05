@@ -131,10 +131,10 @@ table{
 	            <!-- <input type="hidden" name="memberNo" value="${session.m.memberNo }"> -->
 	                <table>
 	                    <tr>
-	                        <th>상품명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
+	                        <th>펀딩 프로젝트명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td><input type="text" class="input-form" type="text" value="bizName"></td>
+	                        <th>회사명</th><td><input type="text" class="input-form" type="text" value="${sessionScope.m.bizName}"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>카테고리</th>

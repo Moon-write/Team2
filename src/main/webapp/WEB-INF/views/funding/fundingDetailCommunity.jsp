@@ -53,8 +53,6 @@
             </ul>
         </div>
         <div class="left-box">
-            <div class="img-slide"></div>
-            <div class="funding-detail"></div>
         </div>
         <div class="right-box">
             <div class="funding"></div>
