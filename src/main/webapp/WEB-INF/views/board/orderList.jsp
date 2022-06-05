@@ -11,7 +11,7 @@
 .content-title{
 	background-image: url(/resources/img/board/banner.jpg);
 	background-size: cover;
-	background-position: top;
+	background-position: 0% 17%;
 }
 .title-txt {
     margin: auto;

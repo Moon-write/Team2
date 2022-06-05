@@ -127,7 +127,6 @@ select{
 										<c:choose>
 											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
 											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
 										<td>${bo.projectName }</td>

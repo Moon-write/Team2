@@ -1,5 +1,8 @@
 package kr.or.board.model.vo;
 
+import java.util.ArrayList;
+
+import kr.or.shop.model.vo.ShopPic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,23 +34,9 @@ public class Board {
 	private String donationStartdate;
 	private String donationEnddate;
 	private int donationSum;
-	//공동구매
+	//공동구매(삭제x)
 	private int projectNo;
 	private String projectName;
-	private String grpCaption;
-	private String grpStart;
-	private String grpEnd;
-	private String grpContent;
-	private int grpCount;
-	private int grpOrigPrice;
-	private int grpLowest;
-	private int grpPrdNo;
-	private int memberNo;
-	private String grpFilename;
-	private String grpFilepath;
-	private String thumbname;
-	private String thumbpath;
-	private String grpCategory;
 	//경매
 	private int auctionCategory;
 	private String auctionItem;
@@ -77,5 +66,28 @@ public class Board {
 	private String qnaDate;
 	private int qnaRef;
 	private int qnaComplete;
+	//member
+	private int memberNo;
+	private Long bizNo;
+	private String bizName;
+	private String memberId;
+	private String memberPw;
+	private String memberName;
+	private String memberPhone;
+	private int memberLevel;
+	private String memberGender;
+	private String memberBirth;
+	private String memberPostcode;
+	private String memberAddr1;
+	private String memberAddr2;
+	private int memberPoint;
+	//shop
+	private int shopNo;
+	private String shopName;
+	private String shopIntro;
+	private String shopBirth;
+	private String category;
+	private int grossIncome;
+	private ArrayList<ShopPic> fileList;
 }
 

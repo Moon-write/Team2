@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>회원목록</title>
 <style>
+.my_book_list_tbl>*{
+	text-align: center;
+}
 .noticemenu{
     width: 800px;
     margin: 0 auto;
@@ -23,6 +26,9 @@
     width: 180px;
     border-right: solid 0px #333333;
 }
+.noticemenu>ul>li>a:hover{
+	color: rgb(30,144,255);
+}
 .noticemenu>ul>li>a{
     margin: 0 auto;
     vertical-align: middle;
@@ -34,10 +40,6 @@
 .noticemenu>ul>li:last-child{
     border: none;
 }
-.noticemenu>ul>li>a:hover{
-    color: #998465;
-}
-
 .noticemenu>ul{
 	display: flex;
 	justify-content: space-between;	
@@ -88,10 +90,10 @@
 	margin-top: 30px;
 }
 #tr-00>*{
-	padding: 1rem;
+	padding: 1.0rem;
 }
 #tr-01>*{
-	padding: 1.2rem;
+	padding: 1.0rem;
 }
 #my_book_list_tbl tr>th:nth-child(1){
 	width: 4%;
@@ -104,18 +106,19 @@
 }
 #my_book_list_tbl tr>td:nth-child(2){
 	width: 8%;
+	word-break: break-all
 }
 #my_book_list_tbl tr>th:nth-child(3){
-	width: 6%;
+	width: 5%;
 }
 #my_book_list_tbl tr>td:nth-child(3){
-	width: 6%;
+	width: 5%;
 }
 #my_book_list_tbl tr>th:nth-child(4){
-	width: 10%;
+	width: 6%;
 }
 #my_book_list_tbl tr>td:nth-child(4){
-	width: 10%;
+	width: 6%;
 }
 #my_book_list_tbl tr>th:nth-child(5){
 	width: 10%;
@@ -124,10 +127,10 @@
 	width: 10%;
 }
 #my_book_list_tbl tr>th:nth-child(6){
-	width: 8%;
+	width: 7%;
 }
 #my_book_list_tbl tr>td:nth-child(6){
-	width: 8%;
+	width: 7%;
 }
 #my_book_list_tbl tr>th:nth-child(7){
 	width: 6%;
@@ -136,27 +139,15 @@
 	width: 6%;
 }
 #my_book_list_tbl tr>th:nth-child(8){
-	width: 8%;
+	width: 9%;
 }
 #my_book_list_tbl tr>td:nth-child(8){
-	width: 8%;
+	width: 9%;
 }
 #my_book_list_tbl tr>th:nth-child(9){
-	width: 8%;
-}
-#my_book_list_tbl tr>td:nth-child(9){
-	width: 8%;
-}
-#my_book_list_tbl tr>th:nth-child(10){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(10){
-	width: 10%;
-}
-#my_book_list_tbl tr>th:nth-child(11){
 	width: 4%;
 }
-#my_book_list_tbl tr>td:nth-child(11){
+#my_book_list_tbl tr>td:nth-child(9){
 	width: 4%;
 }
 form{
@@ -186,7 +177,7 @@ form{
 					<!-- 헤더 테이블 -->
 					<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 						<tr class="tr-3">
-							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소<th>적립금</th><th>등급</th><th>구매내역</th><th>탈퇴가능여부</th><th>상세보기<th>삭제</th>
+							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소<th>적립금</th><th>등급</th><th>상세보기<th>삭제</th>
 						</tr>
 					</table>
 					<!-- 본문 테이블 -->	
@@ -209,9 +200,6 @@ form{
 											<td>사업자</td>
 											</c:when>
 										</c:choose>
-										<!-- 구매내역이랑 탈퇴가능여부 넣어야함 / orderStatus로 가르면될듯-->
-										<td>배송완료</td>
-										<td>탈퇴가능</td>
 										<td><button class="btn bc2 searchBtn" style="padding: 0 10px;" >상세보기</button></td>
 										<td><input type="checkbox" id="delMemberChk"></td>
 									</tr>

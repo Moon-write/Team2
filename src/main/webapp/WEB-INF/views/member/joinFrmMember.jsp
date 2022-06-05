@@ -240,10 +240,10 @@
 					</tr>
 					<tr class="form-input form-select-wrap select"">
 						<td colspan="4">
-							<select name="gender" class="input-form select" required>
+							<select name="memberGender" class="input-form select" required>
 								<option disabled selected>성별</option>
-								<option value="female">여성</option>
-								<option value="male">남성</option>
+								<option value="여성">여성</option>
+								<option value="남성">남성</option>
 							</select>
 						</td>
 					</tr>

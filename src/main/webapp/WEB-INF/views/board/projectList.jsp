@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="/resources/css/board/boardMain.css">
 <style>
 .content-title{
-	background-image: url(/resources/img/board/banner2.jpg);
+	background-image: url(/resources/img/board/banner3.jpg);
 	background-size: cover;
-	background-position: 10% 74%;
+	background-position: 10% 65%;
 }
 .title-txt {
     margin: auto;

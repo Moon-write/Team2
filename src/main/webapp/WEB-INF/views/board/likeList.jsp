@@ -8,6 +8,24 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="/resources/css/board/boardMain.css">
 <style>
+.content-title{
+	background-image: url(/resources/img/board/banner9.jpg);
+	background-size: cover;
+	background-position: 0 8%;
+}
+.title-txt {
+    margin: auto;
+    padding: 10px;
+    width: 1000px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+    background-color: rgba(39, 39, 39, 0.5);
+    animation-name: up;
+    animation-duration: 1.5s;
+    animation-fill-mode: forwards;
+    animation-direction: alternate;
+}
 .hr-0{
 	color: #ac9e89;
 }
@@ -40,24 +58,7 @@ select{
 	margin-top: 60px;
 	margin-bottom: 30px;
 }
-.content-title{
-	background-image: url(/resources/img/board/banner9.jpg);
-	background-size: cover;
-	background-position: center;
-}
-.title-txt {
-    margin: auto;
-    padding: 10px;
-    width: 1000px;
-    text-align: center;
-    font-size: 35px;
-    color: white;
-    background-color: rgba(39, 39, 39, 0.5);
-    animation-name: up;
-    animation-duration: 1.5s;
-    animation-fill-mode: forwards;
-    animation-direction: alternate;
-}
+
 #tr-00>th:nth-child(1){
 	width: 15%;
 }
@@ -105,7 +106,6 @@ select{
 										<c:choose>
 											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
 											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
-											<c:when test="${bo.divNo eq 3}"><td>공동구매</td></c:when>
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
 										<td>${bo.projectNo }</td>
