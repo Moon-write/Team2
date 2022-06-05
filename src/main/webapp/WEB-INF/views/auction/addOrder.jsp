@@ -266,6 +266,28 @@
                 event.preventDefault();
             }
         })
+        
+        $("input[name=orderDelPhone]").on("keyup",function(event){
+	    	const value = $(this).val();
+	    	
+	    	if(window.event.keyCode==109){
+	    		const newStr= value.substring(0,value.length-1);
+	    		$(this).val(newStr);
+	    	}else{
+		    	const value = $(this).val();
+		    	const length = value.length;
+	
+		    	if(length==3){
+		    		$(this).val(value+"-");
+		    	}else if(length==7){
+		    		$(this).val(value+"-");
+		    	}else if(length==13){
+		    		let fullNum;
+		    		fullNum = value.substring(0,7)+value.substring(8,9)+"-"+value.substring(9);	    			
+		    		$(this).val(fullNum);
+		    	}	    		
+	    	}
+	    })
 	</script>
 </body>
 </html>

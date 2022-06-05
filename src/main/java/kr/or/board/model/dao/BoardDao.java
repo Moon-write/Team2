@@ -56,8 +56,8 @@ import kr.or.common.model.vo.Qna;
 			// TODO Auto-generated method stub
 			return sqlSession.selectOne("board.selectOneOrder", orderNo);
 		}
-		public ArrayList<OrderProduct> selectOrderProduct(int orderNo) {
-			List list = sqlSession.selectList("board.selectOrderProduct", orderNo);
+		public ArrayList<OrderProduct> selectOrderProduct(Order order) {
+			List list = sqlSession.selectList("board.selectOrderProduct", order);
 			return (ArrayList<OrderProduct>)list;
 		}
 	}

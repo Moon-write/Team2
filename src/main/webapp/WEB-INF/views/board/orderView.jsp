@@ -163,11 +163,23 @@
             </table>
             <div class="btn-wrap">
                 <button class="btn bc22 bs5" onclick="back(); return false;">이전</button>
-                <button class="btn bc11 bs5" onclick="modifyOrder(); return false;">주문정보 수정</button>
+                <c:if test="${order.orderStatus ne 5 }">
+	                <button class="btn bc11 bs5" onclick="modifyOrder(); return false;">주문정보 수정</button>                
+                </c:if>
             </div>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script type="text/javascript">
+    const memberName = '${sessionScope.m.memberName}';
+    const memberPhone = '${sessionScope.m.memberPhone}';
+    const memberEmail = '${sessionScope.m.memberId}';
+    const memberPoint = '${sessionScope.m.memberPoint}';
+    const memberAddrFull = '${sessionScope.m.memberAddr1}'+'${sessionScope.m.memberAddr2}';
+    const memberPost = '${sessionScope.m.memberPostcode}'
+    const memberAddr1 = '${sessionScope.m.memberAddr1}';
+    const memberAddr2 = '${sessionScope.m.memberAddr2}';
+    
+    console.log(memberName);
 		const orderNo = "${order.orderNo}";
 		function modifyOrder(){
 			location.href="/modifyOrder.kh?orderNo="+orderNo;

@@ -319,7 +319,7 @@ public class BoardService {
 
 	public Order selectOneOrder(int orderNo) {
 		Order order = dao.selectOneOrder(orderNo);
-		order.setOrderProductList(dao.selectOrderProduct(orderNo));
+		order.setOrderProductList(dao.selectOrderProduct(order));
 		return order;
 	}
 	

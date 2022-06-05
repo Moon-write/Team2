@@ -42,7 +42,9 @@ public class ShopController {
 	@RequestMapping(value = "/shopUploadFrm.kh")
 	public String shopUploadFrm(int memberNo, Model model) {
 		Shop shop = service.selectShopInfo(memberNo);
+		Member member=service.selectOneMember(memberNo);
 		model.addAttribute("shop", shop);
+		model.addAttribute("member", member);
 		return "shop/shopUploadFrm";
 	}
 

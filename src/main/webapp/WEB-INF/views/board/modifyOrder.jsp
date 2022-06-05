@@ -100,10 +100,9 @@
                     <tr>
                         <td colspan="2" style="text-align: left; height: 60px;">
                             <div style="padding-left: 20px;">포인트 사용</div>
-                            <span style="padding-left: 20px; font-size: 0.8em;">사용 가능 포인트 : <span id="memberPoint">${sessionScope.m.memberPoint}</span></span>
                         </td>
                         <td style="width: 20%;">
-                            <input type="text" name="orderPoint" class="input-form" style="text-align: right" value="0">원
+                            ${order.orderPoint }원
                         </td>
                     </tr>
                 </tbody>
@@ -112,8 +111,6 @@
                         <th colspan="3" style="font-size: 1.4em; height: 80px;">
                             <span>총 결제금액</span>
                             <span id="orderPrice">${order.orderPrice}</span>원
-                            <input type="hidden" id="totalPrice" value="${order.orderPrice}"> <!--여기에 포인트 사용전 최종 주문금액 넣기-->
-                            <input type="hidden" name="orderPrice"  value="${order.orderPrice}">
                         </th>
                     </tr>
                 </tfoot>
@@ -133,6 +130,7 @@
             <div style="width: 70%; margin: 0px auto; text-align: right;">
                 <input type="checkbox" id="equalChk"><label for="equalChk">주문자 정보와 동일</label>
             </div>
+            <form action="/updateOrder.kh">
             <table border="0" id="delTbl">
                 <tr>
                     <th>이름</th>
@@ -172,12 +170,76 @@
             </table>
             <div class="btn-wrap">
                 <button class="btn bc22 bs5" onclick="back(); return false;">이전</button>
-                <c:if test="${order.orderStatus eq 4}">
-                    <button class="btn bc11 bs5" onclick="payment(); return false;">결제하기</button>
-                    <input  type="submit" class="btn bc1 bs5" value="결제처리">
-                </c:if>
+                <input type="submit" class="btn bc11 bs5" value="수정하기">
+                <input type="hidden" name="orderNo" value="${order.orderNo }"> 
             </div>
+            </form>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<script type="text/javascript">
+	    const memberName = '${sessionScope.m.memberName}';
+	    const memberPhone = '${sessionScope.m.memberPhone}';
+	    const memberEmail = '${sessionScope.m.memberId}';
+	    const memberPoint = '${sessionScope.m.memberPoint}';
+	    const memberAddrFull = '${sessionScope.m.memberAddr1}'+'${sessionScope.m.memberAddr2}';
+	    const memberPost = '${sessionScope.m.memberPostcode}'
+	    const memberAddr1 = '${sessionScope.m.memberAddr1}';
+	    const memberAddr2 = '${sessionScope.m.memberAddr2}';
+	    
+	    const orderName = '${order.orderDelName}';
+	    const orderPhone = '${order.orderDelPhone}';
+	    const orderDelPost = '${order.orderDelPost}';
+	    const orderDelAddr1 = '${order.orderDelAddr1}';
+	    const orderDelAddr2 = '${order.orderDelAddr2}';
+	    
+	
+	    $("input#equalChk").on("click",function(){
+	        if($(this).prop("checked")==true){
+	            $("input[name=orderDelName]").val(memberName);
+	            $("input[name=orderDelPhone]").val(memberPhone);
+	            $("input[name=orderDelPost]").val(memberPost);
+	            $("input[name=orderDelAddr1]").val(memberAddr1);
+	            $("input[name=orderDelAddr2]").val(memberAddr2);
+	        }else{
+	            $("input[name=orderDelName]").val(orderName);
+	            $("input[name=orderDelPhone]").val(orderPhone);
+	            $("input[name=orderDelPost]").val(orderDelPost);
+	            $("input[name=orderDelAddr1]").val(orderDelAddr1);
+	            $("input[name=orderDelAddr2]").val(orderDelAddr2);
+	        }
+	    })
+	    function back(){
+            history.back();
+        }
+        $("input").on("keydown",function(event){
+            if(event.keyCode==13){
+                event.preventDefault();
+            }
+        })
+	    
+	    $("input[name=orderDelPhone]").on("keyup",function(event){
+	    	const value = $(this).val();
+	    	
+	    	if(window.event.keyCode==109){
+	    		const newStr= value.substring(0,value.length-1);
+	    		$(this).val(newStr);
+	    	}else{
+		    	const value = $(this).val();
+		    	const length = value.length;
+	
+		    	if(length==3){
+		    		$(this).val(value+"-");
+		    	}else if(length==7){
+		    		$(this).val(value+"-");
+		    	}else if(length==13){
+		    		let fullNum;
+		    		fullNum = value.substring(0,7)+value.substring(8,9)+"-"+value.substring(9);	    			
+		    		$(this).val(fullNum);
+		    	}	    		
+	    	}
+	    })
+	    
+	    
+	</script>
 </body>
 </html>

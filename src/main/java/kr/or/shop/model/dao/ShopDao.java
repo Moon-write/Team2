@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.member.model.vo.Member;
 import kr.or.shop.model.vo.Shop;
 import kr.or.shop.model.vo.ShopCategory;
 import kr.or.shop.model.vo.ShopPic;
@@ -72,5 +73,11 @@ public class ShopDao {
 	public int insertCategory(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("shop.insertCategory",map);		
+	}
+
+
+	public Member selectOneMember(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectOneMember",memberNo);
 	}
 }

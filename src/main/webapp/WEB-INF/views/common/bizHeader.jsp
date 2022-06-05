@@ -60,12 +60,20 @@
 			<a href="/joinFrmMember.kh">회원가입</a>
 		<%} %>
 	</div>
-	
-
-
 </header>
 <script>
 	$("#bannerClose").on("click",function(){
 		$(this).parent().slideUp();
-	})
+	})	
+	$(function() {
+		$(".sub-menu").prev().append("<span class='more'></span>")
+		$(".more").parent().parent().on(
+				"click",
+				function(e) {
+					$(this).children().last().slideToggle();
+					$(this).children().first().children(".more")
+							.toggleClass("menu-active");
+					e.stopPropagation();
+				});			
+	});
 </script>
