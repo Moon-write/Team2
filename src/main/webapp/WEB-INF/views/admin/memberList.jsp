@@ -84,7 +84,6 @@
 .searchBtn{
 	height: 40px;
 	line-height: 40px;
-	
 }
 #pageNavi {
 	margin-top: 30px;
@@ -154,6 +153,15 @@ form{
 	margin-top: 20px; 
 	margin-bottom: 20px; 
 }
+tr,td{
+	text-align: center;
+}
+table{
+	table-layout: fixed;
+}
+#searchBtn{
+	padding: 0 10px; 
+}
 </style>
 </head>
 <body>
@@ -170,8 +178,8 @@ form{
 			        </ul>
 			    </div> 
 					<form action="/searchMember.kh">
-						<input type="text" name="searchMember" placeholder="회원 검색(아이디/이름)" style="height:29px; width:230px; padding-left:5px;" >
-						<button type="submit" class="material-icons">search</button>
+						<input type="text" name="searchMember" placeholder="회원 아이디/이름 " style="height:29px; width:230px; padding-left:5px;" >
+						<button class="bc4" id="searchBtn" type="submit" class="material-icons">검색</button>
 					</form>
 				</div>
 					<!-- 헤더 테이블 -->
@@ -201,11 +209,12 @@ form{
 											</c:when>
 										</c:choose>
 										<td><button class="btn bc2 searchBtn" style="padding: 0 10px;" >상세보기</button></td>
+										<!-- 상세보기 누르면 slide down되도록 -->
 										<td><input type="checkbox" id="delMemberChk"></td>
 									</tr>
 								</table>
 							</c:forEach>
-							<button class="btn bc3 delBtn" style="padding: 0;">삭제</button>
+							<button class="btn bc4 delBtn" style="padding: 0;">삭제</button>
 							<div id="pageNavi">${pageNavi }</div>
 						</c:when>
 						<c:otherwise>
@@ -233,9 +242,9 @@ form{
 		});
 		
 		$(".searchBtn").on("click",function(){
-			const memberNo = $(this).parent().parent().children().first().text();
-			const memberNick = $(this).parent().parent().children().eq(3).text();
-			location.href="searchMemberList.kh?memberNo="+memberNo+"&memberNick="+memberNick+"&reqPage=1&chk=3";
+			const memberId = $(this).parent().parent().children().first().text();
+			const memberName = $(this).parent().parent().children().eq(3).text();
+			location.href="searchMemberList.kh?memberId="+memberId+"&memberName="+memberName+"&reqPage=1&chk=3";
 		});
 	</script>
 </body>

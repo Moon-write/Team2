@@ -83,16 +83,16 @@
 							</tr>
 							<tr class="tr-3">
 								<td>주소</td>
-								<td><input type="text" id="member_postcode" name="memberPostcode" class="input-form" value="${sessionScope.m.memberPostcode }" placeholder="우편번호" readonly></td>
-								<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>							
+								<td><input type="text" id="changePostcode" name="memberPostcode" class="input-form" value="${sessionScope.m.memberPostcode }" placeholder="우편번호" readonly></td>
+								<td><button class="btn bc2 bs1" id="address_kakao" value="우편번호 찾기" type="button">우편번호 찾기</button></td>							
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td colspan="2"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
+								<td colspan="2"><input type="text" id="changeAddr1" name="memberAddr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td colspan="2"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
+								<td colspan="2"><input type="text" id="changeAddr2" name="memberAddr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -108,7 +108,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>성별</td>
-								<td colspan="2"><input class="input-form" type="text" id="changePhone" value="${sessionScope.m.memberGender }" readonly></td>
+								<td colspan="2"><input class="input-form" type="text" id="changeGender" value="${sessionScope.m.memberGender }" readonly></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -131,9 +131,9 @@
 	        //카카오 지도 발생
 	        new daum.Postcode({
 	            oncomplete: function(data) { //선택시 입력값 세팅
-	            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
-	                document.getElementById("member_addr1").value = data.address; // 주소 넣기
-	                document.querySelector("input[name=member_addr2]").focus(); //상세입력 포커싱
+	            	document.getElementById("changePostcode").value = data.zonecode; //우편번호 넣기
+	                document.getElementById("changeAddr1").value = data.address; // 주소 넣기
+	                document.getElementById("changeAddr2").focus(); //상세입력 포커싱
 	                console.log(data);
 	                console.log(data.zonecode);//우편번호
 	                console.log(data.address);//도로명주소(상세주소는 입력받음)
@@ -141,9 +141,9 @@
 	        }).open();
 	    });
 	}
+	//정보 전송 ajax
 	$(function(){
-//정보 전송 ajax
-		let inputCheck = new Array(3).fill(true);
+		let inputCheck = new Array(5).fill(true);
 		let checkAll = true;
 		$(".updateInfo-btn").on("click",function(){
 			checkAll = true;
@@ -155,28 +155,24 @@
 			if(checkAll){
 				const memberId = $("#memberId").val();
 				const memberName = $("#changeName").val();
-				const memberNick = $("#changeNick").val();
 				const memberPhone = $("#changePhone").val();
+				const memberPostcode = $("#changePostcode").val();
+				const memberAddr1 = $("#changeAddr1").val();
+				const memberAddr2 = $("#changeAddr2").val();
 				$.ajax({
-					url: "/updateMember.do",
+					url: "/updateMember.kh",
 					type: "post",
-					data: {memberId: memberId, memberName: memberName, memberNick: memberNick, memberPhone: memberPhone},
+					data: {memberId : memberId, memberName : memberName, memberPhone : memberPhone, memberPostcode : memberPostcode, memberAddr1 : memberAddr1, memberAddr2 : memberAddr2},
 					success: function(data){
-						if(data == "1"){
-							const title = "수정이 완료되었습니다.";
-							const icon = "success";
-							toastShow(title,icon);
-						}else if(data == "0"){
-							const title = "수정을 실패했습니다.";
-							const icon = "error";
-							toastShow(title,icon);
+						if(data == "0"){
+							alert("수정이 완료되었습니다.");
+						}else if(data == "1"){
+							alert("수정에 실패했습니다. 관리자에게 문의 바랍니다.");
 						}	
 					},
 				})
 			}else{
-				const title = "입력값을 확인해주세요";
-				const icon = "warning";
-				toastShow(title,icon);
+				alert("입력값을 확인해주세요.");
 			}
 		});
 //유효성검사 코드
@@ -186,41 +182,10 @@
 			let regExp;
 			regExp = /^[가-힣]{2,5}$/;
 			if(!regExp.test(value)){
-				$(this).parent().parent().next().children().eq(1).text("2-5글자 한글만 입력가능합니다.");
+				$(this).parent().parent().next().children().eq(1).text("2-7글자 한글만 입력가능합니다.");
 				inputCheck[0] = false;
 			}else{
 				inputCheck[0] = true;
-			}
-		});
-		$("#changeNick").change(function(){
-			$(this).parent().parent().next().children().eq(1).text("");			
-			const memberNick = $(this).val();
-			let regExp1;
-			let regExp2;
-			regExp1 = /^[가-힣]{2,8}$/;
-			regExp2 = /^[a-zA-Z]{4,10}$/;
-			if(!regExp1.test(memberNick) && !regExp2.test(memberNick)){
-				$(this).parent().parent().next().children().eq(1).css("color","#c87431");	
-				$(this).parent().parent().next().children().eq(1).text("2~8글자 한글 또는 4~10글자 영어대소문자만 입력가능합니다.");
-				inputCheck[1] = false;
-			}else{ //유효성검사 테스트 통과시 닉네임중복체크
-				inputCheck[1] = true;
-				$.ajax({
-					url: "/checkNick.do",
-					type: "get",
-					data: {memberNick:memberNick},
-					success: function(data){
-						if(data == "1"){
-							$("#changeNick").parent().parent().next().children().eq(1).css("color","#c87431");			
-							$("#changeNick").parent().parent().next().children().eq(1).text("선택하신 닉네임은 사용이 불가능합니다. 다른 닉네임을 입력해주세요.");
-							inputCheck[1] = false;
-						}else if(data == "0"){
-							$("#changeNick").parent().parent().next().children().eq(1).css("color","green");			
-							$("#changeNick").parent().parent().next().children().eq(1).text("선택하신 닉네임은 사용가능합니다.");		
-							inputCheck[1] = true;
-						}
-					}
-				})
 			}
 		});
 		$("#changePhone").change(function(){

@@ -12,6 +12,7 @@
 	background-image: url(/resources/img/board/banner9.jpg);
 	background-size: cover;
 	background-position: 0 8%;
+    margin-bottom: 30px;
 }
 .title-txt {
     margin: auto;

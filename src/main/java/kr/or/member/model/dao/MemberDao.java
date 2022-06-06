@@ -26,11 +26,11 @@ public class MemberDao {
 	public int newPwMember(Member m) {
 		return sqlSession.update("member.newPw",m);
 	}
-	public int deleteMember(int memberNo) {
-		return sqlSession.delete("member.deleteMember",memberNo);
+	public int deleteMember(String memberId) {
+		return sqlSession.delete("member.deleteMember",memberId);
 	}
 	public int memberUpdate(Member m) {
-		return sqlSession.update("member.updateMember",m);
+		return sqlSession.update("member.memberUpdate",m);
 	}
 	public ArrayList<Member> selectMemberList(HashMap<String, Object> map) {
 		List<Member> memberList = sqlSession.selectList("member.selectMemberList",map);

@@ -208,7 +208,7 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="3"><input type="text" id="member_postcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
-						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
+						<td><button class="btn bc2 bs1" id="address_kakao" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
@@ -271,7 +271,7 @@
 		            oncomplete: function(data) { //선택시 입력값 세팅
 		            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
 		                document.getElementById("member_addr1").value = data.address; // 주소 넣기
-		                document.querySelector("input[name=member_addr2]").focus(); //상세입력 포커싱
+		                document.getElementById("member_addr2").focus(); //상세입력 포커싱
 		                console.log(data);
 		                console.log(data.zonecode);//우편번호
 		                console.log(data.address);//도로명주소(상세주소는 입력받음)

@@ -74,8 +74,8 @@
   	<update id="newPw">
   		update member set member_pw=#{memberPw} where member_id=#{memberId}
   	</update>
-  	<delete id="deleteMember" parameterType="int">
-  		delete from member where member_no=#{memberNo} 
+  	<delete id="deleteMember" parameterType="String">
+  		delete from member where member_id=#{memberId} 
   	</delete>
   	<update id="memberUpdate" parameterType="m">
   		update member set member_name=#{memberName},member_phone=#{memberPhone},member_postcode=#{memberPostcode},member_addr1=#{memberAddr1},member_addr2=#{memberAddr2}

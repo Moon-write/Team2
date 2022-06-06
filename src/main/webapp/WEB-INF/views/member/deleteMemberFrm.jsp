@@ -66,15 +66,14 @@
 							<tr class="tr-3">
 								<td>비밀번호 확인</td>
 								<td>
-									<input type="password" class="input-form" id="memberPw">
+									<input type="password" class="input-form" name="memberPw" id="memberPw">
+									<td><p class="fc-9" name="pwChk"></p></td>								
 								</td>
 							</tr>
 							<tr>
-								<td><input type="hidden" id="memberId" value=${sessionScope.m.memberId }></td>
-								<td><p class="fc-9"></p></td>	
+								<td><input type="hidden" id="memberId" name="memberId" value=${sessionScope.m.memberId }></td>
 							</tr>
 							<tr class="tr-3">
-								<td></td>
 								<td><input type="button" class="btn bc4 updateInfo-btn" value="탈퇴하기"></td>
 							</tr>
 						</table>
@@ -86,25 +85,40 @@
 	
 	<script>
 	//비밀번호 확인
-	$.ajax({
-		url: "/pwcheck.kh", // Controller의 mapping값
-		type: "post",  // get, post 방식 中
-		data: {memberNo : memberNo},  // Controller로 보낼 데이터
-		success: function(data) {if(data == "1"){
-					$(".fc-9").text("");
-					inputCheck = true;
-				}else if(data == "0"){
-					$(".fc-9").text("비밀번호를 확인해주세요.").css("color","#c87431");
-					inputCheck = false;
+	$(function(){
+		let inputCheck = false;
+		$("[name=memberPw]").on("change", function(){
+			$.ajax({
+				url: "/pwcheck.kh", // Controller의 mapping값
+				type: "post",  // get, post 방식 中
+				data: {memberId : memberId, memberPw : memberPw},  // Controller로 보낼 데이터
+				success: function(data) {
+					if(data == "0"){
+						$(".fc-9").text("비밀번호가 일치합니다.").css("color","blue");
+						inputCheck = true;
+					}else if(data == "1"){
+						$(".fc-9").text("비밀번호를 확인해주세요.").css("color","red");
+						inputCheck = false;
+					}
 				}
-	});
-	//탈퇴실행
-	$.ajax({
-		url: "/deleteMember.kh", // Controller의 mapping값
-		type: "post",  // get, post 방식 中
-		data: {memberNo : memberNo},  // Controller로 보낼 데이터
-		success: function(data) {},  // 정상적으로 return 받았을 때 실행할 함수
-		error: function(){data} // 실패했을 때 작동할 함수
+			});
+		});
+		//탈퇴실행
+		$(".updateInfo-btn").on("click", function(){
+			if(inputCheck){
+				const memberId = $("[name=memberId]").val();
+				$.ajax({
+					url: "/deleteMember.kh", // Controller의 mapping값
+					type: "get",  // get, post 방식 中
+					data: {memberId : memberId},  // Controller로 보낼 데이터
+					success: function(data) {
+						location.href = "/";
+					}  // 정상적으로 return 받았을 때 실행할 함수
+				});
+			}else{
+				alert("비밀번호를 확인해주세요"); 
+			}
+		});
 	});
 	
 	</script>

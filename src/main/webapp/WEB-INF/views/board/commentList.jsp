@@ -80,6 +80,7 @@ select{
 	background-image: url(/resources/img/board/banner5.jpg);
 	background-size: cover;
 	background-position: center;
+    margin-bottom: 30px;
 }
 .title-txt {
     margin: auto;

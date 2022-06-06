@@ -45,8 +45,8 @@ public class MemberService {
 		return result;
 	}
 
-	public int deleteMember(int memberNo) {
-		return dao.deleteMember(memberNo);
+	public int deleteMember(String memberId) {
+		return dao.deleteMember(memberId);
 	}
 
 	public int memberUpdate(Member m) {

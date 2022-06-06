@@ -74,6 +74,7 @@ select{
 	background-image: url(/resources/img/board/banner10.jpg);
 	background-size: cover;
 	background-position: 0% 39%;
+    margin-bottom: 30px;
 }
 .title-txt {
     margin: auto;

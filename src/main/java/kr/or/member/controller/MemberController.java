@@ -52,7 +52,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/selectOneMember.kh")
-	public String searchOneMember(Member m,Model model) {
+	public String searchOneMember(Member m, Model model) {
 		Member member = service.selectOneMember(m);
 		model.addAttribute("m",member);
 		return "member/searchMember";
@@ -109,7 +109,7 @@ public class MemberController {
 	@RequestMapping(value="/pwcheck.kh")
 	public String selectOneMember(Member m) {
 		Member member = service.selectOneMember(m);
-		if(member != null) {
+		if(member != null) {//비밀번호 일치할때
 			return "0";
 		}else {
 			return "1";
@@ -120,40 +120,33 @@ public class MemberController {
 		return "member/deleteMemberFrm";
 	}
 	@RequestMapping(value="deleteMember.kh")
-	public String deleteMember(@SessionAttribute(required = false) Member m, HttpServletRequest request) {
-		int result = service.deleteMember(m.getMemberNo());
-		if(result == 1) {
-			request.setAttribute("title", "회원탈퇴완료");
-			request.setAttribute("msg", "성공적으로 탈퇴했습니다.");
-			request.setAttribute("icon", "success");
+	public String deleteMember(@SessionAttribute(required = false) Member m, HttpSession session) {
+		int result = service.deleteMember(m.getMemberId());
+		if(result > 0) {
+			return "redirect:/logout.kh";
 		}else {
-			request.setAttribute("title", "회원탈퇴실패");
-			request.setAttribute("msg", "탈퇴에 실패했습니다.");
+			request.setAttribute("title", "회원탈퇴 실패");
+			request.setAttribute("msg", "관리자에게 문의바랍니다.");
 			request.setAttribute("icon", "error");
 		}
 		request.setAttribute("loc", "/");
-		session.invalidate();
 		return "common/msg";
 	}
 	@RequestMapping(value="/updateMemberFrm.kh")
 	public String updateMemberFrm() {
 		return "member/updateMemberFrm";
 	}
+	@ResponseBody
 	@RequestMapping(value="/updateMember.kh")
-	public String updateMember(Member m, HttpServletRequest request, HttpSession session) {
+	public String updateMember(Member m, HttpSession session) {
 		int result = service.memberUpdate(m);
-		if(result == 1) {
-			session.setAttribute("m", m);
-			request.setAttribute("title", "정보수정완료");
-			request.setAttribute("msg", "회원정보가 수정되었습니다.");
-			request.setAttribute("icon", "success");
+		Member member = service.selectOneMember(m);
+		if(result > 0 && member != null ) {
+			session.setAttribute("m", member);
+			return "0";
 		}else {
-			request.setAttribute("title", "정보수정실패");
-			request.setAttribute("msg", "정보수정에 실패했습니다.");
-			request.setAttribute("icon", "error");
+			return "1";
 		}
-		request.setAttribute("loc", "/");
-		return "common/msg";
 	}
 	@RequestMapping(value="/admin.kh")
 	public String admin() {
