@@ -6,7 +6,7 @@
   	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
   	SYSDATE,
   	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
-  	#{fundingSum},0,157,100,1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE))
+  	#{fundingSum},0,157,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
   </insert>
   <select id="selectFundingMaxNo" resultType="int">
   	SELECT MAX(FUNDING_NO) FROM FUNDING
@@ -32,8 +32,9 @@
   	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
   	FUNDING_SUM_RATE	AS fundingSumRate,
   	MEMBER_NO 			AS memberNo, 
-    FUNDING_FILE_PATH    AS fundingFilePath,
+    FUNDING_FILE_PATH   AS fundingFilePath,
     FUNDING_DEADLINE    AS fundingDeadline,
+    BIZ_NAME			AS bizName,
     ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING.FUNDING_NO) AS RN
     FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 ORDER BY fundingNo DESC
   </select>
@@ -48,8 +49,9 @@
   	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
   	FUNDING_SUM_RATE	AS fundingSumRate,
   	FUNDING_END			AS fundingEnd,
-  	FUNDING_DEADLINE	AS fundingDeadline
-  	From FUNDING WHERE FUNDING_NO=#{fundingNo}
+  	FUNDING_DEADLINE	AS fundingDeadline,
+  	BIZ_NAME			AS bizName
+  	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
   </select>
   <select id="selectOneFundingFile" parameterType="int" resultType="ff">
   	SELECT
@@ -57,6 +59,21 @@
   		FUNDING_FILE_PATH	AS fundingFilePath
   		FROM FUNDING_FILE
   		WHERE FUNDING_NO = #{fundingNo}
+  </select>
+  <select id="selectFundingOptionPrice" parameterType="int" resultType="sfop">
+  	SELECT
+  		FUNDING_OPTION_PRICE_NO AS	fundingOptionPriceNo,
+  		FUNDING_OPTION_LIST		AS	fundingOptionList,
+  		FUNDING_OPTION_PRICE	AS	fundingOptionPrice,
+  		FUNDING_NO				AS	fundingNo
+  		FROM FUNDING_OPTION_PRICE WHERE FUNDING_NO = #{fundingNo}
+  </select>
+  <select id="selectOneFunding2" parameterType="int" resultType="f">
+  	SELECT
+  	FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	MEMBER_NO			AS memberNo
+  	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
   </select>
  
 </mapper>

@@ -53,14 +53,32 @@
             </ul>
         </div>
         <div class="left-box">
-            <div class="img-slide"></div>
-            <div class="funding-detail"></div>
+          	<button class="btn bc11 modal-open-btn" target="#test-modal">글쓰기</button>
         </div>
+            <div id="test-modal" class="modal-bg">
+      <div class="modal-wrap">
+        <div class="modal-head">
+          <h2>모달 제목</h2>
+          <span class="material-icons close-icon modal-close">close</span>
+        </div>
+        <div class="modal-content">
+          <p>모달내용</p>
+          <p>모달내용</p>
+          <p>모달내용</p>
+          <p>모달내용</p>
+        </div>
+        <div class="modal-foot">
+          <button class="btn bc1">확인</button>
+          <button class="btn bc11 modal-close">취소</button>
+        </div>
+      </div>
+    </div>
         <div class="right-box">
             <div class="funding"></div>
             <div class="funding-rank"></div>
         </div>
     </div>
+    
     
 
 

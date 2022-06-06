@@ -54,5 +54,15 @@ public class FundingDao {
 		return (ArrayList<FundingFile>)list ;
 	}
 
+	public ArrayList<FundingOptionPrice> selectFundingOptionPrice(int fundingNo) {
+		List list = sqlSession.selectList("funding.selectFundingOptionPrice",fundingNo);
+		return (ArrayList<FundingOptionPrice>) list;
+	}
+
+	public Funding selectOneFunding2(int fundingNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("funding.selectOneFunding2",fundingNo);
+	}
+
 
 }
