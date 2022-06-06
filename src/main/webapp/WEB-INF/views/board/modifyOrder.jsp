@@ -62,13 +62,14 @@
 </style>
 </head>
 <body>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
  
         <input type="hidden" id="orderNo" value="${order.orderNo}" name="orderNo">
         <input type="hidden" id="projectNo" value="${order.projectNo}" name="projectNo">
 	    <input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
 		<div class="page-content">
-			<div class="page-titleC">주문 결제</div>
+			<div class="page-titleC">주문 내역</div>
 			<table class="tbl" id="itemTbl">
                 <thead>
                     <tr class="tr-2">
@@ -148,7 +149,7 @@
                     <th rowspan="3">주소</th>
                     <td>
                         <input type="text" name="orderDelPost" placeholder="우편번호" class="input-form" id="orderDelPost"  value="${order.orderDelPost }">
-                        <button class="btn bc1" id="postBtn" onclick="searchAddr(); return false;">우편번호 검색</button>
+                        <button type="button" class="btn bc1" id="postBtn" onclick="searchAddr(); return false;">우편번호 검색</button>
                     </td>
                 </tr>
                 <tr>
@@ -238,7 +239,20 @@
 		    	}	    		
 	    	}
 	    })
-	    
+
+        function searchAddr(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+                    // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+                    // 선택한 주소가 data 매개변수로 돌아옴 (json 타입으로)
+                    $("#orderDelPost").val(data.zonecode);
+                    $("#orderDelAddr1").val(data.roadAddress);
+                    $("#orderDelAddr2").val(data.buildingName+" ");
+                    $("#orderDelAddr2").focus();
+                }
+            }).open();
+	    };
 	    
 	</script>
 </body>

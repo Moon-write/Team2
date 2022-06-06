@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-    table#itemTbl, table#orderTbl, table#delTbl{
+    table#orderInfoTbl, table#itemTbl, table#orderTbl, table#delTbl{
         width: 70%;
         margin: 30px auto;
         margin-bottom: 50px;
@@ -66,7 +66,25 @@
         <input type="hidden" id="projectNo" value="${order.projectNo}" name="projectNo">
 	    <input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
 		<div class="page-content">
-			<div class="page-titleC">주문 결제</div>
+			<div class="page-titleC">주문 내역</div>
+			<table class="tbl" id="orderInfoTbl">
+				<tr class="tr-1">
+					<th>주문번호</th>
+					<td>${order.orderNo }</td>
+					<th>주문일자</th>
+					<td>${order.orderDate }</td>
+					<th>주문상태</th>
+					<td>
+						<c:choose>
+							<c:when test="${order.orderStatus eq 1 }">결제완료</c:when>
+							<c:when test="${order.orderStatus eq 2 }">배송완료</c:when>
+							<c:when test="${order.orderStatus eq 3 }">입찰완료</c:when>
+							<c:when test="${order.orderStatus eq 4 }">결제대기</c:when>
+							<c:when test="${order.orderStatus eq 5 }">주문취소</c:when>
+						</c:choose>
+					</td>
+				</tr>
+			</table>
 			<table class="tbl" id="itemTbl">
                 <thead>
                     <tr class="tr-2">
@@ -179,11 +197,14 @@
     const memberAddr1 = '${sessionScope.m.memberAddr1}';
     const memberAddr2 = '${sessionScope.m.memberAddr2}';
     
-    console.log(memberName);
 		const orderNo = "${order.orderNo}";
 		function modifyOrder(){
 			location.href="/modifyOrder.kh?orderNo="+orderNo;
 		}
+		
+        function back(){
+            history.back();
+        }
 	</script>
 </body>
 </html>

@@ -72,4 +72,22 @@ public class BoardController {
 		model.addAttribute("order", order);
 		return "board/modifyOrder";
 	}
+	
+	@RequestMapping(value = "/updateOrder.kh")
+	public String updateOrder(Order o, Model model) {
+		int result = service.updateOrder(o);
+		
+		if(result>0) {
+			model.addAttribute("title", "주문정보 수정 완료");
+			model.addAttribute("msg", "주문정보가 수정되었습니다");
+			model.addAttribute("icon", "success");
+			model.addAttribute("loc", "/orderView.kh?orderNo="+o.getOrderNo());
+		}else {
+			model.addAttribute("title", "주문정보 수정 실패");
+			model.addAttribute("msg", "수정에 실패했습니다. 관리자에게 문의해 주세요!");
+			model.addAttribute("icon", "error");
+			model.addAttribute("loc", "/orderView.kh?orderNo="+o.getOrderNo());
+		}
+		return "common/msg";
+	}
 }
