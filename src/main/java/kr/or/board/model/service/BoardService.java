@@ -322,5 +322,10 @@ public class BoardService {
 		order.setOrderProductList(dao.selectOrderProduct(order));
 		return order;
 	}
+
+	public int updateOrder(Order o) {
+		// TODO Auto-generated method stub
+		return dao.updateOrder(o);
+	}
 	
 }

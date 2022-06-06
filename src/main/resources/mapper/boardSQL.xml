@@ -135,8 +135,7 @@
 		        AUCTION_ITEM AS productName,        	
         	</when>
         </choose>
-        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN 
-        
+        ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN        
         <choose>
         	<when test="divNo==1">
         		FUNDING_OPTION_PRICE ON(PROJECT_NO=FUNDING_NO)
@@ -147,8 +146,17 @@
         	<when test="divNo==4">
         		AUCTION_TBL USING(PROJECT_NO)
         	</when>
-        </choose>
-        
+        </choose>        
         WHERE ORDER_NO = #{orderNo}
   </select>
+  <update id="updateOrder" parameterType="o">
+  	UPDATE ORDER_TBL SET
+  		ORDER_DEL_NAME = #{orderDelName},
+  		ORDER_DEL_PHONE = #{orderDelPhone},
+  		ORDER_DEL_ADDR1 = #{orderDelAddr1},
+  		ORDER_DEL_ADDR2 = #{orderDelAddr2},
+  		ORDER_DEL_POST = #{orderDelPost},
+  		ORDER_DEL_ASK = #{orderDelAsk}
+  	WHERE ORDER_NO = #{orderNo}
+  </update>
 </mapper>

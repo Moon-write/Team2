@@ -60,4 +60,8 @@ import kr.or.common.model.vo.Qna;
 			List list = sqlSession.selectList("board.selectOrderProduct", order);
 			return (ArrayList<OrderProduct>)list;
 		}
+		public int updateOrder(Order o) {
+			// TODO Auto-generated method stub
+			return sqlSession.update("board.updateOrder", o);
+		}
 	}
