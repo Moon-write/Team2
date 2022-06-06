@@ -43,6 +43,8 @@
 	vertical-align: top;
 }
 </style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <!-- 회원정보 관리 페이지입니다. -->
@@ -81,16 +83,16 @@
 							</tr>
 							<tr class="tr-3">
 								<td>주소</td>
-								<td><input type="text" id="member_postcode" name="member_postcode" class="input-form" value="${sessionScope.m.memberPostcode }" placeholder="우편번호" readonly></td>
+								<td><input type="text" id="member_postcode" name="memberPostcode" class="input-form" value="${sessionScope.m.memberPostcode }" placeholder="우편번호" readonly></td>
 								<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>							
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td colspan="2"><input type="text" id="member_addr1" name="member_addr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
+								<td colspan="2"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" value="${sessionScope.m.memberAddr1 }" placeholder="주소" readonly></td>
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td colspan="2"><input type="text" id="member_addr2" name="member_addr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
+								<td colspan="2"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" value="${sessionScope.m.memberAddr2 }" placeholder="상세주소"></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -123,6 +125,22 @@
 		</div>
 	</div>
 	<script>
+	//다음 주소찾기 API
+	window.onload = function(){
+	    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+	        //카카오 지도 발생
+	        new daum.Postcode({
+	            oncomplete: function(data) { //선택시 입력값 세팅
+	            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
+	                document.getElementById("member_addr1").value = data.address; // 주소 넣기
+	                document.querySelector("input[name=member_addr2]").focus(); //상세입력 포커싱
+	                console.log(data);
+	                console.log(data.zonecode);//우편번호
+	                console.log(data.address);//도로명주소(상세주소는 입력받음)
+	            }
+	        }).open();
+	    });
+	}
 	$(function(){
 //정보 전송 ajax
 		let inputCheck = new Array(3).fill(true);

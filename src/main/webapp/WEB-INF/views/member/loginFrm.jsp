@@ -94,8 +94,8 @@
 				    <input type="password" name="memberPw" id="memberPw" class="input-form" placeholder="비밀번호">
 			    </div>
 			  	<div class="logSave">
-				    <input type="checkbox" class="save_id" name="checkId" id="saveId" >
-				    <label for="saveId">아이디 저장</label>
+				    <input type="checkbox" class="save_id" name="checkId" id="idSaveCheck" >
+				    <label for="idSaveCheck">아이디 저장</label>
 				</div>
 			<div class="login-button"><button type="submit" class="btn bc1 bs4" value="로그인">로그인</button></div>                            
 			</div>
@@ -123,63 +123,60 @@
 	});
 	
 	//아이디 쿠키 저장
-     $(function() {
-           fnInit();
-     });
-     function frm_check(){
-         saveid();
-     }
-    function fnInit(){
-        var cookieid = getCookie("saveid");
-        console.log(cookieid);
-        if(cookieid !=""){
-            $("input:checkbox[id='saveId']").prop("checked", true);
-            $('#logId').val(cookieid);
-        }
-    } 
-    function setCookie(name, value, expiredays) {
-        var todayDate = new Date();
-        todayDate.setTime(todayDate.getTime() + 0);
-        if(todayDate > expiredays){
-            document.cookie = name + "=" + escape(value) + "; path=/; expires=" + expiredays + ";";
-        }else if(todayDate < expiredays){
-            todayDate.setDate(todayDate.getDate() + expiredays);
-            document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
-        }
-        console.log(document.cookie);
+    $(document).ready(function(){
+    var userInputId = getCookie("userInputId");//저장된 쿠기값 가져오기
+    $("input[name=memberId]").val(userInputId); 
+     
+    if($("input[name=memberId]").val() != ""){ // 그 전에 ID를 저장해서 처음 페이지 로딩
+                                           // 아이디 저장하기 체크되어있을 시,
+        $("#idSaveCheck").attr("checked", true); // ID 저장하기를 체크 상태로 두기.
     }
-    function getCookie(Name) {
-        var search = Name + "=";
-        console.log("search : " + search);
-        
-        if (document.cookie.length > 0) { // 쿠키가 설정되어 있다면 
-            offset = document.cookie.indexOf(search);
-            console.log("offset : " + offset);
-            if (offset != -1) { // 쿠키가 존재하면 
-                offset += search.length;
-                // set index of beginning of value
-                end = document.cookie.indexOf(";", offset);
-                console.log("end : " + end);
-                // 쿠키 값의 마지막 위치 인덱스 번호 설정 
-                if (end == -1)
-                    end = document.cookie.length;
-                console.log("end위치  : " + end);
-                
-                return unescape(document.cookie.substring(offset, end));
-            }
+     
+    $("#idSaveCheck").change(function(){ // 체크박스에 변화가 발생시
+        if($("#idSaveCheck").is(":checked")){ // ID 저장하기 체크했을 때,
+            var userInputId = $("input[name=memberId]").val();
+            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
+        }else{ // ID 저장하기 체크 해제 시,
+            deleteCookie("userInputId");
         }
-        return "";
-    }
-    function saveid() {
-        var expdate = new Date();
-        if ($("#saveId").is(":checked")){
-            expdate.setTime(expdate.getTime() + 1000 * 3600 * 24 * 30);
-            setCookie("saveid", $("#logId").val(), expdate);
-            }else{
-           expdate.setTime(expdate.getTime() - 1000 * 3600 * 24 * 30);
-            setCookie("saveid", $("#logId").val(), expdate);
-        }
-    }
+    });
+     
+    // ID 저장하기를 체크한 상태에서 ID를 입력하는 경우, 이럴 때도 쿠키 저장.
+    $("input[name=memberId]").keyup(function(){ // ID 입력 칸에 ID를 입력할 때,
+        if($("#idSaveCheck").is(":checked")){ // ID 저장하기를 체크한 상태라면,
+            var userInputId = $("input[name=memberId]").val();
+            setCookie("userInputId", userInputId, 7); // 7일 동안 쿠키 보관
+	        }
+	    });
+	});
+ 
+	function setCookie(cookieName, value, exdays){
+	    var exdate = new Date();
+	    exdate.setDate(exdate.getDate() + exdays);
+	    var cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	    document.cookie = cookieName + "=" + cookieValue;
+	}
+	 
+	function deleteCookie(cookieName){
+	    var expireDate = new Date();
+	    expireDate.setDate(expireDate.getDate() - 1);
+	    document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+	}
+	 
+	function getCookie(cookieName) {
+	    cookieName = cookieName + '=';
+	    var cookieData = document.cookie;
+	    var start = cookieData.indexOf(cookieName);
+	    var cookieValue = '';
+	    if(start != -1){
+	        start += cookieName.length;
+	        var end = cookieData.indexOf(';', start);
+	        if(end == -1)end = cookieData.length;
+	        cookieValue = cookieData.substring(start, end);
+	    }
+	    return unescape(cookieValue);
+	}
+    
 </script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

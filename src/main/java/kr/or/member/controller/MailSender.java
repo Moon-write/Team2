@@ -25,12 +25,13 @@ public class MailSender {
 		prop.put("mail.smtp.auth", "true");
 		prop.put("mail.smtp.ssl.enable", "true");
 		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+		prop.put("mail.smtp.starttls.enable", "true");//추가 코드
 		
 		//인증정보설정(gmail 로그인)
 		Session session = Session.getDefaultInstance(prop, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() { 
 				//getPasswordAuthentication() 부분 자동완성하면 Pass가 소문자로 적혀서 오류남
-				PasswordAuthentication pa = new PasswordAuthentication("hakwon789456@gmail.com", "rrqdjfucjlkidxek");
+				PasswordAuthentication pa = new PasswordAuthentication("hakwon789456@gmail.com", "anndaxrknkfbpkka");
 				return pa;
 			}
 		});

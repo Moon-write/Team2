@@ -149,10 +149,10 @@
 						<input type="hidden" name="memberLevel" value="1" class="input-form" >
 					<!-- 사업자번호 -->
 					<tr class="form-name">
-						<th colspan="4" class="join-pass">사업자번호<span class="bizNoChk"></span></th>
+						<th colspan="4" class="join-pass" required>사업자번호<span class="bizNoChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" name="bizNo" class="input-form" required></td>
+						<td colspan="4"><input type="text" name="bizNo" class="input-form" placeholder="사업자번호를 입력하세요(숫자 10자리만 가능)" required></td>
 					</tr>
 					<tr class="form-name">
 						<th colspan="4" class="join-pass">사업자상호명<span class="bizNameChk"></span></th>
@@ -220,14 +220,14 @@
 						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" id="member_postcode" name="member_postcode" class="input-form" placeholder="우편번호" readonly required></td>
+						<td colspan="3"><input type="text" id="member_postcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
 						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr1" name="member_addr1" class="input-form" placeholder="주소" readonly required></td>
+						<td colspan="4"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr2" name="member_addr2" class="input-form" placeholder="상세주소" required></td>
+						<td colspan="4"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
@@ -293,13 +293,12 @@
 				}
 			});
 		});
-		//사업자번호 정규식
+		//사업자번호 정규식(공백삭제하는 메소드 넣기)
 		//사업자 번호 API
-		var data = {
-		    "b_no": ["2208162517"] // 사업자번호 "xxxxxxx" 로 조회 시,
-		   }; 
-		  console.log(data);
 		$("[name=bizNo]").on("change",function(){
+			var data = {
+				    "b_no": [$("[name=bizNo]").val()] // 사업자번호 "xxxxxxx" 로 조회 시,
+				   }; 
 			$.ajax({
 				  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
 				  type: "POST",
@@ -308,14 +307,23 @@
 				  contentType: "application/json",
 				  accept: "application/json",
 				  success: function(result) {
+					  console.dir(result);
+				      console.log(result[1]);
+				      console.log(typeof result);
 				      console.log(result);
-				      console.log(result[0])
-				      if(arraylist(0)){
+				      if(true){
 				    	  const span = $(".bizNoChk");
 					      const text = span.append("등록되지않은 사업자번호입니다.").css("color","red");
 				      }else{
 				      const span = $(".bizNoChk");
 				      const text = span.append("사용가능한 사업자번호입니다.").css("color","blue");
+				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
+				    	    alert("취소 되었습니다.");
+				    	    $("[name=bizNo]").focus();
+				    	}else{
+				    	    alert("확인 되었습니다.");
+				    	    $("[name=bizNo]").attr("readonly",true);
+				    	}
 				      }
 				  },
 				  error: function(result) {

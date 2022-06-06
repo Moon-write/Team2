@@ -95,7 +95,9 @@ public class MemberController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/idCheck.kh")
-	public String idCheck(Member m) { 
+	public String idCheck(String memberId) { 
+		Member m = null;
+		m.setMemberId(memberId);
 		Member member = service.selectOneMember(m);
 		if(member == null) {
 			return "0";
@@ -177,13 +179,12 @@ public class MemberController {
 	@RequestMapping(value="/sendMail.kh")
 	public String sendMail(String email) {
 		String code = null;
-		Member m = null;
+		Member m = new Member();
 		m.setMemberId(email);
 		Member member = service.selectOneMember(m);
-		System.out.println(email);
 		if(member == null) {
 			code = new MailSender().sendMail(email);
 		}
-		return "code";
+		return code;
 	}
 }
