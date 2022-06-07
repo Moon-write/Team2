@@ -114,7 +114,6 @@ public class BidHandler extends TextWebSocketHandler {
 	public void sendBidSuccessMsg(int memberNo) throws Exception {
 		// 해당 회원번호가 memberList에 있는지 확인
 		WebSocketSession s = memberList.get(memberNo);
-		
 		// value가 있는지 확인
 		if(s!=null) {
 			TextMessage tm = new TextMessage("bidSuccess");

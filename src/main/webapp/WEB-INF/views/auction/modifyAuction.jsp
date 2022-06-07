@@ -46,7 +46,7 @@
 		border: 1px solid #ccc;
 	}
 	.pic-upload>img{
-		width: 100%;
+		width: 100%; height:100%;
 		object-fit: cover;
 	}
 	.auction-notice{
@@ -79,11 +79,13 @@
 	}
 </style>
 <link rel="stylesheet" href="../../../resources/css/summernote-lite.css">
-<link rel="stylesheet" href="../../../resources/css/auction/mobiscroll.jquery.min.css"/>
+<link rel="stylesheet" href="../../../resources/css/auction/datepicker.min.css">
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
-	<script src="../../../resources/js/auction/mobiscroll.jquery.min.js"></script>
+	<script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
+	<script src="../../../resources/js/auction/datepicker.min.js"></script>
+	<script src="../../../resources/js/auction/i18n/datepicker.ko.js"></script>
 	<script src="../../../resources/js/summernote-lite.js"></script>
 	<script src="../../../resources/js/lang/summernote-ko-KR.js"></script>
 		<div class="page-content">
@@ -129,12 +131,12 @@
 						<tr>
 							<th rowspan="2">경매 기간</th>
 							<td>
-								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionStart" value="${a.auctionStart }"/>
+								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionStart" value="${a.auctionStart }"/>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onchange="checkDate()" class="input-form" name="auctionEnd" value="${a.auctionEnd }"/>
+								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionEnd" value="${a.auctionEnd }"/>
 							</td>
 						</tr>
 						<tr>
@@ -343,25 +345,23 @@
 			}
 
 		};
-		mobiscroll.setOptions({
-		    locale: mobiscroll.localeKo,
-		    theme: 'windows',
-		    themeVariant: 'light'
-		});
 
 		$(function () {
-		    $('#date-start').mobiscroll().datepicker({
-		        controls: ['datetime'],
-				dateFormat : 'YYYY-MM-DD',
-				timeFormat : 'HH:mm',
-		        stepMinute: 10
-		    });
-		    $('#date-end').mobiscroll().datepicker({
-		        controls: ['datetime'],
-				dateFormat : 'YYYY-MM-DD',
-				timeFormat : 'HH:mm',
-		        stepMinute: 10
-		    });
+			
+			checkDate();
+			$("#date-start").datepicker({
+				language : 'ko',
+				timepicker:true,
+				timeFormat: "hh:ii",
+				minutesStep: 10
+			})
+			
+			$("#date-end").datepicker({
+				language : 'ko',
+				timepicker:true,
+				timeFormat: "hh:ii",
+				minutesStep: 10
+			})
 		});
 	</script>
 </body>
