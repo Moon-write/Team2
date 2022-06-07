@@ -122,64 +122,46 @@ table{
 <script src="/resources/js/funding/jquery.datetimepicker.full.min.js"></script>
 
 	<div class="main">
-		<form action="/fundingInsertFrm.kh" method="post" enctype="multipart/form-data">
-	        <h1>펀딩상품 등록</h1>
+		<form action="/fundingUpdate.kh" method="post" enctype="multipart/form-data">
+	        <h1>펀딩상품 수정</h1>
 	        <hr>
 	        <div class="basic-information"><span>기본정보</span></div>
 	        <div class="input-value">
 	            <div class="funding-basic">
 	            <!-- <input type="hidden" name="memberNo" value="${session.m.memberNo }"> -->
+	            <input type="hidden" name="fundingNo" value="${f.fundingNo }">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 프로젝트명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
+	                        <th>펀딩 프로젝트명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="${f.fundingName }"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td><input type="text" class="input-form" type="text" name="bizName" value="${sessionScope.m.bizName}"></td>
+	                        <th>회사명</th><td><input type="text" class="input-form" type="text" name="bizName" value="${f.bizName}"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>카테고리</th>
 	                        <td><select class="input-form" name="fundingCategory">
-	                            <option valye="none">카테고리 선택</option>
-	                            <option value="테크가전">테크가전</option>
-	                            <option value="식품">식품</option>
-	                            <option value="패션잡화">패션잡화</option>
-	                            <option value="뷰티">뷰티</option>
-	                            <option value="홈리빙">홈리빙</option>
+	                            <option value="카테고리선택" <c:if test="${f.fundingCategory eq '카테고리선택' }">selected </c:if>>카테고리 선택</option>
+	                            <option value="테크가전" <c:if test="${f.fundingCategory eq '테크가전' }">selected </c:if>>테크가전</option>
+	                            <option value="식품" <c:if test="${f.fundingCategory eq '식품' }">selected </c:if>>식품</option>
+	                            <option value="패션잡화" <c:if test="${f.fundingCategory eq '패션잡화' }">selected </c:if>>패션잡화</option>
+	                            <option value="뷰티" <c:if test="${f.fundingCategory eq '뷰티' }">selected </c:if>>뷰티</option>
+	                            <option value="홈리빙" <c:if test="${f.fundingCategory eq '홈리빙' }">selected </c:if>>홈리빙</option>
 	                        </select>
 	                        </td>
 	                    </tr>
-	                    <tr>
-	                        <th>옵션명 개수</th><td>
-	                            <select class="input-form" id="fundingOptionCount">
-	                                <option value="1">1개</option>
-	                                <option	value="2">2개</option>
-	                                <option value="3">3개</option>
-	                            </select>
-	                        </td>
-	                    </tr>    
 	                </table>
 	            </div>
 				
-	            <div class="option-table">
-	                <table>
-	                	<tbody>                	
-		                    <tr>
-		                        <th>옵션명</th><th>옵션값</th>
-		                    </tr>
-		                    <tr id="option-table-tr">
-		                        <td><input type="text" class="input-form" name="fundingOptionName" value="사이즈"></td>
-		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M,L"></td>
-		                    </tr>
-	                	</tbody>
-	                </table>
-	                <button type="button" class="option-category btn bc1">옵션목록으로 적용</button>
-	            </div>
-	
 	            <div class="optionListPrice">
 	                <table border="1">
 	                    <tr id="optionListPrice-table-tr">
 	                        <th>옵션명</th><th>가격(원)</th>
 	                    </tr>
+	                    	<c:forEach items="${optionList }" var="fop">
+	                    <tr>
+	                    	<td><input type="text" class="input-form" name="fundingOptionList" value="${fop.fundingOptionList }"></td><td><input type="text" class="input-form" name="fundingOptionPrice" value="${fop.fundingOptionPrice }"></td>
+	                    </tr>
+	                    </c:forEach>
 	                </table>
 	            </div>
 	
@@ -196,7 +178,7 @@ table{
 	            <div class="funding-end-table">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate"></td>
+	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" value="${f.fundingEndDate }"></td>
 	                    </tr>
 	                    <tr><td><br></td></tr>
 	                    <tr>
@@ -213,7 +195,7 @@ table{
 	                <textarea id="summernote" name="fundingDetail"></textarea>
 	            </div>
 	            <div class="insert-button">
-			        <input type="submit" class="btn bc1" id="insertButton" value="등록하기">
+			        <input type="submit" class="btn bc1" id="insertButton" value="수정하기">
 			        <input type="button" class="btn bc11" value="취소하기">
 			        <input type="button" class="btn bc2" value="미리보기(시간나면)">
 		        </div>
@@ -225,47 +207,6 @@ table{
 
 
 <script>
-	//옵션셀렉트 선택시 옵션 추가
-	$(function(){
-		$("#fundingOptionCount").on("change",function(){
-			const tr = $("#option-table-tr");
-			const add = $(".add");
-			const titleTr = $("<tr>").attr("class","add");
-			const optionNameTd = $("<td>");
-			const optionValueTd = $("<td>");
-			
-			const titleTr2 = $("<tr>").attr("class","add");
-			const optionNameTd2 = $("<td>");
-			const optionValueTd2 = $("<td>");
-			
-			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","색상");
-			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","블랙,화이트");
-			
-			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","맛");
-			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","딸기,포도");
-				
-			add.remove();
-			
-
-			if($("#fundingOptionCount").val()==2){
-				optionNameTd.append(inputName);
-				optionValueTd.append(inputValue);
-				titleTr.append(optionNameTd).append(optionValueTd);
-				tr.after(titleTr);	
-			}
-			if($("#fundingOptionCount").val()==3){
-				optionNameTd2.append(inputName2);
-				optionValueTd2.append(inputValue2);
-				titleTr2.append(optionNameTd2).append(optionValueTd2);
-				tr.after(titleTr2);
-				optionNameTd.append(inputName);
-				optionValueTd.append(inputValue);
-				titleTr.append(optionNameTd).append(optionValueTd);
-				tr.after(titleTr);
-				
-			}
-		});
-	});
 
 	 //써머노트
 	 $(function(){
@@ -305,81 +246,6 @@ table{
 		 //			->enctype="multipart/form-data"로 설정하기 위해 기본값을 제거 그럼 자동으로 폼데이타로 변경
 		});
 	 
-	 //옵션목록으로 적용
-	$(function(){
-	 $(".option-category").on("click",function(){
-		 var fundingOptionNameArr = new Array();
-		 var fundingOptionValueArr = new Array();
-		 console.log("배열의길이 : "+$("[name=fundingOptionName]").length)//배열의길이 
-		 
-		 
-		/*  $("[name=fundingOptionName]").each(function(index, item){
-			 fundingOptionNameArr.push($(item).val());
-		   }); */
-		 
-		 $.each($("[name=fundingOptionName]"),function(index,item){
-			 fundingOptionNameArr.push($(item).val());
-		 });
-		  $.each($("[name=fundingOptionValue]"),function(index,item){
-			 fundingOptionValueArr.push($(item).val());
-		 });
-			
-	/* 	 for(var i=0; i<$("[name=fundingOptionName]").length;i++){
-				// fundingOptionNameArr = $("[name=fundingOptionName]").eq(i).val();
-				// fundingOptionNameArr.push($("[name=fundingOptionName]").eq(i).val());
-				 console.log($("[name=fundingOptionName]").eq(i).val());
-				 console.log($("[name=fundingOptionValue]").eq(i).val());
-			 } */
-		 console.log(fundingOptionNameArr);
-		 console.log(fundingOptionValueArr);
-		/*  for(var i=0; i<$("[name=fundingOptionName]").length;i++){
-			// fundingOptionNameArr = $("[name=fundingOptionName]").eq(i).val();
-			// fundingOptionNameArr.push($("[name=fundingOptionName]").eq(i).val());
-			 console.log($("[name=fundingOptionName]").eq(i).val());
-		 }
-		 console.log(fundingOptionNameArr)
-		 
-		 for(var i=0; i<$("[name=fundingOptionValue]").length;i++){
-			 //fundingOptionValueArr = $("[name=fundingOptionValue]").eq(i).val();
-			 fundingOptionValueArr.push($("[name=fundingOptionValue]").eq(i).val());
-		 }
-		 console.log(fundingOptionValueArr) */
-			
-			
-			
-		 $.ajax({
-			url : "/optionCategoryAjax.kh",
-			type : "get",
-			data : {fundingOptionNameArr:fundingOptionNameArr,fundingOptionValueArr:fundingOptionValueArr},
-			success : function(data){
-				alert("성공이요");
-				const trPrice = $("#optionListPrice-table-tr");
-				const addPrice = $(".addPrice");
-				addPrice.remove();
-				
-				for(let i=0; i<data.length; i++){//쿼리에선 let..
-				const titleTrPrice = $("<tr>").attr("class","addPrice");
-				const optionList = $("<td>");
-				const inputOptionList=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionList").attr("value",data[i]);
-				optionList.append(inputOptionList);
-				
-				const optionListPrice = $("<td>");
-				const inputOptionListPrice=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionPrice").attr("value","10000");
-				optionListPrice.append(inputOptionListPrice);
-				
-				titleTrPrice.append(optionList).append(optionListPrice);
-				trPrice.after(titleTrPrice);
-				console.log("컨트롤러에서 보내준 데이터 : "+data[i]);
-				}
-			
-				
-			},
-			error : function(data){
-				alert("에러에요");
-			}			 
-		 });
-	 });		
-	});
 	//datetimepicker
 	//https://xdsoft.net/jqplugins/datetimepicker/
 	$(function(){
@@ -405,21 +271,6 @@ table{
 		});
 
 	});
-	 
-	//제출버튼 눌렀을 때 조건
-	/* 	
-		$(function(){
-			$("#insertButton").on("click",function(){
-				var fundingOptionPrice = $("[name=fundingOptionPrice]");
-					if(fundingOptionPrice.val() == null){
-						alert("옵션눌러주세용");
-					}
-					return false;
-				});	
-		});
-		 */
-	
-	
 </script>
 <style>
     .input-form{

@@ -46,10 +46,10 @@
     <div class="main">
         <div class="link">
             <ul>
-                <a href="/fundingDetailStory.kh?fundingNo=${f.fundingNo }"><li>스토리</li></a>
-                <a href="/fundingDetailCommunity.kh?fundingNo=${f.fundingNo }"><li>커뮤니티</li></a>
-                <a href="/fundingDetailNotice.kh?fundingNo=${f.fundingNo }"><li>새소식</li></a>
-                <a href="/fundingDetailSupporter.kh?fundingNo=${f.fundingNo }"><li>서포터</li></a>
+                <a href="/fundingDetailStory.kh?fundingNo=${fundingNo }"><li>스토리</li></a>
+                <a href="/fundingDetailCommunity.kh?fundingNo=${fundingNo}"><li>커뮤니티</li></a>
+                <a href="/fundingDetailNotice.kh?fundingNo=${fundingNo }"><li>새소식</li></a>
+                <a href="/fundingDetailSupporter.kh?fundingNo=${fundingNo }"><li>서포터</li></a>
             </ul>
         </div>
         <div class="left-box">

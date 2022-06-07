@@ -147,7 +147,8 @@
 											</c:otherwise>
 										</c:choose>		
 										<div><span>${fjf.fundingSumRate}%</span><span>${fjf.fundingCurrentSum}</span></div>	
-										<div><span>${fjf.fundingDeadline}일 남음</span></div>						
+										<div><span>${fjf.fundingDeadline}일 남음</span></div>
+										<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>						
 									</div>
 								</div>
 							</a>

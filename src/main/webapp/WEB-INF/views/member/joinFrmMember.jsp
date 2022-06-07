@@ -207,14 +207,14 @@
 						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" id="member_postcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
+						<td colspan="3"><input type="text" id="memberPostcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
 						<td><button class="btn bc2 bs1" id="address_kakao" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
+						<td colspan="4"><input type="text" id="memberAddr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
+						<td colspan="4"><input type="text" id="memberAddr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
@@ -269,9 +269,9 @@
 		        //카카오 지도 발생
 		        new daum.Postcode({
 		            oncomplete: function(data) { //선택시 입력값 세팅
-		            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
-		                document.getElementById("member_addr1").value = data.address; // 주소 넣기
-		                document.getElementById("member_addr2").focus(); //상세입력 포커싱
+		            	document.getElementById("memberPostcode").value = data.zonecode; //우편번호 넣기
+		                document.getElementById("memberAddr1").value = data.address; // 주소 넣기
+		                document.getElementById("memberAddr2").focus(); //상세입력 포커싱
 		                console.log(data);
 		                console.log(data.zonecode);//우편번호
 		                console.log(data.address);//도로명주소(상세주소는 입력받음)
@@ -285,18 +285,12 @@
 		let authChk = 0;
 		
 		//아이디 정규표현식(이메일빼고 아이디만 해당)
-		$("[name=emailId]").on("change",function(){
-			const emailId = $(this).val();
-			console.log("emailId :"+emailId);
-		});
-		$("[name=emailAddr]").on("change",function(){
-			const emailAddr = $(this).val();
-			console.log("emailAddr :"+emailAddr);
-		});
+		const emailId = $("[name=emailId]").val();
+		const emailAddr = $("[name=emailAddr]").val();
+		const memberId = emailId+emailAddr;
+			
 		//아이디 가입체크(input값 채워지고+select 선택하고난 후)
 		$("[name=memberId]").on("change",function(){
-			const memberId = $(this).val();
-			console.log(memberId);
 			$.ajax({
 				url : "/idCheck.kh",
 				data : {memberId : memberId},
@@ -539,6 +533,9 @@
 		  changeTheDay();
 		});
 		//생년월일 끝
+		
+		//생년월일 select 선택값 출력
+		
 	</script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

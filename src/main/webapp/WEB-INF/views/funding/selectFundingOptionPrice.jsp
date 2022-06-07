@@ -8,7 +8,7 @@
 <style>
 	.main{
 		width: 1200px;
-		height: 1200px;/*나중에 삭제*/
+		
 		margin: 0 auto;
 		background-color: aqua;/*나중에 삭제*/
 	}

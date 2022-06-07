@@ -311,6 +311,7 @@
 				      console.log(result[1]);
 				      console.log(typeof result);
 				      console.log(result);
+				console.log(result.B_STT);			      	
 				      if(true){
 				    	  const span = $(".bizNoChk");
 					      const text = span.append("등록되지않은 사업자번호입니다.").css("color","red");
