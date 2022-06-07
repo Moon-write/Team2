@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <script>
     var seaho = $.noConflict(true); 
   seaho(document).ready(function(){
@@ -124,6 +124,23 @@
     height: 50px;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
+}
+.like-qna-share{
+	overflow:hidden
+}
+
+.like-qna-share>div>button{
+	width:33%;
+	height:30px;
+	float:left;
+}
+
 
 </style>
 </head>
@@ -170,9 +187,9 @@
                 	</div>
                     
                     <div class="like-qna-share">
-                        <div class="like">좋아요</div>
-                        <div class="qna">문의</div>
-                        <div class="share">공유하기</div>
+                        <div class="like"><button><span class="material-symbols-outlined">thumb_up</span><span>좋아요</span></button></div>
+                        <div class="qna"><button><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
+                        <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div></div>
                     </div>
                 </div>
                 <div class="funding-rank">펀딩랭크</div>

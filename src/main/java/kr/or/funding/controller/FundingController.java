@@ -237,7 +237,7 @@ public class FundingController {
 	}
 	///////////////////fundingDetail/////////
 	@RequestMapping(value="/fundingDetailStory.kh")
-	public String FundingDetailStory(int fundingNo, Model model) {
+	public String FundingDetailStory(int fundingNo, Model model) { //int fundingNo대신 funding funding으로 받음
 		Funding f = service.selectOneFunding(fundingNo);
 		ArrayList<FundingFile> list = service.selectOneFundingFile(fundingNo);
 		model.addAttribute("list",list);
@@ -245,15 +245,18 @@ public class FundingController {
 		return "funding/fundingDetailStory";
 	}
 	@RequestMapping(value="/fundingDetailCommunity.kh")
-	public String FundingDetailCommunity() {
+	public String FundingDetailCommunity(int fundingNo, Model model) {
+		model.addAttribute("fundingNo",fundingNo);
 		return "funding/fundingDetailCommunity";
 	}
 	@RequestMapping(value="/fundingDetailNotice.kh")
-	public String FundingDetailNotice() {
+	public String FundingDetailNotice(int fundingNo, Model model) {
+		model.addAttribute("fundingNo",fundingNo);
 		return "funding/fundingDetailNotice";
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
-	public String FundingDetailSupporter() {
+	public String FundingDetailSupporter(int fundingNo, Model model) {
+		model.addAttribute("fundingNo",fundingNo);
 
 		return "funding/fundingDetailSupporter";
 	}
@@ -265,8 +268,128 @@ public class FundingController {
 		model.addAttribute("f",f);
 		return "funding/selectFundingOptionPrice";
 	}
+	@RequestMapping(value="/fundingNoticeFrm.kh")
+	public String FundingNoticeFrm(@SessionAttribute(required=false) Member m,Model model) {
+			model.addAttribute("m",m);
+		return "funding/fundingNoticeFrm";
+	}
 	
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="/selectExpiredFList.kh", produces =
+	 * "application/json;charset=utf-8") public String SelectExpiredFundingList(int
+	 * memberNo) { ArrayList<Funding> f = service.selectFundingListMember(memberNo);
+	 * for(int i=0; i<f.size(); i++) { System.out.println(f.get(i).getFundingNo());
+	 * } Gson gson = new Gson(); return gson.toJson(f); }
+	 */
+	
+	@RequestMapping(value="/fundingUpdateFrm.kh")
+	public String FundingUpdateFrm(Funding funding,Model model) {
+		System.out.println(funding.getMemberNo());
+		System.out.println(funding.getFundingNo());
+		Funding f = service.selectOneFundingMemberNo(funding);
+		f.setFundingEndDate(f.getFundingEndDate().substring(0, 16));
+		ArrayList<FundingFile> Filelist = service.selectOneFundingFile(funding.getFundingNo());
+		ArrayList<FundingOptionPrice> optionList = service.selectFundingOptionPrice(funding.getFundingNo());
+		model.addAttribute("f",f);
+		model.addAttribute("Filelist",Filelist);
+		model.addAttribute("optionList",optionList);
+		return "funding/fundingUpdateFrm"; 
+	}
+	
+	@RequestMapping(value="/fundingUpdate.kh")
+	public String FundingUpdate(Funding f,FundingOptionPrice fop,@SessionAttribute(required=false) Member m,MultipartFile[] upfile, HttpServletRequest request) {
+		System.out.println("------Funding f------");
+		System.out.println("펀딩네임 : "+f.getFundingName());
+		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
+		System.out.println("펀딩디테일써머놑 : "+f.getFundingDetail());
+		System.out.println("펀딩종료날짜 : "+f.getFundingEndDate());
+		System.out.println("펀딩옵션리스트 : "+fop.getFundingOptionList());
+		System.out.println("펀딩옵션리스트가격 : "+fop.getFundingOptionPrice());
+		f.setBizName(m.getBizName());
+		f.setMemberNo(m.getMemberNo());
+		System.out.println("비즈니스네임 : "+f.getBizName());
+		System.out.println("파일 개수 : "+upfile.length);
 
+		for(int i = 0; i< fop.getFundingOptionList().length;i++) {
+			System.out.println(fop.getFundingOptionList()[i]);
+		}
+		
+		for(int i = 0; i< fop.getFundingOptionPrice().length;i++) {
+			System.out.println(fop.getFundingOptionPrice()[i]);
+		}
+		// 파일목록을 저장할 리스트를 생성 >>**안필요 할 수 도있음
+				ArrayList<FundingFile> fundingList = new ArrayList<FundingFile>();
+				// 멀티파일 배열을 첨부파일의 갯수만큼 길이가생성 (단 , 첨부파일이 없어도 기리는 무조건 1)
+				// 첨부파일이 없는경우는 배열의 첫번쨰 파이링 비어 있는지 체크하는 방식
+				if (upfile[0].isEmpty()) {
+					// 첨부파일이 있는겨웅 파일업로드 작업진행
+				} else {
+					// 첨부파일이 있는경우 파일업로드 작업 진행
+					// 1. 파일업로드 경로 설정(HttrServletReqyest 객체를 이용해서 경로 구해옴) // resource폴더에 css나 사진 이미지
+					// 등 모아넣기//
+					String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/funding/");
+					// 2.반복문을 이용한 파일업로드 처리
+
+					for (MultipartFile file : upfile) {
+						// 파일명이 기존파일과 겹치는 경우 기존파일을 삭제하고 새 파일만 남는 현사잉 생김(덮어쓰기)
+						// 파일명 중복처리
+						// 사용자가 업로드한 파일이름
+						String filename = file.getOriginalFilename();
+						// test.txt ->test_1.txt 로 저장되게 할 것
+						String onlyFilename = filename.substring(0, filename.lastIndexOf("."));// 서브스트링이 잘라내는건데 라스트인덱스 뒤에서부터 "."
+																								// 바로 앞까지 부등호 생각하면 됨
+						String extention = filename.substring(filename.lastIndexOf("."));// 매개변수가 filename.lastIndexOf(".") 하나
+																							// 이므로, "."부터 끝까지
+						// 실제 업로드 할 파일명을 저장할 변수
+						String filepath = null; // fundingFilepath로 변수 변경해서 사용해야하려나?
+						int count = 0;
+						while (true) {// 숫자를 붙이더라도 더이상 중복이 안될떄까지 하려고 무한 반복
+							if (count == 0) {
+								// 반복 첫번쨰 회차에는 원본 파일명을 그대로 적용
+								filepath = onlyFilename + extention;// test.txt
+							} else {
+								filepath = onlyFilename + "_" + count + extention;
+							}
+							File checkFile = new File(savePath + filepath);// 파일하나 만들어보는거 File java.io 클래스
+							if (!checkFile.exists()) {// 만약에 이 파이링름이 존재하면 true 아니면 false
+								break;
+							}
+							count++;
+						}
+
+						// 파일명 중복검사가 끝난 시점
+
+						try {
+							FileOutputStream fos = new FileOutputStream(new File(savePath + filepath));
+							// 업로드 속도증가를 위한 보조스트림 생성
+							BufferedOutputStream bos = new BufferedOutputStream(fos);
+							// 파일업로드
+							byte[] bytes = file.getBytes();
+							bos.write(bytes);
+							bos.close();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						// 서버 파일 업로드 끝(파일1개단위) 여기까지가 멀티파티리퀘스트 객체만든거 수작업으로 진행한 것.
+						///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+						// 이제 위에서만든 리스트를 이용해서 DB에 넣는작업
+						FundingFile fundingFilePath = new FundingFile();	
+						fundingFilePath.setFundingFilePath(filepath);
+						fundingList.add(fundingFilePath);
+						
+
+					}
+				}
+				int result = service.updateFunding(f,fop,fundingList);
+				System.out.println("최종 update result 값 : "+result);
+		return "funding/fundingUpdateFrm";//그냥 써놓은거
+	}
 	
 	
 	

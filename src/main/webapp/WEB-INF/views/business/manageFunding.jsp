@@ -12,6 +12,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels@0.1.4/dist/chartjs-plugin-piechart-outlabels.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-doughnutlabel/2.0.3/chartjs-plugin-doughnutlabel.js"></script>
 
+
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp"%>
@@ -25,6 +26,7 @@
                     <option value="selling">진행중인 펀딩</option>
                     <option value="end">종료된 펀딩</option>
                 </select>
+               
 				<table class="tbl"></table>					
 			</div>	
 		</div>
@@ -108,7 +110,7 @@
 						const fsTd=$("<td>");
 						const fcsTd=$("<td>");
 						const fsmTd=$("<td>");
-						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
+						const modiTd=$("<td><button class=\"btn2 bc1 modify-btn\">수정하기</button></td>");<!--세호 : 클래스명 modify-Btn 추가했습니다-->
 						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
 						const fundingNo="<div style=\"display:none;\">"+list[i].FUNDINGNO+"</div>";
 						const fcs="<div style=\"display:none;\">"+list[i].FUNDINGCURRENTSUM+"</div>";
@@ -344,7 +346,9 @@
 				});
 			}
 		}
+
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	
 </body>
 </html>

@@ -3,6 +3,7 @@ package kr.or.funding.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -70,5 +71,61 @@ public class FundingService {
 		return dao.selectOneFunding2(fundingNo);
 	}
 
+	public Funding selectOneFundingMemberNo(Funding funding) {
+
+		return dao.selecOneFundingMemberNo(funding);
+	}
+
+	public int updateFunding(Funding f, FundingOptionPrice fop, ArrayList<FundingFile> fundingList) {
+		int result1 = dao.updateFunding(f);
+		int result2 = 0 ;
+		int result3 = 0;
+		if(result1>0) {
+			ArrayList<Integer> fundingOptionPriceNo = dao.selectFundingOptionPriceNo(f);
+			/*
+			System.out.println("=====---===");
+			System.out.println(fop.getFundingOptionList()[0]);
+			System.out.println(fop.getFundingOptionList()[1]);
+			System.out.println(fop.getFundingOptionPrice()[0]);
+			System.out.println(fop.getFundingOptionPrice()[1]);
+			System.out.println(fundingOptionPriceNo.get(0));
+			System.out.println(fundingOptionPriceNo.get(1));
+			*/
+			
+			for(int i = 0 ; i <fop.getFundingOptionList().length;i++) {
+				System.out.println("펀딩옵션가격넘버: "+fundingOptionPriceNo.get(i));
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("fundingOptionList", fop.getFundingOptionList()[i]);
+				map.put("fundingOptionPrice", fop.getFundingOptionPrice()[i]);
+				map.put("fundingOptionPriceNo",fundingOptionPriceNo.get(i));
+				map.put("fundingNo", f.getFundingNo());
+				result2 += dao.updateFundingOptionPrice(map);
+			}
+			/*for(FundingFile file : fundingList) {
+				file.setFundingNo(f.getFundingNo());
+				 result3 += dao.updateFundingFile(file);//파일 개수만큼 result3가 나옴
+			}*/
+			
+			ArrayList<Integer> fundingFileNo = dao.selectFundingFileNo(f);
+			for(int i = 0 ; i < fundingList.size(); i++) {
+				FundingFile file = new FundingFile();
+				file.setFundingNo(f.getFundingNo());
+			}
+			
+		}
+		return 0;
+	}
+
+
+	/*
+	 * public int updateFunding(int memberNo, int fundingNo) { HashMap<String,
+	 * Integer> map = new HashMap<String, Integer>(); map.put("memberNo",memberNo);
+	 * map.put("fundingNo",fundingNo); return dao.updateFunding(map); }
+	 */
+
+	/*
+	 * public ArrayList<Funding> selectFundingListMember(int memberNo) { return
+	 * (ArrayList<Funding>)dao.selectFundingListMember(memberNo); }
+	 */
 	
 }

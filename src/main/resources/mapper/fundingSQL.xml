@@ -38,13 +38,14 @@
     ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING.FUNDING_NO) AS RN
     FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 ORDER BY fundingNo DESC
   </select>
-  <select id="selectOneFunding" parameterType="int" resultType="f">
+  <select id="selectOneFunding" parameterType="int" resultType="f"><!--동적쿼리 int를 f로 바꿧음  실패-->
   	SELECT
   	FUNDING_NO			AS fundingNo,
   	FUNDING_NAME		AS fundingName,
   	FUNDING_DETAIL		AS fundingDetail,
   	FUNDING_END_DATE	AS fundingEndDate,
   	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CATEGORY	AS fundingCategory,
   	MEMBER_NO			AS memberNo,
   	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
   	FUNDING_SUM_RATE	AS fundingSumRate,
@@ -52,8 +53,9 @@
   	FUNDING_DEADLINE	AS fundingDeadline,
   	BIZ_NAME			AS bizName
   	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
+
   </select>
-  <select id="selectOneFundingFile" parameterType="int" resultType="ff">
+  <select id="selectOneFundingFile" parameterType="int" resultType="ff"><!--동적쿼리 int를 f로 바꿧음  실패 -->
   	SELECT
   		FUNDING_FILE_NO		AS fundingFileNo,
   		FUNDING_FILE_PATH	AS fundingFilePath
@@ -75,5 +77,58 @@
   	MEMBER_NO			AS memberNo
   	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
   </select>
- 
+  <!-- <select id="selectFundingListMember" parameterType="int" resultType="f">
+  	SELECT
+  	FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	FUNDING_START_DATE	AS fundingStartDate,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate
+  	FROM FUNDING WHERE MEMBER_NO = #{memberNo}
+  </select> -->
+  
+ <!--  <update id="updateFunding" parameterType="map">
+  	update
+  </update> -->
+   <select id="selectOneFundingMemberNo" parameterType="f" resultType="f"><!--동적쿼리 int를 f로 바꿧음  실패-->
+  	SELECT
+  	FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	FUNDING_DETAIL		AS fundingDetail,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	MEMBER_NO			AS memberNo,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	FUNDING_END			AS fundingEnd,
+  	FUNDING_DEADLINE	AS fundingDeadline,
+  	BIZ_NAME			AS bizName
+  	FROM FUNDING WHERE FUNDING_NO=#{fundingNo} AND MEMBER_NO=#{memberNo}
+  </select>
+  <update id="updateFunding" parameterType="f">
+  	UPDATE FUNDING SET
+  		FUNDING_NAME = #{fundingName},
+  		FUNDING_CATEGORY = #{fundingCategory},
+  		FUNDING_DETAIL = #{fundingDetail},
+  		FUNDING_END_DATE = TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
+  		FUNDING_SUM	= #{fundingSum},
+  		FUNDING_DEADLINE = FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE)
+  	WHERE FUNDING_NO=#{fundingNo}
+  </update>
+  <select id="selectFundingOptionPriceNo" parameterType="f" resultType="int">
+  	SELECT FUNDING_OPTION_PRICE_NO FROM FUNDING_OPTION_PRICE WHERE FUNDING_NO = #{fundingNo}
+  </select>
+  <update id="updateFundingOptionPrice" parameterType="map">
+  	UPDATE FUNDING_OPTION_PRICE SET
+  		FUNDING_OPTION_LIST = #{fundingOptionList},
+  		FUNDING_OPTION_PRICE = #{fundingOptionPrice}
+  	WHERE FUNDING_OPTION_PRICE_NO = #{fundingOptionPriceNo} AND FUNDING_NO = #{fundingNo}
+  </update>
+  <select id="selectFundingFileNo" parameterType="f" resultType="int">
+  	SELECT FUNDING_FILE_NO FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo}
+  </select>
 </mapper>
