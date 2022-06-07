@@ -132,7 +132,7 @@
 						const fsTd=$("<td>");
 						const fcsTd=$("<td>");
 						const fsmTd=$("<td>");
-						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
+						const modiTd=$("<td><button class=\"btn2 bc1 modifyBtn\">수정하기</button></td>");<!--세호: 클래스 이름  modifyBtn넣었습니다.-->
 						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
 						const fundingNo="<div style=\"display:none;\">"+list[i].FUNDINGNO+"</div>";
 						const fcs="<div style=\"display:none;\">"+list[i].FUNDINGCURRENTSUM+"</div>";
@@ -368,6 +368,11 @@
 				});
 			}
 		}
+		$(document).on("click",".modifyBtn",function(){
+			const value = $(this).parent().next().next("div").text();
+			const link = "/fundingUpdateFrm.kh?fundingNo="+value+"&&memberNo=${sessionScope.m.memberNo }";
+			window.open(link,"_blank");
+		})
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

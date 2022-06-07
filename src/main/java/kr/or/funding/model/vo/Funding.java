@@ -23,6 +23,5 @@ public class Funding {
 	private int fundingCurrentSum;
 	private int fundingDeadline;
 	private String bizName;
-	//조회해서 가져올 것
-	private ArrayList<FundingFile> fundingFile; 
+
 }

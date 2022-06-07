@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펀딩상품 등록</title>
+<title>펀딩상품 수정</title>
 
 <style>
 .main{
@@ -195,7 +195,7 @@ table{
 	        <div class="detail-information"><span>상세정보</span></div>
 	        <div class="input-detail">
 	            <div class="summernote-detail">
-	                <textarea id="summernote" name="fundingDetail"></textarea>
+	                <textarea id="summernote" name="fundingDetail">${f.fundingDetail }</textarea>
 	            </div>
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="수정하기">

@@ -8,6 +8,9 @@
 <title>펀딩상품 등록</title>
 
 <style>
+td{
+	border: none;
+}
 .main{
     padding: 0;
     margin: 0 auto;
@@ -99,6 +102,9 @@ table{
 	margin: 20px 0;
 }
 
+#optionListPrice-table-tr>th{
+	width:225.33px;
+}
 /*다중파일업로드 이미지*/
 .pre-img:hover{
 	background-color:red;
@@ -192,27 +198,18 @@ table{
 	
 	            <div>
 	                <div class="main-img">
-						<input type="file" name="upfile" onchange="loadMainImg(this);" accept=".jpg,.png,.jpeg,.gif" multiple>
-						 <div class="img-box">
-                          <img id="main-imgView"><!-- 미리보기사진이 나타날 박스 -->                 
-                       </div>
-						 <h1>첨부파일 미리보기</h1><hr>
+						<!--<input type="file" name="upfile" onchange="loadMainImg(this);" accept=".jpg,.png,.jpeg,.gif" multiple>  -->
+						
 						  <table border="1">
-						    <tr>
-						      <th align="center" bgcolor="orange" width="500px">첨부파일</th>
-						    </tr>
+						   
 						    <tr>
 						      <td align="center">
-						        <input type="file" name="uploadFile" id="uploadFile" multiple>
+						        <input type="file" name="upfile" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" multiple>
 						        <div id="preview"></div>
 						      </td>
 						    </tr>
 						  </table>
 					</div>
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
 	            </div>
 	
 	            <div class="funding-end-table">
@@ -220,7 +217,6 @@ table{
 	                    <tr>
 	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate"></td>
 	                    </tr>
-	                    <tr><td><br></td></tr>
 	                    <tr>
 	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="124567890"></td><td>원</td>
 	                    </tr>
@@ -454,7 +450,7 @@ table{
     }
 </style>	
 </body>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   $(document).ready(function (e){
     $("input[type='file']").change(function(e){
 
@@ -527,5 +523,5 @@ table{
   });
   
   
-</script> -->
+</script>
 </html>
