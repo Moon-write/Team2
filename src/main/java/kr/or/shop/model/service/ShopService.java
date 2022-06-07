@@ -99,8 +99,4 @@ public class ShopService {
 		return result;
 	}
 
-	public Member selectOneMember(int memberNo) {
-		// TODO Auto-generated method stub
-		return dao.selectOneMember(memberNo);
-	}	
 }

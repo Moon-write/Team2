@@ -75,9 +75,4 @@ public class ShopDao {
 		return sqlSession.delete("shop.insertCategory",map);		
 	}
 
-
-	public Member selectOneMember(int memberNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("shop.selectOneMember",memberNo);
-	}
 }

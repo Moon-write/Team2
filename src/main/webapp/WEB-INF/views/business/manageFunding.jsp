@@ -12,6 +12,29 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-piechart-outlabels@0.1.4/dist/chartjs-plugin-piechart-outlabels.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-doughnutlabel/2.0.3/chartjs-plugin-doughnutlabel.js"></script>
 
+<style>
+.tbl tr>th:nth-child(2){
+	width:15%;
+}
+.tbl tr>th:nth-child(3){
+	width:10%;
+}
+.tbl tr>th:first-child{
+	width:5%;
+}
+.tbl tr>th:nth-child(4),.tbl tr>th:nth-child(5){
+	width:7%;
+}
+.tbl tr>th:nth-child(6){
+	width:12%;
+}
+.tbl tr>th:nth-child(7),.tbl tr>th:nth-child(8),.tbl tr>th:nth-child(9){
+	width:10%;
+}
+.tbl tr>th:nth-child(10), .tbl tr>th:last-child{
+	width:7%;
+}
+</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp"%>
@@ -119,8 +142,8 @@
 						sdTd.append(list[i].FUNDINGSTARTDATE);
 						edTd.append(list[i].FUNDINGENDDATE);
 						fsTd.append(thousands(list[i].FUNDINGSUM)+"원");
-						fcsTd.append(thousands(list[i].FUNDINGCURRENTSUM)+"");
-						fsmTd.append(list[i].FUNDINGSUMRATE);
+						fcsTd.append(thousands(list[i].FUNDINGCURRENTSUM)+"원");
+						fsmTd.append(thousands(list[i].FUNDINGSUMRATE)+"%");
 						tr.append(noTd).append(pNameTd).append(cTd).append(sdTd).append(edTd).append(fsTd).append(fcsTd).append(fsmTd).append(modiTd).append(delTd).append(fundingNo).append(fcs).append(modal);
 						table.append(tr);						
 		            }
@@ -158,7 +181,7 @@
 					  projectNo2=projectNo;  
 				      selectGraph(event);			    
 				  }else{
-					  alert("참여자가 없습니다.");
+					  alert("조회할 정보가 없습니다.");
 				  }
 			  });
 			  $(document).on("click", ".modal-close", function () {

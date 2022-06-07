@@ -21,6 +21,24 @@ input[type="number"] {
 .tbl tr>th:nth-child(2){
 	width:15%;
 }
+.tbl tr>th:nth-child(3){
+	width:17%;
+}
+.tbl tr>th:first-child, .tbl tr>th:nth-child(4){
+	width:5%;
+}
+.tbl tr>th:nth-child(5),.tbl tr>th:nth-child(6){
+	width:7%;
+}
+.tbl tr>th:nth-child(7),.tbl tr>th:nth-child(8){
+	width:10%;
+}
+.tbl tr>th:nth-child(9){
+	width:10%;
+}
+.tbl tr>th:nth-child(10), .tbl tr>th:last-child{
+	width:7%;
+}
 </style>
 
 </head>
@@ -124,6 +142,7 @@ input[type="number"] {
 				url : "/selectAList.kh",
 				data:{memberNo:memberNo},					
 				success : function(list){
+					console.log(list);
 					for(let i=0;i<list.length;i++){
 						const tr2=$("<tr>");
 						const noTd=$("<td>");
@@ -198,7 +217,7 @@ input[type="number"] {
 					    projectNo2=projectNo;
 					    selectGraph(event);					    
 				 }else{
-						alert("입찰자가 없습니다.");						
+						alert("조회할 정보가 없습니다.");						
 					}			    
 			  });
 			  $(document).on("click", ".modal-close", function () {
