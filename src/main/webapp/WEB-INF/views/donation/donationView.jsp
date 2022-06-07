@@ -61,6 +61,7 @@ h5 {
 .plusMinus{
 	font-size: 20px;
 	color: #1e90ff;
+	cursor: pointer;
 }
 
 .donation-allcash{
