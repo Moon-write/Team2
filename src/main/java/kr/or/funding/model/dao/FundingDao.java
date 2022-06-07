@@ -64,5 +64,34 @@ public class FundingDao {
 		return sqlSession.selectOne("funding.selectOneFunding2",fundingNo);
 	}
 
+	public Funding selecOneFundingMemberNo(Funding funding) {		
+		return sqlSession.selectOne("funding.selectOneFundingMemberNo",funding);
+	}
+
+	public int updateFunding(Funding f) {
+		return  sqlSession.update("funding.updateFunding", f);
+	}
+
+
+	public ArrayList<Integer> selectFundingOptionPriceNo(Funding f) {
+		List list = sqlSession.selectList("funding.selectFundingOptionPriceNo",f);
+		return (ArrayList<Integer>)list;
+	}
+
+	public int updateFundingOptionPrice(HashMap<String, Object> map) {
+		return  sqlSession.update("funding.updateFundingOptionPrice", map);
+	}
+	public ArrayList<Integer> selectFundingFileNo(Funding f) {
+		List list = sqlSession.selectList("funding.selectFundingFileNo",f);
+		return (ArrayList<Integer>)list;
+	}
+	
+	public int updateFundingFile(FundingFile file) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+
 
 }

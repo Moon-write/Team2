@@ -123,6 +123,7 @@ public class DonationController {
 		//int sumDonationCategory = service.selectsumDonationCategory(hashTag); //각 카테고리 총 기부 합계
 		
 		model.addAttribute("list",list);
+		model.addAttribute("donationCategory",donationCategory);
 		//model.addAttribute("sumDonationCategory",sumDonationCategory);
 		return "donation/donationHashtagView";
 	}
