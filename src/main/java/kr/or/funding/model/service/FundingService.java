@@ -101,19 +101,28 @@ public class FundingService {
 				map.put("fundingNo", f.getFundingNo());
 				result2 += dao.updateFundingOptionPrice(map);
 			}
+			System.out.println("result2 : "+result2);
 			/*for(FundingFile file : fundingList) {
 				file.setFundingNo(f.getFundingNo());
 				 result3 += dao.updateFundingFile(file);//파일 개수만큼 result3가 나옴
 			}*/
 			
-			ArrayList<Integer> fundingFileNo = dao.selectFundingFileNo(f);
-			for(int i = 0 ; i < fundingList.size(); i++) {
-				FundingFile file = new FundingFile();
-				file.setFundingNo(f.getFundingNo());
+			if(result2 == fop.getFundingOptionList().length) {
+				int resultDelete = dao.deleteFundingFile(f);
+				ArrayList<Integer> fundingFileNo = dao.selectFundingFileNo(f);
+				for(FundingFile file : fundingList) {
+					file.setFundingNo(f.getFundingNo());
+					 result3 += dao.insertFundingFile(file);//파일 개수만큼 result3가 나옴
+				}
+				
+			}else {
+				return -1;
 			}
 			
+		}else {
+			return -1;
 		}
-		return 0;
+		return result3;
 	}
 
 

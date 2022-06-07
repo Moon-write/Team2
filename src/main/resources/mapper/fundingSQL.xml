@@ -131,4 +131,8 @@
   <select id="selectFundingFileNo" parameterType="f" resultType="int">
   	SELECT FUNDING_FILE_NO FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo}
   </select>
+  <delete id="deleteFundingFile" parameterType="f">
+  	DELETE FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo}
+  	</delete>
+  	
 </mapper>

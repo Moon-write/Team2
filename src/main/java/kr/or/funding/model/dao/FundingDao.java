@@ -91,6 +91,10 @@ public class FundingDao {
 		return 0;
 	}
 
+	public int deleteFundingFile(Funding f) {
+		return sqlSession.delete("funding.deleteFundingFile",f);
+	}
+
 	
 
 
