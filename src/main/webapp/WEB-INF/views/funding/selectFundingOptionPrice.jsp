@@ -22,13 +22,14 @@
 		margin: 0 auto;
 		margin-top: 40px;
 		/*나중에 삭제*/
+		
 	}
 	.option-price-select{
 		width: 100%;
 		padding: 30px 0;
 		overflow: hidden;
 		
-		border: 2px solid rgba(30,144,255,0.1);
+		border: 2px solid rgba(30,144,255,0.15);
 		border-radius: 5px;
 		margin-bottom: 15px;
 
@@ -192,7 +193,7 @@
 			</div>
 		</div>
 		</c:forEach>
-		<div class="funding-Name-price"><span>${f.fundingName } 에 (개수*가격의 합)원 펀딩합니다</span></div>
+		<div class="funding-Name-price"><span class="total-price">${f.fundingName } 에 (개수*가격의 합)원 펀딩합니다</span></div>
 		<div class="submit-wrap">
 			<input type="submit" class="btn bc1 funding-btn"  value="다음 단계로 >">
 		</div>
@@ -323,10 +324,40 @@
 				});*/
 			
 				
+				/*
+				let ind = 1;
+				$(".divPrice").each( function() {
+				  $( this ).addClass( "divPrice" + ind );
+				  ind = ind + 1;//ind++로 쓸수있음
+				});
+				*/
+				/*배열방식인데안될듯
+				let spanPriceArr = new Array();
+				let spanPrice = $(".spanPrice").text();
+				$.each(spanPrice,function(index,item){
+					spanPriceArr.push($(item).total());
+					console.log("spanPriceArr : "+spanPriceArr);
+				 });
+				 */
+				$(".amountB ").on("click",function(){
 				
+				
+				});
 			});
+	
 			
-		});
+
+		});//온로드
+		
+		$(function(){
+			/*
+			$(".spanPrice").on("DOMSubtreeModified", function() {
+				$(".total-price").text($(".spanPrice").text());
+			});
+			*/
+			
+		});//온로드
+
 
 	</script>
     <style>

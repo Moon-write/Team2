@@ -173,7 +173,7 @@ public class FundingController {
 		//System.out.println(fundingOptionValueArr);
 		//System.out.println(fundingOptionNameArr.get(0));
 		
-		System.out.println("옵션값 토크나이저 X : "+fundingOptionValueArr.get(0));///////////////////////////////////////////////이게문제
+		System.out.println("옵션값 토크나이저 X!!!!!!!!!!!!!!!!!!!!!!!!! : "+fundingOptionValueArr);///////////////////////////////////////////////이게문제
 		
 		HashMap<String, ArrayList<String>> optionList = new HashMap<String,ArrayList<String>>(); //옵션리스트를 담을 해쉬맵
 		for(int i = 0 ; i<fundingOptionNameArr.size(); i++) {
@@ -299,7 +299,13 @@ public class FundingController {
 	}
 	
 	@RequestMapping(value="/fundingUpdate.kh")
-	public String FundingUpdate(Funding f,FundingOptionPrice fop,@SessionAttribute(required=false) Member m,MultipartFile[] upfile, HttpServletRequest request,Model model) {
+	public String FundingUpdate(Funding f,FundingOptionPrice fop,@SessionAttribute(required=false) Member m,MultipartFile[] upfile, HttpServletRequest request,Model model,int[] deleteFundingFileNo) {
+		
+		if(deleteFundingFileNo!=null) {
+		for(int i =0;i<deleteFundingFileNo.length ;i++) {
+			System.out.println("삭제돼야하는파일번호 : "+deleteFundingFileNo[i]);
+		}
+		}
 		System.out.println("------Funding f------");
 		System.out.println("펀딩네임 : "+f.getFundingName());
 		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
@@ -386,18 +392,32 @@ public class FundingController {
 
 					}
 				}
-				int result = service.updateFunding(f,fop,fundingList);
+				int result = service.updateFunding(f,fop,fundingList,deleteFundingFileNo);
 				System.out.println("최종 update result 값 : "+result);
-				if(result == upfile.length) {
-					model.addAttribute("icon", "success");
-					model.addAttribute("title", "펀딩수정 완료");
-					model.addAttribute("msg", "펀딩수정이 완료되었습니다!");
-					model.addAttribute("loc", "/manageFunding.kh");
-				}else {			
-					model.addAttribute("icon", "error");
-					model.addAttribute("title", "펀딩수정 실패");
-					model.addAttribute("msg", "펀딩 수정에 실패했습니다! 다시한번 확인해주세요.");
-					model.addAttribute("loc", "/manageFunding.kh");
+				if(deleteFundingFileNo!=null) {
+					if(result == upfile.length+deleteFundingFileNo.length) {
+						model.addAttribute("icon", "success");
+						model.addAttribute("title", "펀딩수정 완료");
+						model.addAttribute("msg", "펀딩수정이 완료되었습니다!");
+						model.addAttribute("loc", "/manageFunding.kh");
+					}else {			
+						model.addAttribute("icon", "error");
+						model.addAttribute("title", "펀딩수정 실패");
+						model.addAttribute("msg", "펀딩 수정에 실패했습니다! 다시한번 확인해주세요.");
+						model.addAttribute("loc", "/manageFunding.kh");
+					}
+				}else {
+					if(result == upfile.length) {
+						model.addAttribute("icon", "success");
+						model.addAttribute("title", "펀딩수정 완료");
+						model.addAttribute("msg", "펀딩수정이 완료되었습니다!");
+						model.addAttribute("loc", "/manageFunding.kh");
+					}else {			
+						model.addAttribute("icon", "error");
+						model.addAttribute("title", "펀딩수정 실패");
+						model.addAttribute("msg", "펀딩 수정에 실패했습니다! 다시한번 확인해주세요.");
+						model.addAttribute("loc", "/manageFunding.kh");
+					}
 				}
 				return "common/msg";
 				
@@ -452,7 +472,7 @@ public class FundingController {
 	
 	//토크나이저 함수
 	public ArrayList<String> tokenizer(String fundingOptionValue){
-		StringTokenizer sT = new StringTokenizer(fundingOptionValue,",");
+		StringTokenizer sT = new StringTokenizer(fundingOptionValue,"/");
 		ArrayList<String> optionValue = new ArrayList<String>();
 		while(sT.hasMoreTokens()) {
 			optionValue.add(sT.nextToken());

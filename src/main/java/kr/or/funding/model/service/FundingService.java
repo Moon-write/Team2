@@ -76,10 +76,11 @@ public class FundingService {
 		return dao.selecOneFundingMemberNo(funding);
 	}
 
-	public int updateFunding(Funding f, FundingOptionPrice fop, ArrayList<FundingFile> fundingList) {
+	public int updateFunding(Funding f, FundingOptionPrice fop, ArrayList<FundingFile> fundingList,int[] deleteFundingFileNo) {
 		int result1 = dao.updateFunding(f);
 		int result2 = 0 ;
 		int result3 = 0;
+		int resultDelete = 0;
 		if(result1>0) {
 			ArrayList<Integer> fundingOptionPriceNo = dao.selectFundingOptionPriceNo(f);
 			/*
@@ -108,11 +109,24 @@ public class FundingService {
 			}*/
 			
 			if(result2 == fop.getFundingOptionList().length) {
-				int resultDelete = dao.deleteFundingFile(f);
-				ArrayList<Integer> fundingFileNo = dao.selectFundingFileNo(f);
-				for(FundingFile file : fundingList) {
-					file.setFundingNo(f.getFundingNo());
-					 result3 += dao.insertFundingFile(file);//파일 개수만큼 result3가 나옴
+				if(deleteFundingFileNo != null) {//삭제한거가0아닐때 즉 1개 이상일때
+				for(int i = 0 ; i<deleteFundingFileNo.length;i++) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("fundingNo", f.getFundingNo());
+					map.put("deleteFundingFileNo", deleteFundingFileNo[i]);
+					resultDelete += dao.deleteFundingFile(map);					
+					}
+				}
+				
+				System.out.println("추가안했을 때 fundingList : "+fundingList.size());
+				if(fundingList.size() !=0) {//추가한거가0아닐때 즉 1개이상일떄
+					ArrayList<Integer> fundingFileNo = dao.selectFundingFileNo(f);
+					for(FundingFile file : fundingList) {
+						file.setFundingNo(f.getFundingNo());
+						result3 += dao.insertFundingFile(file);//파일 개수만큼 result3가 나옴
+					}
+				}else {
+					result3 = 1;
 				}
 				
 			}else {
@@ -122,7 +136,7 @@ public class FundingService {
 		}else {
 			return -1;
 		}
-		return result3;
+		return resultDelete+result3;
 	}
 
 

@@ -18,9 +18,42 @@
 </script>
 <style>
 .title{
+    width: 100%;
     margin-top: 50px;
-    background-color: brown;
+    
+
+}
+
+.title-background{
+
     text-align: center;
+    height: 200px;
+    background-image: url("/resources/upload/funding/3311.jpg");
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+    background-size: cover;
+    filter: blur(7px);
+    
+
+}
+.p{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    color: rgb(30,144,255);
+    z-index: 1;
+    
+}
+.h2{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    font-size: 30px;
+    color: white;
 }
 .main{
     width: 1200px;
@@ -48,7 +81,7 @@
     text-align: center;
     font-size: 25px;
     margin: 0 2.5%;
-    color: #191F28;
+    color: #4a4a4a;
     
 }
 .link>ul>a:first-child>li{
@@ -57,12 +90,12 @@
 }
 .box{
     width: 100%;
-    background-color: gray;
+
     overflow: hidden;
 }
 .left-box{
     width: 65%;
-    background-color: blue;
+
     float: left;
     
 }
@@ -73,13 +106,14 @@
     margin-bottom: 30px;
 }
 .funding-detail{
+    margin-top: 25px;
     width: 100%;
     height: 800px; /*나중에 지워주기*/
     background-color: chartreuse;
 }
 .right-box{
     width: 30%;
-    height: 500px; /*나중에 지워주기*/
+    height: 1000px; /*나중에 지워주기*/
     background-color: violet;
     float: right;
     padding: 0 20px;
@@ -94,25 +128,49 @@
 .funding-deadline{
     font-size: 28px;
     margin-bottom: 25px;
+    color: #4a4a4a;
+}
+.funding-deadline>span:nth-of-type(1){
+    font-weight: 600;
+}
+.funding-deadline>span:nth-of-type(2){
+    font-weight: 400;
 }
 .bar-back{
 		position:relative;
-		height:4px;
+		height:5px;
 		background-color:#e6eaed;
         margin-bottom: 25px;
 }
 .bar{
 		position:absolute;
-		height:4px;
+		height:5px;
 		background-color:rgb(30,144,255);
 }
 .funding-sum-rate{
-    font-size: 24px;
+    color: #4a4a4a;
     margin-bottom: 25px;
 }
+.funding-sum-rate>span:nth-of-type(1){
+    font-size: 30px;
+    font-weight: 600;
+}
+.funding-sum-rate>span:nth-of-type(2){
+    margin-left: 5px;
+    font-size: 15px;
+    padding-top: 10px;
+}
 .supporter-num{
-    font-size: 24px;
+    color: #4a4a4a;
     margin-bottom: 25px;
+}
+.supporter-num>span:nth-of-type(1){
+    font-size: 30px;
+}
+.supporter-num>span:nth-of-type(2){
+    margin-left: 5px;
+    font-size: 15px;
+    padding-top: 10px;
 }
 .funding-rank{
     width: 100%;
@@ -141,6 +199,28 @@
 	float:left;
 }
 
+.img-slide>div>img{
+width: 100%;
+  height: 400px;
+  object-fit: cover;
+}
+.sum-date{
+    margin-bottom: 25px;
+    width: 100%;
+    height: 100px;
+    background-color:rgba(30,144,255,0.2) ;
+    color: rgb(30,144,255);
+    padding: 16px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+
+}
+.sum-date>p:nth-of-type(3){
+    margin-top: 3px;
+    margin-left: 2px;
+    color: #4a4a4a;
+}
 
 </style>
 </head>
@@ -148,7 +228,17 @@
     <%@include file="/WEB-INF/views/common/header.jsp" %>
 
 
-    <div class="title">${f.fundingName }</div>
+    <div class="title">
+        <div class="title-background-before">
+            <div class="p"><P>${f.fundingCategory}</P></div>
+            <div class="h2"><h3>${f.fundingName}</h3></div>
+        </div>
+        <div class="title-background">
+            
+        </div>
+        
+    </div>
+
     <div class="main">
         <div class="link">
             <ul>
@@ -165,11 +255,17 @@
                         <div><img src="/resources/upload/funding/${ff.fundingFilePath}"></div>
                     </c:forEach>    
                 </div>
+                <div class="sum-date">
+                    <p>목표 금액 ${f.fundingSum} 원</p>
+                    <p>펀딩 기간 ${f.fundingStartDate} 부터 ${f.fundingEndDate} 까지</p>
+                    <p>100% 이상 모이면 펀딩이 성공되며, 펀딩 마감일까지 목표 금액이 100% 모이지 않으면 환불됩니다.</p>
+                </div>
+                <h3>펀딩 프로젝트 스토리</h3>
                 <div class="funding-detail">${f.fundingDetail }</div>
             </div>
             <div class="right-box">
                 <div class="funding">
-                    <div class="funding-deadline">${f.fundingDeadline }일 남았습니다</div>
+                    <div class="funding-deadline"><span>${f.fundingDeadline }</span><span>일 남음</span></div>
                     <c:choose>
     					<c:when test="${f.fundingSumRate gt 100 }">
 							<div class="bar-back"><div class="bar" style="width:100%;"></div></div>
@@ -178,8 +274,8 @@
 							<div class="bar-back"><div class="bar" style="width: ${f.fundingSumRate}%;"></div></div>
 						</c:otherwise>
 					</c:choose>	
-                    <div class="funding-sum-rate">${f.fundingSumRate }%달성</div>
-                    <div class="supporter-num">xx명의 서포터 이건 사람수 조회</div>
+                    <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
+                    <div class="supporter-num"><span>131</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
                     	<input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">          
@@ -191,8 +287,8 @@
                         <div class="qna"><button><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
                         <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div></div>
                     </div>
+                    <div class="funding-rank">펀딩랭크</div>
                 </div>
-                <div class="funding-rank">펀딩랭크</div>
             </div>
         </div>    
     </div>

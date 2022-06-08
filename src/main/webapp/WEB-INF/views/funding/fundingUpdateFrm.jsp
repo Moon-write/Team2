@@ -98,6 +98,10 @@ table{
 .insert-button{
 	margin: 20px 0;
 }
+.pre-imgg:hover{
+	background-color : rgba(255,0,0,0.9);
+
+}
 
 	
 </style>
@@ -166,12 +170,35 @@ table{
 	            </div>
 	
 	            <div>
+	            
+	            
+	            <!-- <div><input type="text" name="fundingFileNo" value="${file.fundingFileNo}"><input type="text" name="fundingFilePath" value="${file.fundingFilePath}"></div> -->
 	                <div class="main-img">
-						<input type="file" name="upfile" accept=".jpg,.png,.jpeg,.gif" multiple>
+						 
+						 <table border="1">
+						   
+						    <tr>
+						      <td align="center">
+						        <input type="file" name="upfile" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" multiple>
+						        <div id="previeww">
+						        	<c:forEach items="${filelist }" var="file">
+				            				<div class="pre-imgg" style="display: inline-flex; padding: 10px;">
+				            				<span style="display:none;">${file.fundingFileNo }</span>
+				            					<div>
+				            						<span>${file.fundingFilePath }</span>
+				            						<br>
+				            						<img src="/resources/upload/funding/${file.fundingFilePath }" width="100" height="100">
+				            					</div>
+				            				</div>
+
+									</c:forEach>
+						        </div>
+						        <div id="preview"></div>
+						      </td>
+						    </tr>
+						  </table>
 					</div>
-					<c:forEach items="${filelist }" var="file">
-					<span>${file.fundingFilePath}</span>
-					</c:forEach>
+					
 	                <div class="sub-img"><img></div>
 	                <div class="sub-img"><img></div>
 	                <div class="sub-img"><img></div>
@@ -274,6 +301,20 @@ table{
 		});
 
 	});
+	 
+	$(function(){
+		$(".pre-imgg").on("click",function(){
+			
+			
+			const inputHidden = $("<input type=\"hidden\" name=\"deleteFundingFileNo\">");
+			const inputVal =$(this).children().eq(0).text();
+			inputHidden.attr("value",inputVal);
+			$("#previeww").append(inputHidden);
+			$(this).remove();
+		});
+	});
+	/* <input type="hidden" name="fundingFileNo" value="${file.fundingFileNo}"><input type="hidden" name="fundingFilePath" value="${file.fundingFilePath}">
+	  */
 </script>
 <style>
     .input-form{
@@ -285,4 +326,84 @@ table{
     }
 </style>	
 </body>
+<script type="text/javascript">
+  $(document).ready(function (e){
+    $("input[type='file']").change(function(e){
+
+      //div 내용 비워주기
+      $('#preview').empty();
+
+      var files = e.target.files;
+      var arr =Array.prototype.slice.call(files);
+      
+      //업로드 가능 파일인지 체크
+      for(var i=0;i<files.length;i++){
+        if(!checkExtension(files[i].name,files[i].size)){
+          return false;
+        }
+      }
+      
+      preview(arr);
+      
+      
+    });//file change
+    
+    function checkExtension(fileName,fileSize){
+
+      var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+      var maxSize = 20971520;  //20MB
+      
+      if(fileSize >= maxSize){
+        alert('파일 사이즈 초과');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+      }
+      
+      if(regex.test(fileName)){
+        alert('업로드 불가능한 파일이 있습니다.');
+        $("input[type='file']").val("");  //파일 초기화
+        return false;
+      }
+      return true;
+    }
+    
+    function preview(arr){
+      arr.forEach(function(f){
+        
+        //파일명이 길면 파일명...으로 처리
+        var fileName = f.name;
+       /*  if(fileName.length > 10){
+          fileName = fileName.substring(0,7)+"...";
+        }
+        
+        var bornToBeName = $(".pre-img").children().children().eq(0).text();
+        console.log(bornToBeName);
+        if(bornToBeName.length > 10){
+        	bornToBeName = bornToBeName.substring(0,7)+"...";
+          } */
+        
+        //div에 이미지 추가
+        var str = '<div class="pre-img" style="display: inline-flex; padding: 10px;"><div>';
+        str += '<span>'+fileName+'</span><br>';
+        
+        //이미지 파일 미리보기
+        if(f.type.match('image.*')){
+          var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+          reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+            //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+            str += '<img src="'+e.target.result+'" title="'+f.name+'" width=100 height=100 />';
+            str += '</div></div>';
+            $(str).appendTo('#preview');
+          } 
+          reader.readAsDataURL(f);
+        }else{
+          str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=100 height=100 />';
+          $(str).appendTo('#preview');
+        }
+      });//arr.forEach
+    }
+  });
+  
+  
+</script>
 </html>

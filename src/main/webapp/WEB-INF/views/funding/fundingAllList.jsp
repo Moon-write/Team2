@@ -15,7 +15,8 @@
 		background-size: 100% auto;
 	}
 	.funding-category{
-		margin-top: 20px;
+		margin-top: 60px;
+		margin-bottom: 60px;
 		display: flex;
 		justify-content:space-evenly; 
 	}
@@ -91,9 +92,6 @@
 
 	.photoWriteBtn{
 		float:right; 
-		}
-	.page-title{
-		margin-top : 50px;
 	}
 	.product-simple{
 		overflow : hidden;
@@ -131,30 +129,45 @@
 	.img-box>img:hover{
 		transform: scale(1.1,1.1);   
 	}
-	.text-box>div>span:nth-child(1){
-		font-size:13px;
-		color: rgba(75, 75, 75, 0.5);
-	
+	.text-box{
+		margin-top: 15px;
 	}
-	.text-box>div:nth-child(2)>span{
-		font-size:15px;
+	.text-box>div>span:nth-of-type(1){
+		font-size:19px;
 		color: #424242;
+		
 	}
-	.text-box>div:nth-child(3)>span{
+	.text-box>div:nth-of-type(2){
+		margin-bottom: 8px;
+	}
+	.text-box>div:nth-of-type(2)>span{
+		font-size:15px;
+		color: rgba(75, 75, 75, 0.5);
+		
+	}
+	.text-box>div:nth-of-type(3)>span{
 		color: rgb(30,144,255);
 	    font-size: 19px;
 	    font-family: ns-medium;
 	}
-	.text-box>div:nth-child(3)>span:nth-child(2){
+	.text-box>div:nth-of-type(3)>span:nth-of-type(2){
 		font-size: 23px;
     	font-family: ns-medium;
     	color : #424242;
     	margin-left : 3px;
 	}
-	.text-box>div:nth-child(4)>span{
-		font-size: 13px;
+	.text-box>div:nth-of-type(4)>span:nth-of-type(1){
+		font-size: 18px;
 		font-weight:300;
-		margin-left : 1px;
+		
+		color : rgb(30,144,255);
+
+	}
+	.text-box>div:nth-of-type(4)>span:nth-of-type(2){
+		font-size: 18px;
+		font-weight:300;
+		margin-left : 5px;
+		color: rgba(75, 75, 75, 0.5);
 
 	}
 	.bar-back{
@@ -247,7 +260,6 @@
 				</div>
 			</a>
 		</div>
-		<div class="page-title"><a href="/foodList.do?reqPage=1">그냥링크임</a>	<a href="/fundingInsert.kh">상품등록으로 이동</a></div>
 			<div class="product-simple">
 						<c:forEach items="${list }" var="fjf">
 							<a href="/fundingDetailStory.kh?fundingNo=${fjf.fundingNo }">
@@ -256,8 +268,8 @@
 										<img src="/resources/upload/funding/${fjf.fundingFilePath}">
 									</div>
 									<div class="text-box">
-										<div><span>${fjf.bizName }</span></div>	
 										<div><span>${fjf.fundingName}</span></div>
+										<div><span>${fjf.fundingCategory} | ${fjf.bizName }</span></div>	
 										<c:choose>
 											<c:when test="${fjf.fundingSumRate gt 100 }">
 												<div class="bar-back"><div class="bar" style="width:100%;"></div></div>
@@ -266,9 +278,9 @@
 												<div class="bar-back"><div class="bar" style="width: ${fjf.fundingSumRate}%;"></div></div>
 											</c:otherwise>
 										</c:choose>		
-										<div><span>${fjf.fundingSumRate}%</span><span>${fjf.fundingCurrentSum}</span></div>	
-										<div><span>${fjf.fundingDeadline}일 남음</span></div>
-										<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>						
+										<div><span>${fjf.fundingSumRate}%</span><span>${fjf.fundingCurrentSum}원</span></div>	
+										<div><span>종료 ${fjf.fundingDeadline}일 남음</span></div>
+										<!--<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>-->						
 									</div>
 								</div>
 							</a>

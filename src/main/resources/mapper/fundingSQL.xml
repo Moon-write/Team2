@@ -35,7 +35,7 @@
     FUNDING_FILE_PATH   AS fundingFilePath,
     FUNDING_DEADLINE    AS fundingDeadline,
     BIZ_NAME			AS bizName,
-    ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING.FUNDING_NO) AS RN
+    ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING_FILE.FUNDING_FILE_NO) AS RN
     FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 ORDER BY fundingNo DESC
   </select>
   <select id="selectOneFunding" parameterType="int" resultType="f"><!--동적쿼리 int를 f로 바꿧음  실패-->
@@ -131,8 +131,8 @@
   <select id="selectFundingFileNo" parameterType="f" resultType="int">
   	SELECT FUNDING_FILE_NO FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo}
   </select>
-  <delete id="deleteFundingFile" parameterType="f">
-  	DELETE FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo}
+  <delete id="deleteFundingFile" parameterType="map">
+  	DELETE FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo} AND FUNDING_FILE_NO = #{deleteFundingFileNo}
   	</delete>
   	
 </mapper>

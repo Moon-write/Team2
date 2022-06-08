@@ -181,7 +181,7 @@ table{
 		                    </tr>
 		                    <tr id="option-table-tr">
 		                        <td><input type="text" class="input-form" name="fundingOptionName" value="사이즈"></td>
-		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M,L"></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M/L"></td>
 		                    </tr>
 	                	</tbody>
 	                </table>
@@ -257,10 +257,10 @@ table{
 			const optionValueTd2 = $("<td>");
 			
 			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","색상");
-			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","블랙,화이트");
+			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","블랙/화이트");
 			
 			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","맛");
-			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","딸기,포도");
+			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","딸기/포도");
 				
 			add.remove();
 			
@@ -322,11 +322,10 @@ table{
 		 //->form 태그 전송시 enctype의 기본값임
 		 //			->enctype="multipart/form-data"로 설정하기 위해 기본값을 제거 그럼 자동으로 폼데이타로 변경
 		});
-	 
 	 //옵션목록으로 적용
 	$(function(){
 	 $(".option-category").on("click",function(){
-		 var fundingOptionNameArr = new Array();
+		 var fundingOptionNameArr = new Array();//다음부터는 let으로 쓰자
 		 var fundingOptionValueArr = new Array();
 		 console.log("배열의길이 : "+$("[name=fundingOptionName]").length)//배열의길이 
 		 
@@ -340,6 +339,7 @@ table{
 		 });
 		  $.each($("[name=fundingOptionValue]"),function(index,item){
 			 fundingOptionValueArr.push($(item).val());
+			 //console.log($(item).val().split(","));
 		 });
 			
 	/* 	 for(var i=0; i<$("[name=fundingOptionName]").length;i++){

@@ -91,8 +91,8 @@ public class FundingDao {
 		return 0;
 	}
 
-	public int deleteFundingFile(Funding f) {
-		return sqlSession.delete("funding.deleteFundingFile",f);
+	public int deleteFundingFile(HashMap<String, Object> map) {
+		return sqlSession.delete("funding.deleteFundingFile",map);
 	}
 
 	
