@@ -170,7 +170,7 @@
 				  projectNo2=projectNo;  
 			      selectGraph(event);			    
 			  }else{
-				  alert("기부자가 없습니다.");
+				  alert("조회할 정보가 없습니다.");
 			  }
 			  });
 			  $(document).on("click", ".modal-close", function () {

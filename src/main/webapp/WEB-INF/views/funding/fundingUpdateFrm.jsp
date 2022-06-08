@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>펀딩상품 등록</title>
+<title>펀딩상품 수정</title>
 
 <style>
 .main{
@@ -167,8 +167,11 @@ table{
 	
 	            <div>
 	                <div class="main-img">
-						<input type="file" name="upfile" multiple>
+						<input type="file" name="upfile" accept=".jpg,.png,.jpeg,.gif" multiple>
 					</div>
+					<c:forEach items="${filelist }" var="file">
+					<span>${file.fundingFilePath}</span>
+					</c:forEach>
 	                <div class="sub-img"><img></div>
 	                <div class="sub-img"><img></div>
 	                <div class="sub-img"><img></div>
@@ -192,7 +195,7 @@ table{
 	        <div class="detail-information"><span>상세정보</span></div>
 	        <div class="input-detail">
 	            <div class="summernote-detail">
-	                <textarea id="summernote" name="fundingDetail"></textarea>
+	                <textarea id="summernote" name="fundingDetail">${f.fundingDetail }</textarea>
 	            </div>
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="수정하기">
@@ -211,7 +214,7 @@ table{
 	 //써머노트
 	 $(function(){
 	 $("#summernote").summernote({
-		height:400,
+		height:800,
 		lang : "ko-KR",
 		callbacks:{//이미지 올릴 때 데이터베이스에 아작스 이용해서 업로드
 			onImageUpload : function(files){ //이미지가 업로드 되면 files에 들어옴
@@ -224,9 +227,9 @@ table{
 		 //ajax를통해 서버에 이미지를 업로드하고 업로드경로를 받아옴
 		 //form태그와 동일한 효과를 내는 formData개체 새성
 		 const form = new FormData();
-		 form.append("fundingDetail",file);//"fundingDetail"이라는 네임으로 file을 전송
+		 form.append("file",file);//"fundingDetail"이라는 네임으로 file을 전송
 		 $.ajax({
-			 url : "/fundingInsertFrm.kh",
+			 url : "/fundingInsertSummernote.kh",
 			 type: "post",
 			 data : form,
 			 processData : false,  //아작스로 파일업로드 하려면 꼭 필요

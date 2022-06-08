@@ -7,6 +7,87 @@
 <meta charset="UTF-8">
 <title>펀딩리스트</title>
 <style>
+	.banner{
+		width: 100%;
+		height: 300px;
+		background-image: url("/resources/upload/funding/3311.jpg");
+		background-position: center center;
+		background-size: 100% auto;
+	}
+	.funding-category{
+		margin-top: 20px;
+		display: flex;
+		justify-content:space-evenly; 
+	}
+	.sq{
+		width: 150px;
+		height: 150px;
+		
+	}
+	.sq:last-child{
+		text-align: center;
+	}
+	.tech{
+	background-color:#86efef;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:100px;
+	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_287.jpg");
+}
+.fashion{
+	background-color:#86efef;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:100px;
+	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_288.jpg");
+}
+.home{
+	background-color:#86efef;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:100px;
+	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_310.jpg");
+}
+.food{
+	background-color:#86efef;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:100px;
+	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_289.jpg");
+}
+.beauty{
+	background-color:#86efef;
+	width:100px;
+	height:100px;
+	border-radius:50px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:100px;
+	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_311.jpg");
+}
+
 
 	.photoWriteBtn{
 		float:right; 
@@ -86,6 +167,10 @@
 		height:4px;
 		background-color:rgb(30,144,255);
 	}
+	.sq>div:nth-of-type(2){
+		margin-top: 8px;
+		color: #424242;
+	}
 	
 	
 </style>
@@ -124,9 +209,44 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<!------------------------------------------------------------------------------------------>	
+	<div class="banner"></div>
 
-	
+
+
 	<div class="page-content">
+		<div class="funding-category">
+			<a href="">
+			<div class="sq">
+				<div class="tech"></div>
+				<div><h3>테크·가전</h3></div>
+			</div>
+			</a>
+			<a href="">
+				<div class="sq">
+					<div class="fashion"></div>
+					<div><h3>패션·잡화</h3></div>
+				</div>
+			</a>
+			<a href="">
+				<div class="sq">
+					<div class="home"></div>
+					<div><h3>홈·리빙</h3></div>
+				</div>
+			</a>
+			<a href="">
+				<div class="sq">
+					<div class="food"></div>
+					<div><h3>식품</h3></div>
+				</div>
+			</a>
+			<a href="">
+				<div class="sq">
+					<div class="beauty"></div>
+					<div><h3>뷰티</h3></div>
+				</div>
+			</a>
+		</div>
 		<div class="page-title"><a href="/foodList.do?reqPage=1">그냥링크임</a>	<a href="/fundingInsert.kh">상품등록으로 이동</a></div>
 			<div class="product-simple">
 						<c:forEach items="${list }" var="fjf">

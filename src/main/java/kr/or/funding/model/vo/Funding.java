@@ -1,5 +1,7 @@
 package kr.or.funding.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,5 @@ public class Funding {
 	private int fundingCurrentSum;
 	private int fundingDeadline;
 	private String bizName;
+
 }

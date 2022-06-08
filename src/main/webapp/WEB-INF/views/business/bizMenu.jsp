@@ -82,7 +82,7 @@
 					<li><a href="/checkCount.kh">조회수 전일비교</a></li>
 				</ul></li>
 			<li><a
-				href="/shopUploadFrm.kh?memberNo=${sessionScope.m.memberNo }">상호등록</a>
+				href="/shopUploadFrm.kh?memberNo=${sessionScope.m.memberNo }">사업자정보 수정</a>
 			</li>
 			<li><a
 				href="/updateInfo.kh?memberNo=${sessionScope.m.memberNo }">마이페이지</a>

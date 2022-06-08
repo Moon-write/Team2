@@ -290,16 +290,16 @@ public class FundingController {
 		System.out.println(funding.getFundingNo());
 		Funding f = service.selectOneFundingMemberNo(funding);
 		f.setFundingEndDate(f.getFundingEndDate().substring(0, 16));
-		ArrayList<FundingFile> Filelist = service.selectOneFundingFile(funding.getFundingNo());
+		ArrayList<FundingFile> filelist = service.selectOneFundingFile(funding.getFundingNo());
 		ArrayList<FundingOptionPrice> optionList = service.selectFundingOptionPrice(funding.getFundingNo());
 		model.addAttribute("f",f);
-		model.addAttribute("Filelist",Filelist);
+		model.addAttribute("filelist",filelist);
 		model.addAttribute("optionList",optionList);
 		return "funding/fundingUpdateFrm"; 
 	}
 	
 	@RequestMapping(value="/fundingUpdate.kh")
-	public String FundingUpdate(Funding f,FundingOptionPrice fop,@SessionAttribute(required=false) Member m,MultipartFile[] upfile, HttpServletRequest request) {
+	public String FundingUpdate(Funding f,FundingOptionPrice fop,@SessionAttribute(required=false) Member m,MultipartFile[] upfile, HttpServletRequest request,Model model) {
 		System.out.println("------Funding f------");
 		System.out.println("펀딩네임 : "+f.getFundingName());
 		System.out.println("펀딩카테고리 : "+f.getFundingCategory());
@@ -388,9 +388,38 @@ public class FundingController {
 				}
 				int result = service.updateFunding(f,fop,fundingList);
 				System.out.println("최종 update result 값 : "+result);
-		return "funding/fundingUpdateFrm";//그냥 써놓은거
+				if(result == upfile.length) {
+					model.addAttribute("icon", "success");
+					model.addAttribute("title", "펀딩수정 완료");
+					model.addAttribute("msg", "펀딩수정이 완료되었습니다!");
+					model.addAttribute("loc", "/manageFunding.kh");
+				}else {			
+					model.addAttribute("icon", "error");
+					model.addAttribute("title", "펀딩수정 실패");
+					model.addAttribute("msg", "펀딩 수정에 실패했습니다! 다시한번 확인해주세요.");
+					model.addAttribute("loc", "/manageFunding.kh");
+				}
+				return "common/msg";
+				
 	}
 	
+
+	@ResponseBody
+	@RequestMapping(value="/fundingInsertSummernote.kh")
+	public String FundingInsertSummernote(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
+		String filepath = null;
+		
+		if(!file[0].isEmpty()) {
+			// 사진이 있을때만 로직 실행
+			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/funding/");
+			
+			MultipartFile onefile = file[0];
+			
+			filepath = fileIo(onefile, savePath);
+		}
+		//return "../../../resources/upload/funding/"+filepath;
+		return "/resources/upload/funding/"+filepath;
+	}
 	
 	
 	
@@ -443,5 +472,47 @@ public class FundingController {
 		}
 		return result; //어레이로 리턴
 	}
+	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
+		private String fileIo(MultipartFile file, String savePath) {
+			String filepath = null;
+			
+			String filename = file.getOriginalFilename();
+			String onlyFilename = filename.substring(0,filename.lastIndexOf("."));
+			String extention = filename.substring(filename.lastIndexOf("."));
+			
+			int count = 0;
+			
+			while(true) {
+				if(count==0) {
+					filepath = onlyFilename+extention;
+				}else {
+					filepath = onlyFilename+"_"+count+extention;
+				}
+				// 중복검사
+				File checkFile = new File(savePath+filepath);
+				if(!checkFile.exists()) {
+					break;
+					// 파일이 존재 안해야 해당 파일명을 사용할 수 있다.
+				}
+				count++;
+			}
+			
+			try {
+				FileOutputStream fos = new FileOutputStream(new File(savePath+filepath));
+				BufferedOutputStream bos =new BufferedOutputStream(fos);
+				
+				byte[] bytes = file.getBytes();
+				bos.write(bytes);
+				bos.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+			return filepath; // 파일명 리턴
+		} // 파일업로드 메소드 종료
+	
 
 }
