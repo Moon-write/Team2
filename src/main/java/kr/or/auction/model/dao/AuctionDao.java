@@ -223,4 +223,14 @@ public class AuctionDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("auction.updateFailOrderStatus", b);
 	}
+
+	public ArrayList<Auction> loadLastAuction() {
+		List<Auction> list = sqlSession.selectList("auction.loadLastAuction");
+		return (ArrayList<Auction>) list;
+	}
+
+	public Auction loadNewAuction() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("auction.loadNewAuction");
+	}
 }

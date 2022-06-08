@@ -366,6 +366,21 @@ public class AuctionController {
 		}
 		return "../../../resources/upload/auction/"+filepath;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/loadLastAuction.kh", produces = "application/json; charset=utf-8")
+	public String loadLastAuction() {
+		ArrayList<Auction> list = service.loadMainAuction();
+		
+		return new Gson().toJson(list);
+	}
+	@ResponseBody
+	@RequestMapping(value = "/loadNewAuction.kh", produces = "application/json; charset=utf-8")
+	public String loadNewAuction() {
+		Auction a = service.loadNewAuction();
+		
+		return new Gson().toJson(a);
+	}
 
 	// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
 	private String fileIo(MultipartFile file, String savePath) {

@@ -42,7 +42,7 @@
 	.likeList-content a{
 		display: flex;
 		height: 320px;
-		color : black;
+		color : #191f28;
 		flex-direction: column;
 		justify-content: space-between;
 	}
@@ -112,7 +112,7 @@
 		display: block;
 		width: 95%;
 		display: flex;
-		color: black;
+		color: #191f28;
 	}
 	.auction-pic{
 		width: 40%; height: 250px;
