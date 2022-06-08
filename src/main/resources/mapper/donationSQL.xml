@@ -12,7 +12,7 @@
   <update id="updateDonation" parameterType="d">
   	update donation
   		set DONATION_CATEGORY = #{donationCategory},
-  			DONATION_ENDDATE = #{donationEnddate},
+  			DONATION_ENDDATE = TO_DATE(#{donationEnddate}, 'YYYY-MM-DD'),
   			DONATION_CONTENT = #{donationContent}
   		where PROJECT_NO = #{projectNo}
   </update>

@@ -149,7 +149,7 @@ ul.imgs li {
 	margin-right: 10px;
 	width: 9%;
 	text-align: center;
-	border: 1px solid white;
+	border: none;
 }
 
 .row-img {
@@ -223,11 +223,13 @@ ul.imgs li {
 	/*background-color: pink;*/
 	overflow: hidden;
 	transition: 0.5s;
+	border: 1px solid white;
 }
 
 .detail-content>div:hover {
-	border: none;
-	box-shadow: 2px 2px 1px 1px #1e90ff;
+	border: 1px solid black;
+	/*box-shadow: 2px 2px 1px 1px #1e90ff;*/
+	
 }
 
 .donationMainImg {
@@ -238,10 +240,12 @@ ul.imgs li {
 .donationMainImgHover img {
 	transition: all 0.2s linear;
 	border: none;
+	
 }
 
 .donationMainImgHover:hover img {
 	transform: scale(1.1);
+	
 }
 
 .detail-content {
@@ -280,21 +284,6 @@ ul.imgs li {
 	cursor: pointer;
 	border: 1px solid rgb(255, 130, 171);
 }
-
-.bct1 {
-	background-color: rgb(30, 144, 255);
-	color: #fff;
-	border: 1px solid rgb(30, 144, 255);
-}
-
-.bct1:hover {
-	background-color: white;
-	color: rgba(30, 144, 255);
-	cursor: pointer;
-	border: 1px solid rgba(30, 144, 255);
-}
-
-
 }
 .detail-content-flex {
 	display: flex;
@@ -306,6 +295,31 @@ ul.imgs li {
 	height: auto;
 	animation: fadein 3s;
 	-webkit-animation: fadein 3s;
+}
+
+
+.bct1 {
+	border:none;
+	border-radius: 0px;
+    box-shadow: 6px 6px 0 0 rgb(30, 144, 255), inset 6px 6px 0 0 rgb(30, 144, 255);
+    transition: 0.3s;
+    color: rgb(30, 144, 255);
+}
+
+.bct1:hover {
+	box-shadow: 0 0 0 0 rgb(30, 144, 255), inset 108px 72px 0 0 rgb(30, 144, 255);
+    color:white;
+}
+.offset{
+	border:none;
+	border-radius: 0px;
+    box-shadow: 6px 6px 0 0 rgb(255, 130, 171), inset 6px 6px 0 0 rgb(255, 130, 171);
+    transition: 0.3s;
+    color: rgb(255, 130, 171);
+}
+.offset:hover{
+      box-shadow: 0 0 0 0 rgb(255, 130, 171), inset 108px 72px 0 0 rgb(255, 130, 171);
+      color:white;
 }
 /*------------------------메인배너이미지 효과----------------------*/
 @-webkit-keyframes fadein {
@@ -345,14 +359,11 @@ ul.imgs li {
 		</div>
 		<br> <br>
 		<div class="hash-tag">
-			<a class="btn bct2" href="/donationHashtag.kh?donationCategory=pet"
-				name="hashTag">#애견</a> <a class="btn bct2"
-				href="/donationHashtag.kh?donationCategory=child" name="hashTag">#아동</a>
-			<a class="btn bct2"
-				href="/donationHashtag.kh?donationCategory=female" name="hashTag">#여성</a>
-			<a class="btn bct2" href="/donationHashtag.kh?donationCategory=help"
-				name="hashTag">#불우이웃</a> <a class="btn bct2"
-				href="/donationHashtag.kh?donationCategory=old" name="hashTag">#독거노인</a>
+			<a class="btn offset" href="/donationHashtag.kh?donationCategory=pet" name="hashTag">#동물보호</a>
+			<a class="btn offset" href="/donationHashtag.kh?donationCategory=child" name="hashTag">#아동보호</a>
+			<a class="btn offset" href="/donationHashtag.kh?donationCategory=female" name="hashTag">#여성기부</a>
+			<a class="btn offset" href="/donationHashtag.kh?donationCategory=help"name="hashTag">#불우이웃</a>
+			<a class="btn offset" href="/donationHashtag.kh?donationCategory=old" name="hashTag">#노인기부</a>
 		</div>
 		<div class="main-content">
 			<div class="saleDonationDiv">

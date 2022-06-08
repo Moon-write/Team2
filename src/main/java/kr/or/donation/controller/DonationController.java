@@ -22,12 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.or.donation.model.service.DonationService;
 import kr.or.donation.model.vo.Donation;
+import kr.or.donation.model.vo.DonationComment;
 import kr.or.member.model.vo.Member;
 
 @Controller
 public class DonationController {
 	@Autowired
 	private DonationService service;
+	@Autowired
+	private HttpServletRequest request;
 	
 	
 	// mainAllList
@@ -60,31 +63,56 @@ public class DonationController {
 
 
 	// insert
+	@RequestMapping(value="/insertDonationComment.kh")
+	public String insertComment(@SessionAttribute Member m, DonationComment dc) {
+		dc.setMemberId(m.getMemberId()); //아이디저장
+		int result = service.insertDonationComment(dc);
+		
+		
+		int selectProjectNo = dc.getProjectNo(); //프로젝트번호(해당 프로젝트 상세페이지로 이동하기위해 -> if문작성)
+		Donation donation = service.selectOneDonation(selectProjectNo);
+		
+		if(donation.getDonationDivision() == 1) { //일반기부
+			return "donation/donationView";
+		}else { //판매기부
+			return "donation/donationView2";
+		}
+	}
 	@RequestMapping(value = "/insertDonation.kh")
-	public String insertDonation(@SessionAttribute Member m, Donation d, MultipartFile upfile, HttpServletRequest request, Model model) {
+	public String insertDonation(@SessionAttribute Member m, Donation d, MultipartFile upfile, HttpServletRequest request) {
 		if (upfile.isEmpty()) {
 			// 첨부파일 없는경우 수행할 로직 없음
 		} else {
+			
 			String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/donation/");
 			String filename = upfile.getOriginalFilename();
 			String filepath = fileIo(upfile, savePath);
-
+			if(d.getDonationDivision()==1) {
+				d.setDonationCash(1000);
+			}
 			d.setDonationImgname(filename);
 			String realfilepath = "../../../resources/upload/donation/"+filepath;
 			d.setDonationImgpath(realfilepath);
 			d.setMemberNo(m.getMemberNo());
 			
-
 			int result = service.insertDonation(d);
 			
+			if(result == 1) {
+				request.setAttribute("title", "등록성공");
+				request.setAttribute("msg", "글이 정상적으로 등록되었습니다.");
+				request.setAttribute("icon", "success");
+			}else {
+				request.setAttribute("title", "등록실패");
+				request.setAttribute("msg", "글 등록에 실패하셨습니다.");
+				request.setAttribute("icon", "error");
+			}
+			request.setAttribute("loc", "/donationList.kh");
 			
 		}// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
-		return "redirect:/donationList.kh";
+		return "common/msg";
 	}
 
 	// update
-
-
 	@RequestMapping(value = "/donationUpdateWriter.kh") // 기부 수정페이지로 이동할 form
 	public String updateDonation(int projectNo, Model model) {
 		Donation donation = service.selectOneDonation(projectNo);
@@ -95,7 +123,17 @@ public class DonationController {
 	public String updateDonation(Donation d) {
 		int result = service.updateDonation(d);
 		
-		return "redirect:/donationList.kh";
+		if(result == 1) {
+			request.setAttribute("title", "수정성공");
+			request.setAttribute("msg", "글이 정상적으로 수정되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "수정실패");
+			request.setAttribute("msg", "글 수정에 실패하셨습니다.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/donationList.kh");
+		return "common/msg";
 	}
 	
 	// select

@@ -33,7 +33,7 @@
 		<typeAlias type="kr.or.funding.model.vo.SelectFundingOptionPrice" alias="sfop"/>
 		<!-- 재형 -->
 		<typeAlias type="kr.or.donation.model.vo.Donation" alias="d"/>
-		
+		<typeAlias type="kr.or.donation.model.vo.DonationComment" alias="dc"/>
 		<!-- 은영 -->
 		<typeAlias type="kr.or.group.model.vo.Group" alias="g"/>
 		<typeAlias type="kr.or.group.model.vo.GroupOption" alias="go"/>

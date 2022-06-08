@@ -101,7 +101,10 @@ input:disabled {
 	width: 100%;
 	text-align: left;
 }
-
+.note-editor .note-editing-area .note-editable {
+    outline: none;
+    text-align: left;
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>

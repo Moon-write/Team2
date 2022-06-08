@@ -35,15 +35,30 @@
 	background-repeat: no-repeat;
 	background-position: center center;
 	display: flex;
-	justify-content: center;
-	align-items: center;
 	border-radius: 15px;
 	margin-top: 10px;
-	display: flex;
+	
+	animation: fadein 3s;
+	-webkit-animation: fadein 3s;
+	
+	color: white;
+	
+	
+	
+	justify-content: center;
+    align-items: center;
+	
+}
+
+.page-content-header>span{
+	margin: 15px;
+	font-weight: bold;
+	font-size: 45px;
+	font-family: 나눔고딕;
 }
 
 .page-content-content {
-	width: 80%;
+	width: 60%;
 	margin: 10px;
 }
 
@@ -84,11 +99,12 @@
 	width: auto;
 	height: 164.38px;
 	overflow: hidden;
+	border: 1px solid white;
+	transition: 0.5s;
 }
 
 .hash-tag-div-div:hover {
-	box-shadow: 2px 2px 1px 1px #1e90ff;
-	transition: 0.5s;
+	border: 1px solid black;
 }
 
 .hash-tag-footer-div {
@@ -138,6 +154,19 @@
 .material-icons {
 	color: #1e90ff;
 }
+.mainContent{
+	display:flex;
+	justify-content: center;
+}
+/*------------------------메인배너이미지 효과----------------------*/
+@-webkit-keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -160,28 +189,42 @@
 					background-image: url(/resources/upload/donation/donationOld.jpg);
 				</c:if>
 		">
-			<div class="main">
-				<div class="box">
-					<div class="text">Hello!</div>
-				</div>
-			</div>
+			<span>
+				<c:if test="${donationCategory eq 'pet' }">
+					동물을 보호해 주세요
+				</c:if>
+				<c:if test="${donationCategory eq 'child' }">
+					우리 아이들을 지켜주세요
+				</c:if>
+				<c:if test="${donationCategory eq 'female' }">
+					함께 나아가요
+				</c:if>
+				<c:if test="${donationCategory eq 'help' }">
+					손을 내밀어 주세요
+				</c:if>
+				<c:if test="${donationCategory eq 'old' }">
+					주위를 바라봐주세요
+				</c:if>
+			</span>
 		</div>
+	</div>
+	<div class="mainContent">
 		<div class="page-content-content">
 			<h2 class="page-content-content-h2">
 				<c:if test="${donationCategory eq 'pet' }">
-					애견기부목록
+					동물보호목록
 				</c:if>
 				<c:if test="${donationCategory eq 'child' }">
-					아동기부목록
+					아동보호목록
 				</c:if>
 				<c:if test="${donationCategory eq 'female' }">
 					여성기부목록
 				</c:if>
 				<c:if test="${donationCategory eq 'help' }">
-					불우이웃
+					불우이웃목록
 				</c:if>
 				<c:if test="${donationCategory eq 'old' }">
-					독거노인
+					노인기부목록
 				</c:if>
 			</h2>
 			<div class="page-content-content2">

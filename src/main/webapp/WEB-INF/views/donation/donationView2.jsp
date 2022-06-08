@@ -115,6 +115,63 @@ h5 {
 	transition: 0.5s;
 	
 }
+
+/*---------- 덧글입력관련 CSS ----------*/
+.userComment{
+	font-size: 50px;
+	margin: 10px;
+	color: #1e90ff;
+}
+
+.inputCommentBox {
+	width: 80%;
+	margin: 50px;
+	border-top:1px solid black;
+	padding-top: 25px;
+}
+
+.commentFlex{
+	width:100%;
+	display:flex;
+	justify-content: center;
+}
+
+.inputCommentBox>form>ul {
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 0;
+}
+
+.project-writer{
+	resize: none;
+	width: 600px;
+	height: 50px;
+	font-size: large;
+    line-height: 50px;
+    padding: 3px;
+}
+.commentSubmit{
+	width: 80px;
+	height: 40px;
+	margin: 10px;
+	background-color: white;
+	cursor: pointer;
+}
+
+.offset{
+	border:none;
+	border-radius: 0px;
+    box-shadow: 6px 6px 0 0 rgb(30, 144, 255), inset 6px 6px 0 0 rgb(30, 144, 255);
+    transition: 0.3s;
+    color: rgb(30, 144, 255);
+}
+.offset:hover{
+	box-shadow: 0 0 0 0 rgb(30, 144, 255), inset 108px 72px 0 0 rgb(30, 144, 255);
+    color:white;
+}
+/**/
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -184,6 +241,29 @@ h5 {
 			</div>
 		</div>
 	</div>
+		<div class="commentFlex">
+			<div class="inputCommentBox">
+			<h2>기부천사들의 한마디</h2>
+				<form action="/insertDonationComment.kh" method="post">
+					<ul>
+						<li><span class="material-icons userComment">favorite</span></li>
+						<li>
+							<input type="hidden" name="projectNo" value="${donation.projectNo }">
+							<input type="hidden" name="memberId" value="${sessionScope.m.memberId}">
+							<textarea class="project-writer" name="donationCommentContent"></textarea>
+						</li>
+						<li>
+							<button type="submit" class="commentSubmit offset">
+								SUBMIT
+							</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+		<div class="commentBox">
+			
+		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
 	function count(type)  {

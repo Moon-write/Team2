@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.or.donation.model.dao.DonationDao;
 import kr.or.donation.model.vo.Donation;
+import kr.or.donation.model.vo.DonationComment;
 import kr.or.member.model.vo.Member;
 
 
@@ -51,5 +52,10 @@ public class DonationService {
 	public Member selectOneMember(int memberNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOneMember(memberNo);
+	}
+
+	public int insertDonationComment(DonationComment dc) {
+		// TODO Auto-generated method stub
+		return dao.insertDonationComment(dc);
 	}
 }
