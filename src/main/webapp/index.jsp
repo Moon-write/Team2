@@ -5,13 +5,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>착한펀딩 프로젝트, weNeedYou</title>
+<link href="/resources/css/index.css" rel="stylesheet"> <!-- css여기서 일괄관리 -->
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
+			<div class="page-title">펀딩</div>
 			
+			<div class="page-title">기부</div>
+			
+			<div class="page-title">실시간 경매 진행 중!</div>
+			<div class="auction-section">
+				<div class="new-auction">
+					<div class="section-title">새로 오픈된 경매</div>
+					<a>
+						<div class="newAuc-pic"></div>
+						<div class="newAuc-info"></div>
+					</a>
+				</div>
+				<div class="last-auction">
+					<div class="section-title">마감임박!</div>	
+				</div>
+			</div>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<script src="/resources/js/index.js"></script>
 </body>
 </html>

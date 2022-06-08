@@ -169,18 +169,7 @@ public class AuctionService {
 			ArrayList<Auction> list = dao.getLikeAuction(projectlist);
 			
 			for(Auction a : list) {
-				// 1. 입찰횟수 구하기
-				int bidCount = dao.getBidCount(a.getProjectNo());
-				a.setBidCount(bidCount);
-				
-				// 2. 현재 낙찰가능금액 구하기
-				int bestPrice;
-				if(bidCount==0) {
-					bestPrice = a.getAuctionPrice();
-				}else {
-					bestPrice = dao.getMinBidPrice(a.getProjectNo());
-				}
-				a.setBestPrice(bestPrice);
+				a = setBidInfo(a);
 			}
 			
 			return list;			
@@ -281,17 +270,8 @@ public class AuctionService {
 
 	public Auction getMoreInfo(Auction a, int memberNo) {
 	
-		// 1. 입찰횟수 구하기
-		int bidCount = dao.getBidCount(a.getProjectNo());
-		a.setBidCount(bidCount);
+		a = setBidInfo(a);
 		
-		// 2. 현재 낙찰가능금액 구하기
-		int bestPrice;
-		if(bidCount==0) {
-			bestPrice = a.getAuctionPrice();
-		}else {
-			bestPrice = dao.getMinBidPrice(a.getProjectNo());			
-		}
 		// 3. 내 좋아요 여부 구하기
 		if(memberNo!=0) {
 			HashMap<String, Object> map2 = new HashMap<String, Object>();
@@ -308,7 +288,6 @@ public class AuctionService {
 			}
 		}			
 	
-		a.setBestPrice(bestPrice);
 		a.setTotallike(dao.getTotalLike(a.getProjectNo()));	
 	
 		return a;
@@ -502,5 +481,39 @@ public class AuctionService {
 	public int checkCommentCount(Comment c) {
 		// TODO Auto-generated method stub
 		return dao.checkCommentCount(c);
+	}
+
+	public ArrayList<Auction> loadMainAuction() {
+		ArrayList<Auction> list = new ArrayList<Auction>();
+		list = dao.loadLastAuction();
+		
+		for(Auction a : list) {
+			a = setBidInfo(a);
+		}
+		
+		return list;
+	}
+
+	public Auction loadNewAuction() {
+		Auction a = dao.loadNewAuction();
+		a = setBidInfo(a);
+		
+		return a;
+	}
+	
+	public Auction setBidInfo(Auction a) {
+		// 1. 입찰횟수 구하기
+		int bidCount = dao.getBidCount(a.getProjectNo());
+		a.setBidCount(bidCount);
+		
+		// 2. 현재 낙찰가능금액 구하기
+		int bestPrice;
+		if(bidCount==0) {
+			bestPrice = a.getAuctionPrice();
+		}else {
+			bestPrice = dao.getMinBidPrice(a.getProjectNo());			
+		}
+		a.setBestPrice(bestPrice);
+		return a;
 	}
 }

@@ -385,4 +385,41 @@
   	SELECT COUNT(*) FROM COMMENT_TBL WHERE DIV_NO=4 AND PROJECT_NO=#{projectNo}
   </select>
   
+  <select id="loadLastAuction" resultType="a">
+  	     SELECT * FROM (
+			SELECT ROWNUM AS RNUM, N.* FROM (
+  				SELECT
+			  		PROJECT_NO AS projectNo,
+			  		PROJECT_NAME AS projectName,
+			  		AUCTION_ITEM AS auctionItem,
+			  		AUCTION_CATEGORY AS auctionCategory,
+			  		MEMBER_NO AS memberNo,
+			  		AUCTION_PRICE AS auctionPrice,
+			  		AUCTION_PIC AS auctionPic,
+			        LASTDAY AS lastDay,
+			        LASTHOUR AS lastHour,
+			        LASTMIN AS lastMin,    
+			        AUCTION_CLOSE AS auctionClose    
+  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
+  	<![CDATA[	ORDER BY AUCTIONCLOSE ASC, LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC)N ) WHERE LASTDAY>0 AND RNUM<=2 ]]>
+  </select>
+  
+    <select id="loadNewAuction" resultType="a">
+         		SELECT * FROM (
+			SELECT ROWNUM AS RNUM, N.* FROM (
+  				SELECT
+			  		PROJECT_NO AS projectNo,
+			  		PROJECT_NAME AS projectName,
+			  		AUCTION_ITEM AS auctionItem,
+			  		AUCTION_CATEGORY AS auctionCategory,
+			  		MEMBER_NO AS memberNo,
+			  		AUCTION_PRICE AS auctionPrice,
+			  		AUCTION_PIC AS auctionPic,
+			        LASTDAY AS lastDay,
+			        LASTHOUR AS lastHour,
+			        LASTMIN AS lastMin,    
+			        AUCTION_CLOSE AS auctionClose    
+  		<![CDATA[ FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE AUCTION_START<SYSDATE ORDER BY PROJECT_NO DESC)        
+  		N ) WHERE LASTDAY>0 AND RNUM=1 ]]>
+  </select>
 </mapper>

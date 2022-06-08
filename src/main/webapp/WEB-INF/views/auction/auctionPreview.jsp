@@ -73,7 +73,7 @@
 		color: rgb(30,144,255);
 	}
 	.info-seller>div>a{
-		color: black;
+		color: #191f28;
 	}
 	.auction-right>h1{
 		text-align: right;
