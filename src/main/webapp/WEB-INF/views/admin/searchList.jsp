@@ -175,10 +175,18 @@ table{
 		<div class="flex-wrap">
 			<div class="mypage-content">
 				<div class="mypage-content-title">
+				<div class="noticemenu">
+			        <ul>
+			            <li><a href="/selectMemberList.kh?reqPage=1&memberLevel=2">회원목록</a></li>
+			            <li class="title-div-line">|</li>
+			            <li><a href="/selectBizList.kh?reqPage=1&memberLevel=1">사업자목록</a></li>
+			        </ul>
+			    </div> 
 					<form action="/searchMemberList.kh?reqPage=1">
 						<input type="hidden" name=reqPage value="1">
-						<input type="text" id="keyword" name="keyword" placeholder="회원 아이디/이름 " style="height:29px; width:230px; padding-left:5px;" >
-						<button class="bc4" id="searchBtn" type="submit" class="material-icons searchBtn">검색</button>
+						<input type="hidden" name=memberLevel value="2">
+						<input type="text" name="keyword" placeholder="회원 아이디/이름 " style="height:29px; width:230px; padding-left:5px;" >
+						<button class="bc4" id="searchBtn" type="submit" class="material-icons">검색</button>
 					</form>
 				</div>
 					<!-- 헤더 테이블 -->
@@ -200,9 +208,15 @@ table{
 										<td>${m.memberAddr1 }</td>
 										<td>${m.memberPoint }</td>
 										<c:choose>
-											<c:when test="${m.memberLevel eq 2}"><td>일반</td></c:when>
-											<c:when test="${m.memberLevel eq 1}"><td>사업자</td></c:when>
-											<c:when test="${m.memberLevel eq 0}"><td>관리자</td></c:when>
+											<c:when test="${m.memberLevel eq 2 }">
+											<td>일반</td>
+											</c:when>
+											<c:when test="${m.memberLevel eq 1 }">
+											<td>사업자</td>
+											</c:when>
+											<c:when test="${m.memberLevel eq 0 }">
+											<td>관리자</td>
+											</c:when>
 										</c:choose>
 										<td><button class="btn bc2 searchBtn" style="padding: 0 10px;" >상세보기</button></td>
 										<!-- 상세보기 누르면 slide down되도록 -->
@@ -220,18 +234,7 @@ table{
 			</div>
 		</div><!-- flex-wrap -->
 	</div><!-- page-content -->
-
-	<script>
-$(function(){
-	$(".searchBtn").on("click",function(){
-		const keyword = $("#keyword").val();
-		if(keyword == null){
-			alert("검색어를 입력하세요.");
-			return;
-		}else{
-			location.href="/searchMemberList.kh?keyword="+keyword+"&reqPage=1";
-		}
-	});
+	<script type="text/javascript">
 	$(".delBtn").on("click",function(){
 		const chk = $("#delMemberChk:checked");
 		if(chk.length == 0){
@@ -247,8 +250,67 @@ $(function(){
 		}
 	});
 	
-});	
+	$(".searchBtn").on("click",function(){
+		const keyword = $(this).siblings("[name=keyword]").val();
+		console.log(keyword);
+		if(keyword == ''){
+			alert("검색어를 입력하세요.");
+			return;
+		}else{
+			location.href="/searchMemberList.kh?keyword="+keyword+"&reqPage=1&chk=3";
+		}
+	});
+	</script>
+	<script>
+	$(".delBtn").on("click",function(){
+		const chk = $("#delMemberChk:checked");
+		if(chk.length == 0){
+			alert("선택된 회원이 없습니다.");
+			return;
+		}
+		if(confirm("정말 삭제하시겠습니까?")){
+			const memberIdArr = new Array();
+			chk.each(function(index,item){
+				memberIdArr.push($(item).parent().siblings("#memberId").text());
+			});
+			location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
+		}
+	});
 	
+	$(".searchBtn").on("click",function(){
+		console.log("이건 나오ㅗ냐?");
+		const keyword = $(this).siblings("[name=keyword]").val();
+		console.log(keyword);
+		if(keyword == ''){
+			alert("검색어를 입력하세요.");
+			return;
+		}else{
+			location.href="/searchMemberList.kh?keyword="+keyword+"&reqPage=1&chk=3";
+			/*
+			$.ajax({
+				url : "/ajaxAllMember.do",
+				success : function(data){
+					const table = $("#result>table");
+					table.empty();
+					const titleTr = $("<tr>");
+					titleTr.append("<th>번호</th><th>아이디</th><th>비밀번호</th><th>이름</th><th>전화번호</th><th>이메일</th>");
+					table.append(titleTr);
+					for(let i=0;i<data.length;i++){
+						//멤버데이터 ajax에서 읽어올떄마다 테이블 열 생성해서 데이터 넣는것
+						const tr = $("<tr>");
+						tr.append("<td>"+data[i].memberNo+"</td>");
+						tr.append("<td>"+data[i].memberId+"</td>");
+						tr.append("<td>"+data[i].memberPw+"</td>");
+						tr.append("<td>"+data[i].memberName+"</td>");
+						tr.append("<td>"+data[i].phone+"</td>");
+						tr.append("<td>"+data[i].email+"</td>");
+						table.append(tr);
+					}
+				}
+			});
+			*/
+		}
+	});
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"  %>
 </body>

@@ -4,42 +4,35 @@
 <html>
 <head>
 <style>
-.mypage-header {
-	display: flex;
-	height: 30px;
-}
-.mypage-content{
-	min-height: 800px;
-}
-.flex-wrap {
-	display: flex;
-	flex-wrap: wrap;
-}
-.info-tbl{
-	width: 60%;
-	margin: 170px auto;
-}
-.info-tbl tr{
-	height: 50px;
-}
-.info-tbl tr>td:first-child{
-	width: 10%;
-	text-align: right;
-}
-
-.info-tbl tr>td:nth-child(2){
-	width: 20%;
-}
-.info-tbl tr:nth-child(3)>td{
-	vertical-align: top;
-}
-
-.updateInfo-btn{
-	width: 100%;
-	height: 50px;
-	font-size: 18px;
-	border: none;
-}
+	.info-tbl{
+		width: 60%;
+		margin: 150px auto;
+	}
+	.info-tbl tr{
+		height: 50px;
+	}
+	.info-tbl input{
+		border: 1px solid #a7a7a7;
+	}
+	
+	.info-tbl tr>td:first-child{
+		width: 10%;
+		text-align: center;
+	}
+	
+	.info-tbl tr>td:nth-child(2){
+		width: 20%;
+	}
+	.info-tbl tr:nth-child(3)>td{
+		vertical-align: top;
+	}
+	
+	.updateInfo-btn{
+		width: 100%;
+		height: 50px;
+		font-size: 18px;
+		border: none;
+	}
 </style>
 <meta charset="UTF-8">
 <title>:: 회원 페이지 ::</title>
@@ -65,16 +58,15 @@
 							</tr>
 							<tr class="tr-3">
 								<td>비밀번호 확인</td>
-								<td>
-									<input type="password" class="input-form" name="memberPw" id="memberPw">
-									<td><p class="fc-9" name="pwChk"></p></td>								
-								</td>
+								<td><input type="password" class="input-form" name="memberPw" id="memberPw"></td>
 							</tr>
 							<tr>
 								<td><input type="hidden" id="memberId" name="memberId" value=${sessionScope.m.memberId }></td>
+								<td><p class="fc-9" name="pwChk"></p></td>	
 							</tr>
 							<tr class="tr-3">
-								<td><input type="button" class="btn bc4 updateInfo-btn" value="탈퇴하기"></td>
+								<td></td>
+								<td><button class="btn bc4 updateInfo-btn" value="탈퇴하기">탈퇴하기</td>
 							</tr>
 						</table>
 					</form>

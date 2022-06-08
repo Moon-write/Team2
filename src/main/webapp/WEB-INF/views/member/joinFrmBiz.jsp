@@ -4,8 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>일반회원가입</title>
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
+<title>사업자회원가입</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <style>
@@ -132,6 +131,9 @@
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+	<!-- date-picker사용을 위한 jquery ui/css(jquery 선언 후 위치해야함) -->
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<div class="page-content">
 		<span class="page-content-title">회원가입</span>
 		<div class="index-wrap">
@@ -168,8 +170,8 @@
 						<td><input type="text" name="emailId" class="input-form" required></td>
 						<td>@</td>
 						<td>
-							<select name="emailAddr" class="input-form select">
-								<option disabled selected>이메일</option>
+							<select name="emailAddr" class="input-form select" required>
+								<option value="" disabled selected>이메일</option>
 								<option value="@naver.com">naver.com</option>
 								<option value="@gmail.com">gmail.com</option>
 								<option value="@nate.com">nate.com</option>
@@ -220,32 +222,21 @@
 						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" id="member_postcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
-						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
+						<td colspan="3"><input type="text" id="memberPostcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
+						<td><button class="btn bc2 bs1" id="address_kakao" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
+						<td colspan="4"><input type="text" id="memberAddr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
+						<td colspan="4"><input type="text" id="memberAddr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
 						<th colspan="4">생년월일</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4">
-							<div class="form-select-wrap select">
-								<select class="birthday-year" required>
-								</select>
-								/ 
-								<select class="birthday-month" required>
-								</select>
-								/
-								<select class="birthday-day" required>
-								</select>
-							</div>
-						</td>
+						<td colspan="4"><input type="text" id="datepicker" class="input-form" name="memberBirth" required></td>
 					</tr>
 					<!-- 성별 -->
 					<tr class="form-name">
@@ -253,15 +244,21 @@
 					</tr>
 					<tr class="form-input form-select-wrap select"">
 						<td colspan="4">
-							<select name="gender" class="input-form select" required>
-								<option disabled selected>성별</option>
-								<option value="female">여성</option>
-								<option value="male">남성</option>
+							<select name="memberGender" class="input-form select" required>
+								<option value="" disabled selected>성별</option>
+								<option value="여성">여성</option>
+								<option value="남성">남성</option>
 							</select>
 						</td>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
+					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="button" class="bc2 bs4" id="join-check" value="체크버튼"></td>
+					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="button" class="bc3 bs4" id="join-final" value="최종확인"></td>
 					</tr>
 				</table>
 			</form>
@@ -276,187 +273,189 @@
 	<br><br><br><br>
 		
 	<script>
-		//아이디 중복체크
-		$("[name=memberId]").on("change",function(){
-			const memberId = $(this).val();
+	//전체 input체크
+	const checkArr = [false,false,false,false,false,false,false,false,false,false,false,false,false];//13
+	//인증 체크
+	let authChk = 0;//1
+	
+	//사업자 번호 API+정규식
+	const bizNo = $("[name=bizNo]");
+	console.log(bizNo);
+	bizNo.on("change",function(){
+		const bizNoReg = /^[0-9]{10}$/;
+		const bizNoVal = bizNo.val();
+		//사업자번호가 정규표현식을 통과한다면 ajax실행
+		if(bizNoReg.test(bizNoVal)){
+			var data = {
+				    "b_no": [bizNoVal] // 사업자번호 "xxxxxxx" 로 조회 시,
+				   }; 
 			$.ajax({
-				url : "/idCheck.kh",
-				data : {memberId : memberId},
-				success : function(data){
-					if(data == 0){
-						$(".idChk").text("사용 가능한 이메일입니다.");
-						$(".idChk").css("color","blue");
-					}else{
-						$(".idChk").text("이미 가입된 이메일입니다.");
-						$(".idChk").css("color","red");
-					}
-				}
-			});
-		});
-		//사업자 번호 API+정규식(받을때 공백 허용하고 받고나서 공백제거하는 식으로 했으면 함)
-		const bizNo = $("[name=bizNo]");
-		console.log(bizNo);
-		bizNo.on("change",function(){
-			const bizNoReg = /^[0-9]{10}$/;
-			const bizNoVal = bizNo.val();
-			//사업자번호가 정규표현식을 통과한다면 ajax실행
-			if(bizNoVal.match(bizNoReg) != null){
-				var data = {
-					    "b_no": [bizNo.val()] // 사업자번호 "xxxxxxx" 로 조회 시,
-					   }; 
+				  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+				  type: "POST",
+				  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+				  dataType: "JSON",
+				  contentType: "application/json",
+				  accept: "application/json",
+				  success: function(result) {
+					  const bizState = result.data[0].b_stt; // 사업자번호 있으면 값있고 없으면 null임
+				      if(bizState == ''){
+				    	  const span = $(".bizNoChk");
+					      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
+				      }else{
+				      const span = $(".bizNoChk");
+				      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
+				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
+				    	    $("[name=bizNo]").val('');
+				    	    $("[name=bizNo]").focus();
+				    	}else{
+				    	    $("[name=bizNo]").attr("readonly",true);
+				    	    checkArr[0] = true;
+				    	}
+				      }
+				  },
+				  error: function(result) {
+				      console.log(result.responseText); //responseText의 에러메세지 확인
+				  }
+			});//사업자번호 ajax끝
+		}else{ //정규표현식 통과하지 못하면 메세지 출력
+			$(".bizNoChk").text("사업자번호는 10자리 숫자만 가능합니다.");
+			$(".bizNoChk").css("color","red");
+		};
+	});
+		//사업자 상호명 정규식
+		const bizName = $("[name=bizName]");
+		bizName.on("change",function(){
+			const bizNameReg = /^[a-z0-9가-힣]{1,200}$/i;
+			const bizNameVal = bizName.val();
+			if(bizNameReg.test(bizNameVal)){
+				$(".bizNameChk").text("사용할 수 있는 상호명 입니다.");
+				$(".bizNameChk").css("color","blue");
 				checkArr[1] = true;
-				$.ajax({
-					  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
-					  type: "POST",
-					  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-					  dataType: "JSON",
-					  contentType: "application/json",
-					  accept: "application/json",
-					  success: function(result) {
-						  const bizState = result.data[0].b_stt;
-					      if(bizState == ''){
-					    	  const span = $(".bizNoChk");
-						      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
-					      }else{
-					      const span = $(".bizNoChk");
-					      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
-					      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
-					    	    $("[name=bizNo]").val('');
-					    	    $("[name=bizNo]").focus();
-					    	}else{
-					    	    $("[name=bizNo]").attr("readonly",true);
-					    	}
-					      }
-					  },
-					  error: function(result) {
-					      console.log(result.responseText); //responseText의 에러메세지 확인
-					  }
-				});//사업자번호 ajax끝
-				//정규표현식 통과하지 못하면 메세지 출력
 			}else{
-				$(".bizNoChk").text("사업자번호는 10자리 숫자만 가능합니다.");
-				$(".bizNoChk").css("color","red");
+				$(".bizNameChk").text("상호명은 최대 영어 200자/한글 66자까지 가능합니다.");
+				$(".bizNameChk").css("color","red");
 				checkArr[1] = false;
-			};
+			}
 		});
-		
 		//다음 주소찾기 API
+		const postcode = document.getElementById("memberPostcode").value;
+		const addr1 = document.getElementById("memberAddr1").value;
+		const addr2 = document.getElementById("memberAddr2").value;
 		window.onload = function(){
-		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-		        //카카오 지도 발생
+		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면 카카오 지도 발생
 		        new daum.Postcode({
 		            oncomplete: function(data) { //선택시 입력값 세팅
-		            	document.getElementById("member_postcode").value = data.zonecode; //우편번호 넣기
-		                document.getElementById("member_addr1").value = data.address; // 주소 넣기
-		                document.querySelector("input[name=member_addr2]").focus(); //상세입력 포커싱
+		            	document.getElementById("memberPostcode").value = data.zonecode; //우편번호 넣기
+		                document.getElementById("memberAddr1").value = data.address; // 주소 넣기
+		                if(postcode != null && addr1 != null){
+		                	checkArr[8] = true;
+				    		checkArr[9] = true;
+		                }
 		                console.log(data);
+		                console.log(data.zonecode);//우편번호
+		                console.log(data.address);//도로명주소(상세주소는 입력받음)
 		            }
 		        }).open();
+                document.getElementById("memberAddr2").focus(); //상세입력 포커싱
+                if(addr2 != null){
+                	checkArr[10] = true;
+                }else{
+                	checkArr[10] = false;
+                }
 		    });
-		}
-		
-		const checkArr = [false,false,false,false,false,false,false,false,false];
-		let authChk = 0;
-		
-		//비밀번호 재확인 일치체크
-		$("[name=memberPwRe]").on("change",function(){
-			const pwVal = $("[name=memberPw]").val();
-			const pwReVal = $("[name=memberPwRe]").val();
+		};
+		//비밀번호 정규식
+		const pw = $("[name=memberPw]");
+		const pwVal = pw.val();
+		console.log(pwVal);
+		pw.on("change", function(){
+			const pwReg = /^[0-9]{4,6}$/;
+			if(pwReg.test(pwVal)){
+				$(".pwChk").text("사용할 수 있는 패스워드 입니다.");
+				$(".pwChk").css("color","blue");
+				checkArr[4] = true;
+			}else{
+				$(".pwChk").text("4자~6자 영어 또는 숫자를 사용하세요.");
+				$(".pwChk").css("color","red");
+				checkArr[4] = false;
+			}
+		});
+		//비밀번호 일치확인
+		const pwRe = $("[name=memberPwRe]");
+		const pwReVal = pwRe.val();
+		console.log(pwReVal);
+		pwRe.on("change", function(){
 			if(pwVal == pwReVal){
 				$(".pwReChk").text("두 비밀번호가 일치합니다.");
 				$(".pwReChk").css("color","blue");
-				checkArr[2] = true;
+				checkArr[5] = true;
 			}else{
 				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
 				$(".pwReChk").css("color","red");
-				checkArr[2] = true;
+				checkArr[5] = false;
 			}
 		});
 		
-		const pw = $("[name=memberPw]");
-		pw.on("change",function(){
-			const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
-			const pwVal = pw.val();
-			if(pwVal.match(pwReg) != null){
-				$(".pwChkMsg").text("사용할 수 있는 패스워드 입니다.");
-				$(".pwChkMsg").css("color","green");
-				checkArr[1] = true;
-			}else{
-				$(".pwChkMsg").text("6자~15자 영어, 숫자, 특수기호를 사용하세요.");
-				$(".pwChkMsg").css("color","red");
-				checkArr[1] = false;
-			};
-			const pwReVal = $("[name=memberPwRe]").val();
-			if(pwReVal != ""){
-				if(pwVal == pwReVal){
-					$(".pwReChkMsg").text("두 비밀번호가 일치합니다.");
-					$(".pwReChkMsg").css("color","green");
-					checkArr[2] = true;
-				}else{
-					$(".pwReChkMsg").text("두 비밀번호가 일치하지 않습니다.");
-					$(".pwReChkMsg").css("color","red");
-					checkArr[2] = true;
-				}	
-			}
-		});
-		//회원이름 정규식
+		//회원 이름 정규식(2~7자 한글)
 		const name = $("[name=memberName]");
 		name.on("change",function(){
-			const nameReg = /^[가-힣]{2,6}$/;
+			const nameReg = /^[가-힣]{2,7}$/;
 			const nameVal = name.val();
-			if(nameVal.match(nameReg) != null){
-				$(".nameChkMsg").text("사용할 수 있는 이름입니다.");
-				$(".nameChkMsg").css("color","green");
-				checkArr[3] = true;
+			if(nameReg.test(nameVal)){
+				$(".nameChk").text("사용할 수 있는 이름입니다.");
+				$(".nameChk").css("color","blue");
+				checkArr[6] = true;
 			}else{
-				$(".nameChkMsg").text("이름은 2~7 글자의 한글만 입력가능합니다.");
-				$(".nameChkMsg").css("color","red");
-				checkArr[3] = false;
+				$(".nameChk").text("이름은 2~7 글자의 한글만 가능합니다.");
+				$(".nameChk").css("color","red");
+				checkArr[6] = false;
 			};
 		});
-		//회원전화번호 정규식		
+		//휴대폰번호 정규식		
 		const phone = $("[name=memberPhone]");
 		phone.on("change",function(){
 			const phoneReg = /^010-?([0-9]{4})-?([0-9]{4})$/;
 			const phoneVal = phone.val();
-			if(phoneVal.match(phoneReg) != null){
-				$(".phoneChkMsg").text("사용할 수 있는 연락처입니다.");
-				$(".phoneChkMsg").css("color","green");
-				checkArr[5] = true;
+			if(phoneReg.test(phoneVal)){
+				$(".phoneChk").text("사용할 수 있는 연락처입니다.");
+				$(".phoneChk").css("color","blue");
+				checkArr[7] = true;
 			}else{
-				$(".phoneChkMsg").text("연락처 형식을 맞춰주세요 010-XXXX-XXXX");
-				$(".phoneChkMsg").css("color","red");
-				checkArr[5] = false;
+				$(".phoneChk").text("연락처 형식을 맞춰주세요.(010-1234-1234)010-");
+				$(".phoneChk").css("color","red");
+				checkArr[7] = false;
 			};
 		});
-		
+		//인증메일 받기
 		let mailCode;
-		function sendMail(){
-			if(checkArr[0]){
-				const email = $("[name=emailId]").val()+$("[name=emailAddr]").val();
+		$("[name=authSendBtn]").on("click", function(){
+			//이메일주소 선택
+			const emailId = $("[name=emailId]").val();
+			const emailAddr = $("[name=emailAddr]").val();
+			const email = emailId+emailAddr;
+			console.log(email);
+			if(emailId != null && emailAddr != null){
 				const title = "입력하신 아이디를 조회중입니다.";
-				const icon = "info";
-				const msgTime = 6500;
-				toastShow(title,icon,msgTime);
 				$.ajax({
-					url : "/sendMail.do",
-					data : {email:email},
+					url : "/sendMail.kh",
+					data : {email : email},
 					type : "post",
 					success : function(data){
 						if(data == "null"){
-							$(".idChk").text("이미 가입된 이메일입니다.");
-							$(".idChk").css("color","red");
+							alert("이미 가입된 이메일입니다.");
 						}else{
-							$(".idChk").text("입력하신 이메일로 인증번호가 발송되었습니다.");
-							$(".idChk").css("color","blue");
+							alert("입력하신 이메일로 인증번호가 발송되었습니다.");
 							mailCode = data;
+							console.log(mailCode);
+							console.log(data);
 							authTime();	
 						}
 					},
 					error : function(){
 						console.log("sendMail 에러");
 					}
-				});
+				});//ajax끝
+				
 				let intervalId;
 				function authTime(){
 					$("#timeLimit").html("<span id='min'>3</span> : <span id='sec'>00</span>");
@@ -487,79 +486,111 @@
 				$("#authBtn").on("click",function(){
 					const msg = $("#timeLimit");
 					if(mailCode == null){
-						msg.text("인증시간이 만료되엇습니다.");
+						msg.text("인증시간이 만료되었습니다.");
 						msg.css("color","red");
 					}else{
 						if($("[name=memberIdChk]").val() == mailCode){
+							console.log(mailCode);
 							if(confirm("인증이 성공하였습니다. 이 아이디를 사용하시겠습니까?")){
-								$("[name=memberId]").attr("readonly",true);
+								$("[name=emailId]").attr("readonly",true);
+								$("[name=emailAddr] option:selected").siblings().hide();
+								$("[name=memberIdChk]").attr("readonly",true);
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;
+								checkArr[2] = true;
+								checkArr[3] = true;
 							}
 						}else{
-							const title = "인증코드를 확인하세요";
-							const icon = "warning";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							console.log($("[name=memberIdChk]").val());
+							console.log(mailCode);
+							alert("인증코드를 확인하세요");
 						}
 					}
 				});
+			}else{//이메일 id나 주소 입력x 시
+				alert("이메일 주소를 확인하세요.");
 			}
-		}
+		});
 		
-		
-		$("#join-submit").on("click",function(e){
-			let count = 0;
-			for(let i = 0;i<checkArr.length;i++){
-				if(checkArr[i]){
-					count++;
+	   //달력 API
+	   $(function() {
+       //input을 datepicker로 선언
+       $("#datepicker").datepicker({
+           dateFormat: 'yy-mm-dd' //달력 날짜 형태
+           ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+           ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+           ,changeYear: true //option값 년 선택 가능
+           ,changeMonth: true //option값  월 선택 가능                
+           ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+           ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+           ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+           ,buttonText: "선택" //버튼 호버 텍스트              
+           ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+           ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+           ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+           ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+           ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+           ,minDate: "-70Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+           ,maxDate: "-14Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후) 
+       	   ,yearRange: "1930:2022"
+       });                    
+       
+       //초기값을 오늘 날짜로 설정해줘야 합니다.
+       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+      });
+	   const selectedDate = $('#datepicker').val(); 
+	   $("#datepicker").on("change",function(){
+		   const birth = $("[name=memberBirth]").val();
+	        $('#datepicker').datepicker('setDate', selectedDate); 
+	        console.log(selectedDate);
+	        checkArr[11] = true;
+	      });
+		 //회원가입 버튼
+			$("#join-submit").on("click",function(e){
+				let count = 0;
+				for(let i = 0;i<checkArr.length;i++){
+					if(checkArr[i]){
+						count++;
+					}
 				}
-			}
-			if(count != 6 || authChk < 2){
-				e.preventDefault();
-			}
-		})
-		
-		//생년월일 시작
-		let userBirthdayYear = document.querySelector('.birthday-year');
-		let userBirthdayMonth = document.querySelector('.birthday-month');
-		let userBirthdayDay = document.querySelector('.birthday-day');
-		
-		function createOptionForElements(elem, val) {
-		  let option = document.createElement('option');
-		  option.text = val;
-		  option.value = val;
-		  elem.appendChild(option);
-		}
-		
-		
-		for(let i = 1920; i <= 2022; i++) {
-		  createOptionForElements(userBirthdayYear, i);
-		}
-		for(let i = 1; i <= 12; i++) {
-		  createOptionForElements(userBirthdayMonth, i);
-		}
-		for(let i = 1; i <= 31; i++) {
-		  createOptionForElements(userBirthdayDay, i);
-		}
-		
-		function changeTheDay() {
-		  userBirthdayDay.innerHTML = '';
-		
-		  let lastDayOfTheMonth = new Date(userBirthdayYear.value, userBirthdayMonth.value, 0).getDate();
-		
-		  for(let i = 1; i <= lastDayOfTheMonth; i++) {
-		    createOptionForElements(userBirthdayDay, i);
+				if(count != 13 || authChk < 1){
+					e.preventDefault();//form의 submit을 중단시키는 코드
+				}
+			});
+		 
+		 //성별
+		 const gender = $("select[name=memberGender]");
+		 gender.on("change", function(){
+		  if(gender.val() != null){
+			  checkArr[12] = true;
 		  }
-		}
-		userBirthdayYear.addEventListener('change', function() {
-		  changeTheDay();
 		});
-		userBirthdayMonth.addEventListener('change', function() {
-		  changeTheDay();
-		});
-		//생년월일 끝
+		 
+	   //arraycheck 버튼(회원가입 완성되면 삭제)
+	   $("#join-check").on("click",function(){
+		   for(let i=0;i<checkArr.length;i++){
+		   		console.log("checkArr"+i+"번째값: "+checkArr[i]);
+		   	}
+	   });
+	   
+	 //arraycheck 버튼(회원가입 완성되면 삭제)
+	   $("#join-final").on("click",function(){
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+	   });
+		   
 	</script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

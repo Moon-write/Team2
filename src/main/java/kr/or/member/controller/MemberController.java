@@ -132,7 +132,8 @@ public class MemberController {
 	}
 	@RequestMapping(value="deleteMember.kh")
 	public String deleteMember(@SessionAttribute(required = false) Member m, HttpSession session) {
-		int result = service.deleteMember(m.getMemberId());
+		String memberId = m.getMemberId();
+		int result = service.deleteMember(memberId);
 		if(result > 0) {
 			return "redirect:/logout.kh";
 		}else {
@@ -159,27 +160,22 @@ public class MemberController {
 			return "1";
 		}
 	}
-	@RequestMapping(value="/admin.kh")
-	public String admin() {
-		return "admin/manageMember";
-	}
 	@RequestMapping(value="/selectMemberList.kh")
-	public String selectMemberList(int reqPage, Model model, int memberLevel, String keyword) {
-		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel,keyword);
+	public String selectMemberList(int reqPage, Model model) {
+		MemberPageData mpd = service.selectMemberList(reqPage);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "admin/memberList";
 	}
-	@RequestMapping(value="/selectBizList.kh")
-	public String selectBizList(int reqPage, Model model, int memberLevel, String keyword) {
-		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel,keyword);
+	@RequestMapping(value="/searchMemberList.kh")
+	public String searchMemberList(int reqPage, Model model, String keyword) {
+		MemberPageData mpd = service.searchMemberList(reqPage, keyword);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
-		return "admin/bizList";
+		return "admin/memberList";
 	}
-	
 	@ResponseBody
 	@RequestMapping(value="/sendMail.kh")
 	public String sendMail(String email) {

@@ -23,53 +23,54 @@
 	</if>
 	</select>
 	<select id="selectMemberList" parameterType="map" resultType="m">
-	select 
-		member_no as memberNo,
-		biz_no as bizNo,
-		biz_name as bizName,
-		member_id as memberId,
-		member_pw as memberPw,
-		member_name as memberName,
-		member_phone as memberPhone,
-		member_level as memberLevel,
-		member_gender as memberGender,
-		member_birth as memberBirth,
-		member_postcode as memberPostcode,
-		member_addr1 as memberAddr1,
-		member_addr2 as memberAddr2,
-		member_point as memberPoint
-	from member 
-		<choose>
-			<when test="memberLevel == 2">
-			where member_level=2
-		 		<if test="!keyword.equals('')">
-		 		and member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
-		 		</if>
-			</when>
-			<when test="memberLevel == 1">
-			where member_level=1
-				<if test="!keyword.equals('')">
-		 		and member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
-		 		</if>
-			</when>
-		</choose>
+		select * from 
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+			    member_no as memberNo,
+				biz_no as bizNo,
+				biz_name as bizName,
+				member_id as memberId,
+				member_pw as memberPw,
+				member_name as memberName,
+				member_phone as memberPhone,
+				member_level as memberLevel,
+				member_gender as memberGender,
+				member_birth as memberBirth,
+				member_postcode as memberPostcode,
+				member_addr1 as memberAddr1,
+				member_addr2 as memberAddr2,
+				member_point as memberPoint
+			FROM MEMBER 
+			ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}
 	</select>
-	<select id="selectMemberCount" parameterType="map" resultType="int">
+	<select id="searchMemberList" parameterType="map" resultType="m">
+		select * from 
+		(SELECT ROWNUM AS RNUM,C.*FROM
+          (SELECT 
+			    member_no as memberNo,
+				biz_no as bizNo,
+				biz_name as bizName,
+				member_id as memberId,
+				member_pw as memberPw,
+				member_name as memberName,
+				member_phone as memberPhone,
+				member_level as memberLevel,
+				member_gender as memberGender,
+				member_birth as memberBirth,
+				member_postcode as memberPostcode,
+				member_addr1 as memberAddr1,
+				member_addr2 as memberAddr2,
+				member_point as memberPoint
+			FROM MEMBER WHERE member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
+			ORDER BY 1 DESC)C)
+            where rnum between #{start} and #{end}
+	</select>
+	<select id="selectMemberCount" resultType="int">
 	select count(*) from member
-		<choose>
-			<when test="memberLevel == 2">
-			where member_level=2
-				<if test="!keyword.equals('')">
-		 		and member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
-		 		</if>
-			</when>
-			<when test="memberLevel == 1">
-			where member_level=1
-				<if test="!keyword.equals('')">
-		 		and member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
-		 		</if>
-			</when>
-		</choose>
+	</select>
+	<select id="searchMemberCount" parameterType="String" resultType="int">
+	select count(*) from member	where member_id like '%'||#{keyword}||'%' or member_name like '%'||#{keyword}||'%'
 	</select>
   	<insert id="insertMember" parameterType="m">
   		insert into member values (member_seq.nextval,

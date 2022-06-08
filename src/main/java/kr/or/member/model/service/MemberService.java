@@ -70,7 +70,7 @@ public class MemberService {
 	public int memberUpdate(Member m) {
 		return dao.memberUpdate(m);
 	}
-	public MemberPageData selectMemberList(int reqPage, int memberLevel, String keyword) {
+	public MemberPageData selectMemberList(int reqPage) {
 		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
 		int numPerPage = 10;
 		int end = reqPage * numPerPage;
@@ -80,16 +80,11 @@ public class MemberService {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start",start);
 		map.put("end",end);
-		map.put("memberLevel",memberLevel);
-		map.put("keyword",keyword);
 		ArrayList<Member> memberList = dao.selectMemberList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		HashMap<String, Object> memberMap = new HashMap<String, Object>();
-		memberMap.put("memberLevel",memberLevel);
-		map.put("keyword",keyword);
-		int totalCount = dao.selectMemberCount(memberMap);
+		int totalCount = dao.selectMemberCount();
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -107,19 +102,19 @@ public class MemberService {
 		//첫페이지 버튼
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<li><a class='page-item' href='/memberList.kh?memberLevel="+memberLevel+"&reqPage=1'>";
+			pageNavi += "<li><a class='page-item' href='/selectMemberList.kh?reqPage=1'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/memberList.kh?memberLevel="+memberLevel+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<li><a class='page-item' href='/selectMemberList.kh?reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
 		}
 		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<li><a class='page-item active-page' href='/memberList.kh?memberLevel="+memberLevel+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item active-page' href='/selectMemberList.kh?reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<li><a class='page-item' href='/memberList.kh?memberLevel="+memberLevel+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item' href='/selectMemberList.kh?reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}
@@ -131,9 +126,76 @@ public class MemberService {
 		//다음버튼
 		//마지막페이지 버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<li><a class='page-item' href='/memberList.kh?memberLevel="+memberLevel+"&reqPage="+pageNo+"'>";
+			pageNavi += "<li><a class='page-item' href='/selectMemberList.kh?reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/memberList.kh?memberNo="+memberLevel+"&reqPage="+totalPage+"'>";
+			pageNavi += "<li><a class='page-item' href='/selectMemberList.kh?reqPage="+totalPage+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
+		}
+		pageNavi += "</ul>";
+		MemberPageData mpd = new MemberPageData(memberList, pageNavi);
+		return mpd;
+	}
+	
+	public MemberPageData searchMemberList(int reqPage, String keyword) {
+		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
+		int numPerPage = 10;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		
+		//start,end로 게시물 목록조회
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("start",start);
+		map.put("end",end);
+		map.put("keyword",keyword);
+		ArrayList<Member> memberList = dao.searchMemberList(map);
+		
+		//pageNavi작성
+		//totalCount = 전체 게시물 수 
+		int totalCount = dao.searchCount(keyword);
+		//totalPage = 전체 페이지 수
+		int totalPage = 0;
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage + 1;
+		}
+		
+		//pageNaviSize = 페이지 네비 길이 / pageNo = 페이지 번호
+		int pageNaviSize = 10;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
+		
+		//pageNavi 생성시작
+		String pageNavi = "<ul class='pagination circle-style'>";
+		//첫페이지 버튼
+		//이전버튼
+		if(pageNo != 1) {
+			pageNavi += "<li><a class='page-item' href='/searchMemberList.kh?reqPage=1&keyword="+keyword+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
+			pageNavi += "<li><a class='page-item' href='/searchMemberList.kh?reqPage="+(pageNo-1)+"&keyword="+keyword+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
+		}
+		//페이지숫자
+		for(int i=0;i<pageNaviSize;i++) {
+			if(pageNo == reqPage) {
+				pageNavi += "<li><a class='page-item active-page' href='/searchMemberList.kh?reqPage="+pageNo+"&keyword="+keyword+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
+			}else {
+				pageNavi += "<li><a class='page-item' href='/searchMemberList.kh?reqPage="+pageNo+"&keyword="+keyword+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
+			}
+			pageNo++;
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+		//다음버튼
+		//마지막페이지 버튼
+		if(pageNo<=totalPage) {
+			pageNavi += "<li><a class='page-item' href='/searchMemberList.kh?reqPage="+pageNo+"&keyword="+keyword+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
+			pageNavi += "<li><a class='page-item' href='/searchMemberList.kh?reqPage="+totalPage+"&keyword="+keyword+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
@@ -147,7 +209,6 @@ public class MemberService {
 		while(sT.hasMoreTokens()) {
 			String memberId = sT.nextToken();
 			int checkResult = dao.deleteMember(memberId);
-			System.out.println(checkResult);
 			if(checkResult == 0) {
 				result = false;
 				break;
@@ -156,10 +217,4 @@ public class MemberService {
 		return result;
 	}
 	
-	
-
-	
-
-
-
 }
