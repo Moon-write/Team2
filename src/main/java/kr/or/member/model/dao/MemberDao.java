@@ -23,6 +23,9 @@ public class MemberDao {
 		int result = sqlSession.insert("member.insertMember",m);
 		return result;
 	}
+	public int insertShop(Member m) {
+		return sqlSession.insert("member.insertShop",m);
+	}
 	public int newPwMember(Member m) {
 		return sqlSession.update("member.newPw",m);
 	}
@@ -33,7 +36,7 @@ public class MemberDao {
 		return sqlSession.update("member.memberUpdate",m);
 	}
 	public ArrayList<Member> selectMemberList(HashMap<String, Object> map) {
-		List<Member> memberList = sqlSession.selectList("member.selectMemberList",map);
+		List memberList = sqlSession.selectList("member.selectMemberList",map);
 		return (ArrayList<Member>)memberList;
 	}
 	public int selectMemberCount(HashMap<String, Object> memberMap) {

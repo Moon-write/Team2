@@ -172,13 +172,14 @@ table{
 				<div class="mypage-content-title">
 				<div class="noticemenu">
 			        <ul>
-			            <li><a href="/selectMemberList.kh?reqPage=1&memberLevel=2">회원목록</a></li>
+			            <li><a href="/selectMemberList.kh?reqPage=1&memberLevel=2&keyword='all'">회원목록</a></li>
 			            <li class="title-div-line">|</li>
-			            <li><a href="/selectBizList.kh?reqPage=1&memberLevel=1">사업자목록</a></li>
+			            <li><a href="/selectBizList.kh?reqPage=1&memberLevel=1&keyword='all'">사업자목록</a></li>
 			        </ul>
 			    </div> 
-					<form action="/searchMember.kh">
-						<input type="text" name="searchMember" placeholder="회원 아이디/이름 " style="height:29px; width:230px; padding-left:5px;" >
+					<form action="/selectMemberList.kh?reqPage=1>
+						<input type="hidden" name=memberLevel value="2">
+						<input type="text" name="keyword" placeholder="회원 아이디/이름 " style="height:29px; width:230px; padding-left:5px;" >
 						<button class="bc4" id="searchBtn" type="submit" class="material-icons">검색</button>
 					</form>
 				</div>
@@ -195,7 +196,7 @@ table{
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
 										<td>${m.memberNo }</td>
-										<td>${m.memberId }</td>
+										<td id="memberId">${m.memberId }</td>
 										<td>${m.memberName }</td>
 										<td>${m.memberPhone }</td>
 										<td>${m.memberAddr1 }</td>
@@ -228,23 +229,22 @@ table{
 	<script>
 		$(".delBtn").on("click",function(){
 			const chk = $("#delMemberChk:checked");
-			if(chk.length==0){
+			if(chk.length == 0){
 				alert("선택된 회원이 없습니다.");
 				return;
 			}
 			if(confirm("정말 삭제하시겠습니까?")){
-				const memberNoArr = new Array();
+				const memberIdArr = new Array();
 				chk.each(function(index,item){
-					memberNoArr.push($(item).parent().parent().children().first().text());
+					memberIdArr.push($(item).parent().siblings("#memberId").text());
 				});
-				location.href="/delMember.do?memberNoArr="+memberNoArr.join("/");
+				location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
 			}
 		});
 		
 		$(".searchBtn").on("click",function(){
-			const memberId = $(this).parent().parent().children().first().text();
-			const memberName = $(this).parent().parent().children().eq(3).text();
-			location.href="searchMemberList.kh?memberId="+memberId+"&memberName="+memberName+"&reqPage=1&chk=3";
+			const keyword = $(this).parent().parent().children().first().text();
+			location.href="/selectMemberList.kh?keyword="+keyword+"&reqPage=1&chk=3&memberLevel=2";
 		});
 	</script>
 </body>

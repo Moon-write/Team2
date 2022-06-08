@@ -52,7 +52,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	@RequestMapping(value="/selectOneMember.kh")
-	public String searchOneMember(Member m, Model model) {
+	public String selectOneMember(Member m, Model model) {
 		Member member = service.selectOneMember(m);
 		model.addAttribute("m",member);
 		return "member/searchMember";
@@ -72,7 +72,18 @@ public class MemberController {
 	@RequestMapping(value="/joinMember.kh")
 	public String joinMember(Member m) {
 		int result = service.insertMember(m);
-		return "member/joinMember";
+		//insert 성공하면 0 실패하면 1 리턴
+		if((m.getMemberLevel() == 2 && result == 0) || (m.getMemberLevel() == 1 && result < 2)) {
+			request.setAttribute("title", "회원가입 실패");
+			request.setAttribute("msg", "다시 시도하세요.");
+			request.setAttribute("icon", "error");
+		}else if((m.getMemberLevel() == 2 && result == 1) || (m.getMemberLevel() == 1 && result == 2)) {
+			request.setAttribute("title", "회원가입 성공");
+			request.setAttribute("msg", "환영합니다.");
+			request.setAttribute("icon", "success");
+		}
+		request.setAttribute("loc", "/");
+		return "common/msg";
 	}
 	@RequestMapping(value="/mypageMain.kh")
 	public String mypageMain() {
@@ -153,21 +164,22 @@ public class MemberController {
 		return "admin/manageMember";
 	}
 	@RequestMapping(value="/selectMemberList.kh")
-	public String searchMemberList(int reqPage, Model model, int memberLevel) {
-		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel);
+	public String selectMemberList(int reqPage, Model model, int memberLevel, String keyword) {
+		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel,keyword);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "admin/memberList";
 	}
 	@RequestMapping(value="/selectBizList.kh")
-	public String searchBizList(int reqPage, Model model, int memberLevel) {
-		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel);
+	public String selectBizList(int reqPage, Model model, int memberLevel, String keyword) {
+		MemberPageData mpd = service.selectMemberList(reqPage,memberLevel,keyword);
 		model.addAttribute("memberList",mpd.getMemberList());
 		model.addAttribute("pageNavi",mpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "admin/bizList";
 	}
+	
 	@ResponseBody
 	@RequestMapping(value="/sendMail.kh")
 	public String sendMail(String email) {
@@ -179,5 +191,20 @@ public class MemberController {
 			code = new MailSender().sendMail(email);
 		}
 		return code;
+	}
+	@RequestMapping(value = "/deleteMemberList.kh")
+	public String deleteMemberList(String memberIdArr) {
+		boolean result = service.deleteMemberList(memberIdArr);
+		if(result) {
+			request.setAttribute("title", "성공");
+			request.setAttribute("msg", "요청이 처리되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "실패");
+			request.setAttribute("msg", "요청 처리 중 에러가 발생했습니다.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/selectMemberList.kh?reqPage=1&memberLevel=2");
+		return "common/msg";
 	}
 }

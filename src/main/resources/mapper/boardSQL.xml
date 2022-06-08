@@ -91,7 +91,7 @@
   	</select>
   	<select id="selectQnaCount" parameterType="map" resultType="int">
   		select count(*) from 
-  		<if test="#{boardName.equals(qna_tbl)}"> 
+  		<if test="boardName.equals('qna_tbl')"> 
   				qna_tbl
   		</if>
   		 where member_no=#{memberNo}

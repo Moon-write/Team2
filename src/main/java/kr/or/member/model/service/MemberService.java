@@ -3,9 +3,11 @@ package kr.or.member.model.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.or.board.model.vo.Board;
 import kr.or.board.model.vo.CommentPageData;
@@ -25,8 +27,24 @@ public class MemberService {
 	public Member selectOneMember(Member m) {
 		return dao.selectOneMember(m);
 	}
+	@Transactional
 	public int insertMember(Member m) {
-		return dao.insertMember(m);
+		if(m.getMemberLevel() == 2) {
+			int MemberResult = dao.insertMember(m);
+				if(MemberResult > 0) {
+					return 0;
+				}else {
+					return 1;
+				}
+		}else {
+			int MemberResult = dao.insertMember(m);
+			int ShopResult = dao.insertShop(m);
+				if(MemberResult + ShopResult > 1) {
+					return 0;
+				}else {
+					return 1;
+				}
+		}
 	}
 	public int changePw(Member m, String memberPwNew) {
 		try {
@@ -52,10 +70,9 @@ public class MemberService {
 	public int memberUpdate(Member m) {
 		return dao.memberUpdate(m);
 	}
-	public MemberPageData selectMemberList(int reqPage, int memberLevel) {
-		String boardName = "member";
+	public MemberPageData selectMemberList(int reqPage, int memberLevel, String keyword) {
 		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
-		int numPerPage = 20;
+		int numPerPage = 10;
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
 		
@@ -64,13 +81,14 @@ public class MemberService {
 		map.put("start",start);
 		map.put("end",end);
 		map.put("memberLevel",memberLevel);
+		map.put("keyword",keyword);
 		ArrayList<Member> memberList = dao.selectMemberList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
 		HashMap<String, Object> memberMap = new HashMap<String, Object>();
-		memberMap.put("boardName",boardName);
 		memberMap.put("memberLevel",memberLevel);
+		map.put("keyword",keyword);
 		int totalCount = dao.selectMemberCount(memberMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
@@ -121,6 +139,21 @@ public class MemberService {
 		pageNavi += "</ul>";
 		MemberPageData mpd = new MemberPageData(memberList, pageNavi);
 		return mpd;
+	}
+	
+	public boolean deleteMemberList(String memberIdArr) {
+		StringTokenizer sT = new StringTokenizer(memberIdArr,"/");
+		boolean result = true;
+		while(sT.hasMoreTokens()) {
+			String memberId = sT.nextToken();
+			int checkResult = dao.deleteMember(memberId);
+			System.out.println(checkResult);
+			if(checkResult == 0) {
+				result = false;
+				break;
+			}
+		}
+		return result;
 	}
 	
 	

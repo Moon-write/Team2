@@ -109,7 +109,7 @@
   font-size: 14px;
 }
 .form-select-wrap>td>select{
-  padding: 8px 16px;
+  padding: 12px 16px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 14px;
@@ -165,17 +165,17 @@
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
 					</tr>
 					<tr class="form-input input-0 form-select-wrap">
-						<td><input type="text" name="memberId" class="input-form" required></td>
+						<td><input type="text" name="emailId" class="input-form" required></td>
 						<td>@</td>
 						<td>
-							<select name="emailAddress" class="input-form select ">
+							<select name="emailAddr" class="input-form select">
 								<option disabled selected>이메일</option>
 								<option value="@naver.com">naver.com</option>
 								<option value="@gmail.com">gmail.com</option>
 								<option value="@nate.com">nate.com</option>
 							</select>
 						</td>
-						<td><button class="btn bc1 bs1" onclick="sendMail()" type="button">인증번호 받기</button></td>
+						<td><button class="btn bc1 bs1" name="authSendBtn">인증번호 받기</button></td>
 					</tr>
 					<tr class="form-name">
 						<th colspan="4">인증번호<span class="idChkMsg"></span></th>
@@ -293,44 +293,51 @@
 				}
 			});
 		});
-		//사업자번호 정규식(공백삭제하는 메소드 넣기)
-		//사업자 번호 API
-		$("[name=bizNo]").on("change",function(){
-			var data = {
-				    "b_no": [$("[name=bizNo]").val()] // 사업자번호 "xxxxxxx" 로 조회 시,
-				   }; 
-			$.ajax({
-				  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
-				  type: "POST",
-				  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-				  dataType: "JSON",
-				  contentType: "application/json",
-				  accept: "application/json",
-				  success: function(result) {
-					  console.dir(result);
-				      console.log(result[1]);
-				      console.log(typeof result);
-				      console.log(result);
-				console.log(result.B_STT);			      	
-				      if(true){
-				    	  const span = $(".bizNoChk");
-					      const text = span.append("등록되지않은 사업자번호입니다.").css("color","red");
-				      }else{
-				      const span = $(".bizNoChk");
-				      const text = span.append("사용가능한 사업자번호입니다.").css("color","blue");
-				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
-				    	    alert("취소 되었습니다.");
-				    	    $("[name=bizNo]").focus();
-				    	}else{
-				    	    alert("확인 되었습니다.");
-				    	    $("[name=bizNo]").attr("readonly",true);
-				    	}
-				      }
-				  },
-				  error: function(result) {
-				      console.log(result.responseText); //responseText의 에러메세지 확인
-				  }
-			});
+		//사업자 번호 API+정규식(받을때 공백 허용하고 받고나서 공백제거하는 식으로 했으면 함)
+		const bizNo = $("[name=bizNo]");
+		console.log(bizNo);
+		bizNo.on("change",function(){
+			const bizNoReg = /^[0-9]{10}$/;
+			const bizNoVal = bizNo.val();
+			//사업자번호가 정규표현식을 통과한다면 ajax실행
+			if(bizNoVal.match(bizNoReg) != null){
+				var data = {
+					    "b_no": [bizNo.val()] // 사업자번호 "xxxxxxx" 로 조회 시,
+					   }; 
+				checkArr[1] = true;
+				$.ajax({
+					  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+					  type: "POST",
+					  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+					  dataType: "JSON",
+					  contentType: "application/json",
+					  accept: "application/json",
+					  success: function(result) {
+						  const bizState = result.data[0].b_stt;
+					      if(bizState == ''){
+					    	  const span = $(".bizNoChk");
+						      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
+					      }else{
+					      const span = $(".bizNoChk");
+					      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
+					      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
+					    	    $("[name=bizNo]").val('');
+					    	    $("[name=bizNo]").focus();
+					    	}else{
+					    	    $("[name=bizNo]").attr("readonly",true);
+					    	}
+					      }
+					  },
+					  error: function(result) {
+					      console.log(result.responseText); //responseText의 에러메세지 확인
+					  }
+				});//사업자번호 ajax끝
+				//정규표현식 통과하지 못하면 메세지 출력
+			}else{
+				$(".bizNoChk").text("사업자번호는 10자리 숫자만 가능합니다.");
+				$(".bizNoChk").css("color","red");
+				checkArr[1] = false;
+			};
 		});
 		
 		//다음 주소찾기 API
@@ -351,40 +358,6 @@
 		const checkArr = [false,false,false,false,false,false,false,false,false];
 		let authChk = 0;
 		
-		//아이디 형식체크
-		/*
-		const id = $("[name=memberId]");
-		id.on("change",function(){
-			const emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z]){3,20}.[a-zA-Z]{2,3}$/i;
-			const idVal = id.val();
-			if(idVal.match(emailReg) != null){
-				$(".idChkMsg").text("올바른 형식의 이메일입니다.");
-				$(".idChkMsg").css("color","green");
-				checkArr[0] = true;
-			}else{
-				$(".idChkMsg").text("이메일 형식을 확인하여주세요.");
-				$(".idChkMsg").css("color","red");
-				checkArr[0] = false;
-			};
-		});
-		*/
-		//아이디 중복체크
-		$("[name=memberId]").on("change",function(){
-			const memberId = $(this).val();
-			$.ajax({
-				url : "/idCheck.kh",
-				data : {memberId : memberId},
-				success : function(data){
-					if(data == 0){
-						$(".idChk").text("사용 가능한 이메일입니다.");
-						$(".idChk").css("color","blue");
-					}else{
-						$(".idChk").text("이미 가입된 이메일입니다.");
-						$(".idChk").css("color","red");
-					}
-				}
-			});
-		});
 		//비밀번호 재확인 일치체크
 		$("[name=memberPwRe]").on("change",function(){
 			const pwVal = $("[name=memberPw]").val();
@@ -460,7 +433,7 @@
 		let mailCode;
 		function sendMail(){
 			if(checkArr[0]){
-				const email = $("[name=memberId]").val();
+				const email = $("[name=emailId]").val()+$("[name=emailAddr]").val();
 				const title = "입력하신 아이디를 조회중입니다.";
 				const icon = "info";
 				const msgTime = 6500;
@@ -471,15 +444,11 @@
 					type : "post",
 					success : function(data){
 						if(data == "null"){
-							const title = "이미 가입된 이메일입니다.";
-							const icon = "warning";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							$(".idChk").text("이미 가입된 이메일입니다.");
+							$(".idChk").css("color","red");
 						}else{
-							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
-							const icon = "success";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							$(".idChk").text("입력하신 이메일로 인증번호가 발송되었습니다.");
+							$(".idChk").css("color","blue");
 							mailCode = data;
 							authTime();	
 						}

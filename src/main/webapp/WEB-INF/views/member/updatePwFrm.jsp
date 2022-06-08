@@ -67,11 +67,11 @@
 						<table class="info-tbl" id="info-tbl">
 							<tr class="tr-3">
 								<td>현재 비밀번호</td>
-								<td><input class="input-form" type="password"id="currentPw"></td>
+								<td><input class="input-form" type="password" id="currentPw"></td>
 							</tr>
 							<tr>
 								<td><input type="hidden" id="memberId" value=${sessionScope.m.memberId }></td>
-								<td class="check-msg"></td>
+								<td class="check-msg"><span class="pwChk"></span></td>
 							</tr>
 							<tr class="tr-3">
 								<td>새 비밀번호</td>
@@ -79,7 +79,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td class="check-msg"></td>
+								<td class="check-msg"><span class="newPwChk"></span></td>
 							</tr>
 							<tr class="tr-3">
 								<td>새 비밀번호(확인)</td>
@@ -87,7 +87,7 @@
 							</tr>
 							<tr>
 								<td></td>
-								<td class="check-msg"><span class="pwReChk"></span></td>
+								<td class="check-msg"><span class="newPwReChk"></span></td>
 							</tr>
 							<tr class="tr-3">
 								<td></td>
@@ -100,19 +100,36 @@
 		</div>
 	</div>
 	<script>
-		//비밀번호 정규식
-		//비밀번호 재확인 일치체크
+		//현재 비밀번호 확인
+		$("#currentPw").on("change",function(){
+			$.ajax({
+				url: "/selectOneMember.kh", // Controller의 mapping값
+				type: "post",  // get, post 방식 中
+				data: "{memberId : memberId , memberPw : memberPw}",  // Controller로 보낼 데이터
+				success: function(data) {
+					if(data == 0){
+						$(".pwChk").text("비밀번호를 확인해주세요.");
+						$(".pwChk").css("color","red");	
+					}else{
+						$(".pwChk").text("비밀번호가 인증되었습니다.");
+						$(".pwChk").css("color","blue");
+					}
+				},  // 정상적으로 return 받았을 때 실행할 함수
+			});
+		});
+		//새 비밀번호 정규식
+		//새 비밀번호 일치체크
 		$("[name=memberPwNew]").on("change",function(){
 			const pwVal = $("[name=memberPw]").val();
 			const pwReVal = $("[name=memberPwNew]").val();
+			console.log(pwVal);
+			console.log(pwReVal);
 			if(pwVal == pwReVal){
-				$(".pwReChk").text("두 비밀번호가 일치합니다.");
-				$(".pwReChk").css("color","blue");
-				checkArr[2] = true;
+				$(".newPwReChk").text("두 비밀번호가 일치합니다.");
+				$(".newPwReChk").css("color","blue");
 			}else{
-				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
-				$(".pwReChk").css("color","red");
-				checkArr[2] = true;
+				$(".newPwReChk").text("두 비밀번호가 일치하지 않습니다.");
+				$(".newPwReChk").css("color","red");
 			}
 		});
 	</script>

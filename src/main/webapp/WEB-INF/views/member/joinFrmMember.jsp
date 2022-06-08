@@ -7,6 +7,8 @@
 <title>일반회원가입</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <style>
 .join-wrap{
@@ -103,7 +105,7 @@
 .form-select-wrap>select{
   width:30%;
   justify-content:space-between;
-  padding: 12px 16px;
+  padding: 8px 16px;
   border: 1px solid gray;
   border-radius: 4px;
   font-size: 14px;
@@ -143,10 +145,23 @@
 		</div>
 		<div class="join-wrap">
 			<br><br>
-			<form action="/join.kh" method="post">
+			<form action="/join.do" method="post">
 				<table class="join-table">
 					<!-- 멤버레벨 -->
-						<input type="hidden" name="memberLevel" value="2" class="input-form" >
+						<input type="hidden" name="memberLevel" value="1" class="input-form" >
+					<!-- 사업자번호 -->
+					<tr class="form-name">
+						<th colspan="4" class="join-pass" required>사업자번호<span class="bizNoChk"></span></th>
+					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="text" name="bizNo" class="input-form" placeholder="사업자번호를 입력하세요(숫자 10자리만 가능)" required></td>
+					</tr>
+					<tr class="form-name">
+						<th colspan="4" class="join-pass">사업자상호명<span class="bizNameChk"></span></th>
+					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="text" name="bizName" class="input-form" required></td>
+					</tr>
 					<!-- 이메일 -->
 					<tr class="form-name">
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
@@ -169,20 +184,20 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="3"><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요." required></td>
-						<td><button class="btn bc1 bs1" id="authBtn">확인</button></td>
+						<td><button class="btn bc1 bs1" id="authBtn" type="button">확인</button></td>
 					</tr>
 					<tr>
 						<td colspan="4"><span id="timeLimit"></span></td>
 					</tr>
 					<!-- 비밀번호 -->
 					<tr class="form-name">
-						<th colspan="4" class="join-pass">비밀번호<span class="pwChkMsg"></span></th>
+						<th colspan="4" class="join-pass">비밀번호<span class="pwChk"></span></th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="password" name="memberPw" class="input-form" placeholder="4~6자의 영소문자와 숫자조합만 가능합니다." required></td>
+						<td colspan="4"><input type="password" name="memberPw" class="input-form" required></td>
 					</tr>
 					<tr class="form-name">
-						<th colspan="4">비밀번호 재확인<span class="pwReChkMsg"></span></th>
+						<th colspan="4">비밀번호 재확인<span class="pwReChk"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="password" name="memberPwRe" class="input-form" required></td>
@@ -190,14 +205,14 @@
 					
 					<!-- 이름 -->
 					<tr class="form-name">
-						<th colspan="4" class="join-name">이름<span class="nameChkMsg"></span></th>
+						<th colspan="4" class="join-name">이름<span class="nameChk"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="text" name="memberName" class="input-form" required></td>
 					</tr>
 					<!-- 전화번호 -->
 					<tr class="form-name">
-						<th colspan="4">전화번호<span class="phoneChkMsg"></span></th>
+						<th colspan="4">전화번호<span class="phoneChk"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="4"><input type="text" name="memberPhone" class="input-form" placeholder="ex) 010-1234-1234" required></td>
@@ -207,14 +222,14 @@
 						<th colspan="4">주소</th>
 					</tr>
 					<tr class="form-input">
-						<td colspan="3"><input type="text" id="memberPostcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
-						<td><button class="btn bc2 bs1" id="address_kakao" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
+						<td colspan="3"><input type="text" id="member_postcode" name="memberPostcode" class="input-form" placeholder="우편번호" readonly required></td>
+						<td><button class="btn bc2 bs1" id="address_kakao" onclick="execDaumPostcode()" value="우편번호 찾기" type="button">우편번호 찾기</button></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="memberAddr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
+						<td colspan="4"><input type="text" id="member_addr1" name="memberAddr1" class="input-form" placeholder="주소" readonly required></td>
 					</tr>
 					<tr class="form-input">
-						<td colspan="4"><input type="text" id="memberAddr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
+						<td colspan="4"><input type="text" id="member_addr2" name="memberAddr2" class="input-form" placeholder="상세주소" required></td>
 					</tr>
 					<!-- 생년월일 -->
 					<tr class="form-name">
@@ -222,16 +237,7 @@
 					</tr>
 					<tr class="form-input">
 						<td colspan="4">
-							<div class="form-select-wrap select">
-								<select class="birthday-year" required>
-								</select>
-								/ 
-								<select class="birthday-month" required>
-								</select>
-								/
-								<select class="birthday-day" required>
-								</select>
-							</div>
+							
 						</td>
 					</tr>
 					<!-- 성별 -->
@@ -240,10 +246,10 @@
 					</tr>
 					<tr class="form-input form-select-wrap select"">
 						<td colspan="4">
-							<select name="memberGender" class="input-form select" required>
+							<select name="gender" class="input-form select" required>
 								<option disabled selected>성별</option>
-								<option value="여성">여성</option>
-								<option value="남성">남성</option>
+								<option value="female">여성</option>
+								<option value="male">남성</option>
 							</select>
 						</td>
 					</tr>
@@ -263,6 +269,52 @@
 	<br><br><br><br>
 		
 	<script>
+	//사업자 번호 API+정규식(받을때 공백 허용하고 받고나서 공백제거하는 식으로 했으면 함)
+	const bizNo = $("[name=bizNo]");
+	console.log(bizNo);
+	bizNo.on("change",function(){
+		const bizNoReg = /^[0-9]{10}$/;
+		const bizNoVal = bizNo.val();
+		//사업자번호가 정규표현식을 통과한다면 ajax실행
+		if(bizNoVal.match(bizNoReg) != null){
+			var data = {
+				    "b_no": [bizNo.val()] // 사업자번호 "xxxxxxx" 로 조회 시,
+				   }; 
+			checkArr[1] = true;
+			$.ajax({
+				  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
+				  type: "POST",
+				  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
+				  dataType: "JSON",
+				  contentType: "application/json",
+				  accept: "application/json",
+				  success: function(result) {
+					  const bizState = result.data[0].b_stt;
+				      if(bizState == ''){
+				    	  const span = $(".bizNoChk");
+					      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
+				      }else{
+				      const span = $(".bizNoChk");
+				      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
+				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
+				    	    $("[name=bizNo]").val('');
+				    	    $("[name=bizNo]").focus();
+				    	}else{
+				    	    $("[name=bizNo]").attr("readonly",true);
+				    	}
+				      }
+				  },
+				  error: function(result) {
+				      console.log(result.responseText); //responseText의 에러메세지 확인
+				  }
+			});//사업자번호 ajax끝
+			//정규표현식 통과하지 못하면 메세지 출력
+		}else{
+			$(".bizNoChk").text("사업자번호는 10자리 숫자만 가능합니다.");
+			$(".bizNoChk").css("color","red");
+			checkArr[1] = false;
+		};
+	});
 		//다음 주소찾기 API
 		window.onload = function(){
 		    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
@@ -284,27 +336,6 @@
 		//인증 체크
 		let authChk = 0;
 		
-		//아이디 정규표현식(이메일빼고 아이디만 해당)
-		const emailId = $("[name=emailId]").val();
-		const emailAddr = $("[name=emailAddr]").val();
-		const memberId = emailId+emailAddr;
-			
-		//아이디 가입체크(input값 채워지고+select 선택하고난 후)
-		$("[name=memberId]").on("change",function(){
-			$.ajax({
-				url : "/idCheck.kh",
-				data : {memberId : memberId},
-				success : function(data){
-					if(data == 0){
-						$(".idChkMsg").text("사용 가능한 이메일입니다.");
-						$(".idChkMsg").css("color","blue");
-					}else{
-						$(".idChkMsg").text("이미 가입된 이메일입니다.");
-						$(".idChkMsg").css("color","red");
-					}
-				}
-			});
-		});
 		
 		//비밀번호 재확인 일치체크
 		$("[name=memberPwRe]").on("change",function(){
@@ -323,7 +354,7 @@
 		//비밀번호 정규식
 		const pw = $("[name=memberPw]");
 		pw.on("change",function(){
-			const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
+			const pwReg = /^[a-z0-9]{4,6}$/;
 			const pwVal = pw.val();
 			if(pwVal.match(pwReg) != null){
 				$(".pwChkMsgMsg").text("사용할 수 있는 패스워드 입니다.");
@@ -384,7 +415,6 @@
 				const emailId = $("[name=emailId]").val();
 				const emailAddr = $("[name=emailAddr]").val();
 				const email = emailId+emailAddr;
-				console.log(email);
 				const title = "입력하신 아이디를 조회중입니다.";
 				$.ajax({
 					url : "/sendMail.kh",
@@ -486,55 +516,31 @@
 		  let currentDay = ('0' + today.getDate()).slice(-2);
 		  let dateString = currentYear + currentMonth  + currentDay;
 		}
-		//생년월일 시작(오늘 이후도 선택못하도록 막기)
-		let userBirthdayYear = document.querySelector('.birthday-year');
-		let userBirthdayMonth = document.querySelector('.birthday-month');
-		let userBirthdayDay = document.querySelector('.birthday-day');
-		let today = new Date();
-		let currentYear = today.getFullYear();
-		var currentMonth = ('0' + (today.getMonth() + 1)).slice(-2);
-		var currentDay = ('0' + today.getDate()).slice(-2);
-		var dateString = currentYear + currentMonth  + currentDay;
-		
-		function createOptionForElements(elem, val) {
-		  let option = document.createElement('option');
-		  option.text = val;
-		  option.value = val;
-		  elem.appendChild(option);
-		}
-		if(true){
-			for(let i = 1940; i <= currentYear-1; i++) {
-			  createOptionForElements(userBirthdayYear, i);
-			}
-			
-			for(let i = 1; i <= 12; i++) {
-			  createOptionForElements(userBirthdayMonth, i);
-			}
-			
-			for(let i = 1; i <= 31; i++) {
-			  createOptionForElements(userBirthdayDay, i);
-			}
-		}
-		
-		
-		function changeTheDay() {
-		  userBirthdayDay.innerHTML = '';
-		
-		  let lastDayOfTheMonth = new Date(userBirthdayYear.value, userBirthdayMonth.value, 0).getDate();
-		
-		  for(let i = 1; i <= lastDayOfTheMonth; i++) {
-		    createOptionForElements(userBirthdayDay, i);
-		  }
-		}
-		userBirthdayYear.addEventListener('change', function() {
-		  changeTheDay();
-		});
-		userBirthdayMonth.addEventListener('change', function() {
-		  changeTheDay();
-		});
-		//생년월일 끝
-		
-		//생년월일 select 선택값 출력
+		//달력 API
+	   $(function() {
+       //input을 datepicker로 선언
+       $("#datepicker").datepicker({
+           dateFormat: 'yy-mm-dd' //달력 날짜 형태
+           ,showOtherMonths: true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
+           ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
+           ,changeYear: true //option값 년 선택 가능
+           ,changeMonth: true //option값  월 선택 가능                
+           ,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
+           ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
+           ,buttonImageOnly: true //버튼 이미지만 깔끔하게 보이게함
+           ,buttonText: "선택" //버튼 호버 텍스트              
+           ,yearSuffix: "년" //달력의 년도 부분 뒤 텍스트
+           ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 텍스트
+           ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
+           ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
+           ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
+           ,minDate: "-5Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
+           ,maxDate: "+5y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
+       });                    
+       
+       //초기값을 오늘 날짜로 설정해줘야 합니다.
+       $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
+   });
 		
 	</script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
