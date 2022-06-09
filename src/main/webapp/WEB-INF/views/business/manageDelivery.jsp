@@ -36,8 +36,48 @@ td:last-child{
 .tbl3{
 	border:1px solid #ccc;
 }
-.tbl3 tr th{
-	
+.tbl2 .mainTr th:first-child{
+	width:8%;
+}
+.tbl2 .mainTr th:nth-child(2){
+	width:5%;
+}
+.tbl2 .mainTr th:nth-child(3){
+	width:25%;
+}
+.tbl2 .mainTr th:nth-child(4){
+	width:18%;
+}
+.tbl2 .mainTr th:nth-child(5){
+	width:12%;
+}
+.tbl2 .mainTr th:nth-child(6), .tbl2 .tr-2 th:nth-child(7){
+	width:10%;
+}
+.tbl2 .mainTr th:last-child{
+	width:12%;
+}
+
+.tbl2 .checkTr th:nth-child(2){
+	width:8%;
+}
+.tbl2 .checkTr th:nth-child(3){
+	width:5%;
+}
+.tbl2 .checkTr th:nth-child(4){
+	width:22%;
+}
+.tbl2 .checkTr th:nth-child(5){
+	width:18%;
+}
+.tbl2 .checkTr th:nth-child(6){
+	width:12%;
+}
+.tbl2 .checkTr th:nth-child(7), .tbl2 .checkTr th:nth-child(8){
+	width:10%;
+}
+.tbl2 .checkTr th:last-child{
+	width:12%;
 }
 </style>
 
@@ -246,7 +286,7 @@ td:last-child{
 		$('#datepicker').datepicker('setDate', 'today');		
 		const memberNo=$("input[name=memberNo]").val();
 		const table=$(".tbl2");
-		const tr=$("<tr class=\"tr-2\">");
+		const tr=$("<tr class=\"tr-2 mainTr\" id=\"mainTr\">");		
 		const th=$("<th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th><th></th>");
 		const cTh=$("<th><input type=\"checkBox\" id=\"allChk\"></th><th>주문번호</th><th>분류</th><th>프로젝트명</th><th>결제시간</th><th>결제금액</th><th>주문자</th><th>주문상태</th><th></th>");
 		const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');
@@ -391,6 +431,9 @@ td:last-child{
 				}
 				
 				if(orderStatus==1 || orderStatus==3 || orderStatus==4){
+					const mainTr=$("#mainTr");			
+					mainTr.addClass("checkTr");
+					mainTr.removeClass("mainTr");
 					tr.append(cTh);
 					tr2.append(checkBox).append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
 				}else {

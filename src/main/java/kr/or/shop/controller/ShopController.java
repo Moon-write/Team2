@@ -13,8 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
+
+import kr.or.auction.model.vo.Auction;
+import kr.or.auction.model.vo.AuctionList;
+import kr.or.donation.model.service.DonationService;
+import kr.or.donation.model.vo.Donation;
 import kr.or.member.model.service.MemberService;
 import kr.or.member.model.vo.Member;
 import kr.or.shop.model.service.ShopService;
@@ -29,16 +37,85 @@ public class ShopController {
 
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private DonationService dService;
 
 	@RequestMapping(value = "/updateInfo.kh")
 	public String updateInfo(int memberNo, Model model) {
 		Shop shop = service.selectShopInfo(memberNo);
 		ArrayList<ShopCategory> category = service.selectCategory(shop.getShopNo());
+		ArrayList<Donation> list = service.selectDonationList(memberNo);
+		ArrayList<Donation> generalList = new ArrayList<Donation>();
+		ArrayList<Donation> cashList = new ArrayList<Donation>();
+		String noImgPath = "../../../resources/upload/donation/no_image.png";
+		for(Donation d: list) {
+			if(d.getDonationDivision()==2) {
+				if(d.getDonationImgpath() == null) {
+					d.setDonationImgpath(noImgPath);
+				}
+				cashList.add(d);
+			}else {
+				if(d.getDonationImgpath() == null) {
+					d.setDonationImgpath(noImgPath);
+				}
+				generalList.add(d);
+			}
+		}
+		ArrayList<Auction> auctionList= service.selectAuctionList(memberNo); // 로그인 완료되면 변수수정
+		
+		model.addAttribute("auctionList", auctionList);
+		model.addAttribute("list", list);
+		model.addAttribute("cashList",cashList);
+		model.addAttribute("generalList",generalList);
 		model.addAttribute("shop", shop);
 		model.addAttribute("category", category);
 		return "shop/updateInfo";
 	}
+	
+	@RequestMapping(value = "/shopInfo.kh")
+	public String shopInfo(int memberNo, Model model) {
+		int sn=service.selectShopNo(memberNo);
+		Shop shop = service.selectShop(sn);
+		ArrayList<ShopCategory> category = service.selectCategory(sn);
+		
+		model.addAttribute("shop", shop);
+		model.addAttribute("category", category);
+		return "shop/shopInfo";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectAuctionList.kh", produces="application/json; charset=utf-8")
+	public String selectAuctionList(int shopNo) {
+		Shop shop=service.selectShop(shopNo);
+		ArrayList<Auction> list = service.selectAuctionList(shop.getMemberNo());		
+		return new Gson().toJson(list);
+	}
 
+	@ResponseBody
+	@RequestMapping(value="/selectFundingList.kh", produces="application/json; charset=utf-8")
+	public String selectFundingList(int shopNo) {
+		Shop shop=service.selectShop(shopNo);
+		ArrayList<Auction> list = service.selectFundingList(shop.getMemberNo());		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectDonationList.kh", produces="application/json; charset=utf-8")
+	public String selectDonationList(int shopNo) {
+		Shop shop=service.selectShop(shopNo);
+		ArrayList<Donation> list = service.selectDonationList(shop.getMemberNo());
+		
+		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/selectFundingFile.kh", produces="application/json; charset=utf-8")
+	public String selectFundingFile(int fundingNo) {
+		String file = service.selectFundingFile(fundingNo);		
+		return new Gson().toJson(file);
+	}
+	
 	@RequestMapping(value = "/shopUploadFrm.kh")
 	public String shopUploadFrm() {
 		return "shop/shopUploadFrm";
@@ -87,7 +164,7 @@ public class ShopController {
 			}
 		}
 		int result = service.insertShopPic(shop, fileList);
-		return "business/business";
+		return "redirect:updateInfo.kh?memberNo="+shop.getMemberNo();
 	}
 
 	@RequestMapping(value = "/managePic.kh")
@@ -108,7 +185,7 @@ public class ShopController {
 	}
 
 	@RequestMapping(value="/deleteShopPic.kh")
-	public String deleteShopPic(String shopPicNos,HttpServletRequest request) {
+	public String deleteShopPic(int memberNo, String shopPicNos,HttpServletRequest request) {
 		/*
 		ArrayList<ShopPic> sp = service.selectDelPicList(shopPicNos);
 		for(int i=0;i<sp.size();i++) {
@@ -122,7 +199,7 @@ public class ShopController {
 		*/
 		int result = service.deleteShopPic(shopPicNos);
 		System.out.println(shopPicNos);
-		return "business/business";
+		return "redirect:updateInfo.kh?memberNo="+memberNo;
 	}
 	
 	@RequestMapping(value="/deleteCategory.kh")
@@ -135,13 +212,5 @@ public class ShopController {
 	public String insertCategory(int memberNo, int shopNo, String categories, HttpServletRequest request) {
 		int result=service.insertCategory(shopNo, categories);
 		return "redirect:updateInfo.kh?memberNo="+memberNo;
-	}
-	@RequestMapping(value = "/shopInfo.kh")
-	public String shopInfo(int memberNo, Model model) {
-		Shop shop = service.selectShopInfo(memberNo);
-		ArrayList<ShopCategory> category = service.selectCategory(shop.getShopNo());
-		model.addAttribute("shop", shop);
-		model.addAttribute("category", category);
-		return "shop/shopInfo";
-	}
+	}	
 }

@@ -107,8 +107,6 @@ td:last-child{
 				data:{memberNo:memberNo, divNo:0},
 				success:function(list){
 					startDate=list;
-					console.log(startDate);
-					console.log(memberNo);
 					$.ajax({
 						url:"/getDates.kh",
 						data:{startDate:startDate, endDate:dateString},
@@ -256,11 +254,10 @@ td:last-child{
 			const memberNo=$("input[name=memberNo]").val();
 			const chartArea=$("#chartArea");
 			const canvas=$("<canvas id=\"myChart\" width=\"500\" height=\"200\" style=\"margin-bottom:50px;\"></canvas>");
-			var startDate;
-			const datePicker1 = $("input[name=startDate]").val();
-			const datePicker2 = $("input[name=endDate]").val();
-			const divNo=$("#divNo").val();
-			const projectNo=$("#divList").val();
+			let datePicker1 = $("input[name=startDate]").val();
+			let datePicker2 = $("input[name=endDate]").val();
+			let divNo=$("#divNo").val();
+			let projectNo=$("#divList").val();
 			let targetPrice;
 			var startDate;
 			var endDate;
@@ -280,9 +277,8 @@ td:last-child{
 				return;
 			}
 			chartArea.empty();
-			chartArea.append(canvas);
-			
-			if(datePicker1.length==10){
+			chartArea.append(canvas);	
+			if(datePicker1.length==10){				
 				$.ajax({
 					url:"/getDates.kh",
 					data:{startDate:datePicker1, endDate:datePicker2},
@@ -387,10 +383,10 @@ td:last-child{
 								success:function(list){
 									for(let i=0;i<list.length;i++){
 										dates.push(list[i]);
-									}
+									}									
 									$.ajax({
 										url:"/getAmounts.kh",
-										data:{memberNo:memberNo, startDate:startDate, endDate:dateString, divNo:0, projectNo:0},
+										data:{memberNo:memberNo, startDate:startDate, endDate:dateString, divNo:divNo, projectNo:0},
 										success:function(list){
 											for(let i=0;i<list.length;i++){
 												amounts.push(list[i]);										

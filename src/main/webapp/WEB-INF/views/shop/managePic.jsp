@@ -16,16 +16,17 @@
 .photoWrapper {
 	clear: right;
 	margin: 0 auto;
-	width:1200px;
 }
 </style>
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp" %>
 		<div class="page-content">
+		<%@include file="/WEB-INF/views/business/bizMenu.jsp"%>
 			<div class="photoWrapper posting-wrap">
 				<c:forEach var="sp" items="${sp }">
 					<div style="box-sizing: border-box; width: calc(100%/ 4); padding: 20px;">
+						<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
 						<div>
 							<img src="/resources/upload/shopPic/${sp.shopFilepath }" style="height:200px; width:200px;background-size:contain;">
 						</div>
@@ -34,11 +35,13 @@
 					</div>
 				</c:forEach>
 			</div>
-			<div style="width:500px; text-align:center;margin:0 auto;">
+			<c:if test="${!empty sp }">
+				<div style="width:500px; text-align:center;margin:30px auto;">
 				<button class="btn bc3 deleteShopPic">삭제</button>
 			</div>
+			</c:if>			
 			<c:if test="${fn:length(sp) lt 4 }">
-				<form action="/picUpload.kh" method="post" enctype="multipart/form-data">
+				<form action="/picUpload.kh" method="post" enctype="multipart/form-data" style="margin-top:50px;">
 					<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
 						<input type="file" name="upfile" id="imgUpload" style="display:none;" multiple></input>
 						<label for="imgUpload">배경사진 업로드 (최대 4개)</label>
@@ -51,6 +54,7 @@
 		</div>
 		<script>
 			$(".deleteShopPic").on("click",function(){
+				const memberNo=$("input[name=memberNo]").val();
 				const check=$(".chk:checked");
 				if(check.length==0){
 					alert("선택된 사진이 없습니다.");
@@ -60,7 +64,7 @@
 				check.each(function(index,item){
 					shopPicNos.push($(item).parent().next().text());
 				});
-				location.href="/deleteShopPic.kh?shopPicNos="+shopPicNos.join("/");
+				location.href="/deleteShopPic.kh?memberNo="+memberNo+"&shopPicNos="+shopPicNos.join("/");
 			});
 			$("input[name=submit]").on("click",function(e){
 				const file=$("input[name=upfile]").val();
