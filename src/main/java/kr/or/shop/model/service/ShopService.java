@@ -7,6 +7,10 @@ import java.util.StringTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.auction.model.dao.AuctionDao;
+import kr.or.auction.model.vo.Auction;
+import kr.or.auction.model.vo.AuctionList;
+import kr.or.donation.model.vo.Donation;
 import kr.or.member.model.vo.Member;
 import kr.or.shop.model.dao.ShopDao;
 import kr.or.shop.model.vo.Shop;
@@ -17,11 +21,22 @@ import kr.or.shop.model.vo.ShopPic;
 public class ShopService {
 	@Autowired
 	private ShopDao dao;
+	
+	@Autowired
+	private AuctionDao aDao;
 
 	public Shop selectShopInfo(int memberNo) {
 		// TODO Auto-generated method stub
 		Shop s=dao.selectShopInfo(memberNo);
 		ArrayList<ShopPic> fileList=dao.selectShopPic(s.getShopNo());
+		s.setFileList(fileList);
+		return s;
+	}
+	
+	public Shop selectShop(int shopNo) {
+		// TODO Auto-generated method stub
+		Shop s=dao.selectShop(shopNo);
+		ArrayList<ShopPic> fileList=dao.selectShopPic(shopNo);
 		s.setFileList(fileList);
 		return s;
 	}
@@ -98,5 +113,48 @@ public class ShopService {
 		}
 		return result;
 	}
+
+	public ArrayList<Donation> selectDonationList(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectDonationList(memberNo);
+	}
+
+	public ArrayList<Auction> selectAuctionList(int memberNo) {
+		// TODO Auto-generated method stub
+		ArrayList<Auction> list=dao.selectAuctionList(memberNo);
+		for(Auction a : list) {
+			// 1. 입찰횟수 구하기
+			int bidCount = aDao.getBidCount(a.getProjectNo());
+			a.setBidCount(bidCount);
+			
+			// 2. 현재 낙찰가능금액 구하기
+			int bestPrice;
+			if(bidCount==0) {
+				bestPrice = a.getAuctionPrice();
+			}else {
+				bestPrice = aDao.getMinBidPrice(a.getProjectNo());
+			}
+			a.setBestPrice(bestPrice);
+		}
+		return list;
+	}
+	
+
+	public ArrayList<Auction> selectFundingList(int memberNo) {
+		// TODO Auto-generated method stub
+		ArrayList<Auction> list=dao.selectFundingList(memberNo);		
+		return list;
+	}
+	
+	public int selectShopNo(int memberNo) {
+		// TODO Auto-generated method stub
+		return dao.selectShopNo(memberNo);
+	}
+
+	public String selectFundingFile(int fundingNo) {
+		// TODO Auto-generated method stub
+		return dao.selectFundingFile(fundingNo);
+	}
+
 
 }

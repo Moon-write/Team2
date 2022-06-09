@@ -13,7 +13,7 @@
 <style>
 .shop-content{
 	width:700px;
-	margin:0 auto;	
+	margin:30px auto;	
 }
 .shop-pic>img{
 	height:350px;
@@ -34,12 +34,12 @@
 	display:flex;
 }
 .tab-wrap{
-   margin: 30px auto;
+	width:300px;
+	margin: 30px auto;
 }
 .tabs{
     list-style-type: none;    
     overflow: hidden;
-    text-align:center;
 }
 .tabs>li{
     float: left;
@@ -55,11 +55,9 @@
     cursor: pointer;
 }
 .content-wrap{
-	width:700px;
     margin:0 auto;
 }
 .tabcontent{
-    width: 95%;
     margin: 0 auto;
     padding: 30px 0px;
     display: none;
@@ -100,6 +98,37 @@ label {
   border: 1px solid #ccc;
   box-sizing: border-box;
 }
+tr th, tr td{
+	border-bottom:1px solid #ccc;
+	width:200px;
+	padding:10px;
+}
+tr th{
+	border-right:1px solid #ccc;
+}
+table{
+	border:1px solid #ccc;
+	border-collapse: collapse;
+	margin:0 auto;
+	margin-bottom:30px;
+}
+.auction-content{
+	float:left;
+	margin-top:30px;
+	width:calc(100%/3 - 20px);
+	margin-bottom:30px;
+}
+.auction-content:first-child{
+	margin-left:10px;
+}
+.auction-content:nth-child(2), .auction-content:last-child{
+	margin-left:20px;
+}
+.auction-content div>img{
+	width: 100%; height: 213px;
+	object-fit: cover;
+	border-radius: 10px;
+}
 </style>
 </head>
 <body>
@@ -108,8 +137,9 @@ label {
 		<c:when test="${sessionScope.m.memberLevel == 1 }"><%@include file="/WEB-INF/views/common/bizHeader.jsp" %></c:when>
 		<c:otherwise><%@include file="/WEB-INF/views/common/header.jsp" %></c:otherwise>
 	</c:choose>
+	<c:if test="${shop.memberNo==sessionScope.m.memberNo }">
 		<div class="page-content">
-		
+		<%@include file="/WEB-INF/views/business/bizMenu.jsp"%>
 			<div class="shop-content">
 			
 				<div class="shop-pic" style="text-align: center;">
@@ -164,77 +194,13 @@ label {
 								<span>누적금액 </span>${shop.grossIncome}<span>원</span>
 							</c:when>
 						</c:choose>
-					</div>							
-				</div>
-				
-				<div class="tab-wrap">
-			        <ul class="tabs">
-			            <li>프로젝트</li>
-			            <li>리뷰</li>
-			            <li>사업자 정보</li>
-			        </ul>
-			    </div>
-			    
-			    <div class="content-wrap">
-		            <div class="tabcontent" id="html">         
-		                	ㅇㅇ
-		            </div>
-		            <div class="tabcontent" id="css">            
-			            <div class="photoWrapper posting-wrap">
-							<c:forEach items="${mv.fileList }" var="f">
-								<div style="box-sizing: border-box; width: calc(100%/ 3); padding: 20px;">
-									<div>
-										<img src="/resources/upload/stillcut/${f.filepath}" style="height: 300px;">
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-		            </div>
-		            <div class="tabcontent" id="javascript">
-		                <div style="float:left;">
-		                	<div>상호명</div>
-		                	<div>주요제품</div>
-		                	<div>설립일</div>
-		                	<div>주소</div>
-		                	<div>전화번호</div>
-		                	<div>이메일</div>
-		                	<div>사업자등록번호</div>
-		                </div>
-		                <div style="float:left; margin-left:40px;">
-		                	<div>${shop.shopName }</div>
-		                	<c:set var="comma" value=","/>
-		                	<div>
-			                	<c:if test="${empty category }">
-			                		없음
-			                	</c:if>
-			                	<c:if test="${!empty category }">
-			                		<c:forEach var="c" items="${category }" varStatus="status">
-			                		<c:if test="${!status.last}">
-										<span>${c.category }${comma} </span>									
-									</c:if>
-									<c:if test="${status.last}">
-										<span>${c.category }</span>
-									</c:if>										
-									</c:forEach>
-			                	</c:if>		                			                		
-							</div>
-		                	<div>
-		                		<c:if test="${empty shop.shopBirth }">
-			                		없음
-			                	</c:if>
-			                	<c:if test="${!empty shop.shopBirth }">
-			                		${shop.shopBirth }
-			                	</c:if>
-		                	</div>
-		                	<div>주소</div>
-		                	<div>전화번호</div>
-		                	<div>이메일</div>
-		                	<div>사업자등록번호</div>
-		                </div>
-		            </div>			            
-		        </div>
+					</div>
+					<br><br><br><br>
+				</div>				
 			</div>			
 		</div>
+	</c:if>
+		
 		
 		<!-- 모달 -->
 		<div id="test-modal" class="modal-bg">
@@ -250,7 +216,7 @@ label {
 	        		<c:forEach var="c" items="${category }">
 	        			<input type="hidden" name="category" class="input-form2" placeholder="카테고리 입력" style="width:80%;" value="${c.category }">						
 					</c:forEach>	        						
-					<input type="text" name="category" id="category" class="input-form2" placeholder="카테고리 입력" style="width:80%;">
+					<input type="text" name="category" class="input-form2 category" placeholder="카테고리 입력" style="width:80%;">
 					<button class="btn bc1 deleteInput" style="float:right;padding: 0.8rem;">삭제</button>
 				</div>
 			</div>
@@ -312,7 +278,7 @@ label {
 			});
 			let length=$("input[name=category]").length;
 			$(".addInput").on("click", function(){
-				const category=$("<div class=\"input-box\"><input type=\"text\" name=\"category\" id=\"category\" class=\"input-form2\" placeholder=\"카테고리 입력\" style=\"width:80%;\"><button class=\"btn bc1 deleteInput\" style=\"float:right;padding: 0.8rem;\">삭제</button></div>");
+				const category=$("<div class=\"input-box\"><input type=\"text\" name=\"category\" class=\"input-form2 category\" placeholder=\"카테고리 입력\" style=\"width:80%;\"><button class=\"btn bc1 deleteInput\" style=\"float:right;padding: 0.8rem;\">삭제</button></div>");
 				const modalContent=$(".modal-content");						
 				if(length<5){
 					modalContent.append(category);
@@ -329,10 +295,15 @@ label {
 			});
 			$(".insertCategory").on("click", function(){
 				const shopNo=$("input[name=shopNo]").val();
-				const category=$("div #category");				
-				if(category.val().length==0){
-					alert("카테고리 이름을 입력하십시오.");
-					return;
+				const category=$(".category");
+				for(let i=0;i<category.length;i++){
+					if(category.eq(i).val().length==0){
+						alert("카테고리 이름을 입력하십시오.");
+						return;
+					}else if(category.eq(i).val().length>6){
+						alert("6글자 이하로 입력하십시오.");
+						return;
+					}
 				}
 				const categories=new Array();
 				category.each(function(index,item){

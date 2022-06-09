@@ -5,6 +5,7 @@
 		select distinct
 		    biz_name as shopName, 
 		    biz_no as bizNo,
+		    m.member_no as memberNo,
 		    shop_no as shopNo,
 		    shop_intro as shopIntro,
 		    shop_birth as shopBirth,
@@ -15,9 +16,84 @@
 	    where m.member_no=#{memberNo}
 	</select>
 	
+	<select id="selectShop" parameterType="int" resultType="s">
+		select distinct
+		    biz_name as shopName, 
+		    biz_no as bizNo,
+		    m.member_no as memberNo,
+		    shop_no as shopNo,
+		    shop_intro as shopIntro,
+		    shop_birth as shopBirth,
+		    nvl((select sum(order_price) from order_tbl where seller_no=m.member_no),0) as grossIncome
+		    from shop s 
+		    left join member m on (m.member_no=s.member_no)
+		    left join order_tbl o on(seller_no=m.member_no)
+	    where shop_no=#{shopNo}
+	</select>
+	
 	<select id="selectCategory" parameterType="int" resultType="sc">
 		select shop_category_no as shopCategoryNo, nvl(category,'없음') as category from shop_category where shop_no=#{shopNo} order by shop_category_no
 	</select>	
+	
+	<select id="selectDonationList" parameterType="int" resultType="d">
+	  	select
+	  		PROJECT_NO as projectNo,
+	  		MEMBER_NO as memberNo,
+	  		DONATION_DIVISION as donationDivision,
+	  		DONATION_TITLE as donationTitle,
+	  		DONATION_IMGNAME as donationImgname,
+	  		DONATION_IMGPATH as donationImgpath,
+	  		DONATION_CATEGORY as donationCategory,
+	  		DONATION_CONTENT as donationContent,
+	  		DONATION_TARGET as donationTarget,
+	  		DONATION_CASH as donationCash,
+	  		DONATION_STARTDATE as donationStartdate,
+	  		DONATION_ENDDATE as donationEnddate,
+	  		DIV_NO as divNo
+	  	from donation
+	  	where member_no=#{memberNo}
+	  	ORDER BY DONATION_enddate DESC
+	</select>
+	
+	<select id="selectAuctionList" parameterType="int" resultType="a">
+		SELECT * FROM (
+			SELECT ROWNUM AS RNUM, N.* FROM (
+  				SELECT
+			  		PROJECT_NO AS projectNo,
+			  		PROJECT_NAME AS projectName,
+			  		AUCTION_ITEM AS auctionItem,
+			  		AUCTION_CATEGORY AS auctionCategory,
+			  		MEMBER_NO AS memberNo,
+			  		AUCTION_PRICE AS auctionPrice,
+			  		AUCTION_PIC AS auctionPic,
+			        LASTDAY AS lastDay,
+			        LASTHOUR AS lastHour,
+			        LASTMIN AS lastMin,    
+			        AUCTION_CLOSE AS auctionClose    
+  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) where member_no=#{memberNo} order by lastday asc, lasthour asc, lastmin asc)N)
+	</select>
+	<select id="selectFundingList" parameterType="int" resultType="f">
+		SELECT
+		  	FUNDING_NO			AS fundingNo,
+		  	FUNDING_NAME		AS fundingName,
+		  	FUNDING_DETAIL		AS fundingDetail,
+		  	FUNDING_END_DATE	AS fundingEndDate,
+		  	FUNDING_SUM			AS fundingSum,
+		  	FUNDING_CATEGORY	AS fundingCategory,
+		  	MEMBER_NO			AS memberNo,
+		  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+		  	FUNDING_SUM_RATE	AS fundingSumRate,
+		  	FUNDING_END			AS fundingEnd,
+		  	FUNDING_DEADLINE	AS fundingDeadline,
+		  	BIZ_NAME			AS bizName
+	  	FROM FUNDING WHERE member_no=#{memberNo}
+	  	order by funding_deadline desc
+	</select>
+	<select id="selectFundingFile" parameterType="int" resultType="String">
+		select nvl(funding_file_path,0) as fundingFilepath
+		from funding_file 
+		right outer join dual on rownum=1 and funding_No=#{fundingNo}
+	</select>
 	
 	<select id="selectShopPic" parameterType="int" resultType="sp">
 		select shop_no as shopNo, shop_filename as shopFilename, shop_filepath as shopFilepath from shop_pic where shop_no=#{shopNo}
@@ -70,8 +146,7 @@
 	<insert id="insertCategory" parameterType="map">
 		insert into shop_category values(shop_category_seq.nextval,#{shopNo},#{category})
 	</insert>
-	<select id="selectOneMember" parameterType="int" resultType="m">
-		select member_addr1 as memberAddr1, member_addr2 as memberAddr2, member_phone as memberPhone
-		from member where member_no=#{memberNo}
+	<select id="selectShopNo" parameterType="int" resultType="int">
+		select shop_no as shopNo from shop where member_no=#{memberNo}
 	</select>
 </mapper>

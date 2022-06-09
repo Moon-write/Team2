@@ -8,6 +8,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.auction.model.vo.Auction;
+import kr.or.auction.model.vo.AuctionList;
+import kr.or.donation.model.vo.Donation;
 import kr.or.member.model.vo.Member;
 import kr.or.shop.model.vo.Shop;
 import kr.or.shop.model.vo.ShopCategory;
@@ -23,6 +26,10 @@ public class ShopDao {
 		return sqlSession.selectOne("shop.selectShopInfo", memberNo);
 	}
 	
+	public Shop selectShop(int shopNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectShop", shopNo);
+	}
 
 	public ArrayList<ShopCategory> selectCategory(int shopNo) {
 		// TODO Auto-generated method stub
@@ -73,6 +80,37 @@ public class ShopDao {
 	public int insertCategory(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("shop.insertCategory",map);		
+	}
+
+
+	public ArrayList<Donation> selectDonationList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("shop.selectDonationList", memberNo);
+		return (ArrayList<Donation>)list;
+	}
+
+
+	public ArrayList<Auction> selectAuctionList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("shop.selectAuctionList", memberNo);
+		return (ArrayList<Auction>)list;
+	}
+
+
+	public int selectShopNo(int memberNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectShopNo",memberNo);
+	}
+
+	public ArrayList<Auction> selectFundingList(int memberNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("shop.selectFundingList", memberNo);
+		return (ArrayList<Auction>)list;
+	}
+
+	public String selectFundingFile(int fundingNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("shop.selectFundingFile", fundingNo);
 	}
 
 }
