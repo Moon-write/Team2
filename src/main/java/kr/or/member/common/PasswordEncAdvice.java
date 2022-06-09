@@ -16,7 +16,6 @@ public class PasswordEncAdvice {
 	@Autowired
 	private SHA256Enc enc;
 	
-	/*
 	@Pointcut(value = "execution(* kr.or.member.model.service.MemberService.*Member(kr.or.member.model.vo.Member))")
 	public void encPointcut() {}
 	
@@ -37,5 +36,4 @@ public class PasswordEncAdvice {
 		System.out.println("암호화 메소드 : "+methodName);
 		System.out.println("암호화 전 비밀번호 : "+beforePw);
 	}
-	*/
 }

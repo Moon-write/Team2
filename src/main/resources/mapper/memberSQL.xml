@@ -75,17 +75,17 @@
   	<insert id="insertMember" parameterType="m">
   		insert into member values (member_seq.nextval,
   		<choose>
-  			<when test="#{memberLevel.equals(2)}">
-  			null,null
-  			</when>
-  			<when test="#{memberLevel.equals(1)}">
-  			#{bizNo},#{bizName}
-  			</when>
-  		</choose>
-  		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},null)
+	 		<when test="memberLevel == 2">
+	 		null,null
+	 		</when>
+	 		<when test="memberLevel == 1">
+	 		#{bizNo},#{bizName}
+	 		</when>
+ 		</choose>
+  		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},3000)
   		<!-- insertBoard를 수행하고 나서(order=AFTER) b에 boardNo(keyProperty=boardNo)을 담아서 리턴 -->
 		<selectKey resultType="int" order="AFTER" keyProperty="memberNo">
-			select max(member_no) from member
+			select max(member_no) from member where member_level=1
 		</selectKey>	
   	</insert>
   	<insert id="insertShop" parameterType="int">

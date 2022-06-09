@@ -71,16 +71,27 @@ public class MemberController {
 	}
 	@RequestMapping(value="/joinMember.kh")
 	public String joinMember(Member m) {
+		System.out.println(m.getBizNo());
+		System.out.println(m.getBizName());
+		System.out.println(m.getMemberNo());
+		System.out.println(m.getMemberName());
+		System.out.println(m.getMemberLevel());
+		System.out.println(m.getMemberGender());
+		System.out.println(m.getMemberBirth());
+		System.out.println(m.getMemberPhone());
+		System.out.println(m.getMemberPostcode());
+		System.out.println(m.getMemberAddr1());
+		System.out.println(m.getMemberAddr2());
 		int result = service.insertMember(m);
 		//insert 성공하면 0 실패하면 1 리턴
-		if((m.getMemberLevel() == 2 && result == 0) || (m.getMemberLevel() == 1 && result < 2)) {
-			request.setAttribute("title", "회원가입 실패");
-			request.setAttribute("msg", "다시 시도하세요.");
-			request.setAttribute("icon", "error");
-		}else if((m.getMemberLevel() == 2 && result == 1) || (m.getMemberLevel() == 1 && result == 2)) {
+		if((m.getMemberLevel() == 2 && result == 0) || (m.getMemberLevel() == 1 && result == 0)) {
 			request.setAttribute("title", "회원가입 성공");
 			request.setAttribute("msg", "환영합니다.");
 			request.setAttribute("icon", "success");
+		}else if((m.getMemberLevel() == 2 && result == 1) || (m.getMemberLevel() == 1 && result == 1)) {
+			request.setAttribute("title", "회원가입 실패");
+			request.setAttribute("msg", "다시 시도하세요.");
+			request.setAttribute("icon", "error");
 		}
 		request.setAttribute("loc", "/");
 		return "common/msg";

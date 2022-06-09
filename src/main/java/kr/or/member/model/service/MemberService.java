@@ -32,7 +32,6 @@ public class MemberService {
 		//일반회원 가입
 		if(m.getMemberLevel() == 2) {
 			int MemberResult = dao.insertMember(m);
-			System.out.println("일반회원가입 결과 : "+MemberResult);
 				if(MemberResult > 0) {
 					return 0;
 				}else {
@@ -44,8 +43,7 @@ public class MemberService {
 			System.out.println("사업자회원가입 결과 : "+MemberResult);
 			if(MemberResult == 1) {
 				int memberNo = m.getMemberNo();
-				int ShopResult = dao.insertShop(memberNo);
-				System.out.println("shop insert 결과 : "+ShopResult);
+				int ShopResult = dao.insertShop(memberNo); 
 				if(MemberResult + ShopResult > 1) {
 					return 0;
 				}else {

@@ -6,9 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SHA256Enc {
-	
-	/*
 	public String endData(String data) throws Exception{
+		
 		//1. Spring Security의 MessageDigest 객체(암호화 처리해주는 객체)를 통한 암호화
 		MessageDigest mDigest = MessageDigest.getInstance("SHA-256");//암호화 알고리즘 중 SHA-256 알고리즘 사용
 		//2. 매개변수로 받은 암호화 전 비밀번호를 byte배열로 변환
@@ -28,5 +27,4 @@ public class SHA256Enc {
 		return sb.toString();
 		
 	}
-	*/
 }
