@@ -386,8 +386,6 @@
   </select>
   
   <select id="loadLastAuction" resultType="a">
-  	     SELECT * FROM (
-			SELECT ROWNUM AS RNUM, N.* FROM (
   				SELECT
 			  		PROJECT_NO AS projectNo,
 			  		PROJECT_NAME AS projectName,
@@ -400,13 +398,11 @@
 			        LASTHOUR AS lastHour,
 			        LASTMIN AS lastMin,    
 			        AUCTION_CLOSE AS auctionClose    
-  		FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
-  	<![CDATA[	ORDER BY AUCTIONCLOSE ASC, LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC)N ) WHERE LASTDAY>0 AND RNUM<=2 ]]>
+  		<![CDATA[ FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE LASTDAY>0 AND AUCTION_CLOSE=0 AND ROWNUM<=2 ]]>
+  	ORDER BY LASTDAY ASC, LASTHOUR ASC, LASTMIN ASC
   </select>
   
     <select id="loadNewAuction" resultType="a">
-         		SELECT * FROM (
-			SELECT ROWNUM AS RNUM, N.* FROM (
   				SELECT
 			  		PROJECT_NO AS projectNo,
 			  		PROJECT_NAME AS projectName,
@@ -419,7 +415,7 @@
 			        LASTHOUR AS lastHour,
 			        LASTMIN AS lastMin,    
 			        AUCTION_CLOSE AS auctionClose    
-  		<![CDATA[ FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO) WHERE AUCTION_START<SYSDATE ORDER BY PROJECT_NO DESC)        
-  		N ) WHERE LASTDAY>0 AND RNUM=1 ]]>
+  		 FROM AUCTION_TBL JOIN LASTTIME USING(PROJECT_NO)
+  		<![CDATA[ WHERE AUCTION_START<SYSDATE AND LASTDAY>0 AND ROWNUM=1 ORDER BY PROJECT_NO DESC  ]]>   
   </select>
 </mapper>

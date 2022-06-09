@@ -352,7 +352,7 @@ public class AuctionController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/auctionImgUpload.kh")
+	@RequestMapping(value="/auctionImgUpload.kh", produces = "application/text; charset=utf-8")
 	public String auctionImgUpload(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
 		String filepath = null;
 		
