@@ -145,7 +145,7 @@
 		</div>
 		<div class="join-wrap">
 			<br><br>
-			<form action="/join.do" method="post">
+			<form action="/joinMember.kh" method="post">
 				<table class="join-table">
 					<!-- 멤버레벨 -->
 						<input type="hidden" name="memberLevel" value="1" class="input-form" >
@@ -167,7 +167,9 @@
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
 					</tr>
 					<tr class="form-input input-0 form-select-wrap">
-						<td><input type="text" name="emailId" class="input-form" required></td>
+						<td>
+						<input type="hidden" name="memberId" class="input-form">
+						<input type="text" name="emailId" class="input-form" required></td>
 						<td>@</td>
 						<td>
 							<select name="emailAddr" class="input-form select" required>
@@ -318,14 +320,14 @@
 				  }
 			});//사업자번호 ajax끝
 		}else{ //정규표현식 통과하지 못하면 메세지 출력
-			$(".bizNoChk").text("사업자번호는 10자리 숫자만 가능합니다.");
+			$(".bizNoChk").text("사업자번호는 공백없는 10자리 숫자만 가능합니다.");
 			$(".bizNoChk").css("color","red");
 		};
 	});
-		//사업자 상호명 정규식
+		//사업자 상호명 정규식(1~200자 한글/영어대소/공백/숫자/특수문자 다 가능)
 		const bizName = $("[name=bizName]");
 		bizName.on("change",function(){
-			const bizNameReg = /^[a-z0-9가-힣]{1,200}$/i;
+			const bizNameReg = /[a-z0-9가-힣`~!@#$%^&*()-_=+\s]{1,200}/i;
 			const bizNameVal = bizName.val();
 			if(bizNameReg.test(bizNameVal)){
 				$(".bizNameChk").text("사용할 수 있는 상호명 입니다.");
@@ -366,10 +368,9 @@
 		};
 		//비밀번호 정규식
 		const pw = $("[name=memberPw]");
-		const pwVal = pw.val();
-		console.log(pwVal);
 		pw.on("change", function(){
-			const pwReg = /^[0-9]{4,6}$/;
+			const pwReg = /[0-9]{4,6}/;
+			const pwVal = pw.val();
 			if(pwReg.test(pwVal)){
 				$(".pwChk").text("사용할 수 있는 패스워드 입니다.");
 				$(".pwChk").css("color","blue");
@@ -382,9 +383,9 @@
 		});
 		//비밀번호 일치확인
 		const pwRe = $("[name=memberPwRe]");
-		const pwReVal = pwRe.val();
-		console.log(pwReVal);
 		pwRe.on("change", function(){
+			const pwVal = $("[name=memberPw]").val();
+			const pwReVal = pwRe.val();
 			if(pwVal == pwReVal){
 				$(".pwReChk").text("두 비밀번호가 일치합니다.");
 				$(".pwReChk").css("color","blue");
@@ -421,8 +422,23 @@
 				$(".phoneChk").css("color","blue");
 				checkArr[7] = true;
 			}else{
-				$(".phoneChk").text("연락처 형식을 맞춰주세요.(010-1234-1234)010-");
+				$(".phoneChk").text("연락처 형식을 맞춰주세요.(010-1234-1234)");
 				$(".phoneChk").css("color","red");
+				checkArr[7] = false;
+			};
+		});
+		//이메일 정규식		
+		const mailId = $("[name=emailId]");
+		mailId.on("change", function(){
+			const mailIdReg = /\w{2,49}/;
+			const mailIdVal = mailId.val();
+			if(mailIdReg.test(mailIdVal)){
+				$(".idChk").text("메일주소 선택 후 인증을 완료해주세요.");
+				$(".idChk").css("color","blue");
+				checkArr[7] = true;
+			}else{
+				$(".idChk").text("영어소문자 및 숫자만 입력 가능합니다.");
+				$(".idChk").css("color","red");
 				checkArr[7] = false;
 			};
 		});
@@ -495,6 +511,8 @@
 								$("[name=emailId]").attr("readonly",true);
 								$("[name=emailAddr] option:selected").siblings().hide();
 								$("[name=memberIdChk]").attr("readonly",true);
+								$("[name=memberId]").val(email);
+								console.log(email);
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;
@@ -534,18 +552,26 @@
            ,minDate: "-70Y" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
            ,maxDate: "-14Y" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후) 
        	   ,yearRange: "1930:2022"
-       });                    
+       	   
+       }); 
        
        //초기값을 오늘 날짜로 설정해줘야 합니다.
        $('#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)            
       });
-	   const selectedDate = $('#datepicker').val(); 
-	   $("#datepicker").on("change",function(){
-		   const birth = $("[name=memberBirth]").val();
-	        $('#datepicker').datepicker('setDate', selectedDate); 
-	        console.log(selectedDate);
-	        checkArr[11] = true;
-	      });
+	   //datePicker 날짜값 얻어오기
+	   $(function() {
+            $( "#datepicker" ).datepicker();
+            
+            $("#datepicker").val();
+            
+            $("#datepicker").on("change",function(){
+                const selected = $(this).val();
+                alert("생년월일 "+selected+" 맞습니까?");
+                $("#datepicker").val(selected);
+                checkArr[11] = true;
+            });
+         });
+	   
 		 //회원가입 버튼
 			$("#join-submit").on("click",function(e){
 				let count = 0;
@@ -577,18 +603,18 @@
 	 //arraycheck 버튼(회원가입 완성되면 삭제)
 	   $("#join-final").on("click",function(){
 		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
+		   console.log("2. 사업자이름 : "+$("[name=bizName]").val());
+		   console.log("3. 이메일(풀값) : "+$("[name=memberId]").val());
+		   console.log("4. 메일주소 : "+$("[name=emailAddr]").val());
+		   console.log("5. 비밀번호 : "+$("[name=memberPw]").val());
+		   console.log("6. 비밀번호확인 : "+$("[name=memberPwRe]").val());
+		   console.log("7. 이름 : "+$("[name=memberName]").val());
+		   console.log("8. 전화번호 : "+$("[name=memberPhone]").val());
+		   console.log("9. 우편번호 : "+$("[name=memberPostcode]").val());
+		   console.log("10. 주소 : "+$("[name=memberAddr1]").val());
+		   console.log("11. 상세주소 : "+$("[name=memberAddr2]").val());
+		   console.log("12. 생년월일 : "+$("[name=memberBirth]").val());
+		   console.log("13. 성별 : "+$("[name=memberGender]").val());
 	   });
 		   
 	</script>

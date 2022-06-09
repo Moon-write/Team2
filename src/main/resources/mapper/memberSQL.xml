@@ -82,9 +82,13 @@
   			#{bizNo},#{bizName}
   			</when>
   		</choose>
-  		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},3000)
+  		,#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberLevel},#{memberGender},#{memberBirth},#{memberPostcode},#{memberAddr1},#{memberAddr2},null)
+  		<!-- insertBoard를 수행하고 나서(order=AFTER) b에 boardNo(keyProperty=boardNo)을 담아서 리턴 -->
+		<selectKey resultType="int" order="AFTER" keyProperty="memberNo">
+			select max(member_no) from member
+		</selectKey>	
   	</insert>
-  	<insert id="insertShop" parameterType="m">
+  	<insert id="insertShop" parameterType="int">
   		insert into shop values(shop_seq.nextval,#{memberNo},null,null)
   	</insert>
   	<update id="newPw">

@@ -23,8 +23,8 @@ public class MemberDao {
 		int result = sqlSession.insert("member.insertMember",m);
 		return result;
 	}
-	public int insertShop(Member m) {
-		return sqlSession.insert("member.insertShop",m);
+	public int insertShop(int memberNo) {
+		return sqlSession.insert("member.insertShop",memberNo);
 	}
 	public int newPwMember(Member m) {
 		return sqlSession.update("member.newPw",m);

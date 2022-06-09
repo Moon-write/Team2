@@ -29,22 +29,31 @@ public class MemberService {
 	}
 	@Transactional
 	public int insertMember(Member m) {
+		//일반회원 가입
 		if(m.getMemberLevel() == 2) {
 			int MemberResult = dao.insertMember(m);
+			System.out.println("일반회원가입 결과 : "+MemberResult);
 				if(MemberResult > 0) {
 					return 0;
 				}else {
 					return 1;
 				}
+		//사업자회원 가입
 		}else {
 			int MemberResult = dao.insertMember(m);
-			int ShopResult = dao.insertShop(m);
+			System.out.println("사업자회원가입 결과 : "+MemberResult);
+			if(MemberResult == 1) {
+				int memberNo = m.getMemberNo();
+				int ShopResult = dao.insertShop(memberNo);
+				System.out.println("shop insert 결과 : "+ShopResult);
 				if(MemberResult + ShopResult > 1) {
 					return 0;
 				}else {
 					return 1;
 				}
+			}
 		}
+		return -1;
 	}
 	public int changePw(Member m, String memberPwNew) {
 		try {
