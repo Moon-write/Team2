@@ -12,7 +12,7 @@
     padding: 0;
     margin: 0 auto;
     width: 1200px;
-    background-color: aqua;
+
     overflow: hidden;
 }
 .basic-information{
@@ -34,7 +34,7 @@
 .input-value{
     width: 960px;
 
-    background-color: royalblue;
+
     float: left;
     padding-left: 40px;
 }
@@ -56,7 +56,7 @@
 }
 .input-detail{
     width: 1000px;
-    background-color: blueviolet;
+
     float: left;
 }
 th{
@@ -66,21 +66,23 @@ th{
 
 
 .funding-basic>table{
-    width: 500px;
-    background-color: brown;
+	width: 920px;
+	background-color: rgba(30, 144, 255, 0.2);
     border-collapse: separate;
      border-spacing: 0 10px;
 }
 
 .funding-basic>table th{
-    width: 30%;
+    width: 20%;
 }
 
 table{
     border-collapse: separate;
      border-spacing: 10px 10px;
 }
-
+.main-img{
+	background-color: rgba(30, 144, 255, 0.2);
+}
 .main-img-div{
 	width:100px;
 	height:100px;
@@ -89,7 +91,7 @@ table{
 .main-imgView{
 	width:100px;
 	height:100px;
-	background-color: crimson;
+	
 }
 .input-file-button{
     width: 100px;
@@ -97,32 +99,122 @@ table{
 }
 .insert-button{
 	margin: 20px 0;
+	margin-left: 60px;
 }
 .pre-imgg:hover{
-	background-color : rgba(255,0,0,0.9);
+	background-color: #ff82ab;
+}
+
+/*파일업로드 버튼 커스텀*/
+#uploadFile{
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+#uploadFileLabel{
+	display: inline-block;
+    padding: 10px 10px;
+    color: #fff;
+    vertical-align: middle;
+	background-color: rgb(30,144,255);
+	font-size: 16px;
+	line-height: 30px;
+	border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+	font-family: ns-light
+	
+}
+#optionListPrice-table-tr>th{
+	width:225.33px;
+	border-bottom: 2px solid #555;
+}
+#precaution{
+	font-size: 17px;
+	font-weight: 400;
+	color: #555;
+	
+	
+}
+#precaution+span{
+	font-size: 13px;
+
+	color: #555;
+	
+}
+/*크롬 및 span태그 주의사항 */
+.chrome{
+	font-size: 13px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	color: #555;
+
+	
+}
+
+.chrome>span:nth-child(2n){
+	font-weight: 900;
 
 }
 
+/*기본 테이블*/
+.main-tbl{
+	
+}
+.main-tbl>tr>td{
+	width: 100px;
+}
+.main-tbl>tr>td>input{
+	width: 40px;
+}
+#bizName{
+	width: 200px;
+}
+#fundingCategory{
+	width: 200px;
+}
+#fundingCategorySpan>span:nth-of-type(1){
+
+	margin-left: 5px;
+	font-size: 13px;
+}
+#fundingCategorySpan>span:nth-of-type(2){
+	font-size: 13px;
+
+	
+}
+
+.optionListPrice{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.funding-end-table{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.note-editable{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.optionlist-span{
+	font-size: 13px;
+}
+.summernote-detail{
+	padding-left: 60px;
+	padding-right: 19px;
+}
 	
 </style>
+<link rel="stylesheet" href="/resources/css/summernote-lite.css">
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 <!-- 써머노트 -->
+<script type='text/javascript' src='http://code.jquery.com/jquery-3.6.0.js'></script>
 <script src="/resources/js/summernote-lite.js"></script>
 <script src="/resources/js/lang/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="/resources/css/summernote-lite.css">
-
-<!-- jquery_datepicker -->
-<!-- jQuery UI CSS파일 -->
-<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css">-->
-<!-- jquery 기본 js 파일 -->
-<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
-<!-- jQuery UI 라이브러리 js파일 -->
-<!--<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>-->
 
 <link rel="stylesheet" type="text/css" href="/resources/js/funding/jquery.datetimepicker.css"/ >
-<!-- <script src="/jquery.js"></script> 제이쿼리 헤더랑 중복이라 안써도 될 것 같음.-->
 <script src="/resources/js/funding/jquery.datetimepicker.full.min.js"></script>
 
 	<div class="main">
@@ -134,12 +226,21 @@ table{
 	            <div class="funding-basic">
 	            <!-- <input type="hidden" name="memberNo" value="${session.m.memberNo }"> -->
 	            <input type="hidden" name="fundingNo" value="${f.fundingNo }">
-	                <table>
+				<div class="chrome">
+					<span id="precaution"class="material-symbols-outlined">error</span>
+					<span>weNeedYou</span>
+					<span>은</span>
+					<span>Chrome</span>
+					<span>사용을 권장합니다. 이외의 브라우저 또는 </span>
+					<span>Chrome</span>
+					<span>하위버전으로 접속 할 경우 페이지가 깨져 보일 수 있습니다.</span>
+				</div>
+	                <table class="main-tbl">
 	                    <tr>
-	                        <th>펀딩 프로젝트명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="${f.fundingName }"></td>
+	                        <th>펀딩 프로젝트명</th><td colspan="2"><input type="text" class="input-form" name="fundingName" type="text" value="${f.fundingName }"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td><input type="text" class="input-form" type="text" name="bizName" value="${f.bizName}"></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text" name="bizName" value="${f.bizName}"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>카테고리</th>
@@ -152,12 +253,16 @@ table{
 	                            <option value="홈리빙" <c:if test="${f.fundingCategory eq '홈리빙' }">selected </c:if>>홈리빙</option>
 	                        </select>
 	                        </td>
+							<td id="fundingCategorySpan">
+								<span id="precaution"class="material-symbols-outlined">error</span>
+								<span>펀딩과 맞지 않는 카테고리에 등록할 경우, 적정 카테고리로 이동될 수 있습니다.</span>
+							</td>
 	                    </tr>
 	                </table>
 	            </div>
 				
 	            <div class="optionListPrice">
-	                <table border="1">
+	                <table>
 	                    <tr id="optionListPrice-table-tr">
 	                        <th>옵션명</th><th>가격(원)</th>
 	                    </tr>
@@ -175,17 +280,18 @@ table{
 	            <!-- <div><input type="text" name="fundingFileNo" value="${file.fundingFileNo}"><input type="text" name="fundingFilePath" value="${file.fundingFilePath}"></div> -->
 	                <div class="main-img">
 						 
-						 <table border="1">
+						 <table>
 						   
 						    <tr>
-						      <td align="center">
-						        <input type="file" name="upfile" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" multiple>
+						      <td>
+								<h4>사전 등록된 이미지</h4>
+								<hr>
 						        <div id="previeww">
 						        	<c:forEach items="${filelist }" var="file">
 				            				<div class="pre-imgg" style="display: inline-flex; padding: 10px;">
 				            				<span style="display:none;">${file.fundingFileNo }</span>
 				            					<div>
-				            						<span>${file.fundingFilePath }</span>
+				            						<span id="file-path-name">${file.fundingFilePath }</span>
 				            						<br>
 				            						<img src="/resources/upload/funding/${file.fundingFilePath }" width="100" height="100">
 				            					</div>
@@ -193,16 +299,19 @@ table{
 
 									</c:forEach>
 						        </div>
+								<h4>추가이미지</h4>
+								<hr>
+								<br>
+								<label for="uploadFile" id="uploadFileLabel">추가 이미지 업로드</label>
+								<span id="precaution" class="material-symbols-outlined">error</span>
+								<span>사전 등록된 이미지는 '선택'해서 삭제할 수 있습니다.</span>
+								
+						        <input type="file" name="upfile" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" multiple>
 						        <div id="preview"></div>
 						      </td>
 						    </tr>
 						  </table>
 					</div>
-					
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
-	                <div class="sub-img"><img></div>
 	            </div>
 	
 	            <div class="funding-end-table">
@@ -372,15 +481,13 @@ table{
         
         //파일명이 길면 파일명...으로 처리
         var fileName = f.name;
-       /*  if(fileName.length > 10){
+         if(fileName.length > 10){
           fileName = fileName.substring(0,7)+"...";
         }
         
-        var bornToBeName = $(".pre-img").children().children().eq(0).text();
-        console.log(bornToBeName);
-        if(bornToBeName.length > 10){
-        	bornToBeName = bornToBeName.substring(0,7)+"...";
-          } */
+        
+		  
+		  
         
         //div에 이미지 추가
         var str = '<div class="pre-img" style="display: inline-flex; padding: 10px;"><div>';
@@ -405,5 +512,19 @@ table{
   });
   
   
+</script>
+<script>
+	$(function(){
+		$('#file-path-name').each(function(){
+		var bornToBeName = $("#file-path-name").text();
+        console.log(bornToBeName);
+        if(bornToBeName.length > 10){
+        	bornToBeName = bornToBeName.substring(0,7)+"...";
+			$("#file-path-name").text(bornToBeName);
+    	}
+
+	});
+
+	});
 </script>
 </html>

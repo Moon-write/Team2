@@ -38,8 +38,8 @@ public class FundingDao {
 		return sqlSession.insert("funding.insertFundingFile",file);
 	}
 
-	public ArrayList<FundingJoinFile> selectAllList() {
-		List list = sqlSession.selectList("funding.selectAllList");
+	public ArrayList<FundingJoinFile> selectAllList(HashMap<String, Object> map) {
+		List list = sqlSession.selectList("funding.selectAllList",map);
 		return (ArrayList<FundingJoinFile>)list;
 	}
 	
@@ -95,6 +95,21 @@ public class FundingDao {
 		return sqlSession.delete("funding.deleteFundingFile",map);
 	}
 
+	public int addLike(HashMap<String, Object> map) {
+		
+		return sqlSession.insert("funding.addLike",map);
+	}
+
+	public int removeLike(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("funding.removeLike",map);
+	}
+	
+	public int getTotalLike(int fundingNo) {
+		int result = sqlSession.selectOne("funding.getTotalLike", fundingNo);
+		System.out.println("토탈 개수  : "+ result);
+		return result;
+	}
 	
 
 

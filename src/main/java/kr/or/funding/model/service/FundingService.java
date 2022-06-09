@@ -47,8 +47,13 @@ public class FundingService {
 		return result2+result3;
 	}
 
-	public ArrayList<FundingJoinFile> fundingAllList() {
-		ArrayList<FundingJoinFile> list  = dao.selectAllList();
+	public ArrayList<FundingJoinFile> fundingAllList(int selectedInquire) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectedInquire", selectedInquire);
+		//if(selectedInquire==1||selectedInquire==2) {
+			ArrayList<FundingJoinFile> list  = dao.selectAllList(map);		
+
+		//}
 		return (ArrayList<FundingJoinFile>)list;
 	}
 	
@@ -139,6 +144,33 @@ public class FundingService {
 		return resultDelete+result3;
 	}
 
+	public int addLike(int memberNo, int fundingNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("fundingNo", fundingNo);
+		int result = dao.addLike(map);
+		
+		if(result>0) {
+			result = dao.getTotalLike(fundingNo);
+		}else {
+			return -1;
+		}
+		return result;
+	}
+
+	public int removeLike(int memberNo, int fundingNo) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("fundingNo", fundingNo);
+		int result = dao.removeLike(map);
+		
+		if(result>0) {
+			result = dao.getTotalLike(fundingNo);
+		}else {
+			return -1;
+		}
+		return result;
+	}
 
 	/*
 	 * public int updateFunding(int memberNo, int fundingNo) { HashMap<String,

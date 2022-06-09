@@ -93,12 +93,12 @@
 	.photoWriteBtn{
 		float:right; 
 	}
-	.product-simple{
+	.funding-simple{
 		overflow : hidden;
 /* 		border : 3px solid red; */
 		margin-top :20px;
 	}
-	.product-simple-detail{
+	.funding-simple-detail{
 		/* border : 3px solid black; */
 	 	float : left; 
 	 	padding : 20px;
@@ -184,6 +184,31 @@
 		margin-top: 8px;
 		color: #424242;
 	}
+	.selected-search{
+
+		overflow: hidden;
+		display: flex;
+		justify-content: flex-end;
+		height: 70px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid rgba(75, 75, 75, 0.2);
+	}
+	#searchBtn{
+		
+		height: 45px;
+	}
+	#listSearch{
+		width: 200px;
+		
+		height: 45px;
+	}
+	#select-inquire{
+		width: 150px;
+		height: 45px;
+		margin-right: 35px;
+		
+	}
+	
 	
 	
 </style>
@@ -260,10 +285,31 @@
 				</div>
 			</a>
 		</div>
-			<div class="product-simple">
+			<div class="funding-simple">
+				<h2>진행중인 펀딩</h2>
+				<br>
+				<div class=selected-search>
+					<select id="select-inquire" name="selectedInquire" class="input-form">
+						<option value="1" <c:if test='${selectedInquire eq 1}'>selected="selected"</c:if>>최근등록순</option>
+						<option value="2" <c:if test='${selectedInquire eq 2}'>selected="selected"</c:if>>마감임박순</option>
+						<option value="3" <c:if test='${selectedInquire eq 3}'>selected="selected"</c:if>>좋아요순</option>
+						<option value="4" <c:if test='${selectedInquire eq 4}'>selected="selected"</c:if>>조회수순</option>
+					</select>
+					<input type="text" id="listSearch" name="searchKeyword" class="input-form"
+						<c:choose>
+							<c:when test='${empty keyword}'>
+								placeholder="상품명 입력"
+							</c:when>
+							<c:otherwise>
+								value="${keyword}"
+							</c:otherwise>
+						</c:choose>
+						>
+						<button class="btn bc11" id="searchBtn"><span class="material-symbols-outlined" >search</span></button>
+				</div>
 						<c:forEach items="${list }" var="fjf">
 							<a href="/fundingDetailStory.kh?fundingNo=${fjf.fundingNo }">
-								<div class="product-simple-detail">
+								<div class="funding-simple-detail">
 									<div class="img-box">								
 										<img src="/resources/upload/funding/${fjf.fundingFilePath}">
 									</div>
@@ -287,7 +333,22 @@
 						</c:forEach>
 					</div> 
 	</div>
-		
+		<script>
+		$(function(){
+			$("select#select-inquire").on("change",function(){
+				keywordLink();
+			});
+			/* $("button#searchBtn").on("click",function(){
+				keywordLink();
+			})  */
+			
+			function keywordLink(){
+				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";
+				location.href = "/fundingAllList.kh?selectedInquire="+$("select#select-inquire").val()+"";
+			}
+			
+		});
+		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

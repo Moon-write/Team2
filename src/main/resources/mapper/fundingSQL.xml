@@ -6,7 +6,7 @@
   	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
   	SYSDATE,
   	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
-  	#{fundingSum},0,157,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
+  	#{fundingSum},0,77,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
   </insert>
   <select id="selectFundingMaxNo" resultType="int">
   	SELECT MAX(FUNDING_NO) FROM FUNDING
@@ -22,7 +22,7 @@
   	)
   
   </insert> 
-  <select id="selectAllList" resultType="fjf">
+  <select id="selectAllList" parameterType="map" resultType="fjf">
   SELECT * FROM (SELECT FUNDING.FUNDING_NO 			AS fundingNo,
   	FUNDING_NAME 		AS fundingName,
   	FUNDING_CATEGORY	AS fundingCategory,
@@ -36,7 +36,15 @@
     FUNDING_DEADLINE    AS fundingDeadline,
     BIZ_NAME			AS bizName,
     ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING_FILE.FUNDING_FILE_NO) AS RN
-    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 ORDER BY fundingNo DESC
+    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 
+  	<choose>
+  			<when test="selectedInquire==1">
+		  		ORDER BY FUNDINGNO DESC
+  			</when>
+  			<otherwise>
+		  		AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+  			</otherwise>
+  		</choose>
   </select>
   <select id="selectOneFunding" parameterType="int" resultType="f"><!--동적쿼리 int를 f로 바꿧음  실패-->
   	SELECT
@@ -134,5 +142,14 @@
   <delete id="deleteFundingFile" parameterType="map">
   	DELETE FROM FUNDING_FILE WHERE FUNDING_NO = #{fundingNo} AND FUNDING_FILE_NO = #{deleteFundingFileNo}
   	</delete>
+  	<insert id="addLike" parameterType="map">
+  	INSERT INTO LIKE_TBL VALUES(1, #{fundingNo}, #{memberNo})
+  </insert>
+  <delete id="removeLike" parameterType="map">
+  	DELETE LIKE_TBL WHERE DIV_NO=1 AND PROJECT_NO =#{fundingNo} AND MEMBER_NO= #{memberNo}
+  </delete>
+  	<select id="getTotalLike" parameterType="int" resultType="int">
+  	SELECT COUNT(*) FROM LIKE_TBL WHERE DIV_NO=1 AND PROJECT_NO=#{fundingNo}
+  </select>
   	
 </mapper>
