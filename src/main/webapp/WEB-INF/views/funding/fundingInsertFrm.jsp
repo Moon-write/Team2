@@ -529,7 +529,7 @@ table{
 		   timePopupWidth: "150px",
 		   timeDisplayFormat: "hh:mm:ss tt",
 		   width: '300px',
-		   minDate:'+1970/01/02'
+		   minDate:'+1970-01-02'
 		   
 		});
 		

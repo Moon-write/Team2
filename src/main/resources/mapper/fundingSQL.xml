@@ -5,8 +5,8 @@
   	INSERT INTO FUNDING VALUES(
   	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
   	SYSDATE,
-  	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
-  	#{fundingSum},0,77,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
+  	TO_DATE(#{fundingEndDate},'YYYY-MM-DD HH24:MI'),
+  	#{fundingSum},0,77,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY-MM-DD HH24:MI')-SYSDATE),#{bizName})
   </insert>
   <select id="selectFundingMaxNo" resultType="int">
   	SELECT MAX(FUNDING_NO) FROM FUNDING
@@ -122,9 +122,9 @@
   		FUNDING_NAME = #{fundingName},
   		FUNDING_CATEGORY = #{fundingCategory},
   		FUNDING_DETAIL = #{fundingDetail},
-  		FUNDING_END_DATE = TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
+  		FUNDING_END_DATE = TO_DATE(#{fundingEndDate},'YYYY-MM-DD HH24:MI'),
   		FUNDING_SUM	= #{fundingSum},
-  		FUNDING_DEADLINE = FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE)
+  		FUNDING_DEADLINE = FLOOR(TO_DATE(#{fundingEndDate},'YYYY-MM-DD HH24:MI')-SYSDATE)
   	WHERE FUNDING_NO=#{fundingNo}
   </update>
   <select id="selectFundingOptionPriceNo" parameterType="f" resultType="int">
