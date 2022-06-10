@@ -21,7 +21,13 @@
 <!-- sweetalarm.js -->
 <script src="../../../resources/js/sweetalert.min.js"></script>
 
+<!-- 메뉴 효과 css -->
+<link rel="stylesheet" href="../../../resources/css/common/component.css" />
+<link rel="stylesheet" href="../../../resources/css/common/demo.css" />
+<link rel="stylesheet" href="../../../resources/css/common/normalize.css" />
 
+<!-- 메뉴 효과 js -->
+<script src="../../../resources/js/common/modernizr.custom.js"></script>
 <!-- -- -- -- -- -- html 시작 -- -- -- -- --  -->
 <div class="msg-banner">
 	<span>메세지 전달용 배너</span>
@@ -53,9 +59,9 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<div class="menu-wrap">
+	<div class="menu-wrap cl-effect-5" id="cl-effect-5">
 		<ul>
-			<li><a href="/fundingAllList.kh?selectedInquire=1">펀딩</a>
+			<li><a href="/fundingAllList.kh?selectedInquire=1"><span data-hover="펀딩">펀딩</span></a>
 				<ul class="sub-menu-wrap">
 					<li><a href="/fundingTechList.kh">테크·가전</a></li>
 					<li><a href="/fundingFashionList.kh">패션·잡화</a></li>
@@ -64,8 +70,8 @@
 					<li><a href="/fundingBeautyList">뷰티</a></li>
 				</ul>
 			</li>
-			<li><a href="/donationList.kh">기부</a></li>
-			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1">경매</a></li>
+			<li><a href="/donationList.kh"><span data-hover="기부">기부</span></a></li>
+			<li><a href="/auctionList.kh?startFlag=0&endFlag=0&searchKeyword=&order=1&reqPage=1"><span data-hover="경매">경매</span></a></li>
 			<li>
 				<form action="/searchProject.kh" style="margin-top: 5px">
 					<input type="text" name="keyword" id="site-search" autocomplete='off'>

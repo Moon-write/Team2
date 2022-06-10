@@ -55,7 +55,7 @@
 			    END
 			    as projectName,
 			    order_price as orderPrice,
-			    substr(order_date,1,10) as orderDate,
+			    TO_CHAR(order_date, 'YYYY-MM-DD') as orderDate,
 			    order_status as orderStatus
 			FROM ORDER_TBL O WHERE MEMBER_NO = #{memberNo} ORDER BY 2 DESC)C)
             where rnum between #{start} and #{end}		

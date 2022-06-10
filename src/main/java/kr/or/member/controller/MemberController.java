@@ -110,7 +110,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="/pwChange.kh")
 	public String pwChange(Member m, String memberPwNew) {
-		int result = service.changePw(m,memberPwNew);
+		int result = service.changePw(m, memberPwNew);
 		if(result > 0){
 			request.setAttribute("title", "비밀번호 변경성공");
 			request.setAttribute("msg", "비밀번호가 성공적으로 변경되었습니다.");

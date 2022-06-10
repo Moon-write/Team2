@@ -24,7 +24,8 @@ header>div.login-wrap{
     top: 5px;
 }
 header>div.login-wrap>a{
-    font-size: 0.8em;
+	padding: 5px;
+    font-size: 0.9em;
     color:  #191F28	;
     font-family: ns-light;
 }
@@ -32,13 +33,16 @@ header>div.login-wrap>a:hover{
     font-family: ns-m;
 }
 header>div.logo-wrap{
-    height: 100px;
+    height: 110px;
     padding: 10px;
     text-align: center;
     box-shadow: 1px 1px 1px 1px rgb(248, 248, 248);
 }
 header>div.logo-wrap img{
     height: 100%;
+}
+header>div.logo-wrap img:hover{
+    transform: scale(1.05);
 }
 div.menu-wrap{
     position: relative;
@@ -59,6 +63,10 @@ div.menu-wrap>ul>li>a{
     line-height: 40px;
     font-family: ns-m;
     color: #191F28;
+    font-size: 1.1em;
+}
+div.menu-wrap>ul>li>a:hover{
+	
 }
 div.menu-wrap>ul>li:last-child{
 	display: flex;
@@ -79,6 +87,13 @@ input#site-search+span{
     height: 100%;
     vertical-align: -8px;
     color: #1E90FF;
+}
+input#site-search:hover{
+	cursor: caret;
+}
+input#site-search+span:hover{
+	cursor: pointer;
+    font-weight: bolder;
 }
 
 ul.sub-menu-wrap{

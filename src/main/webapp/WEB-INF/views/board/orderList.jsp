@@ -42,7 +42,7 @@
 	left: 0px;
 }
 .my_book_list_tbl tr>th:nth-child(1){
-	width: 10%;
+	width: 8%;
 }
 .my_book_list_tbl tr>th:nth-child(2){
 	width: 10%;
@@ -54,13 +54,13 @@
 	width: 10%;
 }
 .my_book_list_tbl tr>th:nth-child(5){
-	width: 10%;
+	width: 11%;
 }
 .my_book_list_tbl tr>th:nth-child(6){
 	width: 12%;
 }
 #my_book_list_tbl tr>td:nth-child(1){
-	width: 10%;
+	width: 8%;
 }
 #my_book_list_tbl tr>td:nth-child(2){
 	width: 10%;
@@ -72,7 +72,7 @@
 	width: 10%;
 }
 #my_book_list_tbl tr>td:nth-child(5){
-	width: 10%;
+	width: 11%;
 }
 #my_book_list_tbl tr>td:nth-child(6){
 	width: 12%;

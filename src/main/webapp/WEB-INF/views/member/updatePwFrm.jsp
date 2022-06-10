@@ -75,7 +75,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>새 비밀번호</td>
-								<td><input class="input-form" type="password" id="memberPw" name="memberPw" placeholder="4~6자의 영문 대소문자,숫자만 가능합니다." required></td>
+								<td><input class="input-form" type="password" id="memberPwNew" name="memberPwNew" placeholder="4~6자의 영문 대소문자,숫자만 가능합니다." required></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -83,7 +83,7 @@
 							</tr>
 							<tr class="tr-3">
 								<td>새 비밀번호(확인)</td>
-								<td><input class="input-form" type="password" id="memberPwRe" name="memberPwRe" placeholder="정확한 확인을 위해 한번 더 입력해주세요." required></td>
+								<td><input class="input-form" type="password" id="memberPwNewRe" name="memberPwNewRe" placeholder="정확한 확인을 위해 한번 더 입력해주세요." required></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -113,7 +113,7 @@
 				data: {memberId : memberId , memberPw : memberPw},  // Controller로 보낼 데이터
 				success: function(data) {
 					if(data == "0"){
-						$(".pwChk").text("비밀번호가 인증되었습니다.");
+						$(".pwChk").text("비밀번호가 일치합니다.");
 						$(".pwChk").css("color","blue");
 						checkArr[0] = true;
 					}else{
@@ -129,9 +129,9 @@
 		});
 		//새 비밀번호 정규식
 		//새 비밀번호 일치체크
-		$("#memberPwReNew").on("change", function(){
+		$("#memberPwNewRe").on("change", function(){
 			const pwVal = $("#memberPwNew").val();
-			const pwReVal = $("#memberPwReNew").val();
+			const pwReVal = $("#memberPwNewRe").val();
 			if(pwVal == pwReVal){
 				$(".newPwReChk").text("두 비밀번호가 일치합니다.");
 				$(".newPwReChk").css("color","blue");

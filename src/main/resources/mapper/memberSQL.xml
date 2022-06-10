@@ -91,7 +91,7 @@
   	<insert id="insertShop" parameterType="int">
   		insert into shop values(shop_seq.nextval,#{memberNo},null,null)
   	</insert>
-  	<update id="newPw">
+  	<update id="newPw" parameterType="m">
   		update member set member_pw=#{memberPw} where member_id=#{memberId}
   	</update>
   	<delete id="deleteMember" parameterType="String">

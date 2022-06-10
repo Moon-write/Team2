@@ -40,7 +40,6 @@ public class MemberService {
 		//사업자회원 가입
 		}else {
 			int MemberResult = dao.insertMember(m);
-			System.out.println("사업자회원가입 결과 : "+MemberResult);
 			if(MemberResult == 1) {
 				int memberNo = m.getMemberNo();
 				int ShopResult = dao.insertShop(memberNo); 
@@ -55,18 +54,17 @@ public class MemberService {
 	}
 	public int changePw(Member m, String memberPwNew) {
 		try {
-			String oldPwEnc = enc.endData(m.getMemberPw());
-			m.setMemberPw(oldPwEnc);//기존 비밀번호 암호화
 			memberPwNew = enc.endData(memberPwNew);//새 비밀번호 암호화
+			System.out.println("새 비밀번호 암호화 : "+memberPwNew);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Member member = dao.selectOneMember(m);
-		if(member == null) {
+		if(m.getMemberPw() != memberPwNew) {
+			m.setMemberPw(memberPwNew);
+			return dao.newPwMember(m);
+		}else {
 			return -1;
 		}
-		m.setMemberPw(memberPwNew);
-		return dao.newPwMember(m);
 	}
 
 	public int deleteMember(String memberId) {
