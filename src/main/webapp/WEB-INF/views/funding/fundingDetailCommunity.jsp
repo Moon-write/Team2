@@ -86,20 +86,29 @@
 
     overflow: hidden;
 }
+
+/*왼쪽 상자*/
 .left-box{
     width: 65%;
-    background-color: red;
-    height: 1000px;/*나중에 지우세요*/
+    background-color: bisque;
+    
     float: left;
     
 }
 
+/*오른쪽 상자*/
 .right-box{
     width: 30%;
     height: 1000px; /*나중에 지워주기*/
 
     float: right;
     padding: 0 20px;
+}
+.suppoter-text{
+    margin-top: 20px;
+    line-height: 23px;
+    color: #1d2129;
+    font-size: 18px;
 }
 .funding{
     width: 100%;
@@ -189,10 +198,6 @@
 	overflow:hidden
 }
 
-.like-qna-share>div>button{
-
-}
-
 .img-slide>div>img{
 	width: 100%;
     height: 400px;
@@ -261,7 +266,30 @@
     <div class="main">
         <div class="box">
             <div class="left-box">
-                
+                <div class="comment-wrap">
+                    <p>
+                        서포터님!<br>
+                        처음 <strong>메이커의 열정과 가치에 공감</strong>해주셨듯, 마지막까지 <strong>메이커를 응원</strong>해주세요.
+                    </p>
+                </div>
+                <div class="faq">
+                    와디즈에서 펀딩하는 방법이 궁금하다면?
+                    <br>
+                    <h3>FAQ</h3>
+                </div>
+                <div class="faq-slide">
+                    <h3>예시 펀딩했어요~</h3>
+                    <h3>예시 펀딩했어요~</h3>
+                    <h3>예시 펀딩했어요~</h3>
+                    <h3>예시 펀딩했어요~</h3>
+                </div>
+                <br>
+                <div class="community-review">
+                    <h2>응원.의견.체험리뷰</h2>
+                    <button type="button" id="bidBtn" class="btn bc2 bs5">글 남기기</button>
+                    <br>
+                    <div id='noComment' style='height: 100px; display: none; align-items: center;'>등록된 댓글이 없습니다!</div>
+                </div>
             </div>
             <div class="right-box">
                 <div class="funding">
@@ -314,6 +342,33 @@
         </div>    
     </div>
 
+    <div id="bidding-modal" class="modal-bg"  style="display: none;">
+    
+        <div class="modal-wrap" style="width:700px ; background-color: aqua;" >
+            <div class="modal-head" style="padding-left: 40px;padding-right:40px ; background-color: #ff82ab;">
+                <h2>글 남기기</h2>
+                <span class="material-symbols-rounded close-icon modal-close">close</span>
+            </div>
+            <div class="modal-content" style="padding-left: 40px;padding-right:40px ;">
+                    <span>메이커에게 응원 메시지를 남겨주세요.</span>
+                    <br>
+                    <textarea id="commentContent"style="width: 100%; height: 250px;"></textarea>
+            </div>
+                <div class="modal-foot" style="padding-left: 40px;padding-right:40px ; " >
+                    <h2 style="text-align: left;">게시물 이용 안내</h2>
+                    <ol style="text-align: left;">
+                        <li>본 프로젝트와 무관한 글, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 삭제 등 조치가 취해질 수 있으며, 해당 내용으로 인해 메이커, 서포터, 제3자에게 피해가 발생되지 않도록 유의하시기 바랍니다.</li>
+                        <li>최근 메이커 또는 제3자에 대한 허위사실 유포, 비방 목적의 댓글로 인해 당사자간 법적분쟁이 발생한 사례가 증가하고 있습니다. 악의적 댓글 작성자는 명예훼손, 모욕 등으로 법적 책임을 부담하게 될 수 있다는 점을 유의하여 주시기 바랍니다.</li>
+                        <li>리워드 관련 문의 및 배송 문의는 '메이커에게 문의하기'를 통해 정확한 답변을 받을 수 있습니다.</li>
+                        <li>서포터님의 연락처, 성명, 이메일 등의 소중한 개인정보는 절대 남기지 마세요.</li>
+                    </ol>
+                    <br>
+                    <button class="btn bc2" id="sendBidBtn" disabled>등록</button>
+                    <button class="btn bc22 modal-close">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <%@include file="/WEB-INF/views/common/footer.jsp" %>
     <script>
@@ -441,6 +496,28 @@
         function login(){
 			location.href = "/loginFrmF.kh";
 		}
+
+        //모달 글 작성
+        $(function(){//모달 종료버튼
+            $("#bidBtn").on("click",function(){
+				$("#bidding-modal").css("display", "flex");
+                alert("등록버튼눌림");
+			});
+        
+            $(".modal-close").on("click", function () {
+                    $(this).parents(".modal-wrap").parent().css("display", "none");
+                     
+            });
+            $("#sendBidBtn").on("click", function(){
+                console.log("등록버튼 눌림");  
+                const value = $("#moreBtn").val();
+                const content =  $("#commentContent").val();
+                
+             
+
+            });
+        });//온로드
+
 </script>
     <style>
         .funding-btn{
@@ -448,6 +525,7 @@
             line-height: 25px;
             font-weight: 600;
         }
+
     </style>
 </body>
 </html>

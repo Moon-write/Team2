@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import kr.or.common.model.vo.Comment;
 import kr.or.funding.model.dao.FundingDao;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
@@ -170,6 +171,20 @@ public class FundingService {
 			return -1;
 		}
 		return result;
+	}
+
+	public Funding selectOneFundingRight(int fundingNo) {
+		return dao.selectOneFundingRight(fundingNo);
+	}
+
+	public Comment addComment(Comment c) {
+		int result = dao.addComment(c);
+		if(result>0) {
+			Comment comment = dao.selectLastComment(c);
+			return comment;
+		}else {
+			return null;
+		}
 	}
 
 	/*

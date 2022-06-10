@@ -180,11 +180,12 @@
 			<div class="dotted-circle"><span>결제</span></div>
 		</div>
 		<div>
+			<form action="/fundingPayment.kh" method="post">
 		<c:forEach items="${list}" var="sfop" varStatus="i">
 		<div class="option-price-select">
 
 			<div class="check-box-wrap">
-				<input type="checkbox" class="check-box" name="check-boxer">
+				<input type="checkbox" class="check-box" id="check-boxer">
 			</div>
 			<div class="funding-content">
 				<div><span>${sfop.fundingOptionPrice}</span><span>원 입니다</span></div>
@@ -194,9 +195,11 @@
 		</div>
 		</c:forEach>
 		<div class="funding-Name-price"><span class="total-price">${f.fundingName } 에 (개수*가격의 합)원 펀딩합니다</span></div>
+		
 		<div class="submit-wrap">
 			<input type="submit" class="btn bc1 funding-btn"  value="다음 단계로 >">
 		</div>
+		</form>
 	</div>
 			
 
@@ -226,11 +229,11 @@
 					console.log($(this).parent().next().children().eq(2).text());
 				let fundingContent = $(this).parent().next();
 				let fundingContentDiv = $("<div>").attr("class","addAmount");
-				let amountDecrease = $("<button>").attr("class","amountB amount-increase");
+				let amountDecrease = $("<button>").attr("class","amountB amount-increase").attr("type","button");
 				let materialSymbolsRounded1 = $("<span>").attr("class","material-symbols-rounded").append("add");
 				let amountNumSpan=$("<span>").attr("class","amount-num");
 				let amountNumInput=$("<input>").attr("name","amountNum").attr("value",amountNumber).prop('readonly', true);
-				let amountIncrease = $("<button>").attr("class","amountB amount-decrease");
+				let amountIncrease = $("<button>").attr("class","amountB amount-decrease").attr("type","button");
 				let materialSymbolsRounded2 =$("<span>").attr("class","material-symbols-rounded").append("remove");
 
 					amountDecrease.append(materialSymbolsRounded1);
@@ -265,20 +268,21 @@
 					}
 				});
 				
-				$("input:checkbox[name=check-boxer]:checked").each(function(){
+				$("#check-boxer:checked").each(function(){
 					$(".amount-increase").on("click",function(){
 					console.log($(this).prev().children().val());
 					console.log($(this).parent().prev().prev().prev().children().eq(0).text());
 					console.log("가격 : "+$(this).prev().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text());
 					
 					const standard = $(this).parent().parent();
-					const price = $(this).prev().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text()
+					const price = $(this).prev().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text();
 					const div = $("<div class=\"divPrice\">");
 					const span1 = $("<span class=\"spanPrice\">");
 					const span2 = $("<span class=\"spanPriceWon\"> 원 펀딩합니다.</span>");
+					const inputHidden = $("<input type=\"hidden\" name=\"amountNumPrice\">");
 					$(this).parent().next().remove();
 					span1.append(price);
-					div.append(span1).append(span2);
+					div.append(span1).append(span2).append(inputHidden.attr("value",price));
 					standard.append(div);
 					
 					
@@ -290,13 +294,14 @@
 						console.log("가격 : "+$(this).next().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text());
 						
 						const standard = $(this).parent().parent();
-						const price = $(this).next().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text()
+						const price = $(this).next().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text();
 						const div = $("<div class=\"divPrice\">");
 						const span1 = $("<span class=\"spanPrice\">");
 						const span2 = $("<span class=\"spanPriceWon\"> 원 펀딩합니다.</span>");
+						const inputHidden = $("<input type=\"hidden\" name=\"amountNumPrice\">");
 						$(this).parent().next().remove();
 						span1.append(price);
-						div.append(span1).append(span2);
+						div.append(span1).append(span2).append(inputHidden.attr("value",price));
 						standard.append(div);
 					});
 				});

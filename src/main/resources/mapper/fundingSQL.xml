@@ -151,5 +151,27 @@
   	<select id="getTotalLike" parameterType="int" resultType="int">
   	SELECT COUNT(*) FROM LIKE_TBL WHERE DIV_NO=1 AND PROJECT_NO=#{fundingNo}
   </select>
-  	
+  <select id="selectOneFundingRight" parameterType="int" resultType="f">
+    SELECT 
+    FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	MEMBER_NO			AS memberNo,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	FUNDING_END			AS fundingEnd,
+  	FUNDING_DEADLINE	AS fundingDeadline,
+  	BIZ_NAME			AS bizName
+    FROM FUNDING WHERE FUNDING_NO = #{fundingNo}
+  </select>
+  <insert id="addComment" parameterType="c">
+  	INSERT INTO COMMENT_TBL VALUES(COMMENT_SEQ.NEXTVAL, 1, #{projectNo}, #{memberNo}, #{commentContent}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'),0 )
+  </insert>
+  <select id="selectLastComment" parameterType="c" resultType="c">
+  	SELECT MAX(COMMENT_NO) AS commentNo,
+           MAX(COMMENT_DATE) AS commentDate
+    FROM COMMENT_TBL WHERE DIV_NO=1 AND PROJECT_NO= #{projectNo} AND MEMBER_NO=#{memberNo}
+  </select>	
 </mapper>

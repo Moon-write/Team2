@@ -24,12 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 
+import kr.or.common.model.vo.Comment;
 import kr.or.funding.model.service.FundingService;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOption;
 import kr.or.funding.model.vo.FundingOptionPrice;
+import kr.or.funding.model.vo.PaymentData;
 import kr.or.member.model.vo.Member;
 
 @Controller
@@ -247,18 +249,21 @@ public class FundingController {
 		return "funding/fundingDetailStory";
 	}
 	@RequestMapping(value="/fundingDetailCommunity.kh")
-	public String FundingDetailCommunity(int fundingNo, Model model) {
-		model.addAttribute("fundingNo",fundingNo);
+	public String FundingDetailCommunity(Funding funding, Model model) {
+		Funding f = service.selectOneFundingRight(funding.getFundingNo());
+		model.addAttribute("f",f);
 		return "funding/fundingDetailCommunity";
 	}
 	@RequestMapping(value="/fundingDetailNotice.kh")
-	public String FundingDetailNotice(int fundingNo, Model model) {
-		model.addAttribute("fundingNo",fundingNo);
+	public String FundingDetailNotice(Funding funding, Model model) {
+		Funding f = service.selectOneFundingRight(funding.getFundingNo());
+		model.addAttribute("f",f);
 		return "funding/fundingDetailNotice";
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
-	public String FundingDetailSupporter(int fundingNo, Model model) {
-		model.addAttribute("fundingNo",fundingNo);
+	public String FundingDetailSupporter(Funding funding, Model model) {
+		Funding f = service.selectOneFundingRight(funding.getFundingNo());
+		model.addAttribute("f",f);
 
 		return "funding/fundingDetailSupporter";
 	}
@@ -457,6 +462,36 @@ public class FundingController {
 		
 		return Integer.toString(result);
 	}
+	@RequestMapping(value="/fundingPayment.kh")
+	public String FundingPayment(PaymentData pd) {
+		for(int i = 0 ; i<pd.getAmountNumPrice().length;i++) {
+			System.out.println("각각가격 : "+pd.getAmountNumPrice()[i]);
+		}
+		return "funding/fundingNoticeFrm";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/addCommentF.kh", produces="application/json; charset=utf-8")
+	public String AddCommentF(@SessionAttribute(required=false) Member m,Comment c) {
+		System.out.println(c.getCommentContent());
+		System.out.println(c.getProjectNo());
+		c.setMemberNo(m.getMemberNo());
+		c = service.addComment(c);
+		if(c==null) {
+			return "error";
+		}else {
+			return new Gson().toJson(c);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

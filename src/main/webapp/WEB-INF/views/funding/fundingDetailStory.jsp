@@ -127,14 +127,14 @@
 }
 .right-box{
     width: 30%;
-    height: 1000px; /*나중에 지워주기*/
+
 
     float: right;
     padding: 0 20px;
 }
 .funding{
     width: 100%;
-    height: 500px;  /*나중에 지워주기*/ 
+
   
     margin-bottom: 30px;
     
@@ -317,7 +317,7 @@
 							<div class="bar-back"><div class="bar" style="width:100%;"></div></div>
 						</c:when>
 						<c:otherwise>
-							<div class="bar-back"><div class="bar" style="width: ${f.fundingSumRate};"></div></div>
+							<div class="bar-back"><div class="bar" style="width: ${f.fundingSumRate}%;"></div></div>
 						</c:otherwise>
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>

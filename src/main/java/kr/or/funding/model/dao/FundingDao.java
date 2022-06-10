@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.board.model.vo.Board;
+import kr.or.common.model.vo.Comment;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
@@ -109,6 +110,20 @@ public class FundingDao {
 		int result = sqlSession.selectOne("funding.getTotalLike", fundingNo);
 		System.out.println("토탈 개수  : "+ result);
 		return result;
+	}
+
+	public Funding selectOneFundingRight(int fundingNo) {
+		return sqlSession.selectOne("funding.selectOneFundingRight",fundingNo);
+	}
+
+	public int addComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("funding.addComment", c);
+	}
+
+	public Comment selectLastComment(Comment c) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("funding.selectLastComment",c);
 	}
 	
 
