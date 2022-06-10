@@ -64,20 +64,24 @@ public class DonationController {
 
 	// insert
 	@RequestMapping(value="/insertDonationComment.kh")
-	public String insertComment(@SessionAttribute Member m, DonationComment dc) {
+	public String insertComment(@SessionAttribute Member m, DonationComment dc, Model model) {
 		dc.setMemberId(m.getMemberId()); //아이디저장
-		int result = service.insertDonationComment(dc);
+		int result = service.insertDonationComment(dc); //insert 정상확인
+		int selectProjectNo = dc.getProjectNo(); //프로젝트번호(해당 프로젝트 상세페이지로 이동하기위해)
 		
-		
-		int selectProjectNo = dc.getProjectNo(); //프로젝트번호(해당 프로젝트 상세페이지로 이동하기위해 -> if문작성)
-		Donation donation = service.selectOneDonation(selectProjectNo);
-		
-		if(donation.getDonationDivision() == 1) { //일반기부
-			return "donation/donationView";
-		}else { //판매기부
-			return "donation/donationView2";
+		if(result == 1) {
+			request.setAttribute("title", "댓글등록성공");
+			request.setAttribute("msg", "글이 정상적으로 입력되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "댓글등록실패");
+			request.setAttribute("msg", "글 입력에 실패하셨습니다.");
+			request.setAttribute("icon", "error");
 		}
+		request.setAttribute("loc", "donationClick.kh?projectNo="+selectProjectNo);
+		return "common/msg";
 	}
+	
 	@RequestMapping(value = "/insertDonation.kh")
 	public String insertDonation(@SessionAttribute Member m, Donation d, MultipartFile upfile, HttpServletRequest request) {
 		if (upfile.isEmpty()) {
@@ -122,7 +126,6 @@ public class DonationController {
 	@RequestMapping(value = "/updateDonation.kh")
 	public String updateDonation(Donation d) {
 		int result = service.updateDonation(d);
-		
 		if(result == 1) {
 			request.setAttribute("title", "수정성공");
 			request.setAttribute("msg", "글이 정상적으로 수정되었습니다.");
@@ -142,10 +145,12 @@ public class DonationController {
 		int selectProjectNo = projectNo;
 		Donation donation = service.selectOneDonation(selectProjectNo);
 		int memberNo = donation.getMemberNo();
-		Member member = service.selectOneMember(memberNo); 
+		Member member = service.selectOneMember(memberNo);
+		ArrayList<DonationComment> donationComment = service.selectOneDonationComment(selectProjectNo);
 		model.addAttribute("donation", donation);
-		System.out.println(donation);
 		model.addAttribute("member",member);
+		model.addAttribute("donationComment",donationComment);
+		System.out.println(donation);
 		if(donation.getDonationDivision() == 1) { //일반기부
 			return "donation/donationView";
 		}else { //판매기부
@@ -164,6 +169,28 @@ public class DonationController {
 		model.addAttribute("donationCategory",donationCategory);
 		//model.addAttribute("sumDonationCategory",sumDonationCategory);
 		return "donation/donationHashtagView";
+	}
+	
+	// delete
+	@RequestMapping(value="/donationCommentDelete.kh")
+	public String donationCommentDelete(int donationCommentNo) {
+		System.out.println(donationCommentNo);
+		DonationComment dc = new DonationComment();
+		dc.setDonationCommentNo(donationCommentNo);
+		
+		int result = service.donationCommentDelete(dc);
+		
+		if(result == 1) {
+			request.setAttribute("title", "삭제성공");
+			request.setAttribute("msg", "댓글이 정상적으로 삭제되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "수정실패");
+			request.setAttribute("msg", "댓글 삭제에 실패하셨습니다.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/donationList.kh");
+		return "common/msg";
 	}
 
 //-------------------------------페이지이동

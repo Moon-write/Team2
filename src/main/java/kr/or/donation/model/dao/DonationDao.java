@@ -60,5 +60,15 @@ public class DonationDao {
 		return sqlSession.insert("donation.insertDonationComment",dc);
 	}
 
+	public ArrayList<DonationComment> selectDonationComment(int selectProjectNo) {
+		List list = sqlSession.selectList("donation.selectDonationCommentList",selectProjectNo);
+		return (ArrayList<DonationComment>)list;
+	}
+
+	public int donationCommentDelete(DonationComment dc) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("donation.donationCommentDelete",dc);
+	}
+
 
 }

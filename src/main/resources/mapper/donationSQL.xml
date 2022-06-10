@@ -8,6 +8,11 @@
   		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD'),2
   	)
   </insert>
+  <insert id="insertDonationComment" parameterType="dc">
+  	insert into donationcomment values(
+		DONATIONCOMMENT_SEQ.NEXTVAL, #{projectNo}, #{memberId}, SYSDATE, #{donationCommentContent}
+	)
+  </insert>
   
   <update id="updateDonation" parameterType="d">
   	update donation
@@ -34,6 +39,16 @@
   		DIV_NO as divNo
   	from donation
   	ORDER BY DONATION_STARTDATE DESC
+  </select>
+  
+  <select id="selectDonationCommentList" resultType="dc" parameterType="int">
+  	select
+  		DONATION_COMMENT_NO as donationCommentNo,
+  		PROJECT_NO as projectNo,
+  		MEMBER_ID as memberId,
+  		DONATION_COMMENT_DATE as donationCommentDate,
+  		DONATION_COMMENT_CONTENT as donationCommentContent
+  	from donationcomment where PROJECT_NO = #{projectNo}
   </select>
   
   <select id="selectOneDonation" resultType="d" parameterType="int">
@@ -69,7 +84,7 @@
   		DONATION_STARTDATE as donationStartdate,
   		DONATION_ENDDATE as donationEnddate,
   		DIV_NO as divNo
-  	from donation where DONATION_CATEGORY = #{donationCategory}
+  	from donation where DONATION_CATEGORY = #{donationCategory} ORDER BY DONATION_STARTDATE DESC
   </select>
   
    <select id="selectsumDonationCategory" resultType="int" parameterType="String">
@@ -95,5 +110,7 @@
 		member_point as memberPoint
   	from member where member_no = #{memberNo}
   </select>
-  
+  <delete id="donationCommentDelete" parameterType="dc">
+  	delete from donationcomment where donation_comment_no = ${donationCommentNo}
+  </delete>
 </mapper>
