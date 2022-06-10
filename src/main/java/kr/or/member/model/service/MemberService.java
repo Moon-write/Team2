@@ -66,8 +66,7 @@ public class MemberService {
 			return -1;
 		}
 		m.setMemberPw(memberPwNew);
-		int result = dao.newPwMember(m);
-		return result;
+		return dao.newPwMember(m);
 	}
 
 	public int deleteMember(String memberId) {

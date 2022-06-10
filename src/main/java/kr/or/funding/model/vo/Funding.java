@@ -23,5 +23,9 @@ public class Funding {
 	private int fundingCurrentSum;
 	private int fundingDeadline;
 	private String bizName;
-
+	
+	// 개인 좋아요여부
+	private int like;
+	// 좋아요갯수
+	private int totallike;
 }

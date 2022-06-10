@@ -55,7 +55,7 @@
 	</div>
 	<div class="menu-wrap">
 		<ul>
-			<li><a href="/fundingAllList.kh">펀딩</a>
+			<li><a href="/fundingAllList.kh?selectedInquire=1">펀딩</a>
 				<ul class="sub-menu-wrap">
 					<li><a href="/fundingTechList.kh">테크·가전</a></li>
 					<li><a href="/fundingFashionList.kh">패션·잡화</a></li>

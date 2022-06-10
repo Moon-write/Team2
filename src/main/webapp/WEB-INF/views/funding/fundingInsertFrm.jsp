@@ -15,11 +15,11 @@ td{
     padding: 0;
     margin: 0 auto;
     width: 1200px;
-    background-color: aqua;
+
     overflow: hidden;
 }
 .basic-information{
-
+	
     width: 200px;
     float: left;
     
@@ -37,7 +37,7 @@ td{
 .input-value{
     width: 960px;
 
-    background-color: royalblue;
+
     float: left;
     padding-left: 40px;
 }
@@ -59,7 +59,7 @@ td{
 }
 .input-detail{
     width: 1000px;
-    background-color: blueviolet;
+
     float: left;
 }
 th{
@@ -67,23 +67,24 @@ th{
     font-weight: bold;
 }
 
-
 .funding-basic>table{
-    width: 500px;
-    background-color: brown;
+	width: 920px;
+	background-color: rgba(30, 144, 255, 0.2);
     border-collapse: separate;
      border-spacing: 0 10px;
 }
 
 .funding-basic>table th{
-    width: 30%;
+    width: 20%;
 }
 
 table{
     border-collapse: separate;
      border-spacing: 10px 10px;
 }
-
+.main-img{
+	background-color: rgba(30, 144, 255, 0.2);
+}
 .main-img-div{
 	width:100px;
 	height:100px;
@@ -92,7 +93,7 @@ table{
 .main-imgView{
 	width:100px;
 	height:100px;
-	background-color: crimson;
+
 }
 .input-file-button{
     width: 100px;
@@ -100,17 +101,114 @@ table{
 }
 .insert-button{
 	margin: 20px 0;
+	margin-left: 60px;
 }
 
 #optionListPrice-table-tr>th{
 	width:225.33px;
+	border-bottom: 2px solid #555;
 }
-/*다중파일업로드 이미지*/
-.pre-img:hover{
-	background-color:red;
+#precaution+span{
+	font-size: 13px;
+
+	color: #555;
+	
 }
+.chrome{
+	font-size: 13px;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	color: #555;
 
 	
+}
+
+.chrome>span:nth-child(2n){
+	font-weight: 900;
+
+}
+#precaution{
+	font-size: 17px;
+	font-weight: 400;
+	color: #555;
+	
+	
+}
+
+.main-tbl{
+	
+}
+.main-tbl>tr>td{
+	width: 100px;
+}
+.main-tbl>tr>td>input{
+	width: 40px;
+}
+#bizName{
+	width: 200px;
+}
+#fundingCategory{
+	width: 200px;
+}
+#fundingOptionCount{
+	width: 200px;
+	
+}
+#fundingCategorySpan>span:nth-of-type(1){
+
+	margin-left: 5px;
+	font-size: 13px;
+}
+#fundingCategorySpan>span:nth-of-type(2){
+	font-size: 13px;
+
+	
+}		
+.option-category{
+	margin-left: 10px;
+}
+/*파일업로드 버튼 커스텀*/
+#uploadFile{
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+#uploadFileLabel{
+	display: inline-block;
+    padding: 10px 10px;
+    color: #fff;
+    vertical-align: middle;
+	background-color: rgb(30,144,255);
+	font-size: 16px;
+	line-height: 30px;
+	border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+	font-family: ns-light
+	
+}
+.option-table{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.optionListPrice{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.funding-end-table{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.note-editable{
+	background-color: rgba(30, 144, 255, 0.2);
+}
+.optionlist-span{
+	font-size: 13px;
+}
+.summernote-detail{
+	padding-left: 60px;
+	padding-right: 19px;
+}
 </style>
 <link rel="stylesheet" href="/resources/css/summernote-lite.css"><!-- css헤더에 넣는다. -->
 </head>
@@ -142,17 +240,27 @@ table{
 	        <div class="input-value">
 	            <div class="funding-basic">
 	            <!-- <input type="hidden" name="memberNo" value="${session.m.memberNo }"> -->
-	                <table>
-	                    <tr>
-	                        <th>펀딩 프로젝트명</th><td><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
+					<div class="chrome">
+						<span id="precaution"class="material-symbols-outlined">error</span>
+						<span>weNeedYou</span>
+						<span>은</span>
+						<span>Chrome</span>
+						<span>사용을 권장합니다. 이외의 브라우저 또는 </span>
+						<span>Chrome</span>
+						<span>하위버전으로 접속 할 경우 페이지가 깨져 보일 수 있습니다.</span>
+					</div>
+	                <table class="main-tbl">
+	                    <tr >
+	                        <th>펀딩 프로젝트명</th>
+							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td><input type="text" class="input-form" type="text" name="bizName" value="${sessionScope.m.bizName}"></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}"></td>
 	                    </tr>
-	                    <tr>
+	                    <tr> 
 	                        <th>카테고리</th>
-	                        <td><select class="input-form" name="fundingCategory">
-	                            <option valye="none">카테고리 선택</option>
+	                        <td><select class="input-form"  id="fundingCategory" name="fundingCategory">
+	                            <option value="none">카테고리 선택</option>
 	                            <option value="테크가전">테크가전</option>
 	                            <option value="식품">식품</option>
 	                            <option value="패션잡화">패션잡화</option>
@@ -160,15 +268,23 @@ table{
 	                            <option value="홈리빙">홈리빙</option>
 	                        </select>
 	                        </td>
+							<td id="fundingCategorySpan">
+								<span id="precaution"class="material-symbols-outlined">error</span>
+								<span>펀딩과 맞지 않는 카테고리에 등록할 경우, 적정 카테고리로 이동될 수 있습니다.</span>
+							</td>
 	                    </tr>
 	                    <tr>
-	                        <th>옵션명 개수</th><td>
+	                        <th>옵션명 개수</th><td >
 	                            <select class="input-form" id="fundingOptionCount">
 	                                <option value="1">1개</option>
 	                                <option	value="2">2개</option>
 	                                <option value="3">3개</option>
 	                            </select>
 	                        </td>
+							<td id="fundingCategorySpan">
+								<span id="precaution"class="material-symbols-outlined">error</span>
+								<span>옵션명 개수 선택후 아래의 '옵션목록으로 적용' 버튼을 눌러주세요.</span>
+							</td>
 	                    </tr>    
 	                </table>
 	            </div>
@@ -182,16 +298,18 @@ table{
 		                    <tr id="option-table-tr">
 		                        <td><input type="text" class="input-form" name="fundingOptionName" value="사이즈"></td>
 		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M/L"></td>
+								<td><button type="button" class="option-category btn bc1">옵션목록으로 적용</button></td>
 		                    </tr>
 	                	</tbody>
 	                </table>
-	                <button type="button" class="option-category btn bc1">옵션목록으로 적용</button>
+	                
 	            </div>
 	
 	            <div class="optionListPrice">
-	                <table border="1">
+	                <table>
 	                    <tr id="optionListPrice-table-tr">
-	                        <th>옵션명</th><th>가격(원)</th>
+	                        <th>옵션 리스트</th><th>가격(원)</th><td><td><span id="precaution"class="material-symbols-outlined">error</span>
+								<span class="optionlist-span">'옵션명 개수' 선택 후 '옵션목록으로 적용'을 누르세요 </span></td></td>
 	                    </tr>
 	                </table>
 	            </div>
@@ -200,10 +318,13 @@ table{
 	                <div class="main-img">
 						<!--<input type="file" name="upfile" onchange="loadMainImg(this);" accept=".jpg,.png,.jpeg,.gif" multiple>  -->
 						
-						  <table border="1">
+						  <table>
 						   
 						    <tr>
-						      <td align="center">
+						      <td >
+								<label for="uploadFile" id="uploadFileLabel">펀딩 상품 이미지 업로드</label>
+								<span id="precaution"class="material-symbols-outlined">error</span>
+								<span>첫번째 사진이 '메인 이미지' 입니다.</span>
 						        <input type="file" name="upfile" id="uploadFile" accept=".jpg,.png,.jpeg,.gif" multiple>
 						        <div id="preview"></div>
 						      </td>
@@ -215,7 +336,9 @@ table{
 	            <div class="funding-end-table">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate"></td>
+	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" placeholder="펀딩 종료일 선택"></td>
+							<td><span id="precaution"class="material-symbols-outlined">error</span>
+								<span>왼쪽 박스를 클릭해 펀딩 종료일을 선택 해주세요.</span></td>
 	                    </tr>
 	                    <tr>
 	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="124567890"></td><td>원</td>
@@ -406,7 +529,7 @@ table{
 		   timePopupWidth: "150px",
 		   timeDisplayFormat: "hh:mm:ss tt",
 		   width: '300px',
-		   minDate:'+1970/01/02'
+		   minDate:'+1970-01-02'
 		   
 		});
 		
@@ -524,4 +647,9 @@ table{
   
   
 </script>
+<style>
+	td{
+		border: none;
+	}
+</style>
 </html>

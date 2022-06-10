@@ -230,9 +230,11 @@ public class FundingController {
 
 	}
 	@RequestMapping(value="/fundingAllList.kh")
-	public String FundingAllList(Model model) {
-		ArrayList<FundingJoinFile> list = service.fundingAllList();
+	public String FundingAllList(Model model,int selectedInquire) {
+
+		ArrayList<FundingJoinFile> list = service.fundingAllList(selectedInquire);
 		model.addAttribute("list",list);
+		model.addAttribute("selectedInquire", selectedInquire);
 		return "funding/fundingAllList";		
 	}
 	///////////////////fundingDetail/////////
@@ -425,7 +427,7 @@ public class FundingController {
 	
 
 	@ResponseBody
-	@RequestMapping(value="/fundingInsertSummernote.kh")
+	@RequestMapping(value="/fundingInsertSummernote.kh", produces = "application/text; charset=utf-8")
 	public String FundingInsertSummernote(@RequestParam("file") MultipartFile[] file, HttpServletRequest request ) {
 		String filepath = null;
 		
@@ -439,6 +441,21 @@ public class FundingController {
 		}
 		//return "../../../resources/upload/funding/"+filepath;
 		return "/resources/upload/funding/"+filepath;
+	}
+	@ResponseBody
+	@RequestMapping(value="/addLikeF.kh")
+	public String addLike(@SessionAttribute(required=false) Member m, String fundingNo) {
+		int result = service.addLike(m.getMemberNo(), Integer.parseInt(fundingNo));
+		
+		return Integer.toString(result);
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/removeLikeF.kh")
+	public String removeLike(@SessionAttribute(required=false) Member m, int fundingNo) {
+		int result = service.removeLike(m.getMemberNo(), fundingNo);
+		
+		return Integer.toString(result);
 	}
 	
 	

@@ -496,6 +496,7 @@ public class AuctionService {
 
 	public Auction loadNewAuction() {
 		Auction a = dao.loadNewAuction();
+
 		a = setBidInfo(a);
 		
 		return a;
@@ -503,7 +504,9 @@ public class AuctionService {
 	
 	public Auction setBidInfo(Auction a) {
 		// 1. 입찰횟수 구하기
+
 		int bidCount = dao.getBidCount(a.getProjectNo());
+
 		a.setBidCount(bidCount);
 		
 		// 2. 현재 낙찰가능금액 구하기
