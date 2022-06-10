@@ -282,7 +282,6 @@
 	
 	//사업자 번호 API+정규식
 	const bizNo = $("[name=bizNo]");
-	console.log(bizNo);
 	bizNo.on("change",function(){
 		const bizNoReg = /^[0-9]{10}$/;
 		const bizNoVal = bizNo.val();

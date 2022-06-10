@@ -32,7 +32,7 @@
 	height: 50px;
 	font-size: 18px;
 	border: none;
-	margin-bottom: 50px;
+	margin-bottom: 100px;
 }
 .check-msg{
 	text-align: left;

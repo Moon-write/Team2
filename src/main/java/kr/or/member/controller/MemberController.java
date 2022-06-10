@@ -51,11 +51,15 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	@ResponseBody
 	@RequestMapping(value="/selectOneMember.kh")
-	public String selectOneMember(Member m, Model model) {
+	public String selectOneMember(Member m) {
 		Member member = service.selectOneMember(m);
-		model.addAttribute("m",member);
-		return "member/searchMember";
+		if(member != null) {
+			return "0";
+		}else {
+			return "1";
+		}
 	}
 	@RequestMapping(value = "/joinSelect.kh")
 	public String joinSelect() {
@@ -107,13 +111,17 @@ public class MemberController {
 	@RequestMapping(value="/pwChange.kh")
 	public String pwChange(Member m, String memberPwNew) {
 		int result = service.changePw(m,memberPwNew);
-		if(result == -1) {
-			return "member/changePwFrm";
-		}else if(result > 0){
-			return "redirect:/";
+		if(result > 0){
+			request.setAttribute("title", "비밀번호 변경성공");
+			request.setAttribute("msg", "비밀번호가 성공적으로 변경되었습니다.");
+			request.setAttribute("icon", "success");
 		}else {
-			return "member/changePwFrm";
+			request.setAttribute("title", "비밀번호 변경실패");
+			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
+			request.setAttribute("icon", "error");
 		}
+		request.setAttribute("loc", "/");
+		return "common/msg";
 	}
 	@ResponseBody
 	@RequestMapping(value="/idCheck.kh")
@@ -122,16 +130,6 @@ public class MemberController {
 		m.setMemberId(memberId);
 		Member member = service.selectOneMember(m);
 		if(member == null) {
-			return "0";
-		}else {
-			return "1";
-		}
-	}
-	@ResponseBody
-	@RequestMapping(value="/pwcheck.kh")
-	public String selectOneMember(Member m) {
-		Member member = service.selectOneMember(m);
-		if(member != null) {//비밀번호 일치할때
 			return "0";
 		}else {
 			return "1";
