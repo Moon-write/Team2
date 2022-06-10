@@ -459,7 +459,10 @@
 						if(data == "null"){
 							alert("이미 가입된 이메일입니다.");
 						}else{
-							alert("입력하신 이메일로 인증번호가 발송되었습니다.");
+							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
+							const icon = "success";
+							const msgTime = 2500;
+							toastShow(title,icon,msgTime);
 							mailCode = data;
 							console.log(mailCode);
 							console.log(data);
@@ -615,7 +618,26 @@
 		   console.log("12. 생년월일 : "+$("[name=memberBirth]").val());
 		   console.log("13. 성별 : "+$("[name=memberGender]").val());
 	   });
-		   
+		
+	 //토스트 알림 함수		
+		function toastShow(title,icon,msgTime){
+			const Toast = Swal.mixin({
+		    toast: true,
+		    position: 'center-center',
+		    showConfirmButton: false,
+		    timer: msgTime,
+		    timerProgressBar: true,
+		    didOpen: (toast) => {
+		     // toast.addEventListener('mouseenter', Swal.stopTimer)
+		      toast.addEventListener('mouseleave', Swal.resumeTimer)
+		    }
+		 	})
+		
+		  Toast.fire({
+		    title: title,
+		    icon: icon
+		  })
+		}//토스트 끝
 	</script>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

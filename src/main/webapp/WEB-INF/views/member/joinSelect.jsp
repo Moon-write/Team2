@@ -47,19 +47,19 @@
 }
 .select-wrap>*{
 	flex-grow: 1;
-	border: solid black 1px;
+	border: solid black 2px;
 	margin: 60px;
 	width: 300px;
-	height: 350px;
+	height: 400px;
 	padding: 30px;
 	text-align: center;
 }
 .select-wrap>*:hover{
 	flex-grow: 1;
-	border: solid #1E90FF 1px;
+	border: solid #1E90FF 2px;
 	margin: 60px;
 	width: 300px;
-	height: 350px;
+	height: 400px;
 	padding: 30px;
 	text-align: center;
 	cursor: pointer;

@@ -20,6 +20,7 @@
 
 <!-- sweetalarm.js -->
 <script src="../../../resources/js/sweetalert.min.js"></script>
+<script src="../../../resources/js/sweetalert2.all.min.js"></script>
 
 <!-- 메뉴 효과 css -->
 <link rel="stylesheet" href="../../../resources/css/common/component.css" />
