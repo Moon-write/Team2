@@ -43,7 +43,7 @@
 			<c:if test="${fn:length(sp) lt 4 }">
 				<form action="/picUpload.kh" method="post" enctype="multipart/form-data" style="margin-top:50px;">
 					<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
-						<input type="file" name="upfile" id="imgUpload" style="display:none;" multiple></input>
+						<input type="file" name="upfile" id="imgUpload" accept=".jpg,.png,.jpeg,.gif" style="display:none;" multiple></input>
 						<label for="imgUpload">배경사진 업로드 (최대 4개)</label>
 		                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
 		                <input type="hidden" name="shopNo" value="${shop.shopNo }">

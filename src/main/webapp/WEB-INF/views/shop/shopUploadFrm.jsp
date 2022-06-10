@@ -133,18 +133,14 @@ tr td{
 			const memberAddr2 = $("#member_addr2").val();
 			const memberPhone = $("#changePhone").val();
 			$.ajax({
-				url: "/updateMember.kh",
+				url: "/updateBizMember.kh",
 				type: "post",
 				data: {memberId: memberId, memberPostcode:memberPostcode, memberAddr1:memberAddr1,memberAddr2:memberAddr2, memberPhone: memberPhone},
 				success: function(data){
-					if(data == "1"){
-						const title = "수정이 완료되었습니다.";
-						const icon = "success";
-						toastShow(title,icon);
-					}else if(data == "0"){
-						const title = "수정을 실패했습니다.";
-						const icon = "error";
-						toastShow(title,icon);
+					if(data == "0"){
+						alert("수정이 완료되었습니다.");
+					}else if(data == "1"){
+						alert("수정에 실패했습니다. 관리자에게 문의 바랍니다.");
 					}	
 				},
 			})

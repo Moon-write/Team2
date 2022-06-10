@@ -149,4 +149,8 @@
 	<select id="selectShopNo" parameterType="int" resultType="int">
 		select shop_no as shopNo from shop where member_no=#{memberNo}
 	</select>
+	<update id="updateBizMember" parameterType="m">
+		update member set member_phone=#{memberPhone}, member_postcode=#{memberPostcode}, member_addr1=#{memberAddr1}, member_addr2=#{memberAddr2}
+		where member_id=#{memberId}
+	</update>
 </mapper>

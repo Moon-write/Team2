@@ -113,4 +113,9 @@ public class ShopDao {
 		return sqlSession.selectOne("shop.selectFundingFile", fundingNo);
 	}
 
+	public int updateBizMember(Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("shop.updateBizMember", m);
+	}
+
 }

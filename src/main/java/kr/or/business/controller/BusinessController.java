@@ -323,11 +323,6 @@ public class BusinessController {
 	@RequestMapping(value="/getAmounts.kh",produces="application/json;charset=utf-8")
 	public String getAmounts(String startDate, String endDate, int memberNo, int divNo, int projectNo) {
 		ArrayList<String> list=service.getAmounts(startDate, endDate, memberNo, divNo, projectNo);
-		System.out.println(startDate);
-		System.out.println(endDate);
-		System.out.println(memberNo);
-		System.out.println(divNo);
-		System.out.println(projectNo);
 		return new Gson().toJson(list);
 	}
 	@ResponseBody

@@ -437,6 +437,9 @@ td:last-child{
 					tr.append(cTh);
 					tr2.append(checkBox).append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
 				}else {
+					const mainTr=$("#mainTr");			
+					mainTr.addClass("mainTr");
+					mainTr.removeClass("checkTr");
 					tr.append(th);
 					tr2.append(noTd).append(divTd).append(pTd).append(timeTd).append(priceTd).append(nameTd).append(sTd).append(detailTd);
 				}
