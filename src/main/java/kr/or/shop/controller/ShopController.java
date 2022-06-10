@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -198,7 +199,6 @@ public class ShopController {
 		}
 		*/
 		int result = service.deleteShopPic(shopPicNos);
-		System.out.println(shopPicNos);
 		return "redirect:updateInfo.kh?memberNo="+memberNo;
 	}
 	
@@ -212,5 +212,17 @@ public class ShopController {
 	public String insertCategory(int memberNo, int shopNo, String categories, HttpServletRequest request) {
 		int result=service.insertCategory(shopNo, categories);
 		return "redirect:updateInfo.kh?memberNo="+memberNo;
-	}	
+	}
+	@ResponseBody
+	@RequestMapping(value="/updateBizMember.kh")
+	public String updateBizMember(Member m, HttpSession session) {
+		int result = service.updateBizMember(m);
+		Member member = mService.selectOneMember(m);
+		if(result > 0 && member != null ) {
+			session.setAttribute("m", member);
+			return "0";
+		}else {
+			return "1";
+		}
+	}
 }

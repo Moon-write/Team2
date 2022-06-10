@@ -156,5 +156,10 @@ public class ShopService {
 		return dao.selectFundingFile(fundingNo);
 	}
 
+	public int updateBizMember(Member m) {
+		// TODO Auto-generated method stub
+		return dao.updateBizMember(m);
+	}
+
 
 }

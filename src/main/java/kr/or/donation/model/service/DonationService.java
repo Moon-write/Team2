@@ -58,4 +58,14 @@ public class DonationService {
 		// TODO Auto-generated method stub
 		return dao.insertDonationComment(dc);
 	}
+
+	public ArrayList<DonationComment> selectOneDonationComment(int selectProjectNo) {
+		// TODO Auto-generated method stub
+		return dao.selectDonationComment(selectProjectNo);
+	}
+
+	public int donationCommentDelete(DonationComment dc) {
+		// TODO Auto-generated method stub
+		return dao.donationCommentDelete(dc);
+	}
 }

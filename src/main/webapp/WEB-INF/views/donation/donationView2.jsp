@@ -172,6 +172,48 @@ h5 {
     color:white;
 }
 /**/
+.commentBox{
+	display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+.commentBoxView{
+	display: flex;
+    width: 100%;
+    margin: 15px;
+    margin-top: 0px;
+    justify-content: space-between;
+    align-items: center;
+}
+.commentBoxViewReal>div{
+	line-height: 40px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.commentBoxDiv{
+	width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.userComment2{
+	font-size: 40px;
+	margin: 0 0px;
+	color: rgb(255, 130, 171);
+}
+.commentBoxViewReal{
+	display: flex;
+}
+<!---->
+.btn-pulse{
+	background-color: #ff82ab;
+	color: white;
+	width: 80px;
+	text-align: center;
+}
+.btn-pulse:hover{
+  
+}
+
 </style>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp"%>
@@ -243,7 +285,7 @@ h5 {
 	</div>
 		<div class="commentFlex">
 			<div class="inputCommentBox">
-			<h2>기부천사들의 한마디</h2>
+			<h2 style="margin-bottom: 30px;">기부천사들의 한마디</h2>
 				<form action="/insertDonationComment.kh" method="post">
 					<ul>
 						<li><span class="material-icons userComment">favorite</span></li>
@@ -261,8 +303,23 @@ h5 {
 				</form>
 			</div>
 		</div>
-		<div class="commentBox">
-			
+		<div class="commentBoxDiv">
+			<div class="commentBox">
+				<c:forEach items="${donationComment }" var="comment">
+					<div class="commentBoxView">
+						<div class="commentBoxViewReal">
+							<span class="material-icons userComment2">account_circle</span>
+							<div>${comment.memberId }</div>
+							<div>${comment.donationCommentContent }</div>
+						</div>
+						<c:set var="sessionScopeMemberId" value="${sessionScope.m.memberId}"/>
+						<c:set var="donationCommentMemberId" value="${comment.memberId}"/>
+						<c:if test="${sessionScopeMemberId eq donationCommentMemberId}">
+							<a href="/donationCommentDelete.kh?donationCommentNo=${comment.donationCommentNo }" class="btn-pulse">DELETE</a>
+						</c:if>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
