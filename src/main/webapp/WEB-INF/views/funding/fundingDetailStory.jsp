@@ -64,7 +64,7 @@
     margin: 0 auto;
 
     margin-top: 45px ;
-    width: 800px;
+    width: 600px;
     
 
 }
@@ -115,11 +115,15 @@
 }
 .funding-detail{
     margin-top: 25px;
-    width: 500px;
+    width: 100%;
 
 }
 .funding-detail>p>img{
-    width: 770px;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+
+
 }
 .right-box{
     width: 30%;
@@ -157,13 +161,26 @@
 		height:5px;
 		background-color:rgb(30,144,255);
 }
+.funding-sum{
+    color: #4a4a4a;
+    margin-bottom: 25px;
+}
+.funding-sum>span:nth-of-type(1){
+    font-size: 30px;
+    font-weight: 500;
+}
+.funding-sum>span:nth-of-type(2){
+    margin-left: 5px;
+    font-size: 15px;
+    padding-top: 10px;
+}
 .funding-sum-rate{
     color: #4a4a4a;
     margin-bottom: 25px;
 }
 .funding-sum-rate>span:nth-of-type(1){
     font-size: 30px;
-    font-weight: 600;
+    font-weight: 500;
 }
 .funding-sum-rate>span:nth-of-type(2){
     margin-left: 5px;
@@ -209,8 +226,8 @@
 
 .img-slide>div>img{
 	width: 100%;
-  height: 400px;
-  object-fit: cover;
+    height: 400px;
+    object-fit: cover;
 }
 .sum-date{
     margin-bottom: 25px;
@@ -272,8 +289,10 @@
             </ul>
         </div>
     </div>
+    <!--메인-->
     <div class="main">
         <div class="box">
+            <!--왼쪽-->
             <div class="left-box">
                 <div class="img-slide slider">이미지슬라이드
                     <c:forEach items="${list }" var="ff">
@@ -288,6 +307,8 @@
                 <h3>펀딩 프로젝트 스토리</h3>
                 <div class="funding-detail">${f.fundingDetail }</div>
             </div>
+
+            <!--오른쪽-->
             <div class="right-box">
                 <div class="funding">
                     <div class="funding-deadline"><span>${f.fundingDeadline }</span><span>일 남음</span></div>
@@ -296,10 +317,11 @@
 							<div class="bar-back"><div class="bar" style="width:100%;"></div></div>
 						</c:when>
 						<c:otherwise>
-							<div class="bar-back"><div class="bar" style="width: ${f.fundingSumRate}%;"></div></div>
+							<div class="bar-back"><div class="bar" style="width: ${f.fundingSumRate};"></div></div>
 						</c:otherwise>
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
+                    <div class="funding-sum"><span>${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
                     <div class="supporter-num"><span>131</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
@@ -309,34 +331,36 @@
                     
                     <div class="like-qna-share">
                         <div class="like">
-                        <%-- <c:choose>
-							<c:when test="${f.like eq 0 }">
-								<span id="likestar" class="material-symbols-rounded likeB">star</span>									
-							</c:when>
-							<c:when test="${f.like eq 1 }">
-								<span class="material-symbols-rounded likeB-yellow">star</span>									
-							</c:when>
-						</c:choose>								
-							<span id="likeCount">${f.totallike}</span> --%>
+                        <%--<c:choose>
+                                <c:when test="${f.like eq 0 }">
+                                    <span id="likestar" class="material-symbols-rounded likeB">star</span>									
+                                </c:when>
+                                <c:when test="${f.like eq 1 }">
+                                    <span class="material-symbols-rounded likeB-yellow">star</span>									
+                                </c:when>
+						    </c:choose>								
+							<span id="likeCount">${f.totallike}</span>
+                             --%>
 							<c:choose>
-						<c:when test="${f.like eq 0 }">
-							<span class="material-symbols-rounded likeB">star</span>									
-						</c:when>
-						<c:when test="${f.like eq 1 }">
-							<span class="material-symbols-rounded likeB-yellow">star</span>									
-						</c:when>
-					</c:choose>
-					<span id="likeCount">${f.totallike}</span>
+                                <c:when test="${f.like eq 0 }">
+                                    <span class="material-symbols-rounded likeB">star</span>									
+                                </c:when>
+                                <c:when test="${f.like eq 1 }">
+                                    <span class="material-symbols-rounded likeB-yellow">star</span>									
+                                </c:when>
+					        </c:choose>
+					        <span id="likeCount">${f.totallike}</span>
 						</div>
 
                         <div class="qna"><button><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
-                        <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div></div>
+                        <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div>
                     </div>
-                    <div class="funding-rank">펀딩랭크</div>
+                </div>
+                <div class="funding-rank">펀딩랭크</div>
                 </div>
             </div>
         </div>    
-    </div>
+    
 
 
     <%@include file="/WEB-INF/views/common/footer.jsp" %>

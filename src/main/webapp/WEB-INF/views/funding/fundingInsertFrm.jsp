@@ -255,7 +255,7 @@ table{
 							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}"></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" readonly></td>
 	                    </tr>
 	                    <tr> 
 	                        <th>카테고리</th>
@@ -336,7 +336,7 @@ table{
 	            <div class="funding-end-table">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" placeholder="펀딩 종료일 선택"></td>
+	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" placeholder="펀딩 종료일 선택" readonly></td>
 							<td><span id="precaution"class="material-symbols-outlined">error</span>
 								<span>왼쪽 박스를 클릭해 펀딩 종료일을 선택 해주세요.</span></td>
 	                    </tr>
@@ -529,7 +529,8 @@ table{
 		   timePopupWidth: "150px",
 		   timeDisplayFormat: "hh:mm:ss tt",
 		   width: '300px',
-		   minDate:'+1970-01-02'
+		   minDate:'+1970/01/02',
+		   minTime:'today.getHours()'
 		   
 		});
 		
