@@ -119,7 +119,7 @@
 		text-align: center;
 	}
 	.auction-pic>img{
-		height: 100%;
+		width: 250px; height : 250px;
 		object-fit: cover;
 		border-radius: 20px;
 	}
