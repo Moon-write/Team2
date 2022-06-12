@@ -70,5 +70,25 @@ public class DonationDao {
 		return sqlSession.delete("donation.donationCommentDelete",dc);
 	}
 
+	public int checkViewCount(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("donation.checkViewCount", projectNo);
+	}
+
+	public int selectCashListPriceSum() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectCashListPriceSum");
+	}
+
+	public int selectGeneralListPriceSum() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectGeneralListPriceSum");
+	}
+
+	public Integer selectOneOrderProjectNo(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectOneOrderProjectNo",projectNo);
+	}
+
 
 }

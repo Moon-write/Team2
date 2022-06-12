@@ -8,6 +8,11 @@
   		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD'),2
   	)
   </insert>
+  <select id="">
+	select
+	    trunc(#{donationEnddate},'day')-trunc(sysdate,'day')
+	from donation
+  </select>
   <insert id="insertDonationComment" parameterType="dc">
   	insert into donationcomment values(
 		DONATIONCOMMENT_SEQ.NEXTVAL, #{projectNo}, #{memberId}, SYSDATE, #{donationCommentContent}
@@ -110,7 +115,25 @@
 		member_point as memberPoint
   	from member where member_no = #{memberNo}
   </select>
+  
   <delete id="donationCommentDelete" parameterType="dc">
   	delete from donationcomment where donation_comment_no = ${donationCommentNo}
   </delete>
+  
+  <select id="selectCashListPriceSum" resultType="int">
+  	select 
+  		sum(order_price) 
+  	from order_tbl 
+  	where project_no in (select project_no from donation where donation_division = 2)
+  </select>
+  
+  <select id="selectGeneralListPriceSum" resultType="int">
+  	select
+  		sum(order_price)
+  	from order_tbl 
+  	where project_no in (select project_no from donation where donation_division = 1)
+  </select>
+  <select id="selectOneOrderProjectNo" resultType="Integer" parameterType="int">
+  	select sum(order_price) from order_tbl where project_no = #{projectNo}
+  </select>
 </mapper>

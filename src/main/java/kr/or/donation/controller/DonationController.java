@@ -39,6 +39,10 @@ public class DonationController {
 		ArrayList<Donation> list = service.selectDonationList();
 		ArrayList<Donation> generalList = new ArrayList<Donation>();
 		ArrayList<Donation> cashList = new ArrayList<Donation>();
+
+		
+		int cashListPriceSum = service.selectCashListPriceSum(); //판매 기부리스트 총금액 return
+		int generalListPriceSum = service.selectGeneralListPriceSum(); //일반 기부리스트 총금액 return
 		String noImgPath = "../../../resources/upload/donation/no_image.png";
 		
 		for(Donation d: list) {
@@ -54,6 +58,9 @@ public class DonationController {
 				generalList.add(d);
 			}
 		}
+		
+		model.addAttribute("cashListPriceSum",cashListPriceSum);
+		model.addAttribute("generalListPriceSum",generalListPriceSum);
 		model.addAttribute("list", list);
 		model.addAttribute("cashList",cashList);
 		model.addAttribute("generalList",generalList);
@@ -144,14 +151,26 @@ public class DonationController {
 	public String donationView(int projectNo, Model model) {
 		int selectProjectNo = projectNo;
 		Donation donation = service.selectOneDonation(selectProjectNo);
+		Integer projectCash = service.selectOneOrderProjectNo(projectNo);
+		
+		if(projectCash == null) {
+			projectCash = 0;
+		}
+		
 		int memberNo = donation.getMemberNo();
 		Member member = service.selectOneMember(memberNo);
+		
 		ArrayList<DonationComment> donationComment = service.selectOneDonationComment(selectProjectNo);
+		
 		model.addAttribute("donation", donation);
 		model.addAttribute("member",member);
 		model.addAttribute("donationComment",donationComment);
+		model.addAttribute("projectCash",projectCash);
+		
 		System.out.println(donation);
+		
 		if(donation.getDonationDivision() == 1) { //일반기부
+			
 			return "donation/donationView";
 		}else { //판매기부
 			return "donation/donationView2";
@@ -202,7 +221,15 @@ public class DonationController {
 
 
 	//------------------------------- 임시
-
+	@RequestMapping(value="/donationTest.kh")
+	public String donationTest(int sellerNo, int memberNo, int projectNo,int orderPrice,int divNo, Model model) {
+		model.addAttribute("sellerNo", sellerNo);
+		model.addAttribute("memberNo", memberNo);
+		model.addAttribute("projectNo", projectNo);
+		model.addAttribute("orderPrice", orderPrice);
+		model.addAttribute("divNo",divNo);
+		return "donation/donationTest";
+	}
 
 	
 
