@@ -176,5 +176,14 @@
   	SELECT MAX(COMMENT_NO) AS commentNo,
            MAX(COMMENT_DATE) AS commentDate
     FROM COMMENT_TBL WHERE DIV_NO=1 AND PROJECT_NO= #{projectNo} AND MEMBER_NO=#{memberNo}
-  </select>	
+  </select>
+<insert id="insertOrder" parameterType="o">
+	INSERT INTO ORDER_TBL VALUES(ORDER_SEQ.NEXTVAL,1,#{projectNo}, #{memberNo}, #{sellerNo}, SYSDATE, #{orderPrice}, 0,#{orderDelName},#{orderDelPost},#{orderDelAddr1},#{orderDelAddr2},#{orderDelPhone},#{orderDelAsk},1,#{projectName})
+</insert>
+<select id="selectOrderMaxNo" resultType="int">
+		SELECT MAX(ORDER_NO) FROM ORDER_TBL
+</select>
+<insert id="insertOrderProduct" parameterType="map">
+	INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL,#{OrderMaxNo},#{optionNo},#{ProductPrice},#{productAmount})
+</insert>
 </mapper>

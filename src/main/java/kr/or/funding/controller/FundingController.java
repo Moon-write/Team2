@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import kr.or.common.model.vo.Comment;
+import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.funding.model.service.FundingService;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
@@ -448,7 +450,7 @@ public class FundingController {
 		return "/resources/upload/funding/"+filepath;
 	}
 	@ResponseBody
-	@RequestMapping(value="/addLikeF.kh")
+	@RequestMapping(value="/addLikeF.kh")//미구현
 	public String addLike(@SessionAttribute(required=false) Member m, String fundingNo) {
 		int result = service.addLike(m.getMemberNo(), Integer.parseInt(fundingNo));
 		
@@ -456,21 +458,15 @@ public class FundingController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value="/removeLikeF.kh")
+	@RequestMapping(value="/removeLikeF.kh")//미구현
 	public String removeLike(@SessionAttribute(required=false) Member m, int fundingNo) {
 		int result = service.removeLike(m.getMemberNo(), fundingNo);
 		
 		return Integer.toString(result);
 	}
-	@RequestMapping(value="/fundingPayment.kh")
-	public String FundingPayment(PaymentData pd) {
-		for(int i = 0 ; i<pd.getAmountNumPrice().length;i++) {
-			System.out.println("각각가격 : "+pd.getAmountNumPrice()[i]);
-		}
-		return "funding/fundingNoticeFrm";
-	}
 	
-	@ResponseBody
+	
+	@ResponseBody //미구현
 	@RequestMapping(value="/addCommentF.kh", produces="application/json; charset=utf-8")
 	public String AddCommentF(@SessionAttribute(required=false) Member m,Comment c) {
 		System.out.println(c.getCommentContent());
@@ -483,7 +479,83 @@ public class FundingController {
 			return new Gson().toJson(c);
 		}
 	}
+	///결제
+	@RequestMapping(value="/fundingOrder.kh")//미구현 테스트용
+	public String FundingPayment(PaymentData pd,@SessionAttribute(required=false) Member m,Model model) {
+		System.out.println("=======옵션 페이먼트데이터=====");
+		System.out.println("펀디이름"+pd.getFundingName());
+		System.out.println("펀딩번호"+pd.getFundingNo());
+		System.out.println("펀딩판매자번호"+pd.getMemberNo());
+		for(int i = 0 ; i<pd.getAmountNumPrice().length;i++) {
+			System.out.println("각각개수-가격 : "+pd.getAmountNum()[i]+"|"+pd.getAmountNumPrice()[i]+"|"+pd.getOptionNameList()[i]);
+		}
+		ArrayList<PaymentData> list = new ArrayList<PaymentData>();
+		int totalPrice = 0;
+		for(int i = 0 ; i<pd.getAmountNumPrice().length;i++) {
+			PaymentData pd1 = new PaymentData();
+			pd1.setFundingName(pd.getFundingName());
+			pd1.setFundingNo(pd.getFundingNo());
+			pd1.setMemberNo(pd.getMemberNo());
+			pd1.setAmountNum2(pd.getAmountNum()[i]);
+			pd1.setAmountNumPrice2(pd.getAmountNumPrice()[i]);
+			pd1.setOptionNameList2(pd.getOptionNameList()[i]);
+			pd1.setOptionPriceNo2(pd.getOptionPriceNo()[i]);
+			totalPrice = totalPrice+pd.getAmountNum()[i]*pd.getAmountNumPrice()[i];
+			System.out.println("토탈가격"+totalPrice);
+
+			list.add(pd1);
+		}
+		
+		model.addAttribute("list",list);
+		model.addAttribute("tp",totalPrice);
+		return "funding/fundingOrder";
+	}
 	
+	@RequestMapping(value="/fundingPay.kh")
+	public String FundingPay(Order o ,OrderProduct op,Model model,@SessionAttribute(required=false) Member m ) {
+		System.out.println("--------주문상세-----------");
+		System.out.println(o.getOrderPoint());
+		System.out.println(o.getOrderPrice());
+		System.out.println(o.getOrderDelName());
+		System.out.println(o.getOrderDelPhone());
+		System.out.println(o.getOrderDelPost());
+		System.out.println(o.getOrderDelAddr1());
+		System.out.println(o.getOrderDelAddr2());
+		System.out.println(o.getOrderDelAsk());
+		System.out.println("세션번호 : "+m.getMemberNo());	
+		System.out.println(o.getProjectNo());
+		System.out.println("셀러번호 "+o.getSellerNo());
+		o.setMemberNo(m.getMemberNo());
+		int result = service.insertOrder(o,op);
+		System.out.println("인서트결과 서공? : "+result);
+		for(int i = 0 ; i<op.getProductPrice2().length;i++) {
+			System.out.println(op.getProductAmount2()[i]);
+			System.out.println(op.getProductPrice2()[i]);
+			System.out.println(op.getOptionNo2()[i]);
+		}
+		
+		
+		if(result>0) {
+			model.addAttribute("icon", "success");
+			model.addAttribute("title", "결제 완료");
+			model.addAttribute("msg", "결제가 완료되었습니다!");
+			model.addAttribute("loc", "/");
+		}else {			
+			model.addAttribute("icon", "error");
+			model.addAttribute("title", "결제 실패");
+			model.addAttribute("msg", "결제에 실패했어요! 주문내역을 다시 확인해 주세요.");
+			model.addAttribute("loc", "/addOrder.kh?orderNo="+o.getOrderNo());
+		}
+		return "common/msg";
+	}
+	
+	
+	/*
+	 * @RequestMapping(value="//") public String addOrder(Model model) { // 이 단계에서
+	 * 주문내역 불러오기 - 보통은 여기서 각자의 프로젝트를 불러온다 int result = dao.insertOneOrder();
+	 * 
+	 * model.addAttribute("order", order); return "auction/addOrder"; }
+	 */
 	
 	
 	

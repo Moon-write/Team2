@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import kr.or.board.model.vo.Board;
 import kr.or.common.model.vo.Comment;
+import kr.or.common.model.vo.Order;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
+import kr.or.member.model.vo.Member;
 
 @Repository
 public class FundingDao {
@@ -130,7 +132,25 @@ public class FundingDao {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("funding.checkViewCount", fundingNo);
 	}
+	/*
+	public int insertOrderPay(Order o) {
+		return sqlSession.insert("funding.insertOrderPay", o);
+	}
 	
+*/
 
+	public int insertOrder(Order o) {
+		return sqlSession.insert("funding.insertOrder",o);
+	}
+
+	public int selectOrederMaxNo() {
+		int OrderMaxNo = sqlSession.selectOne("funding.selectOrderMaxNo");
+		System.out.println("OrderMaxNo : "+OrderMaxNo);
+		return OrderMaxNo;
+	}
+
+	public int insertOrderProduct(HashMap<String, Object> map) {
+		return sqlSession.insert("funding.insertOrderProduct",map);
+	}
 
 }

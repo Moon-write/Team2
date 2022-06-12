@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import kr.or.common.model.vo.Comment;
+import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.funding.model.dao.FundingDao;
 import kr.or.funding.model.vo.Funding;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
+import kr.or.member.model.vo.Member;
 
 @Service
 public class FundingService {
@@ -187,14 +190,33 @@ public class FundingService {
 			return null;
 		}
 	}
+	
 
-	/*
-	 * public int updateFunding(int memberNo, int fundingNo) { HashMap<String,
-	 * Integer> map = new HashMap<String, Integer>(); map.put("memberNo",memberNo);
-	 * map.put("fundingNo",fundingNo); return dao.updateFunding(map); }
-	 */
 
-	/*
+	public int insertOrder(Order o,OrderProduct op) {
+		int result = dao.insertOrder(o);
+		int result2 = 0 ;
+
+		if(result>0) {
+			int OrderMaxNo = dao.selectOrederMaxNo();
+			OrderProduct op2 = new OrderProduct();
+			for(int i = 0 ; i < op.getOptionNo2().length;i++) {
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("OrderMaxNo", OrderMaxNo);
+				map.put("optionNo", op.getOptionNo2()[i]);
+				map.put("ProductPrice", op.getProductPrice2()[i]);
+				map.put("productAmount", op.getProductAmount2()[i]);
+			result2 =dao.insertOrderProduct(map);
+			}
+			return result2;
+		}else {
+			return -1;
+		}
+		
+	}
+
+	 /*
 	 * public ArrayList<Funding> selectFundingListMember(int memberNo) { return
 	 * (ArrayList<Funding>)dao.selectFundingListMember(memberNo); }
 	 */

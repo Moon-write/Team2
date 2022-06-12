@@ -170,9 +170,13 @@
 	</table>
 	
 	
-
-
-	<div class="main">
+	<form action="/fundingOrder.kh" method="post">
+	<div class="hidden-data">
+		<input type="hidden" name="fundingName" value="${f.fundingName }">
+		<input type="hidden" name="fundingNo" value="${list[0].fundingNo}">
+		<input type="hidden" name="memberNo" value="${f.memberNo }">
+	</div>
+		<div class="main">
 		<div class="precaution"><span>리워드 선택</span><span>펀딩해주시는금액에 따라 감사의 의미로 리워드를 제공해 드립니다.</span><span><u> 펀딩하기는 쇼핑하기가 아닙니다</u></span><span class="material-symbols-outlined">error</span></div>
 		<div class="select-buy-wrap">
 			<div class="reward-select"><span>리워드 선택</span></div>
@@ -180,7 +184,7 @@
 			<div class="dotted-circle"><span>결제</span></div>
 		</div>
 		<div>
-			<form action="/fundingPayment.kh" method="post">
+			
 		<c:forEach items="${list}" var="sfop" varStatus="i">
 		<div class="option-price-select">
 
@@ -190,7 +194,9 @@
 			<div class="funding-content">
 				<div><span>${sfop.fundingOptionPrice}</span><span>원 입니다</span></div>
 				<div><span>옵션 : </span><span>${sfop.fundingOptionList}</span></div>
-				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 07월 중순(11~20)일 예정</span></div>
+				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 07월 중순(11~20)일 예정</span>
+					<input type="hidden" value="${sfop.fundingOptionPriceNo }">
+				</div>
 			</div>
 		</div>
 		</c:forEach>
@@ -276,13 +282,20 @@
 					
 					const standard = $(this).parent().parent();
 					const price = $(this).prev().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text();
+					const optionNameList = $(this).parent().prev().prev().children().eq(1).text();
+					const amountNumPrice = $(this).parent().prev().prev().prev().children().eq(0).text();
+					const OptionPriceNo = $(this).parent().prev().children().eq(1).val();
+					
 					const div = $("<div class=\"divPrice\">");
 					const span1 = $("<span class=\"spanPrice\">");
 					const span2 = $("<span class=\"spanPriceWon\"> 원 펀딩합니다.</span>");
 					const inputHidden = $("<input type=\"hidden\" name=\"amountNumPrice\">");
+					const inputHiddenOptionNameList = $("<input type=\"hidden\" name=\"optionNameList\">")
+					const inputHiddenOptionPriceNo = $("<input type=\"hidden\" name=\"optionPriceNo\">")
+					
 					$(this).parent().next().remove();
 					span1.append(price);
-					div.append(span1).append(span2).append(inputHidden.attr("value",price));
+					div.append(span1).append(span2).append(inputHidden.attr("value",amountNumPrice)).append(inputHiddenOptionNameList.attr("value",optionNameList)).append(inputHiddenOptionPriceNo.attr("value",OptionPriceNo));
 					standard.append(div);
 					
 					
@@ -295,13 +308,20 @@
 						
 						const standard = $(this).parent().parent();
 						const price = $(this).next().children().val()*$(this).parent().prev().prev().prev().children().eq(0).text();
+						const amountNumPrice = $(this).parent().prev().prev().prev().children().eq(0).text();
+						const optionNameList = $(this).parent().prev().prev().children().eq(1).text();
+						const OptionPriceNo = $(this).parent().prev().children().eq(1).val();
+
 						const div = $("<div class=\"divPrice\">");
 						const span1 = $("<span class=\"spanPrice\">");
 						const span2 = $("<span class=\"spanPriceWon\"> 원 펀딩합니다.</span>");
 						const inputHidden = $("<input type=\"hidden\" name=\"amountNumPrice\">");
+						const inputHiddenOptionNameList = $("<input type=\"hidden\" name=\"optionNameList\">");
+						const inputHiddenOptionPriceNo = $("<input type=\"hidden\" name=\"optionPriceNo\">")
+						
 						$(this).parent().next().remove();
 						span1.append(price);
-						div.append(span1).append(span2).append(inputHidden.attr("value",price));
+						div.append(span1).append(span2).append(inputHidden.attr("value",amountNumPrice)).append(inputHiddenOptionNameList.attr("value",optionNameList)).append(inputHiddenOptionPriceNo.attr("value",OptionPriceNo));
 						standard.append(div);
 					});
 				});
