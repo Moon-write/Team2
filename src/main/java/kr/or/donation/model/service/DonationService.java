@@ -36,6 +36,7 @@ public class DonationService {
 
 	public Donation selectOneDonation(int projectNo) {
 		// TODO Auto-generated method stub
+		dao.checkViewCount(projectNo);
 		return dao.selectOneDonation(projectNo);
 	}
 
