@@ -99,6 +99,9 @@ select{
 .payBtn{
 	margin-top: 5px;
 }
+#my_book_list_tbl tr:hover{
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -137,7 +140,7 @@ select{
 										</td>
 										<td id="orderNo">${bo.orderNo }</td>
 										<td>${bo.projectName }</td>
-										<td class="price">${bo.orderPrice }</td>
+										<td id="price" class="price">${bo.orderPrice }원</td>
 										<td>${bo.orderDate }</td>
 										<c:choose>
 											<c:when test="${bo.orderStatus eq 1}"><td>결제완료</td></c:when>
@@ -173,6 +176,8 @@ select{
 			window.event.stopPropagation();			
 			const orderNo = $(this).parent().prev().prev().prev().prev().text();
 			location.href = "/addOrder.kh?orderNo="+orderNo;
+<<<<<<< HEAD
+=======
 		})
 		//(천단위)콤마 찍는 함수(첫번째꺼에밖에 적용안됨 - 이유 알아내서 모든 리스트에 적용되도록 수정!)
 		$(function(){
@@ -183,11 +188,9 @@ select{
 			  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
 			  	$(item).text(num2+"원");				
 			})
+>>>>>>> refs/remotes/origin/master
 		});
-		$.numberWithCommas = function (x) {
-			  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-		};
-		//인자값을 문자열로 변환한 뒤, 정규식을 활용하여 3자리마다 콤마를 삽입해준다.
+		
 	</script>
 </body>
 </html>

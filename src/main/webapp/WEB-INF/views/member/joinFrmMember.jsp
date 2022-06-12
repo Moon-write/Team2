@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>사업자회원가입</title>
+<title>일반회원가입</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <style>
@@ -135,7 +135,7 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<div class="page-content">
-		<span class="page-content-title">회원가입</span>
+		<span class="page-content-title">일반 회원가입</span>
 		<div class="index-wrap">
 		<ul class= "index">
 			<li>───<span>1</span>회원 선택</li>
@@ -148,20 +148,7 @@
 			<form action="/joinMember.kh" method="post">
 				<table class="join-table">
 					<!-- 멤버레벨 -->
-						<input type="hidden" name="memberLevel" value="1" class="input-form" >
-					<!-- 사업자번호 -->
-					<tr class="form-name">
-						<th colspan="4" class="join-pass" required>사업자번호<span class="bizNoChk"></span></th>
-					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="text" name="bizNo" class="input-form" placeholder="사업자번호를 입력하세요(숫자 10자리만 가능)" required></td>
-					</tr>
-					<tr class="form-name">
-						<th colspan="4" class="join-pass">사업자상호명<span class="bizNameChk"></span></th>
-					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="text" name="bizName" class="input-form" required></td>
-					</tr>
+						<input type="hidden" name="memberLevel" value="2" class="input-form" >
 					<!-- 이메일 -->
 					<tr class="form-name">
 						<th colspan="4">이메일(ID)<span class="idChk"></span></th>
@@ -256,12 +243,6 @@
 					<tr class="form-input">
 						<td colspan="4"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
 					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="button" class="bc2 bs4" id="join-check" value="체크버튼"></td>
-					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="button" class="bc3 bs4" id="join-final" value="최종확인"></td>
-					</tr>
 				</table>
 			</form>
 		</div>
@@ -270,68 +251,10 @@
 		
 	<script>
 	//전체 input체크
-	const checkArr = [false,false,false,false,false,false,false,false,false,false,false,false,false];//13
+	const checkArr = [false,false,false,false,false,false,false,false,false,false,false];//11
 	//인증 체크
 	let authChk = 0;//1
 	
-	//사업자 번호 API+정규식
-	const bizNo = $("[name=bizNo]");
-	bizNo.on("change",function(){
-		const bizNoReg = /^[0-9]{10}$/;
-		const bizNoVal = bizNo.val();
-		//사업자번호가 정규표현식을 통과한다면 ajax실행
-		if(bizNoReg.test(bizNoVal)){
-			var data = {
-				    "b_no": [bizNoVal] // 사업자번호 "xxxxxxx" 로 조회 시,
-				   }; 
-			$.ajax({
-				  url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=nULoJ90g2NsBoSIxzRYcZJntXFgbU8jLZp7vppurDRP0CzdTTjFzM7D7FcLQiFKB7OhG8Fuyy%2BRPO9%2B8bnScHw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
-				  type: "POST",
-				  data: JSON.stringify(data), // json 을 string으로 변환하여 전송
-				  dataType: "JSON",
-				  contentType: "application/json",
-				  accept: "application/json",
-				  success: function(result) {
-					  const bizState = result.data[0].b_stt; // 사업자번호 있으면 값있고 없으면 null임
-				      if(bizState == ''){
-				    	  const span = $(".bizNoChk");
-					      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
-				      }else{
-				      const span = $(".bizNoChk");
-				      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
-				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
-				    	    $("[name=bizNo]").val('');
-				    	    $("[name=bizNo]").focus();
-				    	}else{
-				    	    $("[name=bizNo]").attr("readonly",true);
-				    	    checkArr[0] = true;
-				    	}
-				      }
-				  },
-				  error: function(result) {
-				      console.log(result.responseText); //responseText의 에러메세지 확인
-				  }
-			});//사업자번호 ajax끝
-		}else{ //정규표현식 통과하지 못하면 메세지 출력
-			$(".bizNoChk").text("사업자번호는 공백없는 10자리 숫자만 가능합니다.");
-			$(".bizNoChk").css("color","red");
-		};
-	});
-		//사업자 상호명 정규식(1~200자 한글/영어대소/공백/숫자/특수문자 다 가능)
-		const bizName = $("[name=bizName]");
-		bizName.on("change",function(){
-			const bizNameReg = /[a-z0-9가-힣`~!@#$%^&*()-_=+\s]{1,200}/i;
-			const bizNameVal = bizName.val();
-			if(bizNameReg.test(bizNameVal)){
-				$(".bizNameChk").text("사용할 수 있는 상호명 입니다.");
-				$(".bizNameChk").css("color","blue");
-				checkArr[1] = true;
-			}else{
-				$(".bizNameChk").text("상호명은 최대 영어 200자/한글 66자까지 가능합니다.");
-				$(".bizNameChk").css("color","red");
-				checkArr[1] = false;
-			}
-		});
 		//다음 주소찾기 API
 		const postcode = document.getElementById("memberPostcode").value;
 		const addr1 = document.getElementById("memberAddr1").value;
@@ -343,19 +266,16 @@
 		            	document.getElementById("memberPostcode").value = data.zonecode; //우편번호 넣기
 		                document.getElementById("memberAddr1").value = data.address; // 주소 넣기
 		                if(postcode != null && addr1 != null){
-		                	checkArr[8] = true;
-				    		checkArr[9] = true;
+		                	checkArr[6] = true;
+				    		checkArr[7] = true;
 		                }
-		                console.log(data);
-		                console.log(data.zonecode);//우편번호
-		                console.log(data.address);//도로명주소(상세주소는 입력받음)
 		            }
 		        }).open();
                 document.getElementById("memberAddr2").focus(); //상세입력 포커싱
                 if(addr2 != null){
-                	checkArr[10] = true;
+                	checkArr[8] = true;
                 }else{
-                	checkArr[10] = false;
+                	checkArr[8] = false;
                 }
 		    });
 		};
@@ -367,11 +287,11 @@
 			if(pwReg.test(pwVal)){
 				$(".pwChk").text("사용할 수 있는 패스워드 입니다.");
 				$(".pwChk").css("color","blue");
-				checkArr[4] = true;
+				checkArr[2] = true;
 			}else{
 				$(".pwChk").text("4자~6자 영어대소문자 또는 숫자를 사용하세요.");
 				$(".pwChk").css("color","red");
-				checkArr[4] = false;
+				checkArr[2] = false;
 			}
 		});
 		//비밀번호 일치확인
@@ -382,11 +302,11 @@
 			if(pwVal == pwReVal){
 				$(".pwReChk").text("두 비밀번호가 일치합니다.");
 				$(".pwReChk").css("color","blue");
-				checkArr[5] = true;
+				checkArr[3] = true;
 			}else{
 				$(".pwReChk").text("두 비밀번호가 일치하지 않습니다.");
 				$(".pwReChk").css("color","red");
-				checkArr[5] = false;
+				checkArr[3] = false;
 			}
 		});
 		
@@ -398,11 +318,11 @@
 			if(nameReg.test(nameVal)){
 				$(".nameChk").text("사용할 수 있는 이름입니다.");
 				$(".nameChk").css("color","blue");
-				checkArr[6] = true;
+				checkArr[4] = true;
 			}else{
 				$(".nameChk").text("이름은 2~7 글자의 한글만 가능합니다.");
 				$(".nameChk").css("color","red");
-				checkArr[6] = false;
+				checkArr[4] = false;
 			};
 		});
 		//휴대폰번호 정규식		
@@ -413,11 +333,11 @@
 			if(phoneReg.test(phoneVal)){
 				$(".phoneChk").text("사용할 수 있는 연락처입니다.");
 				$(".phoneChk").css("color","blue");
-				checkArr[7] = true;
+				checkArr[5] = true;
 			}else{
 				$(".phoneChk").text("연락처 형식을 맞춰주세요.(010-1234-1234)");
 				$(".phoneChk").css("color","red");
-				checkArr[7] = false;
+				checkArr[5] = false;
 			};
 		});
 		//이메일 정규식		
@@ -428,11 +348,11 @@
 			if(mailIdReg.test(mailIdVal)){
 				$(".idChk").text("메일주소 선택 후 인증을 완료해주세요.");
 				$(".idChk").css("color","blue");
-				checkArr[7] = true;
+				checkArr[0] = true;
 			}else{
 				$(".idChk").text("영어소문자 및 숫자만 입력 가능합니다.");
 				$(".idChk").css("color","red");
-				checkArr[7] = false;
+				checkArr[0] = false;
 			};
 		});
 		//인증메일 받기
@@ -508,12 +428,11 @@
 								$("[name=emailAddr] option:selected").siblings().hide();
 								$("[name=memberIdChk]").attr("readonly",true);
 								$("[name=memberId]").val(email);
-								console.log(email);
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;
-								checkArr[2] = true;
-								checkArr[3] = true;
+								checkArr[0] = true;
+								checkArr[1] = true;
 							}
 						}else{
 							console.log($("[name=memberIdChk]").val());
@@ -564,7 +483,7 @@
                 const selected = $(this).val();
                 alert("생년월일이 "+selected+" 맞습니까?");
                 $("#datepicker").val(selected);
-                checkArr[11] = true;
+                checkArr[9] = true;
             });
          });
 	   
@@ -576,7 +495,7 @@
 						count++;
 					}
 				}
-				if(count != 13 || authChk < 1){
+				if(count != 11 || authChk < 1){
 					e.preventDefault();//form의 submit을 중단시키는 코드
 					alert("모든 항목을 입력해야 합니다.");
 				}
@@ -586,7 +505,7 @@
 		 const gender = $("select[name=memberGender]");
 		 gender.on("change", function(){
 		  if(gender.val() != null){
-			  checkArr[12] = true;
+			  checkArr[10] = true;
 		  }
 		});
 		 
@@ -599,19 +518,17 @@
 	   
 	 //arraycheck 버튼(회원가입 완성되면 삭제)
 	   $("#join-final").on("click",function(){
-		   console.log("1. 사업자번호 : "+$("[name=bizNo]").val());
-		   console.log("2. 사업자이름 : "+$("[name=bizName]").val());
-		   console.log("3. 이메일(풀값) : "+$("[name=memberId]").val());
-		   console.log("4. 메일주소 : "+$("[name=emailAddr]").val());
-		   console.log("5. 비밀번호 : "+$("[name=memberPw]").val());
-		   console.log("6. 비밀번호확인 : "+$("[name=memberPwRe]").val());
-		   console.log("7. 이름 : "+$("[name=memberName]").val());
-		   console.log("8. 전화번호 : "+$("[name=memberPhone]").val());
-		   console.log("9. 우편번호 : "+$("[name=memberPostcode]").val());
-		   console.log("10. 주소 : "+$("[name=memberAddr1]").val());
-		   console.log("11. 상세주소 : "+$("[name=memberAddr2]").val());
-		   console.log("12. 생년월일 : "+$("[name=memberBirth]").val());
-		   console.log("13. 성별 : "+$("[name=memberGender]").val());
+		   console.log("0. 이메일(풀값) : "+$("[name=memberId]").val());
+		   console.log("1. 메일주소 : "+$("[name=emailAddr]").val());
+		   console.log("2. 비밀번호 : "+$("[name=memberPw]").val());
+		   console.log("3. 비밀번호확인 : "+$("[name=memberPwRe]").val());
+		   console.log("4. 이름 : "+$("[name=memberName]").val());
+		   console.log("5. 전화번호 : "+$("[name=memberPhone]").val());
+		   console.log("6. 우편번호 : "+$("[name=memberPostcode]").val());
+		   console.log("7. 주소 : "+$("[name=memberAddr1]").val());
+		   console.log("8. 상세주소 : "+$("[name=memberAddr2]").val());
+		   console.log("9. 생년월일 : "+$("[name=memberBirth]").val());
+		   console.log("10. 성별 : "+$("[name=memberGender]").val());
 	   });
 		
 	 //토스트 알림 함수		
