@@ -88,7 +88,7 @@
 }
 .left-box{
     width: 65%;
-    background-color: red;
+    /*background-color: red;*/
     height: 1000px;/*나중에 지우세요*/
     float: left;
     
@@ -232,6 +232,22 @@
 		font-size: 1.5em;
 	}
 
+.board-table th{
+	width:246px;
+	
+	background-color: rgb(255, 130, 171);
+	color: white;
+}
+.board-table-div{
+	margin: 20px;
+}
+.board-table td{
+	text-align: center;
+}
+.board-table{
+	width: 100%;
+}
+
 </style>
 </head>
 <body>
@@ -261,7 +277,24 @@
     <div class="main">
         <div class="box">
             <div class="left-box">
-                
+            <h1 style="color:rgb(30, 144, 255);" >새소식</h1>
+            <hr>
+            	<div class="board-table-div">
+	                <table class="board-table">
+		                <tr>
+		                	<th>NO</th>
+		                	<th>제목</th>
+		                	<th>시간</th>
+		                </tr>
+		                <c:forEach items="${fb }" var="b">
+			                <tr>
+			                	<td>${b.boardNo }</td>
+			                	<td>${b.boardTitle }</td>
+			                	<td>${b.boardStartdate }</td>
+			                </tr>
+		                </c:forEach>
+	                </table>
+                </div>
             </div>
             <div class="right-box">
                 <div class="funding">

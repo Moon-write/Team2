@@ -12,6 +12,7 @@ import kr.or.board.model.vo.Board;
 import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.funding.model.vo.Funding;
+import kr.or.funding.model.vo.FundingBoard;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
@@ -151,6 +152,12 @@ public class FundingDao {
 
 	public int insertOrderProduct(HashMap<String, Object> map) {
 		return sqlSession.insert("funding.insertOrderProduct",map);
+	}
+
+	public ArrayList<FundingBoard> selectFundingBoard(int fundingNo) {
+		// TODO Auto-generated method stub
+		List list = sqlSession.selectList("funding.selectFundingBoard", fundingNo);
+		return (ArrayList<FundingBoard>)list;
 	}
 
 }
