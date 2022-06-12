@@ -358,5 +358,10 @@ public class BoardService {
 		map.put("projectNo",projectNo);
 		return dao.selectSeller(map);
 	}
+
+	public ArrayList<Board> selectProjectList(int memberNo) {
+		
+		return dao.selectProjectList(memberNo);
+	}
 	
 }
