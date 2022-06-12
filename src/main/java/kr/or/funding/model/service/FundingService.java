@@ -13,6 +13,7 @@ import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 import kr.or.funding.model.dao.FundingDao;
 import kr.or.funding.model.vo.Funding;
+import kr.or.funding.model.vo.FundingBoard;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOptionPrice;
@@ -214,6 +215,11 @@ public class FundingService {
 			return -1;
 		}
 		
+	}
+
+	public ArrayList<FundingBoard> selectFundingBoard(int fundingNo) {
+		// TODO Auto-generated method stub
+		return dao.selectFundingBoard(fundingNo);
 	}
 
 	 /*

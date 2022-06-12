@@ -29,6 +29,7 @@ import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 import kr.or.funding.model.service.FundingService;
 import kr.or.funding.model.vo.Funding;
+import kr.or.funding.model.vo.FundingBoard;
 import kr.or.funding.model.vo.FundingFile;
 import kr.or.funding.model.vo.FundingJoinFile;
 import kr.or.funding.model.vo.FundingOption;
@@ -259,7 +260,10 @@ public class FundingController {
 	@RequestMapping(value="/fundingDetailNotice.kh")
 	public String FundingDetailNotice(Funding funding, Model model) {
 		Funding f = service.selectOneFundingRight(funding.getFundingNo());
+		int fundingNo = f.getFundingNo();// 펀딩 번호입니다
+		ArrayList<FundingBoard> fb = service.selectFundingBoard(fundingNo); //게시판불러오기
 		model.addAttribute("f",f);
+		model.addAttribute("fb",fb); //펀딩 디테일에 들어가는 테이블입니다.
 		return "funding/fundingDetailNotice";
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
