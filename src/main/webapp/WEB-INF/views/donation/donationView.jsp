@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +9,7 @@
 <title>기부 상세 페이지</title>
 </head>
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 <style>
 .content-header {
 	width: 100%;
@@ -92,7 +95,7 @@ h5 {
 }
 .donation-update{
 	display: flex;
-	justify-content: space-between;
+	
 }
 .update-btn{
 	font-size:10px;
@@ -103,7 +106,13 @@ h5 {
 	line-height:20px; 
 }
 
+.donation-explanation>div>form{
+	width: 100%;
+}
 
+h2{
+	margin-left: 10px;
+}
 /*---------- 덧글입력관련 CSS ----------*/
 .userComment{
 	font-size: 50px;
@@ -201,6 +210,8 @@ h5 {
 .btn-pulse:hover{
   
 }
+
+
 </style>
 
 <body>
@@ -214,7 +225,9 @@ h5 {
 				<h5>일반 기부 펀딩은 1,000원으로 값이 고정 됩니다.</h5>
 				<h3>${donation.donationTitle }</h3>
 				<div class="donation-update">
-					<p>00%</p>
+					<p>
+						촣 펀딩 참여 금액 <h3 style="color: blue;">&nbsp;&nbsp;${projectCash}&nbsp;원</h3>
+					</p>
 					<c:set var="sessionScopeMemberNo" value="${sessionScope.m.memberNo}"/>
 					<c:set var="donationMemberNo" value="${donation.memberNo}"/>
 					<c:if test="${donationMemberNo eq sessionScopeMemberNo}">
@@ -243,10 +256,24 @@ h5 {
 				</div>
 				<div>
 						<h3 class="donation-allcash">총 금액</h3>
-						<h3 id="resultCash">0 원</h3>
+						<h3 id="resultCash">0</h3>&nbsp;<h3>원</h3>
 				</div>
 				<div>
-					<button class="btn bc1 donaton-punding">펀딩 참여하기</button>
+					<form action=
+							<c:if test = "${not empty sessionScope.m.memberId}">
+								"/donationTest.kh"
+							</c:if>
+							<c:if test = "${empty sessionScope.m.memberId}">
+								"/loginFrm.kh"
+							</c:if> 
+						method="post">
+						<button class="btn bc1 donaton-punding" id="donationBtn">펀딩 참여하기</button>
+						<input type="hidden" id="sellerNo" value="${member.memberNo }" name="sellerNo">
+						<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
+						<input type="hidden" id="projectNo" value="${donation.projectNo }" name="projectNo">
+						<input type="hidden" id="divNo" value="${donation.divNo }" name="divNo">
+						<input type="hidden" id="orderPrice" value="" name="orderPrice"> <!-- 총금액은 스크립트에서 jquery로 value값 전달 -->
+					</form>
 				</div>
 			</div>
 		</div>
@@ -259,16 +286,23 @@ h5 {
 	<div class="commentFlex">
 		<div class="inputCommentBox">
 		<h2>기부천사들의 한마디</h2>
-			<form action="/insertDonationComment.kh" method="post">
+			<form action=
+				<c:if test = "${not empty sessionScope.m.memberId}">
+					"/insertDonationComment.kh"
+				</c:if>
+				<c:if test = "${empty sessionScope.m.memberId}">
+					"/loginFrm.kh"
+				</c:if>
+			method="post">
 				<ul>
 					<li><span class="material-icons userComment">favorite</span></li>
 						<li>
 							<input type="hidden" name="projectNo" value="${donation.projectNo }">
 							<input type="hidden" name="memberId" value="${sessionScope.m.memberId}">
-							<textarea class="project-writer" name="donationCommentContent"></textarea>
+							<textarea class="project-writer" name="donationCommentContent" style="overflow:hidden;"></textarea>
 						</li>
 						<li>
-							<button type="submit" class="commentSubmit offset">
+							<button type="submit" class="commentSubmit offset" id="commentBtn">
 								SUBMIT
 							</button>
 						</li>
@@ -296,6 +330,18 @@ h5 {
 		</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
+	$("#commentBtn").click(function(){
+		const memberId = '${sessionScope.m.memberId}';
+		if(memberId === ""){
+			alert("로그인 이후에 댓글 입력이 가능합니다.");
+		}
+	});
+	$("#donationBtn").click(function(){
+		const memberId = '${sessionScope.m.memberId}';
+		if(memberId === ""){
+			alert("로그인 이후에 펀딩참여가 가능합니다.");
+		}
+	});
 	function count(type)  {
 		  const resultElement = document.getElementById('result');
 		  const resultElement2 = document.getElementById('resultView');
@@ -325,7 +371,9 @@ h5 {
 		  // 결과 출력
 		  resultElement.innerText = number;
 		  resultElement2.innerText = numberResult;
-		  resultElement3.innerText = cashResult + ' 원';
+		  resultElement3.innerText = cashResult;
+		  // 총 금액 값 전달
+		  $('input[name=orderPrice]').attr('value',cashResult);
 		}
 	</script>
 </body>

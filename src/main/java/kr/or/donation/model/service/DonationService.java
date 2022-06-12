@@ -36,6 +36,7 @@ public class DonationService {
 
 	public Donation selectOneDonation(int projectNo) {
 		// TODO Auto-generated method stub
+		dao.checkViewCount(projectNo);
 		return dao.selectOneDonation(projectNo);
 	}
 
@@ -67,5 +68,20 @@ public class DonationService {
 	public int donationCommentDelete(DonationComment dc) {
 		// TODO Auto-generated method stub
 		return dao.donationCommentDelete(dc);
+	}
+
+	public int selectCashListPriceSum() {
+		// TODO Auto-generated method stub
+		return dao.selectCashListPriceSum();
+	}
+
+	public int selectGeneralListPriceSum() {
+		// TODO Auto-generated method stub
+		return dao.selectGeneralListPriceSum();
+	}
+
+	public Integer selectOneOrderProjectNo(int projectNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneOrderProjectNo(projectNo);
 	}
 }

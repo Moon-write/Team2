@@ -118,7 +118,7 @@ input:disabled {
 				<h1 class="sub-title">기부펀딩 등록</h1>
 				<span id="guide"><h4>일반기부는 천원으로 고정됩니다.</h4></span>
 			</div>
-			<form action="/insertDonation.kh" method="post" enctype="multipart/form-data">
+			<form action="/insertDonation.kh" method="post" enctype="multipart/form-data" id="forminsert">
 				<table class="tbl">
 					<tr>
 						<th>종류</th>
@@ -141,7 +141,7 @@ input:disabled {
 								<option value="help">불우이웃</option>
 								<option value="old">독거노인</option>
 						</select></td>
-						<th><label for="donationEnddate">종료날짜</label></th>
+						<th><label for="donationEnddate" min="0">종료날짜</label></th>
 						<td><input type="date" id="donationEnddate" name="donationEnddate"></td>
 					</tr>
 					<tr>
@@ -162,7 +162,7 @@ input:disabled {
 					</tr>
 				</table>
 				<div class="submit-btn">
-					<button type="submit" name="signUp-btn" class="bc1 btn subtn">등록하기</button>
+					<button type="submit" name="signUp" class="bc1 btn subtn">등록하기</button>
 				</div>
 				<!-- <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo}"> -->
 			</form>
@@ -208,6 +208,37 @@ input:disabled {
               $("#guide").html(" ")
         }
     });
+		
+		document.getElementById('forminsert').addEventListener('submit', function(e){
+            if(document.getElementById('donationTitle').value == ''){
+              e.preventDefault()//제출완료 페이지로 넘어가는 것 방지
+              alert('제목을 입력하세요')} 
+            else if(document.getElementById('donationTitle').value.length > 16) {
+                e.preventDefault()
+                alert('제목은 16글자 미만으로 입력하세요')}
+                
+            else if(document.getElementById('donationEnddate').value == ''){
+              e.preventDefault()
+              alert('종료날짜를 입력하세요')}
+            
+            else if(document.getElementById('upfile').value == ''){
+                e.preventDefault()
+                alert('메인페이지 사진을 등록해주세요')}
+            
+            else if(document.getElementById('donationTarget').value == ''){
+                e.preventDefault()
+                alert('목표금액을 작성해주세요')}
+            
+            else if(document.getElementById('donationCash').value == ''){
+                e.preventDefault()
+                alert('상품금액을 입력해주세요')}
+            
+            else if(document.getElementById('donationContent').value == ''){
+                e.preventDefault()
+                alert('내용을 입력해주세요')}
+ 	 });
+			//$('#donationEnddate').setAttribute("min",0); -> 추가 수정예정
+
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 

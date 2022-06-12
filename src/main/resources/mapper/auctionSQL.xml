@@ -93,7 +93,7 @@
   </select>
   
   <insert id="checkViewCount" parameterType="int">
-	CALL VIEWCOUNT(#{projectNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
+	CALL VIEWCOUNT(4, #{projectNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
   </insert>
   
   <select id="getBidList" parameterType="int" resultType="bid">

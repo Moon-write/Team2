@@ -16,8 +16,8 @@
 	google.setOnLoadCallback(donationChart);
 	function donationChart() {
 		var data = google.visualization.arrayToDataTable([
-				[ "Employee", "Rating" ], [ "상품구입기부", 15000 ],
-				[ "일반기부", 30000 ] ]);
+				[ "Employee", "Rating" ], [ "구매기부", ${cashListPriceSum } ],
+				[ "일반기부", ${generalListPriceSum}  ] ]);
 		var options = {
 			title : "총 기부 금액"
 		};
@@ -182,26 +182,27 @@ ul.imgs li {
 	margin-bottom: 15px;
 }
 
-.footer-content {
-	width: 100%;
+.footer-content1 {
+	width: 90%;
 	margin: 0 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	border: 5px double rgba(30, 144, 255, .5);
+	margin-bottom: 30px;
 }
 
-.footer-content>div {
+.footer-content1>div {
 	width: 40%;
 	height: 400px;
 	/*background-color: red;*/
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 }
 
-.footer-content>div>h3 {
-	display: inline-block;
-}
+
 
 .saleDonation {
 	display: inline-block;
@@ -321,6 +322,25 @@ ul.imgs li {
       box-shadow: 0 0 0 0 rgb(255, 130, 171), inset 108px 72px 0 0 rgb(255, 130, 171);
       color:white;
 }
+h1{
+	  font-size: 20px;
+	  min-width:11px;
+	  white-space: nowrap;
+	  color: transparent;
+}
+
+h1::before {
+  content: "기부펀딩 총 합계 금액 ";
+    position: absolute;
+    color: rgb(30, 144, 255);
+    overflow: hidden;
+    animation: typing 5s steps(51) infinite;
+}
+
+.sumSpan{
+	display: flex;
+	align-items: center;
+}
 /*------------------------메인배너이미지 효과----------------------*/
 @-webkit-keyframes fadein {
     from {
@@ -329,6 +349,18 @@ ul.imgs li {
     to {
         opacity: 1;
     }
+}
+
+@keyframes typing{
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 30%;
+  }
+  100% {
+    width: 0%;
+  }
 }
 </style>
 <body>
@@ -368,7 +400,9 @@ ul.imgs li {
 		<div class="main-content">
 			<div class="saleDonationDiv">
 				<h2 class="saleDonation">상품구입기부펀딩</h2>
-				<a href="/donationWriter.kh" class="btn bct1">기부펀딩등록</a>
+				<c:if test="${sessionScope.m.memberLevel eq 1}">
+					<a href="/donationWriter.kh" class="btn bct1">기부펀딩등록</a>
+				</c:if>
 			</div>
 			<div class="detail-content-flex">
 				<div class="row-img">
@@ -382,8 +416,12 @@ ul.imgs li {
 							</div>
 							<h3 class="title">${c.donationTitle }</h3>
 							<p>
-								<span>00%</span> <a class="donationCash"> <span
-									class="material-icons">paid</span> <span>${c.donationCash }</span>
+								<c:set var="cashListPriceSumPercentNum" value="${c.donationCash}"/>
+								<c:set var="cashListPriceSumPercentTarget" value="${c.donationTarget}"/>
+								<span> 🤑${c.donationTarget }</span>
+								<a class="donationCash">
+									<span class="material-icons">paid</span>
+									<span>${c.donationCash }</span>
 								</a>
 							</p>
 						</div>
@@ -406,8 +444,12 @@ ul.imgs li {
 							</div>
 							<h3 class="title">${g.donationTitle }</h3>
 							<p>
-								<span>00%</span> <a class="donationCash"> <span
-									class="material-icons">paid</span> <span>${g.donationCash }</span>
+								<c:set var="generalListPriceSumPercentNum" value="${g.donationCash}"/>
+								<c:set var="generalListPriceSumPercentTarget" value="${g.donationTarget}"/>
+								<span> 🤑${g.donationTarget }</span>
+								<a class="donationCash">
+									<span class="material-icons">paid</span>
+									<span>${g.donationCash }</span>
 								</a>
 							</p>
 						</div>
@@ -416,10 +458,16 @@ ul.imgs li {
 			</div>
 		</div>
 		<br> <br> <br>
-		<div class="footer-content">
+		<div class="footer-content1">
 			<div id="donation_sumgraph"></div>
 			<div>
-				<h2>총 기부 금액 1,000,000</h2>
+				<h1>기부펀딩 총 합계 금액</h1>
+				<c:set var="cashListPriceSum" value="${cashListPriceSum}"/>
+				<c:set var="generalListPriceSum" value="${generalListPriceSum}"/>
+				<div class="sumSpan">
+					<span class="material-icons" style="color: rgb(255, 130, 171);">savings</span>&nbsp;&nbsp;
+					<h2>${cashListPriceSum+generalListPriceSum}</h2>
+				</div>
 			</div>
 		</div>
 	</div>
