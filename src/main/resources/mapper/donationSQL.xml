@@ -69,6 +69,10 @@
   	from donation where PROJECT_NO = #{projectNo}
   </select>
   
+  <insert id="checkViewCount" parameterType="int">
+	CALL VIEWCOUNT(2, #{projectNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
+  </insert>
+  
   <select id="selectHashtag" resultType="d" parameterType="String">
   	select
   		PROJECT_NO as projectNo,

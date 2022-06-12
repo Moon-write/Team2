@@ -125,6 +125,11 @@ public class FundingDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("funding.selectLastComment",c);
 	}
+
+	public int checkViewCount(int fundingNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("funding.checkViewCount", fundingNo);
+	}
 	
 
 

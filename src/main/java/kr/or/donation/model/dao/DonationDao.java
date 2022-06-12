@@ -70,5 +70,10 @@ public class DonationDao {
 		return sqlSession.delete("donation.donationCommentDelete",dc);
 	}
 
+	public int checkViewCount(int projectNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("donation.checkViewCount", projectNo);
+	}
+
 
 }

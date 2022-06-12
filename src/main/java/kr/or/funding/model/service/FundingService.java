@@ -59,6 +59,7 @@ public class FundingService {
 	}
 	
 	public Funding selectOneFunding(int fundingNo) {
+		dao.checkViewCount(fundingNo);
 		return dao.selectOneFunding(fundingNo);
 	}
 

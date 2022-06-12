@@ -63,6 +63,9 @@
   	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
 
   </select>
+  <insert id="checkViewCount" parameterType="int">
+	CALL VIEWCOUNT(1, #{fundingNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
+  </insert>
   <select id="selectOneFundingFile" parameterType="int" resultType="ff"><!--동적쿼리 int를 f로 바꿧음  실패 -->
   	SELECT
   		FUNDING_FILE_NO		AS fundingFileNo,
