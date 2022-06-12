@@ -132,12 +132,12 @@
 						<tr>
 							<th rowspan="2">경매 기간</th>
 							<td>
-								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionStart" />
+								<span style="width: 75px;">시작일</span><input id="date-start" placeholder="시작일을 선택해주세요" class="input-form" name="auctionStart" />
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" onblur="checkDate()" class="input-form" name="auctionEnd" />
+								<span style="width: 75px;">마감일</span><input id="date-end" placeholder="종료일을 선택해주세요" class="input-form" name="auctionEnd" />
 							</td>
 						</tr>
 						<tr>
@@ -209,7 +209,6 @@
 		})
 
 		function checkDate(){
-			
 			const startDate = $("input[name=auctionStart]").val();
 			const endDate = $("input[name=auctionEnd]").val();
 			const today = new Date();
@@ -327,14 +326,20 @@
 				language : 'ko',
 				timepicker:true,
 				timeFormat: "hh:ii",
-				minutesStep: 10
+				minutesStep: 10,
+				onSelect : function(){
+					checkDate();
+				}
 			})
 			
 			$("#date-end").datepicker({
 				language : 'ko',
 				timepicker:true,
 				timeFormat: "hh:ii",
-				minutesStep: 10
+				minutesStep: 10,
+				onSelect : function(){
+					checkDate();
+				}
 			})
 		});
 	</script>

@@ -22,6 +22,7 @@
 		text-align: center;
 		display: flex;
 		flex-direction: column;
+		box-sizing: content-box !important;
 	}
 	.auction-like>span{
 		width: 25px; height: 25px;
@@ -52,11 +53,13 @@
 		padding-right: 30px;
 	}
 	.info-img{
+		width : 480px; height: 480px;
 		padding: 0px 30px;
+		text-align: center;;
 	}
 	.info-img>img{
-		width: 100%;
-		object-fit: cover;
+	width : 100% ; height : 100%;
+		object-fit: contain;
 	}
 	.info-seller{
 		margin-top: 10px;
