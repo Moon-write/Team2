@@ -206,6 +206,7 @@ table{
 	font-size: 13px;
 }
 .summernote-detail{
+	width:780px;
 	padding-left: 60px;
 	padding-right: 19px;
 }
