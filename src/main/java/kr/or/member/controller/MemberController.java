@@ -75,17 +75,6 @@ public class MemberController {
 	}
 	@RequestMapping(value="/joinMember.kh")
 	public String joinMember(Member m) {
-		System.out.println(m.getBizNo());
-		System.out.println(m.getBizName());
-		System.out.println(m.getMemberNo());
-		System.out.println(m.getMemberName());
-		System.out.println(m.getMemberLevel());
-		System.out.println(m.getMemberGender());
-		System.out.println(m.getMemberBirth());
-		System.out.println(m.getMemberPhone());
-		System.out.println(m.getMemberPostcode());
-		System.out.println(m.getMemberAddr1());
-		System.out.println(m.getMemberAddr2());
 		int result = service.insertMember(m);
 		//insert 성공하면 0 실패하면 1 리턴
 		if((m.getMemberLevel() == 2 && result == 0) || (m.getMemberLevel() == 1 && result == 0)) {
@@ -211,5 +200,15 @@ public class MemberController {
 		}
 		request.setAttribute("loc", "/selectMemberList.kh?reqPage=1&memberLevel=2");
 		return "common/msg";
+	}
+	@ResponseBody
+	@RequestMapping(value="/delCount.kh")
+	public String delCount(int memberNo) {
+		int result = service.delCount(memberNo);
+		if(result > 0) {
+			return "-1";
+		}else {
+			return "0";
+		}
 	}
 }

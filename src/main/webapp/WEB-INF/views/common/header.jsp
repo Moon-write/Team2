@@ -78,7 +78,7 @@
 					<input type="text" name="keyword" id="site-search" autocomplete='off'>
 					<span class="material-symbols-outlined" id="searchBtn">search</span>
 					<div class="popKeyArea">
-						<div style="text-align: center;margin-top:5px;padding-bottom:5px;">인기검색어</div>
+						<div style="text-align: center;margin-top:5px;padding-bottom:5px;background-color:rgb(30,144,255);color:white;">인기검색어</div>
 						<fieldset class="keywordList">
 							<div id="rankNo" style="float: left;text-align: center;">
 								<div>1</div>

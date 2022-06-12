@@ -80,21 +80,17 @@
 			FROM QNA_TBL Q WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
             where rnum between #{start} and #{end}
   	</select>
-  	<select id="selectLikeCount" parameterType="map" resultType="int">
+  	<select id="selectLikeCount" parameterType="int" resultType="int">
   		select count(*) from like_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectCommentCount" parameterType="map" resultType="int">
+  	<select id="selectCommentCount" parameterType="int" resultType="int">
   		select count(*) from comment_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectOrderCount" parameterType="map" resultType="int">
+  	<select id="selectOrderCount" parameterType="int" resultType="int">
   		select count(*) from order_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectQnaCount" parameterType="map" resultType="int">
-  		select count(*) from 
-  		<if test="boardName.equals('qna_tbl')"> 
-  				qna_tbl
-  		</if>
-  		 where member_no=#{memberNo}
+  	<select id="selectQnaCount" parameterType="int" resultType="int">
+  		select count(*) from qna_tbl where member_no=#{memberNo}
   	</select>
   	
   	<select id="selectOneOrder" parameterType="int" resultType="o">

@@ -37,10 +37,7 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		HashMap<String, Object> commentMap = new HashMap<String, Object>();
-		commentMap.put("boardName",boardName);
-		commentMap.put("memberNo",memberNo);
-		int totalCount = dao.selectCommentCount(commentMap);
+		int totalCount = dao.selectCommentCount(memberNo);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -111,10 +108,7 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		HashMap<String, Object> orderMap = new HashMap<String, Object>();
-		orderMap.put("boardName",boardName);
-		orderMap.put("memberNo",memberNo);
-		int totalCount = dao.selectOrderCount(orderMap);
+		int totalCount = dao.selectOrderCount(memberNo);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -185,10 +179,7 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		HashMap<String, Object> likeMap = new HashMap<String, Object>();
-		likeMap.put("boardName",boardName);
-		likeMap.put("memberNo",memberNo);
-		int totalLikeCount = dao.selectLikeCount(likeMap);
+		int totalLikeCount = dao.selectLikeCount(memberNo);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalLikeCount % numPerPage == 0) {
@@ -259,10 +250,7 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		HashMap<String, Object> qnaMap = new HashMap<String, Object>();
-		qnaMap.put("boardName",boardName);
-		qnaMap.put("memberNo",memberNo);
-		int totalCount = dao.selectQnaCount(qnaMap);
+		int totalCount = dao.selectQnaCount(memberNo);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {

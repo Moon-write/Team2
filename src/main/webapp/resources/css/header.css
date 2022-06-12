@@ -121,6 +121,7 @@ ul.sub-menu-wrap>li>a{
 .popKeyArea {
     display: none;
     width: 150px;
+    height: 330px;
     background-color: white;
     position: absolute;            
     border: 1px solid #ccc;
@@ -134,11 +135,14 @@ ul.sub-menu-wrap>li>a{
 	border-top:1px solid #ccc;
 	border-bottom:1px solid #ccc;
 	padding-top:5px;
-	padding-bottom:5px;
 }
 #closePopKey{
 	float: right; 
 	margin-right: 10px;
 	margin-bottom: 5px;
 	padding-top:5px;
+	padding-bottom:20px;
+}
+#closePopKey{
+	cursor: pointer;
 }
