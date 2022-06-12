@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
+import kr.or.board.model.vo.QnaPageData;
 import kr.or.business.model.service.BusinessService;
 import kr.or.business.model.vo.View;
 import kr.or.common.model.vo.Order;
@@ -25,6 +26,7 @@ import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.vo.Donation;
 import kr.or.funding.model.vo.Funding;
 import kr.or.group.model.vo.Group;
+import kr.or.member.model.vo.Member;
 import kr.or.shop.model.vo.Shop;
 
 @Controller
@@ -106,9 +108,21 @@ public class BusinessController {
 		return "/manageDelivery.kh";
 	}
 	
+	@RequestMapping(value="/manageQna.kh")
+	public String qnaList(int reqPage, Model model, int sellerNo, int qnaStatus) {		
+		QnaPageData qpd = service.selectQnaList(reqPage,sellerNo,qnaStatus);
+		model.addAttribute("qnaList",qpd.getQnaList());
+		model.addAttribute("pageNavi",qpd.getPageNavi());
+		model.addAttribute("reqPage",reqPage);
+		return "business/manageQna";
+	}
 	
-	
-	
+	@RequestMapping(value="/insertQnaRe.kh")
+	public String insertQnaRe(int qnaNo, int sellerNo, String qnaReContent) {	
+		int result=service.insertQnaRe(qnaNo,sellerNo,qnaReContent);
+		return "redirect:manageQna.kh?sellerNo="+sellerNo+"&reqPage=1&qnaStatus=2";	
+}
+
 	
 	
 	

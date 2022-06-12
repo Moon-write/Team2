@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import kr.or.auction.model.vo.Auction;
 import kr.or.auction.model.vo.Bid;
+import kr.or.board.model.dao.BoardDao;
+import kr.or.board.model.vo.Board;
+import kr.or.board.model.vo.QnaPageData;
 import kr.or.business.model.dao.BusinessDao;
 import kr.or.business.model.vo.View;
 import kr.or.common.model.vo.Order;
@@ -24,7 +27,8 @@ import oracle.net.aso.a;
 public class BusinessService {
 	@Autowired
 	private BusinessDao dao;
-	
+	@Autowired
+	private BoardDao bDao;
 	
 	public Shop selectShopNo(int memberNo) {
 		// TODO Auto-generated method stub
@@ -287,6 +291,90 @@ public class BusinessService {
 		map.put("projectNo", projectNo);
 		map.put("divNo", divNo);
 		return dao.selectStartEndDate(map);
+	}
+
+	public QnaPageData selectQnaList(int reqPage, int sellerNo, int qnaStatus) {
+		String boardName = "qna_tbl";
+		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
+		int numPerPage = 10;
+		int end = reqPage * numPerPage;
+		int start = end - numPerPage + 1;
+		
+		//start,end로 게시물 목록조회
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("start",start);
+		map.put("end",end);
+		map.put("sellerNo",sellerNo);
+		map.put("qnaStatus",qnaStatus);
+		ArrayList<Board> qnaList = bDao.selectQnaList(map);
+		System.out.println(qnaList);
+		//pageNavi작성
+		//totalCount = 전체 게시물 수 
+		HashMap<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap.put("boardName",boardName);		
+		qnaMap.put("sellerNo",sellerNo);
+		qnaMap.put("qnaStatus",qnaStatus);
+		int totalCount = bDao.selectQnaCount(qnaMap);
+		//totalPage = 전체 페이지 수
+		int totalPage = 0;
+		if(totalCount % numPerPage == 0) {
+			totalPage = totalCount/numPerPage;
+		}else {
+			totalPage = totalCount/numPerPage + 1;
+		}
+		
+		//pageNaviSize = 페이지 네비 길이 / pageNo = 페이지 번호
+		int pageNaviSize = 5;
+		int pageNo = ((reqPage-1)/pageNaviSize)*pageNaviSize + 1;
+		
+		//pageNavi 생성시작
+		String pageNavi = "<ul class='pagination circle-style'>";
+		//첫페이지 버튼
+		//이전버튼
+		if(pageNo != 1) {
+			pageNavi += "<li><a class='page-item' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage=1'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
+			pageNavi += "<li><a class='page-item' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
+		}
+		//페이지숫자
+		for(int i=0;i<pageNaviSize;i++) {
+			if(pageNo == reqPage) {
+				pageNavi += "<li><a class='page-item active-page' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
+			}else {
+				pageNavi += "<li><a class='page-item' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
+				pageNavi += pageNo;
+				pageNavi +="</a></li>"; 
+			}
+			pageNo++;
+			if(pageNo > totalPage) {
+				break;
+			}
+		}
+		//다음버튼
+		//마지막페이지 버튼
+		if(pageNo<=totalPage) {
+			pageNavi += "<li><a class='page-item' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
+			pageNavi += "<li><a class='page-item' href='/manageQna.kh?sellerNo="+sellerNo+"&qnaStatus="+qnaStatus+"&reqPage="+totalPage+"'>";
+			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
+		}
+		pageNavi += "</ul>";
+		System.out.println("qna의 totalPage : "+totalPage);
+		System.out.println("qna의 totalCount : "+totalCount);
+		System.out.println("qna의 pageNo : "+pageNo);
+		QnaPageData qpd = new QnaPageData(qnaList, pageNavi);
+		return qpd;
+	}
+
+	public int insertQnaRe(int qnaNo, int sellerNo, String qnaReContent) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("qnaNo",qnaNo);
+		map.put("qnaReContent",qnaReContent);
+		return bDao.insertQnaRe(map);
 	}
 
 }

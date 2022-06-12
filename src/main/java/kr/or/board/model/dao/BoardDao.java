@@ -64,4 +64,21 @@ import kr.or.common.model.vo.Qna;
 			// TODO Auto-generated method stub
 			return sqlSession.update("board.updateOrder", o);
 		}
+		public ArrayList<String> getQnaList(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			List list = sqlSession.selectList("board.getQnaList", map);
+			return (ArrayList<String>)list;
+		}
+		public int insertQna(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.insert("board.insertQna",map);
+		}
+		public int insertQnaRe(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.insert("board.insertQnaRe",map);
+		}
+		public int selectSeller(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.selectOne("board.selectSeller",map);
+		}
 	}

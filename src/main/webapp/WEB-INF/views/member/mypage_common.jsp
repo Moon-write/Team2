@@ -115,7 +115,7 @@
               <li><a href="/orderList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">결제내역</a></li>
               <li><a href="/commentList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">나의리뷰</a></li>
               <li><a href="/likeList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">찜목록</a></li>
-              <li><a href="/qnaList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">나의 Q&A</a></li>
+              <li><a href="/qnaList.kh?reqPage=1&memberId=${sessionScope.m.memberId }&qnaStatus=2">나의 Q&A</a></li>
               <hr>
               <li class="f-bold">회원정보</li>
               <li><a href="/updateMemberFrm.kh?memberNo=${sessionScope.m.memberNo }">정보관리</a></li>

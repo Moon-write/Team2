@@ -62,10 +62,19 @@ public class Board {
 	private int orderStatus;
 	//qna
 	private int qnaNo;
+	private int rnum;
+	private int qnaDiv;
+	private int qnaStatus;
+	private String qnaMemberId;
+	private String fundingPN;
+	private String donationPN;
+	private String auctionPN;
+	private String qnaTitle;
 	private String qnaContent;
 	private String qnaDate;
-	private int qnaRef;
-	private int qnaComplete;
+	private String qnaReContent;
+	private String qnaReDate;
+	private int secret;
 	//member
 	private int memberNo;
 	private Long bizNo;

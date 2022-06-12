@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.auction.model.vo.Auction;
+import kr.or.board.model.vo.Board;
 import kr.or.business.model.vo.View;
 import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
@@ -243,5 +244,6 @@ public class BusinessDao {
 		List list = sqlSession.selectList("business.selectStartEndDate",map);
 		return (ArrayList<String>) list;
 	}
+
 
 }
