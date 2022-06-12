@@ -37,7 +37,10 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		int totalCount = dao.selectCommentCount(memberNo);
+		HashMap<String, Object> commentMap = new HashMap<String, Object>();
+		commentMap.put("boardName",boardName);
+		commentMap.put("memberNo", memberNo);
+		int totalCount = dao.selectLikeCount(commentMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -108,7 +111,10 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		int totalCount = dao.selectOrderCount(memberNo);
+		HashMap<String, Object> orderMap = new HashMap<String, Object>();
+		orderMap.put("boardName",boardName);
+		orderMap.put("memberNo", memberNo);
+		int totalCount = dao.selectLikeCount(orderMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -179,7 +185,10 @@ public class BoardService {
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		int totalLikeCount = dao.selectLikeCount(memberNo);
+		HashMap<String, Object> likeMap = new HashMap<String, Object>();
+		likeMap.put("boardName",boardName);
+		likeMap.put("memberNo", memberNo);
+		int totalLikeCount = dao.selectLikeCount(likeMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalLikeCount % numPerPage == 0) {
@@ -234,7 +243,7 @@ public class BoardService {
 		return lpd;
 	}
 
-	public QnaPageData selectQnaList(int reqPage, int memberNo) {
+	public QnaPageData selectQnaList(int reqPage, String memberId, int qnaStatus) {
 		String boardName = "qna_tbl";
 		//numPerPage = 한 페이지당 게시물 수 / end = 해당 페이지 마지막 게시물 번호 / start = 해당 페이지 첫번째 게시물 번호
 		int numPerPage = 10;
@@ -245,12 +254,17 @@ public class BoardService {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("start",start);
 		map.put("end",end);
-		map.put("memberNo",memberNo);
+		map.put("memberId",memberId);
+		map.put("qnaStatus",qnaStatus);
 		ArrayList<Board> qnaList = dao.selectQnaList(map);
 		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
-		int totalCount = dao.selectQnaCount(memberNo);
+		HashMap<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap.put("boardName",boardName);
+		qnaMap.put("memberId",memberId);
+		qnaMap.put("qnaStatus",qnaStatus);
+		int totalCount = dao.selectQnaCount(qnaMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -268,19 +282,19 @@ public class BoardService {
 		//첫페이지 버튼
 		//이전버튼
 		if(pageNo != 1) {
-			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage=1'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage=1'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_left</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+(pageNo-1)+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage="+(pageNo-1)+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_left</span></a></li>";
 		}
 		//페이지숫자
 		for(int i=0;i<pageNaviSize;i++) {
 			if(pageNo == reqPage) {
-				pageNavi += "<li><a class='page-item active-page' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item active-page' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}else {
-				pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+				pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
 				pageNavi += pageNo;
 				pageNavi +="</a></li>"; 
 			}
@@ -292,9 +306,9 @@ public class BoardService {
 		//다음버튼
 		//마지막페이지 버튼
 		if(pageNo<=totalPage) {
-			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+pageNo+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage="+pageNo+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>chevron_right</span></a></li>";
-			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberNo="+memberNo+"&reqPage="+totalPage+"'>";
+			pageNavi += "<li><a class='page-item' href='/qnaList.kh?memberId="+memberId+"&qnaStatus="+qnaStatus+"&reqPage="+totalPage+"'>";
 			pageNavi += "<span class='material-symbols-outlined material-icons'>keyboard_double_arrow_right</span></a></li>";
 		}
 		pageNavi += "</ul>";
@@ -314,6 +328,35 @@ public class BoardService {
 	public int updateOrder(Order o) {
 		// TODO Auto-generated method stub
 		return dao.updateOrder(o);
+	}
+
+	public ArrayList<String> getQnaList(int divNo, int projectNo, int reqPage) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("reqPage",reqPage);
+		map.put("divNo",divNo);
+		map.put("projectNo",projectNo);
+		return dao.getQnaList(map);
+	}
+
+	public int insertQna(String memberId, int sellerNo, int divNo, int projectNo, String qnaTitle, String qnaContent) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId",memberId);
+		map.put("sellerNo",sellerNo);
+		map.put("divNo",divNo);
+		map.put("projectNo",projectNo);
+		map.put("qnaTitle",qnaTitle);
+		map.put("qnaContent",qnaContent);
+		return dao.insertQna(map);
+	}
+
+	public int selectSeller(int divNo, int projectNo) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("divNo",divNo);
+		map.put("projectNo",projectNo);
+		return dao.selectSeller(map);
 	}
 	
 }

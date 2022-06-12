@@ -21,36 +21,28 @@
 	top: 0px;
 	left: 0px;
 }
-.my_book_list_tbl tr>th:nth-child(1){
-	width: 7%;
+.tbl tr>th:nth-child(1){
+	width: 6%;
 }
-.my_book_list_tbl tr>th:nth-child(2){
-	width: 7%;
+.tbl tr>th:nth-child(2){
+	width: 8%;
 } 
-.my_book_list_tbl tr>th:nth-child(3){
-	width: 24%;
+.tbl tr>th:nth-child(3){
+	width: 11%;
 }
-.my_book_list_tbl tr>th:nth-child(4){
-	width: 10%;
+.tbl tr>th:nth-child(4){
+	width: 13%;
 }
-.my_book_list_tbl tr>th:nth-child(5){
-	width: 12%;
+.tbl tr>th:nth-child(5){
+	width: 30%;
 }
-#my_book_list_tbl tr>td:nth-child(1){
-	width: 7%;
+.tbl tr>th:nth-child(6){
+	width: 15%;
 }
-#my_book_list_tbl tr>td:nth-child(2){
-	width: 7%;
-} 
-#my_book_list_tbl tr>td:nth-child(3){
-	width: 24%;
+.tbl tr>th:nth-child(7){
+	width: 15%;
 }
-#my_book_list_tbl tr>td:nth-child(4){
-	width: 10%;
-}
-#my_book_list_tbl tr>td:nth-child(5){
-	width: 12%;
-}
+
 select{
 	float: right;
 	margin: 20px 0;
@@ -89,6 +81,16 @@ select{
     animation-fill-mode: forwards;
     animation-direction: alternate;
 }
+select{
+	background-color:rgb(30,144,255);
+	color:white;border:none;
+	font-weight: bold;
+	font-size:14px;
+}
+option{
+	background-color:white;
+	color:black;
+}
 </style>
 </head>
 <body>
@@ -102,45 +104,82 @@ select{
 					<div class="title-txt">내가 쓴 질문을 확인해보세요</div>
 				</div>
 					<!-- 헤더 테이블 -->
-					<table class="tbl my_book_list_tbl">
-						<tr class="tr-2 tr-head" id="tr-00">
-							<th>질문번호</th>
-							<th>구분</th>
-							<th>프로젝트명</th>
-							<th>날짜</th>
-							<th>답변상태</th>
+					<table class="tbl">
+						<tr class="tr-2">
+							<th>번호</th><th>분류</th><th><select onchange="statusChange(this)">	
+	               					<option style="display:none;">답변상태</option>
+	               					<option value="2">전체</option>            								
+				                    <option value="0">답변대기</option>
+				                    <option value="1">답변완료</option>				                    
+				                </select></th><th>프로젝트명</th><th>제목</th><th>문의자</th><th>등록일</th>
 						</tr>
-					</table>
-					<!-- 본문 테이블 -->
-					<c:choose>
+						<c:choose>
 						<c:when test="${not empty qnaList}">
 							<c:forEach items="${qnaList }" var="bo" varStatus="i">
-								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
+								<c:if test="${bo.memberId eq sessionScope.m.memberId }">									
 									<tr class="tr-00" id="tr-01">
-										<td>${bo.qnaNo }</td>
+										<td>${bo.rnum }</td>
 										<c:choose>
 											<c:when test="${bo.divNo eq 1}"><td>펀딩</td></c:when>
 											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
-										<td>${bo.projectName }</td>
-										<td>${bo.qnaDate }</td>
 										<c:choose>
-											<c:when test="${bo.qnaComplete eq 0}"><td>답변대기</td></c:when>
-											<c:when test="${bo.qnaComplete eq 1}"><td>답변완료</td></c:when>
+											<c:when test="${bo.qnaStatus eq 0}"><td>답변대기</td></c:when>
+											<c:when test="${bo.qnaStatus eq 1}"><td>답변완료</td></c:when>
 										</c:choose>
+										<c:if test="${!empty bo.fundingPN }"><td><a href="/fundingDetailStory.kh?fundingNo=${bo.projectNo}" style="color:black;">${bo.fundingPN }</a></td></c:if>
+										<c:if test="${!empty bo.donationPN }"><td><a href="/donationClick.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.donationPN }</a></td></c:if>
+										<c:if test="${!empty bo.auctionPN }"><td><a href="/auctionView.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.auctionPN }</a></td></c:if>
+										<td><a href="#" class="showContent" onclick="return false;" style="color:black;">${bo.qnaTitle }</a></td>
+										<td>${bo.memberId }</td>
+										<td>${bo.qnaDate }</td>																		
 									</tr>
-								</table>
+									<tr style="display:none;border:1px solid #ccc;">
+										<td colspan="7">
+											<table class="tbl">
+												<tr>
+													<td>
+														<div style="text-align:left;margin-left:40px;">문의내용 : ${bo.qnaContent }</div>
+													</td>													
+												</tr>
+												<tr>
+													<td>
+														<div style="text-align:left;margin-left:40px;">답변내용 : ${bo.qnaReContent }</div>
+													</td>													
+												</tr>			
+											</table>
+										</td>
+									</tr>
+								</c:if>		
 							</c:forEach>
-							<div id="pageNavi">${pageNavi }</div>
+							<tr><td colspan="7"><div id="pageNavi">${pageNavi }</div></td></tr>						
 						</c:when>
 						<c:otherwise>
-							<p class="p-0">Q&A내역이 없습니다.</p>
+							<tr><td colspan="7"><p class="p-0">Q&A내역이 없습니다.</p></td></tr>
 						</c:otherwise>
-					</c:choose>
+					</c:choose>					
+					</table>																
 			</div>
 		</div>
+		<div style="display:none;" id="memberId">${sessionScope.m.memberId }</div>
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
+	<script>
+		$(document).on("click", "td .showContent",function(event){
+			const tr=$(this).parent().parent().next();
+			tr.toggle();			
+		});
+		function statusChange(e) {
+			const memberId=$("#memberId").text();
+			if(e.value=="2"){
+				location.href="/qnaList.kh?reqPage=1&memberId="+memberId+"&qnaStatus=2";
+			}else if(e.value=="0"){
+				location.href="/qnaList.kh?reqPage=1&memberId="+memberId+"&qnaStatus=0";
+			}else if(e.value=="1"){
+				location.href="/qnaList.kh?reqPage=1&memberId="+memberId+"&qnaStatus=1";
+			}
+		}
+	</script>
 </body>
 </html>

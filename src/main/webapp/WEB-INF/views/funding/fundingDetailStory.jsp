@@ -262,7 +262,7 @@
 .like>span:first-child{
 		font-size: 1.5em;
 	}
-
+	
 </style>
 </head>
 <body>
@@ -352,14 +352,34 @@
 					        <span id="likeCount">${f.totallike}</span>
 						</div>
 
-                        <div class="qna"><button><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
+                        <div class="qna"><button class="modal-open-btn" target="#test-modal"><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
                         <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div>
                     </div>
                 </div>
                 <div class="funding-rank">펀딩랭크</div>
                 </div>
             </div>
-        </div>    
+        </div>
+        <div id="test-modal" class="modal-bg" style="z-index:88888;">
+			<div class="modal-wrap" style="width:800px;">
+				<div class="modal-head">
+					<h2 id="graph-title">문의하기</h2>					
+					<span class="material-icons close-icon modal-close">close</span>
+				</div>
+				<div class="modal-content">
+					<form action="/insertQna.kh">
+						<input type="hidden" name="memberId" value="${sessionScope.m.memberId }">
+						<input type="hidden" name="divNo" value="1">
+						<input type="hidden" name="projectNo" value="${f.fundingNo}">
+						<table class="tbl">
+							<tr><td><input type="text" class="input-form" name="qnaTitle" placeholder="제목을 입력하세요"></td></tr>
+							<tr><td><textarea class="input-form" name="qnaContent" placeholder="내용을 입력하세요"></textarea></td></tr>
+							<tr><td><button class="btn bc1">등록</button></td></tr>							
+						</table>						
+					</form>					
+				</div>
+			</div>
+		</div>
     
 
 
@@ -429,6 +449,7 @@
 			
 		})
         */
+       
         $(document).on("click","span.likeB",function(){
 			if(checkLogin()){
 				const value = $("input#fundingNo").val();			
@@ -489,6 +510,17 @@
         function login(){
 			location.href = "/loginFrmF.kh";
 		}
+        $(function () {
+        	const modalContent=$(".modal-content");
+        	const fundingNo=$("#fundingNo").val();
+			  $(document).on("click", ".modal-open-btn", function () {
+				  $($(this).attr("target")).css("display", "flex");					 
+			  });
+			  $(document).on("click", ".modal-close", function () {
+			    $(this).parents(".modal-wrap").parent().css("display", "none");
+			  });  
+			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
+		});
 </script>
     <style>
         .funding-btn{

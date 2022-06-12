@@ -72,7 +72,7 @@
 					<li><a href="addAuction.kh">경매 등록</a></li>
 					<li><a href="/manageAuction.kh">경매 관리</a></li>
 				</ul></li>
-			<li><a href="/manageQna.kh">Q&A페이지</a></li>
+			<li><a href="/manageQna.kh?sellerNo=${sessionScope.m.memberNo }&reqPage=1&qnaStatus=2">Q&A페이지</a></li>
 			<li><a
 				href="/manageDelivery.kh?memberNo=${sessionScope.m.memberNo }">배송관리</a>
 			</li>

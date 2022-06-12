@@ -61,7 +61,41 @@
             where rnum between #{start} and #{end}		
   	</select>
   	<select id="selectQnaList" parameterType="map" resultType="bo">
-		select * from 
+  		select * from 
+		    (select rownum as rnum,n.* from (
+		       select
+		       qna_no as qnaNo,
+		       q.member_id as memberId,
+		       q.seller_no as sellerNo,
+		       qna_status as qnaStatus,		       
+		       q.div_no as divNo,
+		       q.project_no as projectNo,
+		       qna_title as qnaTitle,
+		       funding_name as fundingPN,
+		       donation_title as donationPN,
+		       project_name as auctionPN,
+		       qna_content as qnaContent,
+		       to_char(qna_date,'yyyy-mm-dd') as qnaDate,
+		       qna_re_content as qnaReContent,
+		       to_char(qna_re_date,'yyyy-mm-dd') as qnaReDate    
+		       from qna q
+		       left join funding f on (q.project_no=funding_no)
+		       left join donation d on (q.project_no=d.project_no)
+		       left join auction_tbl a on (q.project_no=a.project_no)
+		       where
+		       <if test="memberId !=null">
+		       q.member_id=#{memberId}
+		       </if>
+		       <if test="sellerNo != null">
+		       seller_no=#{sellerNo}
+		       </if>
+		       <if test="qnaStatus != 2">
+		       and qna_status=#{qnaStatus}
+		       </if>
+		       order by qna_no desc
+		    )
+		n) where rnum between #{start} and #{end}
+		<!-- select * from 
 		(SELECT ROWNUM AS RNUM,C.*FROM
           (SELECT 
 			    QNA_NO as qnaNo,
@@ -78,19 +112,53 @@
 			    substr(qna_date,1,10) as qnaDate,
 			    qna_complete as qnaComplete
 			FROM QNA_TBL Q WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
-            where rnum between #{start} and #{end}
+            where rnum between #{start} and #{end} -->
   	</select>
-  	<select id="selectLikeCount" parameterType="int" resultType="int">
+  	<select id="selectSeller" parameterType="map" resultType="int">
+  		SELECT * FROM  (
+			SELECT 
+			    member_no
+			    FROM FUNDING WHERE div_no=#{divNo} and funding_no=#{projectNo}
+			UNION
+			SELECT
+			    member_no
+			    FROM DONATION WHERE div_no=#{divNo} and project_no=#{projectNo}
+			UNION
+			SELECT
+			    member_no
+			    FROM AUCTION_TBL WHERE div_no=#{divNo} and project_no=#{projectNo}
+	    )
+  	</select>
+  	<insert id="insertQna" parameterType="map">
+  		insert into qna values(qna_seq.nextval,0,#{divNo},#{projectNo},#{memberId},#{sellerNo},#{qnaTitle},#{qnaContent},sysdate,null,null)
+  	</insert>
+  	<insert id="insertQnaRe" parameterType="map">
+  		update qna set qna_re_content=#{qnaReContent}, qna_re_date=sysdate, qna_status=1 where qna_no=#{qnaNo}
+  	</insert>
+  	<select id="selectLikeCount" parameterType="map" resultType="int">
   		select count(*) from like_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectCommentCount" parameterType="int" resultType="int">
+  	<select id="selectCommentCount" parameterType="map" resultType="int">
   		select count(*) from comment_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectOrderCount" parameterType="int" resultType="int">
+  	<select id="selectOrderCount" parameterType="map" resultType="int">
   		select count(*) from order_tbl where member_no=#{memberNo}
   	</select>
-  	<select id="selectQnaCount" parameterType="int" resultType="int">
-  		select count(*) from qna_tbl where member_no=#{memberNo}
+  	<select id="selectQnaCount" parameterType="map" resultType="int">
+		select count(*) from 
+			<if test="boardName.equals('qna_tbl')"> 
+			qna
+			</if>
+		where
+			<if test="memberId !=null">
+			member_id=#{memberId}
+			</if>
+			<if test="sellerNo != null">
+			seller_no=#{sellerNo}
+			</if>
+			<if test="qnaStatus != 2">
+			and qna_status=#{qnaStatus}
+			</if>
   	</select>
   	
   	<select id="selectOneOrder" parameterType="int" resultType="o">

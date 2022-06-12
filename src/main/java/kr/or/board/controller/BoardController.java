@@ -1,9 +1,14 @@
 package kr.or.board.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import kr.or.board.model.service.BoardService;
 import kr.or.board.model.vo.CommentPageData;
@@ -11,12 +16,15 @@ import kr.or.board.model.vo.LikePageData;
 import kr.or.board.model.vo.OrderPageData;
 import kr.or.board.model.vo.QnaPageData;
 import kr.or.common.model.vo.Order;
+import kr.or.member.model.service.MemberService;
 import kr.or.member.model.vo.Member;
 
 @Controller
 public class BoardController {
 	@Autowired
 	BoardService service;
+	@Autowired
+	MemberService mService;
 	
 	@RequestMapping(value="/commentList.kh")
 	public String commentList(int reqPage, Model model, Member m) {
@@ -42,12 +50,19 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/qnaList.kh")
-	public String qnaList(int reqPage, Model model, Member m) {
-		QnaPageData qpd = service.selectQnaList(reqPage, m.getMemberNo());
+	public String qnaList(int reqPage, Model model, Member m, int qnaStatus) {
+		QnaPageData qpd = service.selectQnaList(reqPage, m.getMemberId(),qnaStatus);
 		model.addAttribute("qnaList",qpd.getQnaList());
 		model.addAttribute("pageNavi",qpd.getPageNavi());
 		model.addAttribute("reqPage",reqPage);
 		return "board/qnaList";
+	}
+	
+	@RequestMapping(value="/insertQna.kh")
+	public String insertQna(String memberId, int divNo, int projectNo, String qnaTitle, String qnaContent) {
+		int sellerNo=service.selectSeller(divNo, projectNo);
+		int result=service.insertQna(memberId, sellerNo, divNo, projectNo, qnaTitle, qnaContent);
+		return "redirect:fundingDetailStory.kh?fundingNo="+projectNo;
 	}
 	
 	@RequestMapping(value="/likeList.kh")
@@ -89,5 +104,12 @@ public class BoardController {
 			model.addAttribute("loc", "/orderView.kh?orderNo="+o.getOrderNo());
 		}
 		return "common/msg";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getQnaList.kh",produces="application/json;charset=utf-8")
+	public String getQnaList(int reqPage, int divNo, int projectNo) {
+		ArrayList<String> list=service.getQnaList(reqPage, divNo, projectNo);
+		return new Gson().toJson(list);
 	}
 }

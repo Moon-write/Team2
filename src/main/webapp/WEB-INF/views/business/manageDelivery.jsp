@@ -180,8 +180,7 @@ td:last-child{
 		$(document).on("click", "td .detail",function(event){					
 			const orderNo=$(this).parent().prev().prev().prev().prev().prev().prev().prev().text();
 			const tr=$(this).parent().parent().next();
-			tr.toggle();
-			
+			tr.toggle();			
 		});
 		$("#datepicker1").change(function(){
 			const startDate=new Date($("input[name=startDate]").val());

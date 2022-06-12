@@ -36,20 +36,20 @@ import kr.or.common.model.vo.Qna;
 			List qnaList = sqlSession.selectList("board.selectQnaList",map);
 			return (ArrayList<Board>)qnaList;
 		}
-		public int selectCommentCount(int memberNo) {
-			int totalCount = sqlSession.selectOne("board.selectCommentCount",memberNo);
+		public int selectCommentCount(HashMap<String, Object> commentMap) {
+			int totalCount = sqlSession.selectOne("board.selectCommentCount",commentMap);
 			return totalCount;
 		}
-		public int selectOrderCount(int memberNo) {
-			int totalCount = sqlSession.selectOne("board.selectOrderCount",memberNo);
+		public int selectOrderCount(HashMap<String, Object> orderMap) {
+			int totalCount = sqlSession.selectOne("board.selectOrderCount",orderMap);
 			return totalCount;
 		}
-		public int selectLikeCount(int memberNo) {
-			int totalCount = sqlSession.selectOne("board.selectLikeCount",memberNo);
+		public int selectLikeCount(HashMap<String, Object> likeMap) {
+			int totalCount = sqlSession.selectOne("board.selectLikeCount",likeMap);
 			return totalCount;
 		}
-		public int selectQnaCount(int memberNo) {
-			int totalCount = sqlSession.selectOne("board.selectQnaCount",memberNo);
+		public int selectQnaCount(HashMap<String, Object> qnaMap) {
+			int totalCount = sqlSession.selectOne("board.selectQnaCount",qnaMap);
 			return totalCount;
 		}
 		public Order selectOneOrder(int orderNo) {
@@ -63,5 +63,22 @@ import kr.or.common.model.vo.Qna;
 		public int updateOrder(Order o) {
 			// TODO Auto-generated method stub
 			return sqlSession.update("board.updateOrder", o);
+		}
+		public ArrayList<String> getQnaList(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			List list = sqlSession.selectList("board.getQnaList", map);
+			return (ArrayList<String>)list;
+		}
+		public int insertQna(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.insert("board.insertQna",map);
+		}
+		public int insertQnaRe(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.insert("board.insertQnaRe",map);
+		}
+		public int selectSeller(HashMap<String, Object> map) {
+			// TODO Auto-generated method stub
+			return sqlSession.selectOne("board.selectSeller",map);
 		}
 	}

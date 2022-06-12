@@ -60,7 +60,6 @@
 	<%@include file="/WEB-INF/views/common/bizHeader.jsp"%>
 	<div class="page-content">
 		<%@include file="/WEB-INF/views/business/bizMenu.jsp"%>
-		</div>
 		<div class="show-content">
 			<div></div>
 		</div>

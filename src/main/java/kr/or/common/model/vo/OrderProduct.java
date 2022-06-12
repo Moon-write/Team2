@@ -19,4 +19,7 @@ public class OrderProduct {
 	
 	// 해당 테이블 외 정보 (상품명 정도?)
 	private String productName;
+	private int[] optionNo2;
+	private int[] productPrice2;
+	private int[] productAmount2;
 }
