@@ -245,7 +245,7 @@ public class AuctionService {
 					}
 					// 4 낙찰자에게 메세지 보낼 수 있으면 메세지까지 보내기
 					try {
-						bidHandler.sendBidSuccessMsg(b.getMemberNo());
+						bidHandler.sendBidSuccessMsg(b.getMemberNo(),b.getOrderNo());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

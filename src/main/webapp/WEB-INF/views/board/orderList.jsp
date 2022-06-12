@@ -137,7 +137,7 @@ select{
 										</td>
 										<td id="orderNo">${bo.orderNo }</td>
 										<td>${bo.projectName }</td>
-										<td id="price">${bo.orderPrice }</td>
+										<td class="price">${bo.orderPrice }</td>
 										<td>${bo.orderDate }</td>
 										<c:choose>
 											<c:when test="${bo.orderStatus eq 1}"><td>결제완료</td></c:when>
@@ -176,11 +176,13 @@ select{
 		})
 		//(천단위)콤마 찍는 함수(첫번째꺼에밖에 적용안됨 - 이유 알아내서 모든 리스트에 적용되도록 수정!)
 		$(function(){
-			const num = $("#price").text();
-		    	//아이디 tag인 태그의 text를 읽어온다 
-			const num2 = $.numberWithCommas(num);
-		  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
-		  	$("#price").text(num2+"원");
+			$(".price").each(function(index, item){
+		    	//클래스 price인 태그의 text를 읽어온다 
+				const num = $(item).text();
+				const num2 = $.numberWithCommas(num);
+			  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
+			  	$(item).text(num2+"원");				
+			})
 		});
 		$.numberWithCommas = function (x) {
 			  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
