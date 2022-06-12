@@ -266,13 +266,7 @@
 			</form>
 		</div>
 	</div>
-	<p class="join-p" style="color:#333; font-size:18px;">
-	이미 가입된 회원이라고 나오시나요?<br>
-	이메일로 비밀번호를 찾을 수 있습니다.
-	</p>
-	<br><br>
-	<p class="join-p" ><a href="/passReset.do" style="color:#ccc;">비밀번호 찾으러 가기</a></p>
-	<br><br><br><br>
+	<br><br><br><br><br><br>
 		
 	<script>
 	//전체 input체크
@@ -368,14 +362,14 @@
 		//비밀번호 정규식
 		const pw = $("[name=memberPw]");
 		pw.on("change", function(){
-			const pwReg = /[0-9]{4,6}/;
+			const pwReg = /[a-zA-Z0-9]{4,6}/;
 			const pwVal = pw.val();
 			if(pwReg.test(pwVal)){
 				$(".pwChk").text("사용할 수 있는 패스워드 입니다.");
 				$(".pwChk").css("color","blue");
 				checkArr[4] = true;
 			}else{
-				$(".pwChk").text("4자~6자 영어 또는 숫자를 사용하세요.");
+				$(".pwChk").text("4자~6자 영어대소문자 또는 숫자를 사용하세요.");
 				$(".pwChk").css("color","red");
 				checkArr[4] = false;
 			}
@@ -449,7 +443,7 @@
 			const emailAddr = $("[name=emailAddr]").val();
 			const email = emailId+emailAddr;
 			console.log(email);
-			if(emailId != null && emailAddr != null){
+			if(emailId != '' && emailAddr != null){
 				const title = "입력하신 아이디를 조회중입니다.";
 				$.ajax({
 					url : "/sendMail.kh",
@@ -568,7 +562,7 @@
             
             $("#datepicker").on("change",function(){
                 const selected = $(this).val();
-                alert("생년월일 "+selected+" 맞습니까?");
+                alert("생년월일이 "+selected+" 맞습니까?");
                 $("#datepicker").val(selected);
                 checkArr[11] = true;
             });
@@ -584,6 +578,7 @@
 				}
 				if(count != 13 || authChk < 1){
 					e.preventDefault();//form의 submit을 중단시키는 코드
+					alert("모든 항목을 입력해야 합니다.");
 				}
 			});
 		 
