@@ -20,10 +20,11 @@ public class commonController {
 	private commonService service;
 	
 	@RequestMapping(value="/searchProject.kh")
-	public String searchProject(String keyword, Model model) {
-		
+	public String searchProject(String keyword, Model model) {		
 		ArrayList<Project> list = service.searchProject(keyword);
-		int result=service.insertPopKey(keyword);
+		if(keyword!="") {
+			int result=service.insertPopKey(keyword);
+		}		
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("list", list);
 		return "common/searchResult";
