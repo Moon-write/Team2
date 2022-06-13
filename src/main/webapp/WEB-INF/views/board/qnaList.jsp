@@ -47,10 +47,9 @@ select{
 	float: right;
 	margin: 20px 0;
 }
-.tbl th, .tbl>td {
-    padding: 1rem;
+.tbl th, .tbl td {
+    padding:1rem;
     text-align: center;
-    
 }
 #tr-00>*{
 	padding: 1rem;
@@ -137,17 +136,22 @@ option{
 									</tr>
 									<tr style="display:none;border:1px solid #ccc;">
 										<td colspan="7">
-											<table class="tbl">
+											<table class="tbl tbl2">
 												<tr>
-													<td>
-														<div style="text-align:left;margin-left:40px;">문의내용 : ${bo.qnaContent }</div>
-													</td>													
+													<td style="width:120px;">
+														<div style="text-align:right;">문의내용      : </div>
+													</td>
+													<td><div style="text-align:left;">${bo.qnaContent }</div></td>				
 												</tr>
 												<tr>
-													<td>
-														<div style="text-align:left;margin-left:40px;">답변내용 : ${bo.qnaReContent }</div>
-													</td>													
-												</tr>			
+													<td style="width:120px;"><div style="text-align:right;">답변내용   : </div></td>
+													<td>											
+														<div style="text-align:left;"> ${bo.qnaReContent }</div>
+													</td>																																			
+												</tr>
+												<c:if test="${bo.qnaStatus eq 1 }">
+													<tr><td style="width:120px;"><div style="text-align:right;">답변등록일   : </div></td><td><div style="text-align:left;">${bo.qnaReDate }</div></td></tr>
+												</c:if>		
 											</table>
 										</td>
 									</tr>
