@@ -106,17 +106,16 @@ public class BidHandler extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception{
-		// 접속 종료시 종료된 세션을 list에서 제거
-		sessionList.remove(session);
+
 	}
 
 
-	public void sendBidSuccessMsg(int memberNo) throws Exception {
+	public void sendBidSuccessMsg(int memberNo, int orderNo) throws Exception {
 		// 해당 회원번호가 memberList에 있는지 확인
 		WebSocketSession s = memberList.get(memberNo);
 		// value가 있는지 확인
 		if(s!=null) {
-			TextMessage tm = new TextMessage("bidSuccess");
+			TextMessage tm = new TextMessage("bidSuccess/"+String.valueOf(orderNo));
 			s.sendMessage(tm);
 		}
 	}

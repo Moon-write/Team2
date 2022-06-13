@@ -125,16 +125,16 @@
 	width: 6%;
 }
 #my_book_list_tbl tr>th:nth-child(5){
-	width: 10%;
+	width: 13%;
 }
 #my_book_list_tbl tr>td:nth-child(5){
-	width: 10%;
+	width: 13%;
 }
 #my_book_list_tbl tr>th:nth-child(6){
-	width: 7%;
+	width: 4%;
 }
 #my_book_list_tbl tr>td:nth-child(6){
-	width: 7%;
+	width: 4%;
 }
 #my_book_list_tbl tr>th:nth-child(7){
 	width: 6%;
@@ -149,10 +149,10 @@
 	width: 9%;
 }
 #my_book_list_tbl tr>th:nth-child(9){
-	width: 4%;
+	width: 3%;
 }
 #my_book_list_tbl tr>td:nth-child(9){
-	width: 4%;
+	width: 3%;
 }
 form{
 	margin-top: 20px; 
@@ -184,7 +184,7 @@ table{
 					<!-- 헤더 테이블 -->
 					<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 						<tr class="tr-3">
-							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소<th>적립금</th><th>등급</th><th>상세보기<th>삭제</th>
+							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소<th>적립금</th><th>등급</th><th>삭제가능여부<th>삭제</th>
 						</tr>
 					</table>
 					<!-- 본문 테이블 -->	
@@ -193,19 +193,21 @@ table{
 							<c:forEach items="${memberList }" var="m" varStatus="i">
 								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
 									<tr class="tr-00" id="tr-01">
-										<td>${m.memberNo }</td>
+										<td id="memberNo">${m.memberNo }</td>
 										<td id="memberId">${m.memberId }</td>
 										<td>${m.memberName }</td>
 										<td>${m.memberPhone }</td>
-										<td>${m.memberAddr1 }</td>
+										<td>(${m.memberPostcode })${m.memberAddr1 }&nbsp;${m.memberAddr2 }</td>
 										<td>${m.memberPoint }</td>
 										<c:choose>
 											<c:when test="${m.memberLevel eq 2}"><td>일반</td></c:when>
 											<c:when test="${m.memberLevel eq 1}"><td>사업자</td></c:when>
 											<c:when test="${m.memberLevel eq 0}"><td>관리자</td></c:when>
 										</c:choose>
-										<td><button class="btn bc2 searchBtn" style="padding: 0 10px;" >상세보기</button></td>
-										<!-- 상세보기 누르면 slide down되도록 -->
+										<td>
+											<button class="btn bc2 searchBtn" id="delOkBtn" style="padding: 0 10px;">
+											</button>
+										</td>
 										<td><input type="checkbox" id="delMemberChk"></td>
 									</tr>
 								</table>
@@ -246,7 +248,23 @@ $(function(){
 			location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
 		}
 	});
-	
+	$(function(){
+		const delOk = $("#delOkBtn");
+		const memNo = delOk.parent().siblings("#memberNo").text();
+		console.log("memberNo : "+memNo);
+		$.ajax({
+			url : "/delCount.kh",
+			data : {memberNo : memNo},
+			type : "post",
+			success : function(data){
+				if(data == "-1"){
+					delOk.append("탈퇴불가");
+				}else{
+					delOk.append("탈퇴가능");
+				}
+			}
+		});//ajax끝
+	});
 });	
 	
 	</script>

@@ -135,7 +135,7 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<div class="page-content">
-		<span class="page-content-title">회원가입</span>
+		<span class="page-content-title">사업자 회원가입</span>
 		<div class="index-wrap">
 		<ul class= "index">
 			<li>───<span>1</span>회원 선택</li>
@@ -182,7 +182,7 @@
 						<td><button class="btn bc1 bs1" name="authSendBtn">인증번호 받기</button></td>
 					</tr>
 					<tr class="form-name">
-						<th colspan="4">인증번호<span class="idChkMsg"></span></th>
+						<th colspan="4">인증번호<span class="authMsg"></span></th>
 					</tr>
 					<tr class="form-input">
 						<td colspan="3"><input type="text" name="memberIdChk" class="input-form" placeholder="인증번호를 입력하세요." required></td>
@@ -453,10 +453,13 @@
 						if(data == "null"){
 							alert("이미 가입된 이메일입니다.");
 						}else{
+							alert("입력하신 이메일로 인증번호가 발송되었습니다.");
+							/*
 							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
 							const icon = "success";
 							const msgTime = 2500;
 							toastShow(title,icon,msgTime);
+							*/
 							mailCode = data;
 							console.log(mailCode);
 							console.log(data);
@@ -508,7 +511,6 @@
 								$("[name=emailAddr] option:selected").siblings().hide();
 								$("[name=memberIdChk]").attr("readonly",true);
 								$("[name=memberId]").val(email);
-								console.log(email);
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;

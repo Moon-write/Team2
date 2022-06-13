@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import kr.or.board.model.dao.BoardDao;
 import kr.or.board.model.vo.Board;
 import kr.or.board.model.vo.CommentPageData;
 import kr.or.member.common.SHA256Enc;
@@ -20,6 +21,8 @@ import kr.or.member.model.vo.MemberPageData;
 public class MemberService {
 	@Autowired
 	private MemberDao dao;
+	@Autowired
+	private BoardDao boardDao;
 	@Autowired
 	private SHA256Enc enc;
 	
@@ -38,7 +41,7 @@ public class MemberService {
 					return 1;
 				}
 		//사업자회원 가입
-		}else {
+		}else if(m.getMemberLevel() == 1) {
 			int MemberResult = dao.insertMember(m);
 			if(MemberResult == 1) {
 				int memberNo = m.getMemberNo();
@@ -219,6 +222,16 @@ public class MemberService {
 			}
 		}
 		return result;
+	}
+	public int delCount(int memberNo) {
+		int commentResult = boardDao.selectCommentCount(memberNo);
+		int qnaResult = boardDao.selectQnaCount(memberNo);
+		int likeResult = boardDao.selectLikeCount(memberNo);
+		int orderResult = boardDao.selectOrderCount(memberNo);
+		int finalResult = commentResult+qnaResult+likeResult+orderResult;
+		System.out.println("finalResult : "+finalResult);
+		System.out.println("commentResult : "+finalResult);
+		return finalResult;
 	}
 	
 }

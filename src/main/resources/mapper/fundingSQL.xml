@@ -63,6 +63,17 @@
   	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
 
   </select>
+  <select id="selectFundingBoard" parameterType="int" resultType="fb">
+  	select
+  		board_no as boardNo,
+  		funding_no as fundingNo,
+  		member_no as memberNo,
+  		board_title as boardTitle,
+  		board_content as boardContent,
+  		board_startdate as boardStartdate
+  	from funding_board
+  	where funding_no = #{fundingNo}
+  </select>
   <insert id="checkViewCount" parameterType="int">
 	CALL VIEWCOUNT(1, #{fundingNo}, TO_DATE(SYSDATE, 'YYYY-MM-DD'))
   </insert>

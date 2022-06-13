@@ -70,8 +70,11 @@
 			$("div.msg-banner").slideDown();
 		}else if(result[0]=="update"&&result[1]==$("input#projectNo").val()){
 			bidUpdate();
-		}else if(msg.data=="bidSuccess"){
-			$("div.msg-banner>span:first-child").text("참여한 경매가 낙찰됐습니다! 마이페이지에서 결제해 주세요.");
+		}else if(result[0]=="bidSuccess"){
+			const link = $("<a>");
+			link.attr("href","/addOrder.kh?orderNo="+result[1]);
+			link.text("참여한 경매가 낙찰됐습니다! 마이페이지에서 결제해 주세요.");
+			$("div.msg-banner>span:first-child").html(link);
 			$("div.msg-banner").slideDown();
 		}
 		
