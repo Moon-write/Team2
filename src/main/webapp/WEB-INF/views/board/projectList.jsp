@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="/resources/css/board/boardMain.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
 <style>
 .content-title{
 	background-image: url(/resources/img/board/banner3.jpg);
@@ -107,10 +107,54 @@ select{
 				<div class="content-title">
 					<div class="title-txt">현재 참여중인 프로젝트를 확인해보세요</div>
 				</div>
+				<!-- 카테고리 사용금액 -->
+				<div class="amount-chart">
+					<!-- divNo/memberNo으로 order_tbl에서 카테고리별 금액 -->
+					<p>카테고리별 사용 금액</p>
+						<p>이번달 경매와 펀딩에서 총 ₩27,000 썼어요.</p>
+						<canvas id="amount-chart" width="200" height="112"></canvas>
+				</div>
+				<hr>
+				<!-- 지난달과 비교순위 -->
+				<div class="amount-chart">
+					<!-- divNo/memberNo으로 order_tbl에서 카테고리별 금액 -->
+					<p>순위가 바뀌었어요!</p>
+					<!-- 돈 많이쓴 카테고리 순위 지난달과 비교해서 바뀌었으면 표시 아니면 다른말 -->
+					<p>지난 달은 경매에 가장 많이 지출했어요.</p>
+				</div>
+				<hr>
+				<!-- 나의 단골매장 -->
+				<div class="amount-chart">
+					<!-- divNo/sellerNo으로 order_tbl에서 카테고리별 금액 -->
+					<p>나의 단골 매장</p>
+					<p>길냥이를 사랑하는 모임에서 2번 결제하여, 총 ₩27,000 썼어요.</p>
+				</div>
 			</div>
 		</div>
 	</div>
-	
+	<script type="text/javascript">
+	const myChartOne = document.getElementById("amount-chart").getContext("2d");
+
+	const barChar = new Chart(myChartOne, {
+		type: 'doughnut',
+	    data: {
+	      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+	      datasets: [
+	        {
+	          label: "Population (millions)",
+	          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+	          data: [2478,5267,734,784,433]
+	        }
+	      ]
+	    },
+	    options: {
+	      title: {
+	        display: true,
+	        text: 'Predicted world population (millions) in 2050'
+	      }
+	    }
+	});
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>

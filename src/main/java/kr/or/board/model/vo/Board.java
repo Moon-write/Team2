@@ -14,6 +14,7 @@ public class Board {
 	//펀딩
 	private int fundingNo;
 	private String fundingName;
+	private String divName;
 	private String fundingCategory;
 	private String fundingDetail;
 	private String fundingFilepath;

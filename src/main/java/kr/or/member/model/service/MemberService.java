@@ -224,14 +224,7 @@ public class MemberService {
 		return result;
 	}
 	public int delCount(int memberNo) {
-		int commentResult = boardDao.selectCommentCount(memberNo);
-		int qnaResult = boardDao.selectQnaCount(memberNo);
-		int likeResult = boardDao.selectLikeCount(memberNo);
-		int orderResult = boardDao.selectOrderCount(memberNo);
-		int finalResult = commentResult+qnaResult+likeResult+orderResult;
-		System.out.println("finalResult : "+finalResult);
-		System.out.println("commentResult : "+finalResult);
-		return finalResult;
+		return 0;
 	}
 	
 }

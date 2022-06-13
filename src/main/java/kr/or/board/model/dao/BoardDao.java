@@ -81,4 +81,8 @@ import kr.or.common.model.vo.Qna;
 			// TODO Auto-generated method stub
 			return sqlSession.selectOne("board.selectSeller",map);
 		}
+		public ArrayList<Board> selectProjectList(int memberNo) {
+			List projecList = sqlSession.selectList("board.selectProject",memberNo);
+			return (ArrayList<Board>)projecList;
+		}
 	}

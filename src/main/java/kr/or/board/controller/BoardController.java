@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import kr.or.board.model.service.BoardService;
+import kr.or.board.model.vo.Board;
 import kr.or.board.model.vo.CommentPageData;
 import kr.or.board.model.vo.LikePageData;
 import kr.or.board.model.vo.OrderPageData;
@@ -36,7 +37,9 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/projectList.kh")
-	public String projectList() {
+	public String projectList(int memberNo, Model model) {
+		ArrayList<Board> projectList = service.selectProjectList(memberNo);
+		model.addAttribute("projectList",projectList);
 		return "board/projectList";
 	}
 	

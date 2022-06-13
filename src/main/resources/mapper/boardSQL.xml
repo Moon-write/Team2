@@ -223,4 +223,21 @@
   		ORDER_DEL_ASK = #{orderDelAsk}
   	WHERE ORDER_NO = #{orderNo}
   </update>
+  <select id="selectProject" parameterType="int" resultType="bo">
+  	SELECT
+  		ORDER_NO AS orderNo,
+  		DIV_NO AS divNo,
+  		PROJECT_NO AS projectNo,
+  		MEMBER_NO AS memberNo,
+  		MEMBER_NAME AS memberName,
+  		TO_CHAR(ORDER_DATE, 'YYYY-MM-DD HH24:MI:SS') AS orderDate,
+  		ORDER_PRICE AS orderPrice,
+  		ORDER_POINT AS orderPoint,
+  		ORDER_STATUS AS orderStatus,
+        PROJECT_NAME AS projectName
+	FROM ORDER_TBL 
+	JOIN MEMBER	 USING(MEMBER_NO)
+	JOIN DIV_TBL USING(DIV_NO)
+	WHERE MEMBER_NO=#{memberNo}
+  </select>
 </mapper>
