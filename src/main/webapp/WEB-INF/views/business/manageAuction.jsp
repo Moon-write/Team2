@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="resources/js/jquery-3.6.0.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
 <script
@@ -75,7 +74,7 @@ input[type="number"] {
 		const eTr=$("<tr class=\"tr-2\">");
 		const sTh=$("<th>번호</th><th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>현재가</th><th></th><th></th><th></th>");
 		const eTh=$("<th>번호</th><th>프로젝트명</th><th>상품명</th><th>수량</th><th>시작일</th><th>종료일</th><th>시작가</th><th>낙찰가</th><th>판매상태</th><th></th>");
-		const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');
+		const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');		
 		sTr.append(sTh);
 		eTr.append(eTh);
 		window.onload=init();		
@@ -142,7 +141,6 @@ input[type="number"] {
 				url : "/selectAList.kh",
 				data:{memberNo:memberNo},					
 				success : function(list){
-					console.log(list);
 					for(let i=0;i<list.length;i++){
 						const tr2=$("<tr>");
 						const noTd=$("<td>");

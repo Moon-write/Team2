@@ -161,5 +161,10 @@ public class ShopService {
 		return dao.updateBizMember(m);
 	}
 
+	public int updateShopInfo(Shop s) {
+		// TODO Auto-generated method stub
+		return dao.updateShopInfo(s);
+	}
+
 
 }

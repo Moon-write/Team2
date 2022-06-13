@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script src="js/jquery-3.6.0.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 .show-content2{
@@ -52,6 +51,9 @@
 tr td{
 	border:none;
 }
+.ui-datepicker-trigger{
+	display:none;
+}
 </style>
 
 </head>
@@ -74,6 +76,14 @@ tr td{
 							<tr class="tr-3">
 								<td>상호명</td>
 								<td><input class="input-form" type="text" id="bizName" value="${sessionScope.m.bizName }" readonly></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="check-msg"></td>
+							</tr>	
+							<tr class="tr-3">
+								<td>설립일</td>
+								<td><input type="text" name="shopBirth" class="input-form datepicker" id="datepicker" value="${shop.shopBirth }" readonly></td>
 							</tr>
 							<tr>
 								<td></td>
@@ -132,10 +142,11 @@ tr td{
 			const memberAddr1 = $("#member_addr1").val();
 			const memberAddr2 = $("#member_addr2").val();
 			const memberPhone = $("#changePhone").val();
+			const shopBirth=$("input[name=shopBirth]").val();
 			$.ajax({
 				url: "/updateBizMember.kh",
 				type: "post",
-				data: {memberId: memberId, memberPostcode:memberPostcode, memberAddr1:memberAddr1,memberAddr2:memberAddr2, memberPhone: memberPhone},
+				data: {memberId: memberId, memberPostcode:memberPostcode, memberAddr1:memberAddr1,memberAddr2:memberAddr2, memberPhone: memberPhone, shopBirth:shopBirth},
 				success: function(data){
 					if(data == "0"){
 						alert("수정이 완료되었습니다.");
@@ -145,6 +156,26 @@ tr td{
 				},
 			})
 		});
+		$(function() {
+	        $("#datepicker").datepicker({
+	        	dateFormat: 'yy-mm-dd'
+	                ,showOtherMonths: true
+	                ,showMonthAfterYear:true
+	                ,changeYear: true
+	                ,changeMonth: true                
+	                ,showOn: "both"  
+	                ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"
+	                ,buttonImageOnly: true
+	                ,buttonText: "선택"            
+	                ,yearSuffix: "년"
+	                ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+	                ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+	                ,dayNamesMin: ['일','월','화','수','목','금','토']
+	                ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']
+	                ,minDate: "-5y"
+	                ,maxDate: 0   
+	        });                           
+	    });
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

@@ -136,9 +136,9 @@
 		delete from shop_pic where shop_pic_no=#{shopPicNo}
 	</delete>
 	
-	<insert id="insertShopIntro" parameterType="map">
+	<update id="insertShopIntro" parameterType="map">
 		update shop set shop_intro=#{shopIntro} where shop_no=#{shopNo}
-	</insert>
+	</update>
 	
 	<delete id="deleteCategory" parameterType="int">
 		delete from shop_category where shop_category_no=#{shopCategoryNo}
@@ -152,5 +152,8 @@
 	<update id="updateBizMember" parameterType="m">
 		update member set member_phone=#{memberPhone}, member_postcode=#{memberPostcode}, member_addr1=#{memberAddr1}, member_addr2=#{memberAddr2}
 		where member_id=#{memberId}
+	</update>
+	<update id="updateShopInfo" parameterType="s">
+		update shop set shop_birth=#{shopBirth}
 	</update>
 </mapper>

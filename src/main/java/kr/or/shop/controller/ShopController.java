@@ -118,7 +118,9 @@ public class ShopController {
 	}
 	
 	@RequestMapping(value = "/shopUploadFrm.kh")
-	public String shopUploadFrm() {
+	public String shopUploadFrm(int memberNo, Model model) {
+		Shop shop=service.selectShopInfo(memberNo);
+		model.addAttribute("shop",shop);
 		return "shop/shopUploadFrm";
 	}
 
@@ -215,8 +217,9 @@ public class ShopController {
 	}
 	@ResponseBody
 	@RequestMapping(value="/updateBizMember.kh")
-	public String updateBizMember(Member m, HttpSession session) {
+	public String updateBizMember(Member m, Shop s, HttpSession session) {
 		int result = service.updateBizMember(m);
+		int result2= service.updateShopInfo(s);
 		Member member = mService.selectOneMember(m);
 		if(result > 0 && member != null ) {
 			session.setAttribute("m", member);

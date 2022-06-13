@@ -247,6 +247,9 @@ h2{
 							div.append("<h2>펀딩</h2>").append(div2);
 						}
 						for(let i=list.length-1;i>=list.length-3;i--){
+							if(i<0){
+								return;
+							}
 							const fundingNo=list[i].fundingNo;
 							$.ajax({
 								url:"/selectFundingFile.kh",
@@ -262,7 +265,7 @@ h2{
 							if(filepath=="0"){
 								div3.append("<img src=\"/resources/upload/common/위니쥬.jpg\">");
 							}else{
-								div3.append("<img src=\"/resources/upload/funding/filepath\">");
+								div3.append("<img src=\"/resources/upload/funding/"+filepath+"\">");
 							}
 							const textBox="<div class='auction-title'><h4 style=\"white-space:nowrap;overflow:hidden;text-overflow:ellipsis\">"+list[i].fundingName+"</h4></div>"+
 										  "<div class='auction-price'>"+
@@ -278,7 +281,6 @@ h2{
 								$(".funding-content").css("width","calc(100% - 20px)");
 							} */
 						}
-						console.log(list.length);
 						for(let i=list.length-4;i>=0;i--){
 							const fundingNo=list[i].fundingNo;
 							$.ajax({
@@ -288,7 +290,7 @@ h2{
 								success:function(data){									
 									filepath=data;									
 								}
-							});
+							});							
 							const content =	$("<div class='funding-content2' style=\"display:none;\">");
 							const a=$("<a href='/fundingDetailStory.kh?fundingNo="+list[i].fundingNo+"'>");
 							const div3=$("<div>");
@@ -321,6 +323,9 @@ h2{
 							div.append("<br><h2>기부</h2>").append(div2);
 						}
 						for(let i=list.length-1;i>=list.length-3;i--){
+							if(i<0){
+								return;
+							}
 							const content =	$("<div class='donation-content'>");
 							const a=$("<a href='/donationClick.kh?projectNo="+list[i].projectNo+"'>");
 							const div3=$("<div>");
@@ -359,6 +364,9 @@ h2{
 							div.append("<br><h2>경매</h2>").append(div2);							
 						}
 						for(let i=list.length-1;i>=list.length-3;i--){
+							if(i<0){
+								return;
+							}
 							let lastDay ="";
 							let lastHour ="";
 							let lastMin ="";

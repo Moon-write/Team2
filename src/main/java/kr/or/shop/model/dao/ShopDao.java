@@ -118,4 +118,9 @@ public class ShopDao {
 		return sqlSession.update("shop.updateBizMember", m);
 	}
 
+	public int updateShopInfo(Shop s) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("shop.updateShopInfo",s);
+	}
+
 }
