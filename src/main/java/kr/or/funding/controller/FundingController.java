@@ -47,10 +47,7 @@ public class FundingController {
 		return "funding/fundingInsertFrm";
 	}
 
-	@RequestMapping(value = "/fundingList.kh")
-	public String FundingList() {
-		return "funding/fundingList";
-	}
+	
 	@RequestMapping(value = "/test.kh")
 	public String test(MultipartFile[] upfile) {
 		System.out.println("파일길이 :"+upfile.length);
@@ -242,7 +239,7 @@ public class FundingController {
 		model.addAttribute("selectedInquire", selectedInquire);
 		return "funding/fundingAllList";		
 	}
-	@RequestMapping(value="/fundingListTech.kh")
+	@RequestMapping(value="/fundingList.kh")
 	public String FundingAllList(Model model,int selectedInquire,Funding f) {
 		System.out.println(f.getFundingCategory());
 		System.out.println(selectedInquire);
@@ -251,7 +248,7 @@ public class FundingController {
 		model.addAttribute("list",list);
 		model.addAttribute("selectedInquire", selectedInquire);
 		model.addAttribute("categoryParameter",f.getFundingCategory());
-		return "funding/fundingListTech";		
+		return "funding/fundingList";		
 	}
 	
 	

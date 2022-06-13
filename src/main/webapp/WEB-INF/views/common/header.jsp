@@ -62,13 +62,13 @@
 	</div>
 	<div class="menu-wrap cl-effect-5" id="cl-effect-5">
 		<ul>
-			<li><a href="/fundingAllList.kh?selectedInquire=1"><span data-hover="펀딩">펀딩</span></a>
+			<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory="><span data-hover="펀딩">펀딩</span></a>
 				<ul class="sub-menu-wrap cl-effect-1" id="cl-effect-1">
-					<li><a href="/fundingTechList.kh">테크·가전</a></li>
-					<li><a href="/fundingFashionList.kh">패션·잡화</a></li>
-					<li><a href="/fundingHomeList.kh">홈·리빙</a></li>
-					<li><a href="/fundingFoodList.kh">식품</a></li>
-					<li><a href="/fundingBeautyList">뷰티</a></li>
+					<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory=테크가전">테크·가전</a></li>
+					<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory=패션잡화">패션·잡화</a></li>
+					<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory=홈리빙">홈·리빙</a></li>
+					<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory=식품">식품</a></li>
+					<li><a href="/fundingList.kh?selectedInquire=1&fundingCategory=뷰티">뷰티</a></li>
 				</ul>
 			</li>
 			<li><a href="/donationList.kh"><span data-hover="기부">기부</span></a></li>

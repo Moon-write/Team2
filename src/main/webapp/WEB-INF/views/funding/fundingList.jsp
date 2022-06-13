@@ -258,31 +258,31 @@
 
 	<div class="page-content">
 		<div class="funding-category">
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=테크가전">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=테크가전">
 			<div class="sq">
 				<div class="tech"></div>
 				<div><h3>테크·가전</h3></div>
 			</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=패션잡화">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=패션잡화">
 				<div class="sq">
 					<div class="fashion"></div>
 					<div><h3>패션·잡화</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=홈리빙">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=홈리빙">
 				<div class="sq">
 					<div class="home"></div>
 					<div><h3>홈·리빙</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=식품">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=식품">
 				<div class="sq">
 					<div class="food"></div>
 					<div><h3>식품</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=뷰티">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=뷰티">
 				<div class="sq">
 					<div class="beauty"></div>
 					<div><h3>뷰티</h3></div>
@@ -351,7 +351,7 @@
 			function keywordLink(){
 				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";
 				//location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory="+${categoryParameter}+"";
-				  location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
+				  location.href = "/fundingList.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
 			}
 			
 
