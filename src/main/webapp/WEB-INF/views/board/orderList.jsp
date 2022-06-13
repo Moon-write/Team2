@@ -168,6 +168,7 @@ select{
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script type="text/javascript">
+	$(function(){
 		$("#my_book_list_tbl tr").on("click",function(){
 			const orderNo = $(this).children("td#orderNo").text();
 			location.href = "/orderView.kh?orderNo="+orderNo;
@@ -177,6 +178,9 @@ select{
 			const orderNo = $(this).parent().prev().prev().prev().prev().text();
 			location.href = "/addOrder.kh?orderNo="+orderNo;
 		});
+			const thousands = (o) => o.toString().replace(/\B(?<!\/\d*)(?=(\d{3})+(?!\d))/g,',');
+	});
+		
 	</script>
 </body>
 </html>

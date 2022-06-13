@@ -183,8 +183,10 @@ public class MemberController {
 		Member member = service.selectOneMember(m);
 		if(member == null) {
 			code = new MailSender().sendMail(email);
+			return code;
+		}else {
+			return "-1";
 		}
-		return code;
 	}
 	@RequestMapping(value = "/deleteMemberList.kh")
 	public String deleteMemberList(String memberIdArr) {

@@ -297,15 +297,16 @@
 				    	  const span = $(".bizNoChk");
 					      const text = span.text("등록되지않은 사업자번호입니다.").css("color","red");
 				      }else{
-				      const span = $(".bizNoChk");
-				      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
-				      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
-				    	    $("[name=bizNo]").val('');
-				    	    $("[name=bizNo]").focus();
-				    	}else{
-				    	    $("[name=bizNo]").attr("readonly",true);
-				    	    checkArr[0] = true;
-				    	}
+					      const span = $(".bizNoChk");
+					      const text = span.text("사용가능한 사업자번호입니다.").css("color","blue");
+						      if(!confirm("이 사업자번호를 사용하시겠습니까?")){
+						    	    const text2 = span.text("");
+						    	    $("[name=bizNo]").val('');
+						    	    $("[name=bizNo]").focus();
+						    	}else{
+						    	    $("[name=bizNo]").attr("readonly",true);
+						    	    checkArr[0] = true;
+						    	}
 				      }
 				  },
 				  error: function(result) {
@@ -415,7 +416,7 @@
 				$(".phoneChk").css("color","blue");
 				checkArr[7] = true;
 			}else{
-				$(".phoneChk").text("연락처 형식을 맞춰주세요.(010-1234-1234)");
+				$(".phoneChk").text("연락처 형식을 맞춰주세요(010-1234-1234)");
 				$(".phoneChk").css("color","red");
 				checkArr[7] = false;
 			};
@@ -444,22 +445,19 @@
 			const email = emailId+emailAddr;
 			console.log(email);
 			if(emailId != '' && emailAddr != null){
-				const title = "입력하신 아이디를 조회중입니다.";
+				$(".idChk").text("");
 				$.ajax({
 					url : "/sendMail.kh",
 					data : {email : email},
 					type : "post",
 					success : function(data){
-						if(data == "null"){
+						if(data == "-1"){
 							alert("이미 가입된 이메일입니다.");
+							$(".idChk").text("다시 입력해주세요.");
+							const emailId2 = $("[name=emailId]").val('');
+							const emailAddr2 = $("[name=emailAddr]").val('');
 						}else{
-							alert("입력하신 이메일로 인증번호가 발송되었습니다.");
-							/*
-							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
-							const icon = "success";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
-							*/
+							alert("메일로 인증번호가 발송되었습니다💌");
 							mailCode = data;
 							console.log(mailCode);
 							console.log(data);
@@ -501,8 +499,8 @@
 				$("#authBtn").on("click",function(){
 					const msg = $("#timeLimit");
 					if(mailCode == null){
-						msg.text("인증시간이 만료되었습니다.");
-						msg.css("color","red");
+						$("#timeLimit").text("인증시간이 만료되었습니다. 다시 인증번호를 받으세요.");
+						$("#timeLimit").css("color","red");
 					}else{
 						if($("[name=memberIdChk]").val() == mailCode){
 							console.log(mailCode);
@@ -516,6 +514,13 @@
 								authChk++;
 								checkArr[2] = true;
 								checkArr[3] = true;
+							}else{
+								clearInterval(intervalId);
+								$("#timeLimit").val("");
+								$("#timeLimit").text("");
+								$("[name=memberIdChk]").val("");
+								checkArr[2] = false;
+								checkArr[3] = false;
 							}
 						}else{
 							console.log($("[name=memberIdChk]").val());

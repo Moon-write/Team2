@@ -63,7 +63,7 @@
 	<div class="menu-wrap cl-effect-5" id="cl-effect-5">
 		<ul>
 			<li><a href="/fundingAllList.kh?selectedInquire=1"><span data-hover="펀딩">펀딩</span></a>
-				<ul class="sub-menu-wrap">
+				<ul class="sub-menu-wrap cl-effect-1" id="cl-effect-1">
 					<li><a href="/fundingTechList.kh">테크·가전</a></li>
 					<li><a href="/fundingFashionList.kh">패션·잡화</a></li>
 					<li><a href="/fundingHomeList.kh">홈·리빙</a></li>

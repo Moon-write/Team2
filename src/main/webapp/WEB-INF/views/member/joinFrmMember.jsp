@@ -364,19 +364,19 @@
 			const email = emailId+emailAddr;
 			console.log(email);
 			if(emailId != '' && emailAddr != null){
-				const title = "입력하신 아이디를 조회중입니다.";
+				$(".idChk").text("");
 				$.ajax({
 					url : "/sendMail.kh",
 					data : {email : email},
 					type : "post",
 					success : function(data){
-						if(data == "null"){
+						if(data == "-1"){
 							alert("이미 가입된 이메일입니다.");
+							$(".idChk").text("다시 입력해주세요.");
+							const emailId2 = $("[name=emailId]").val('');
+							const emailAddr2 = $("[name=emailAddr]").val('');
 						}else{
-							const title = "입력하신 이메일로 인증번호가 발송되었습니다.";
-							const icon = "success";
-							const msgTime = 2500;
-							toastShow(title,icon,msgTime);
+							alert("메일로 인증번호가 발송되었습니다💌");
 							mailCode = data;
 							console.log(mailCode);
 							console.log(data);
@@ -418,8 +418,8 @@
 				$("#authBtn").on("click",function(){
 					const msg = $("#timeLimit");
 					if(mailCode == null){
-						msg.text("인증시간이 만료되었습니다.");
-						msg.css("color","red");
+						$("#timeLimit").text("인증시간이 만료되었습니다. 다시 인증번호를 받으세요.");
+						$("#timeLimit").css("color","red");
 					}else{
 						if($("[name=memberIdChk]").val() == mailCode){
 							console.log(mailCode);
@@ -431,8 +431,15 @@
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;
-								checkArr[0] = true;
-								checkArr[1] = true;
+								checkArr[2] = true;
+								checkArr[3] = true;
+							}else{
+								clearInterval(intervalId);
+								$("#timeLimit").val("");
+								$("#timeLimit").text("");
+								$("[name=memberIdChk]").val("");
+								checkArr[2] = false;
+								checkArr[3] = false;
 							}
 						}else{
 							console.log($("[name=memberIdChk]").val());
