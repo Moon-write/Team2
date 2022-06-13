@@ -64,7 +64,7 @@
 				</ul></li>
 			<li><a href="#">기부</a>
 				<ul class="sub-menu">
-					<li><a href="#">기부 등록</a></li>
+					<li><a href="/donationWriter.kh">기부 등록</a></li>
 					<li><a href="/manageDonation.kh">기부 관리</a></li>
 				</ul></li>
 			<li><a href="#">경매</a>
