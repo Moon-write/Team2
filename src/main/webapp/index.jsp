@@ -14,7 +14,13 @@
 			<div class="page-title">펀딩</div>
 			
 			<div class="page-title">기부</div>
-			
+				<div class="donation-main">
+					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=pet'"><h1>#동물보호</h1></div>
+					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=child'"><h1>#아동보호</h1></div>
+					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=female'"><h1>#여성기부</h1></div>
+					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=help'"><h1>#불우이웃</h1></div>
+					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=old'"><h1>#노인기부</h1></div>
+				</div>
 			<div class="page-title">실시간 경매 진행 중!</div>
 			<div class="auction-section">
 				<div class="new-auction">

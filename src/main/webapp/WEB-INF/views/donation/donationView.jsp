@@ -285,7 +285,7 @@ h2{
 	</div>
 	<div class="commentFlex">
 		<div class="inputCommentBox">
-		<h2>기부천사들의 한마디</h2>
+		<h2 style="margin-bottom: 30px;">기부천사들의 한마디</h2>
 			<form action=
 				<c:if test = "${not empty sessionScope.m.memberId}">
 					"/insertDonationComment.kh"

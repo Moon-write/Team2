@@ -65,3 +65,28 @@
 	font-family: ns-light;
 	margin-left: 10px;;
 }
+
+
+.donation-main{
+	display: flex;
+	width: 100%;
+}
+.donation-main>div{
+	border: 2px solid #ff82ab;
+	margin: 10px;
+	width: 20%;
+	height: 200px;
+	display: flex;
+	cursor: pointer;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.donation-main>div:hover{
+	transition: 0.5s;
+	border: 2px solid #1e90ff;
+	align-items: flex-start;
+	color:1e90ff;
+	
+}
