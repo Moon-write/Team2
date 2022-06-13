@@ -18,7 +18,11 @@
 		DONATIONCOMMENT_SEQ.NEXTVAL, #{projectNo}, #{memberId}, SYSDATE, #{donationCommentContent}
 	)
   </insert>
-  
+  <insert id="insertDonationOrder" parameterType="o">
+  	insert into order_tbl values(
+  		ORDER_SEQ.NEXTVAL, 2, #{projectNo}, #{memberNo}, #{sellerNo}, SYSDATE, #{orderPrice}, 0,'','','','','','',1,#{projectName}
+  	)
+  </insert>
   <update id="updateDonation" parameterType="d">
   	update donation
   		set DONATION_CATEGORY = #{donationCategory},

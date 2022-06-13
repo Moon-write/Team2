@@ -112,6 +112,7 @@ h5 {
 	text-align: center;
 	border-radius: 3px;
 	line-height:20px; 
+	margin-left: 20px; 
 }
 .update-btn:hover{
 	transition: 0.5s;
@@ -253,21 +254,21 @@ h5 {
 					</div>
 				</div>
 				<div style="width: 70%" class="donation-target">
-					<p> 총수량 <span id="resultView">0</span> </p>
+					<p> 총수량 <span id="resultView">1</span> </p>
 					<div>
 						<span class="material-icons plusMinus" onclick='count("plus")'>add_circle</span>
-						<span class="donation-count" id='result'>0</span>
+						<span class="donation-count" id='result'>1</span>
 						<span class="material-icons plusMinus" onclick='count("minus")'>remove_circle</span>
 					</div>
 				</div>
 				<div>
 						<h3 class="donation-allcash">총 금액</h3>
-						<h3 id="resultCash">0</h3>&nbsp;<h3>원</h3>
+						<h3 id="resultCash">${donation.donationCash }</h3>&nbsp;<h3>원</h3>
 				</div>
 				<div>
 					<form action=
 							<c:if test = "${not empty sessionScope.m.memberId}">
-								"/donationTest.kh"
+								"/donationOrder.kh"
 							</c:if>
 							<c:if test = "${empty sessionScope.m.memberId}">
 								"/loginFrm.kh"
@@ -278,6 +279,7 @@ h5 {
 						<input type="hidden" id="memberNo" value="${sessionScope.m.memberNo}" name="memberNo">
 						<input type="hidden" id="projectNo" value="${donation.projectNo }" name="projectNo">
 						<input type="hidden" id="divNo" value="${donation.divNo }" name="divNo">
+						<input type="hidden" id="donationTitle" value="${donation.donationTitle }" name="donationTitle">
 						<input type="hidden" id="orderPrice" value="" name="orderPrice"> <!-- 총금액은 스크립트에서 jquery로 value값 전달 -->
 					</form>
 				</div>
@@ -365,9 +367,9 @@ h5 {
 		    numberResult = parseInt(numberResult) + 1;
 		    cashResult = parseInt(number) * ${donation.donationCash};
 		  }else if(type === 'minus')  {
-			  if(number < 1){
-				  number = 0;
-				  numberResult = 0;
+			  if(number < 2){
+				  number = 1;
+				  numberResult = 1;
 				  cashResult = parseInt(number) * ${donation.donationCash};
 			  }else{
 				  number = parseInt(number) - 1;

@@ -239,7 +239,7 @@
 						<div class="hash-tag-footer-div">
 							<h3 class="title">${list.donationTitle }</h3>
 							<div class="hash-tag-footer-div-div">
-								<span>00%</span> <a class="donationCash"> <span
+								<span>🤑${list.donationTarget}원 </span> <a class="donationCash"> <span
 									class="material-icons">paid</span> <span>${list.donationCash }</span>
 								</a>
 							</div>

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.or.common.model.vo.Order;
 import kr.or.donation.model.service.DonationService;
 import kr.or.donation.model.vo.Donation;
 import kr.or.donation.model.vo.DonationComment;
@@ -221,16 +222,38 @@ public class DonationController {
 
 
 	//------------------------------- 임시
-	@RequestMapping(value="/donationTest.kh")
-	public String donationTest(int sellerNo, int memberNo, int projectNo,int orderPrice,int divNo, Model model) {
+	@RequestMapping(value="/donationOrder.kh")
+	public String donationOrder(int sellerNo, int memberNo, int projectNo,int orderPrice,int divNo, String donationTitle, Model model) {
 		model.addAttribute("sellerNo", sellerNo);
 		model.addAttribute("memberNo", memberNo);
 		model.addAttribute("projectNo", projectNo);
 		model.addAttribute("orderPrice", orderPrice);
 		model.addAttribute("divNo",divNo);
-		return "donation/donationTest";
+		model.addAttribute("donationTitle",donationTitle);
+		return "donation/donationOrder";
 	}
 
+	@RequestMapping(value="/donationPay.kh")
+	public String donationPay(Order donationOrder) {
+		System.out.println(donationOrder);
+		
+		int result = service.insertDonationOrder(donationOrder);
+		
+		if(result == 1) {
+			request.setAttribute("title", "구매성공");
+			request.setAttribute("msg", "상품구매가 정상적으로 처리되었습니다.");
+			request.setAttribute("icon", "success");
+		}else {
+			request.setAttribute("title", "구매실패");
+			request.setAttribute("msg", "싱픔구매에 실패하셨습니다.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "/donationList.kh");
+		
+		return "common/msg";
+	}// 파일1개와 저장위치를 넣고 최종 저장 파일명을 리턴해주는 메소드
+	
+	
 	
 
 	//삭제예정로직

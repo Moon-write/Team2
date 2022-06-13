@@ -8,10 +8,7 @@
 </head>
 <body>
 	<h1>값전달이 제대로 된건감</h1>
-	판매자 : ${sellerNo }<br>
-	구매자 : ${memberNo }<br>
-	프로젝트번호 : ${projectNo }<br>
-	총금액 : ${orderPrice }<br>
-	프로젝트구분 : ${divNo }
+	상품번호 : ${donationOrder.projectNo }<br>
+
 </body>
 </html>

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.common.model.vo.Order;
 import kr.or.donation.model.vo.Donation;
 import kr.or.donation.model.vo.DonationComment;
 import kr.or.member.model.vo.Member;
@@ -88,6 +89,11 @@ public class DonationDao {
 	public Integer selectOneOrderProjectNo(int projectNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("donation.selectOneOrderProjectNo",projectNo);
+	}
+
+	public int insertDonationOrder(Order donationOrder) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("donation.insertDonationOrder",donationOrder);
 	}
 
 

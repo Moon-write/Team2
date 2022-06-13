@@ -418,7 +418,7 @@ h1::before {
 							<p>
 								<c:set var="cashListPriceSumPercentNum" value="${c.donationCash}"/>
 								<c:set var="cashListPriceSumPercentTarget" value="${c.donationTarget}"/>
-								<span> 🤑${c.donationTarget }</span>
+								<span> 🤑${c.donationTarget }원</span>
 								<a class="donationCash">
 									<span class="material-icons">paid</span>
 									<span>${c.donationCash }</span>
@@ -446,7 +446,7 @@ h1::before {
 							<p>
 								<c:set var="generalListPriceSumPercentNum" value="${g.donationCash}"/>
 								<c:set var="generalListPriceSumPercentTarget" value="${g.donationTarget}"/>
-								<span> 🤑${g.donationTarget }</span>
+								<span> 🤑${g.donationTarget }원</span>
 								<a class="donationCash">
 									<span class="material-icons">paid</span>
 									<span>${g.donationCash }</span>
