@@ -43,7 +43,7 @@
 			<c:when test="${not empty sessionScope.m}">
 				<c:choose>
 					  <c:when test="${sessionScope.m.memberLevel eq 2}">
-						<a href="/mypageMain.kh" class="f-light fc-1">마이페이지</a>
+						<a href="/orderList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo}" class="f-light fc-1">마이페이지</a>
 					  </c:when>
 					  <c:when test="${sessionScope.m.memberLevel eq 1}">
 						<a href="/business.kh" class="f-light fc-2">사업자 페이지로 이동</a>

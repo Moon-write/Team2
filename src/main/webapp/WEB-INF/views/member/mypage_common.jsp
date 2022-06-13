@@ -111,7 +111,6 @@
         <div class="left-menu">
           <ul>
               <li class="f-bold">활동정보</li>
-              <li><a href="/projectList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">참여중인 프로젝트</a></li>
               <li><a href="/orderList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">결제내역</a></li>
               <li><a href="/commentList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">나의리뷰</a></li>
               <li><a href="/likeList.kh?reqPage=1&memberNo=${sessionScope.m.memberNo }">찜목록</a></li>
