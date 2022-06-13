@@ -155,8 +155,9 @@
 	color: #1e90ff;
 }
 .mainContent{
-	display:flex;
-	justify-content: center;
+	width: 1200px;
+    margin: 0px auto;
+    flex-grow: 1;
 }
 /*------------------------메인배너이미지 효과----------------------*/
 @-webkit-keyframes fadein {

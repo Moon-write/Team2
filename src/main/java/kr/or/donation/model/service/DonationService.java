@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.dao.DonationDao;
 import kr.or.donation.model.vo.Donation;
 import kr.or.donation.model.vo.DonationComment;
@@ -89,5 +90,15 @@ public class DonationService {
 	public int insertDonationOrder(Order donationOrder) {
 		// TODO Auto-generated method stub
 		return dao.insertDonationOrder(donationOrder);
+	}
+
+	public int insertDonationOrderProduct(OrderProduct donationOrderProduct) {
+		// TODO Auto-generated method stub
+		return dao.insertDonationOrderProduct(donationOrderProduct);
+	}
+
+	public int selectOneDonationOrder() {
+		// TODO Auto-generated method stub
+		return dao.selectOneDonationOrder();
 	}
 }
