@@ -79,9 +79,29 @@
 	//비밀번호 확인
 	$(function(){
 		let inputCheck = false;
+		//탈퇴실행
+		$(".updateInfo-btn").on("click", function(){
+			console.log(inputCheck);
+			if(inputCheck == true){
+				const memberId = $("[name=memberId]").val();
+				$.ajax({
+					url: "/deleteMember.kh", // Controller의 mapping값
+					type: "get",  // get, post 방식 中
+					data: {memberId : memberId},  // Controller로 보낼 데이터
+					success: function(data) {
+						alert("탈퇴가 완료되었습니다.");
+						location.href = "/";
+					}  // 정상적으로 return 받았을 때 실행할 함수
+				})
+			}else{
+				alert("비밀번호를 확인해주세요"); 
+			}
+		});
 		$("[name=memberPw]").on("change", function(){
+			const memberId = $("#memberId").val();
+			const memberPw = $("#memberPw").val();
 			$.ajax({
-				url: "/pwcheck.kh", // Controller의 mapping값
+				url: "/selectOneMember.kh", // Controller의 mapping값
 				type: "post",  // get, post 방식 中
 				data: {memberId : memberId, memberPw : memberPw},  // Controller로 보낼 데이터
 				success: function(data) {
@@ -95,22 +115,7 @@
 				}
 			});
 		});
-		//탈퇴실행
-		$(".updateInfo-btn").on("click", function(){
-			if(inputCheck){
-				const memberId = $("[name=memberId]").val();
-				$.ajax({
-					url: "/deleteMember.kh", // Controller의 mapping값
-					type: "get",  // get, post 방식 中
-					data: {memberId : memberId},  // Controller로 보낼 데이터
-					success: function(data) {
-						location.href = "/";
-					}  // 정상적으로 return 받았을 때 실행할 함수
-				});
-			}else{
-				alert("비밀번호를 확인해주세요"); 
-			}
-		});
+	
 	});
 	
 	</script>

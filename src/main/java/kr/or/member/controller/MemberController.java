@@ -91,7 +91,7 @@ public class MemberController {
 	}
 	@RequestMapping(value="/mypageMain.kh")
 	public String mypageMain() {
-		return "member/mypageMain";
+		return "board/orderList";
 	}
 	@RequestMapping(value="/updatePwFrm.kh")
 	public String changePwFrm() {
@@ -102,11 +102,11 @@ public class MemberController {
 		int result = service.changePw(m, memberPwNew);
 		if(result > 0){
 			request.setAttribute("title", "비밀번호 변경성공");
-			request.setAttribute("msg", "비밀번호가 성공적으로 변경되었습니다.");
+			request.setAttribute("msg", "성공적으로 변경되었습니다.");
 			request.setAttribute("icon", "success");
 		}else {
 			request.setAttribute("title", "비밀번호 변경실패");
-			request.setAttribute("msg", "비밀번호 변경에 실패했습니다.");
+			request.setAttribute("msg", "변경에 실패했습니다.");
 			request.setAttribute("icon", "error");
 		}
 		request.setAttribute("loc", "/");

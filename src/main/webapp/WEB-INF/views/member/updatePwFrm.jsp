@@ -127,7 +127,28 @@
 				}  
 			});
 		});
-		//새 비밀번호 정규식
+		//새 비밀번호 정규식 및 현재비밀번호 일치여부 확인
+		const pw = $("#memberPwNew");
+		pw.on("change", function(){
+			const pwReg = /[a-zA-Z0-9]{4,6}/;
+			const pwVal = pw.val();
+			const memberPw = $("#currentPw").val();
+			if(pwVal == memberPw){
+				$(".newPwChk").text("현재 비밀번호와 같은 비밀번호를 사용할 수 없습니다.");
+				$(".newPwChk").css("color","red");
+				checkArr[1] = false;
+			}else{
+				if(pwReg.test(pwVal)){
+					$(".newPwChk").text("사용할 수 있는 패스워드 입니다.");
+					$(".newPwChk").css("color","blue");
+					checkArr[1] = true;
+				}else{
+					$(".newPwChk").text("4자~6자 영어대소문자 또는 숫자를 사용하세요.");
+					$(".newPwChk").css("color","red");
+					checkArr[1] = false;
+				}
+			}
+		});
 		//새 비밀번호 일치체크
 		$("#memberPwNewRe").on("change", function(){
 			const pwVal = $("#memberPwNew").val();
@@ -152,6 +173,7 @@
 			}
 			if(count != 3){
 				e.preventDefault();//form의 submit을 중단시키는 코드
+				alert("항목을 다시 확인해주세요.");
 			}
 		});
 	</script>
