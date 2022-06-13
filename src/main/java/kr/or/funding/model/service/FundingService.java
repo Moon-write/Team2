@@ -242,6 +242,11 @@ public class FundingService {
 		
 	}
 
+	public ArrayList<FundingBoard> selectFundingBoard(int fundingNo) {
+		// TODO Auto-generated method stub
+		return dao.selectFundingBoard(fundingNo);
+	}
+
 
 
 
