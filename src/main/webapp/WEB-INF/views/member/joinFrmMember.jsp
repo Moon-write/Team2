@@ -243,6 +243,12 @@
 					<tr class="form-input">
 						<td colspan="4"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
 					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="button" class="bc2 bs4" id="join-check" value="체크버튼"></td>
+					</tr>
+					<tr class="form-input">
+						<td colspan="4"><input type="button" class="bc3 bs4" id="join-final" value="최종확인"></td>
+					</tr>
 				</table>
 			</form>
 		</div>
@@ -358,6 +364,7 @@
 		//인증메일 받기
 		let mailCode;
 		$("[name=authSendBtn]").on("click", function(){
+			$("[name=emailAddr] option:selected").siblings().hide();
 			//이메일주소 선택
 			const emailId = $("[name=emailId]").val();
 			const emailAddr = $("[name=emailAddr]").val();
@@ -431,15 +438,16 @@
 								clearInterval(intervalId);
 								msg.text("");
 								authChk++;
-								checkArr[2] = true;
-								checkArr[3] = true;
+								checkArr[0] = true;
+								checkArr[1] = true;
 							}else{
 								clearInterval(intervalId);
 								$("#timeLimit").val("");
 								$("#timeLimit").text("");
+								$("[name=emailAddr] option:selected").siblings().show();
 								$("[name=memberIdChk]").val("");
-								checkArr[2] = false;
-								checkArr[3] = false;
+								checkArr[0] = false;
+								checkArr[1] = false;
 							}
 						}else{
 							console.log($("[name=memberIdChk]").val());

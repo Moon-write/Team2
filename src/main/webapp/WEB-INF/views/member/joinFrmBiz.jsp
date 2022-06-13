@@ -439,6 +439,7 @@
 		//인증메일 받기
 		let mailCode;
 		$("[name=authSendBtn]").on("click", function(){
+			$("[name=emailAddr] option:selected").siblings().hide();
 			//이메일주소 선택
 			const emailId = $("[name=emailId]").val();
 			const emailAddr = $("[name=emailAddr]").val();
@@ -518,6 +519,7 @@
 								clearInterval(intervalId);
 								$("#timeLimit").val("");
 								$("#timeLimit").text("");
+								$("[name=emailAddr] option:selected").siblings().show();
 								$("[name=memberIdChk]").val("");
 								checkArr[2] = false;
 								checkArr[3] = false;

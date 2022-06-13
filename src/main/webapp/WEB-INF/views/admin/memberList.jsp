@@ -206,6 +206,7 @@ table{
 										</c:choose>
 										<td>
 											<button class="btn bc2 searchBtn" id="delOkBtn" style="padding: 0 10px;">
+											탈퇴가능
 											</button>
 										</td>
 										<td><input type="checkbox" id="delMemberChk"></td>
@@ -248,6 +249,7 @@ $(function(){
 			location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
 		}
 	});
+	/*
 	$(function(){
 		const delOk = $("#delOkBtn");
 		const memNo = delOk.parent().siblings("#memberNo").text();
@@ -265,6 +267,7 @@ $(function(){
 			}
 		});//ajax끝
 	});
+	*/
 });	
 	
 	</script>
