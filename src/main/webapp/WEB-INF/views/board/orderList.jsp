@@ -177,7 +177,6 @@ select{
 			const orderNo = $(this).parent().prev().prev().prev().prev().text();
 			location.href = "/addOrder.kh?orderNo="+orderNo;
 		});
-		
 	</script>
 </body>
 </html>

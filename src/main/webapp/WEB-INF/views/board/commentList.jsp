@@ -95,6 +95,9 @@ select{
     animation-fill-mode: forwards;
     animation-direction: alternate;
 }
+a{
+	color: #000;
+}
 </style>
 </head>
 <body>
@@ -130,19 +133,20 @@ select{
 											<c:when test="${bo.divNo eq 2}"><td>기부</td></c:when>
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
-										<td>${bo.projectName }</td>
+										<td>
+											<c:choose>
+												<c:when test="${bo.divNo eq 1}"><a href="/fundingDetailCommunity.kh?fundingNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 2}"><a href="/donationClick.kh?projectNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 4}"><a href="/auctionView.kh?projectNo=${bo.projectNo}#comment"></c:when>
+											</c:choose>
+											${bo.projectName }</a>
+										</td>
 										<td>${bo.commentContent }</td>
 										<td>${bo.commentDate }</td>
-										<td>주문완료</td>
-										<!-- 
 										<c:choose>
-											<c:when test="${bo.orderStatus eq 1}"><td>결제완료</td></c:when>
-											<c:when test="${bo.orderStatus eq 2}"><td>배송완료</td></c:when>
-											<c:when test="${bo.orderStatus eq 3}"><td>입찰완료</td></c:when>
-											<c:when test="${bo.orderStatus eq 4}"><td>결제대기</td></c:when>
-											<c:when test="${bo.orderStatus eq 5}"><td>주문취소</td></c:when>
+											<c:when test="${bo.orderStatus eq 0}"><td>미구매</td></c:when>
+											<c:when test="${bo.orderStatus eq 1}"><td>구매</td></c:when>	
 										</c:choose>
-										 -->
 									</tr>
 								</table>
 							</c:forEach>
