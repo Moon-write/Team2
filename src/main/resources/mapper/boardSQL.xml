@@ -204,7 +204,7 @@
         ORDER_STATUS AS OrderStatus FROM ORDER_PRODUCT JOIN ORDER_TBL USING(ORDER_NO) JOIN        
         <choose>
         	<when test="divNo==1">
-        		FUNDING_OPTION_PRICE ON(PROJECT_NO=FUNDING_NO)
+        		FUNDING_OPTION_PRICE ON(PROJECT_NO=FUNDING_NO AND FUNDING_OPTION_PRICE_NO=OPTION_NO)
         	</when>
         	<when test="divNo==2">
         		DONATION USING(PROJECT_NO)

@@ -136,12 +136,18 @@ a{
 										<td>
 											<c:choose>
 												<c:when test="${bo.divNo eq 1}"><a href="/fundingDetailCommunity.kh?fundingNo=${bo.projectNo}"></c:when>
-												<c:when test="${bo.divNo eq 2}"><a href="/donationClick.kh?projectNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 2}"><a href="/donationClick.kh?projectNo=${bo.projectNo}#comment"></c:when>
 												<c:when test="${bo.divNo eq 4}"><a href="/auctionView.kh?projectNo=${bo.projectNo}#comment"></c:when>
 											</c:choose>
 											${bo.projectName }</a>
 										</td>
-										<td>${bo.commentContent }</td>
+										<td>
+											<c:choose>
+												<c:when test="${bo.divNo eq 1}"><a href="/fundingDetailCommunity.kh?fundingNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 2}"><a href="/donationClick.kh?projectNo=${bo.projectNo}#comment"></c:when>
+												<c:when test="${bo.divNo eq 4}"><a href="/auctionView.kh?projectNo=${bo.projectNo}#comment"></c:when>
+											</c:choose>
+										${bo.commentContent }</a></td>
 										<td>${bo.commentDate }</td>
 										<c:choose>
 											<c:when test="${bo.orderStatus eq 0}"><td>미구매</td></c:when>
