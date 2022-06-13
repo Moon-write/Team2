@@ -350,7 +350,7 @@
 		$(function(){
 			$("select#select-inquire").on("change",function(){
 				keywordLink();
-				alert("${categoryParameter}");
+				//alert("${categoryParameter}");
 			});
 			/* $("button#searchBtn").on("click",function(){
 				keywordLink();
