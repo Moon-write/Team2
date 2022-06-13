@@ -154,10 +154,19 @@ public class FundingDao {
 		return sqlSession.insert("funding.insertOrderProduct",map);
 	}
 
+	public Funding selectFundingCurrentSum(Order o) {
+		return sqlSession.selectOne("funding.selectFundingCurrentSum",o);
+	}
+
+	public int updateFundingCurrentSum(Funding funding) {
+	    return sqlSession.update("funding.updateFundingCurrentSum",funding);
+		
+	}
 	public ArrayList<FundingBoard> selectFundingBoard(int fundingNo) {
 		// TODO Auto-generated method stub
 		List list = sqlSession.selectList("funding.selectFundingBoard", fundingNo);
 		return (ArrayList<FundingBoard>)list;
 	}
+
 
 }

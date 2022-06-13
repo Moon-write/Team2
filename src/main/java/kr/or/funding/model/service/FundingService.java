@@ -197,7 +197,8 @@ public class FundingService {
 	public int insertOrder(Order o,OrderProduct op) {
 		int result = dao.insertOrder(o);
 		int result2 = 0 ;
-
+		int result3 = 0;
+		int totalPrice = 0;
 		if(result>0) {
 			int OrderMaxNo = dao.selectOrederMaxNo();
 			OrderProduct op2 = new OrderProduct();
@@ -208,9 +209,20 @@ public class FundingService {
 				map.put("optionNo", op.getOptionNo2()[i]);
 				map.put("ProductPrice", op.getProductPrice2()[i]);
 				map.put("productAmount", op.getProductAmount2()[i]);
-			result2 =dao.insertOrderProduct(map);
+				result2 +=dao.insertOrderProduct(map);
+				totalPrice += op.getProductPrice2()[i]*op.getProductAmount2()[i];
+				System.out.println("토탈가격!!! : "+totalPrice);
 			}
-			return result2;
+			if(result2 == op.getOptionNo2().length) {
+				Funding funding = dao.selectFundingCurrentSum(o);
+				funding.setFundingCurrentSum(totalPrice+funding.getFundingCurrentSum());
+				funding.setFundingSumRate(funding.getFundingCurrentSum()*100/funding.getFundingSum());//소숫점 버려 정수퍼센트만
+				funding.setFundingNo(o.getProjectNo());
+				result3 = dao.updateFundingCurrentSum(funding);
+				return result3;
+			}else {
+				return -1;
+			}
 		}else {
 			return -1;
 		}

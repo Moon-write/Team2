@@ -6,7 +6,7 @@
   	FUNDING_SEQ.NEXTVAL,#{fundingName},#{fundingCategory},#{fundingDetail},
   	SYSDATE,
   	TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI'),
-  	#{fundingSum},0,77,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
+  	#{fundingSum},0,0,#{memberNo},1,0,FLOOR(TO_DATE(#{fundingEndDate},'YYYY/MM/DD HH24:MI')-SYSDATE),#{bizName})
   </insert>
   <select id="selectFundingMaxNo" resultType="int">
   	SELECT MAX(FUNDING_NO) FROM FUNDING
@@ -197,4 +197,14 @@
 <insert id="insertOrderProduct" parameterType="map">
 	INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL,#{OrderMaxNo},#{optionNo},#{ProductPrice},#{productAmount})
 </insert>
+<select id="selectFundingCurrentSum" parameterType="o" resultType="f">
+	SELECT FUNDING_CURRENT_SUM AS fundingCurrentSum, 
+		   FUNDING_SUM AS fundingSum
+	FROM FUNDING WHERE FUNDING_NO = #{projectNo}
+</select>
+<update id="updateFundingCurrentSum" parameterType="f">
+	UPDATE FUNDING SET FUNDING_CURRENT_SUM = #{fundingCurrentSum},
+					   FUNDING_SUM_RATE = #{fundingSumRate} 
+	WHERE FUNDING_NO = #{fundingNo}
+</update>
 </mapper>
