@@ -290,7 +290,15 @@
 			</a>
 		</div>
 			<div class="funding-simple">
-				<h2>진행중인 펀딩</h2>
+			<c:choose>
+				<c:when test="${categoryParameter eq'테크가전'}"><h2>테크·가전</h2></c:when>
+				<c:when test="${categoryParameter eq'패션잡화'}"><h2>패션·잡화</h2></c:when>
+				<c:when test="${categoryParameter eq'홈리빙'}"><h2>홈·리빙</h2></c:when>
+				<c:when test="${categoryParameter eq'식품'}"><h2>식품</h2></c:when>
+				<c:when test="${categoryParameter eq'뷰티'}"><h2>뷰티</h2></c:when>
+				<c:otherwise><h2>진행중인 펀딩</h2></c:otherwise>
+			</c:choose>
+				
 				<br>
 				<div class=selected-search>
 					<select id="select-inquire" name="selectedInquire" class="input-form">
