@@ -271,10 +271,16 @@ public class FundingController {
 	public String FundingDetailNotice(Funding funding, Model model) {
 		Funding f = service.selectOneFundingRight(funding.getFundingNo());
 		int fundingNo = f.getFundingNo();// 펀딩 번호입니다
-		ArrayList<FundingBoard> fb = service.selectFundingBoard(fundingNo); //게시판불러오기
+		ArrayList<FundingBoard> fb = service.selectFundingBoard(fundingNo); //게시판불러오기(임재형)
 		model.addAttribute("f",f);
 		model.addAttribute("fb",fb); //펀딩 디테일에 들어가는 테이블입니다.
 		return "funding/fundingDetailNotice";
+	}
+	@RequestMapping(value="/fundingBoardDetail.kh") //게시판 상세페이지 추가로직(임재형)
+	public String fundingBoardDetail(int boardNo,Model model) {
+		FundingBoard fb = service.selectOneFundingBoard(boardNo);
+		model.addAttribute("fb",fb);
+		return "funding/fundingBoardDetail";
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
 	public String FundingDetailSupporter(Funding funding, Model model) {

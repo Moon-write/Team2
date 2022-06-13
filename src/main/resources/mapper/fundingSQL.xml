@@ -194,6 +194,17 @@
 <select id="selectOrderMaxNo" resultType="int">
 		SELECT MAX(ORDER_NO) FROM ORDER_TBL
 </select>
+<select id="selectOneFundingBoard" parameterType="int" resultType="fb">
+	select
+  		board_no as boardNo,
+  		funding_no as fundingNo,
+  		member_no as memberNo,
+  		board_title as boardTitle,
+  		board_content as boardContent,
+  		board_startdate as boardStartdate
+  	from funding_board
+  	where board_no = #{boardNo}
+</select>
 <insert id="insertOrderProduct" parameterType="map">
 	INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL,#{OrderMaxNo},#{optionNo},#{ProductPrice},#{productAmount})
 </insert>

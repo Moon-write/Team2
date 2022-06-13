@@ -247,6 +247,11 @@ public class FundingService {
 		return dao.selectFundingBoard(fundingNo);
 	}
 
+	public FundingBoard selectOneFundingBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneFundingBoard(boardNo);
+	}
+
 
 
 

@@ -181,6 +181,11 @@ public class FundingDao {
 		return (ArrayList<FundingJoinFile>)list;
 	}
 
+	public FundingBoard selectOneFundingBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("funding.selectOneFundingBoard",boardNo);
+	}
+
 
 	
 
