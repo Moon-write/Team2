@@ -176,21 +176,20 @@ select{
 			window.event.stopPropagation();			
 			const orderNo = $(this).parent().prev().prev().prev().prev().text();
 			location.href = "/addOrder.kh?orderNo="+orderNo;
-<<<<<<< HEAD
-=======
 		})
 		//(천단위)콤마 찍는 함수(첫번째꺼에밖에 적용안됨 - 이유 알아내서 모든 리스트에 적용되도록 수정!)
 		$(function(){
 			$(".price").each(function(index, item){
 		    	//클래스 price인 태그의 text를 읽어온다 
 				const num = $(item).text();
-				const num2 = $.numberWithCommas(num);
+				const num2 = numberWithCommas(num);
 			  	// 받아온 text값을 정수로 변환하여 numberwithCommas 함수의 인자값으로 넣는다
-			  	$(item).text(num2+"원");				
+			  	$(item).text(num2);				
 			})
->>>>>>> refs/remotes/origin/master
 		});
-		
+		function numberWithCommas(x){
+			  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
+		} 
 	</script>
 </body>
 </html>

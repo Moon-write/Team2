@@ -17,7 +17,9 @@
 			    END
 			    as projectName,
 			    comment_content as commentContent,
-			    substr(comment_date,1,10) as commentDate
+			    substr(comment_date,1,10) as commentDate,
+			    (SELECT COUNT(ORDER_STATUS) FROM ORDER_TBL WHERE DIV_NO = C.DIV_NO AND PROJECT_NO = C.PROJECT_NO AND ORDER_STATUS IN (1,2)) as orderStatus,
+			    project_no as projectNo 
 			FROM COMMENT_TBL C WHERE MEMBER_NO = #{memberNo} ORDER BY 1 DESC)C)
             where rnum between #{start} and #{end}
   	</select>
