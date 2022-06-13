@@ -28,7 +28,7 @@
 					<div style="box-sizing: border-box; width: calc(100%/ 4); padding: 20px;">
 						<input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
 						<div>
-							<img src="/resources/upload/shopPic/${sp.shopFilepath }" style="height:200px; width:200px;background-size:contain;">
+							<img class="img" src="/resources/upload/shopPic/${sp.shopFilepath }" style="height:200px; width:200px;background-size:contain;">
 						</div>
 						<div><input type="checkbox" class="chk"></div>
 						<div style="display:none;"><input type="hidden" name="shopPicNo" value="${sp.shopPicNo }">${sp.shopPicNo }</div>
@@ -43,11 +43,11 @@
 			<c:if test="${fn:length(sp) lt 4 }">
 				<form action="/picUpload.kh" method="post" enctype="multipart/form-data" style="margin-top:50px;">
 					<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
-						<input type="file" name="upfile" id="imgUpload" accept=".jpg,.png,.jpeg,.gif" style="display:none;" multiple></input>
-						<label for="imgUpload">배경사진 업로드 선택(최대 4개)</label>
+						<input type="file" name="upfile" id="imgUpload" accept=".jpg,.png,.jpeg,.gif" style="display:none;" multiple></input>	
+						<label class="btn bc1" for="imgUpload">사진 선택 (최대 4장)</label>				
 		                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
 		                <input type="hidden" name="shopNo" value="${shop.shopNo }">
-		                <span><input type="submit" name="submit" value="등록" style="float:none;"></span>	               
+		                <span><input type="submit" class="btn bc1" name="submit" value="등록" style="float:none;"></span>	               
 					</fieldset>
 				</form>
 			</c:if>			
@@ -66,11 +66,16 @@
 				});
 				location.href="/deleteShopPic.kh?memberNo="+memberNo+"&shopPicNos="+shopPicNos.join("/");
 			});
+			let picLength=$(".img").length;			
 			$("input[name=submit]").on("click",function(e){
 				const file=$("input[name=upfile]").val();
 				if(file.length==0){
 					alert("선택된 사진이 없습니다.");
 					e.preventDefault();
+				}
+				if (($('#imgUpload')[0].files.length)+picLength>4) {	
+					alert("최대 4장까지 업로드 할 수 있습니다.");
+				    e.preventDefault();
 				}
 			});
 		</script>
