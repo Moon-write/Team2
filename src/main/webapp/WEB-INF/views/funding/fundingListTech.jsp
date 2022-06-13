@@ -342,6 +342,7 @@
 		$(function(){
 			$("select#select-inquire").on("change",function(){
 				keywordLink();
+				alert("${categoryParameter}");
 			});
 			/* $("button#searchBtn").on("click",function(){
 				keywordLink();
@@ -349,14 +350,11 @@
 			
 			function keywordLink(){
 				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";
-				location.href = "/fundingAllList.kh?selectedInquire="+$("select#select-inquire").val()+"";
+				//location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory="+${categoryParameter}+"";
+				  location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
 			}
 			
-			
-			let url = "테크가전";
 
-			encodeURI(encodeURIComponent(name));
-			
 		});
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

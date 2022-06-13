@@ -266,10 +266,10 @@ table{
 	                        <td><select class="input-form"  id="fundingCategory" name="fundingCategory">
 	                            <option value="none">카테고리 선택</option>
 	                            <option value="테크가전">테크가전</option>
-	                            <option value="식품">식품</option>
 	                            <option value="패션잡화">패션잡화</option>
-	                            <option value="뷰티">뷰티</option>
 	                            <option value="홈리빙">홈리빙</option>
+	                            <option value="식품">식품</option>
+	                            <option value="뷰티">뷰티</option>
 	                        </select>
 	                        </td>
 							<td id="fundingCategorySpan">

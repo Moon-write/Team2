@@ -245,14 +245,17 @@ public class FundingController {
 	@RequestMapping(value="/fundingListTech.kh")
 	public String FundingAllList(Model model,int selectedInquire,Funding f) {
 		System.out.println(f.getFundingCategory());
-		/*
-		ArrayList<FundingJoinFile> list = service.fundingListTeck(selectedInquire);
+		System.out.println(selectedInquire);
+		
+		ArrayList<FundingJoinFile> list = service.selectFundingListCategory(selectedInquire,f);
 		model.addAttribute("list",list);
 		model.addAttribute("selectedInquire", selectedInquire);
-		*/
-		return "funding/fundingAllList";		
+		model.addAttribute("categoryParameter",f.getFundingCategory());
+		return "funding/fundingListTech";		
 	}
-	///////////////////fundingDetail/////////
+	
+	
+	///////////////////fundingDetail////////////////////////////////////////////////////////////
 	@RequestMapping(value="/fundingDetailStory.kh")
 	public String FundingDetailStory(int fundingNo, Model model) { //int fundingNo대신 funding funding으로 받음
 		Funding f = service.selectOneFunding(fundingNo);
