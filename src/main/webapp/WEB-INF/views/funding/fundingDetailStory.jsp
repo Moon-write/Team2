@@ -232,8 +232,9 @@
 .sum-date{
     margin-bottom: 25px;
     width: 100%;
-    height: 100px;
-    background-color:rgba(30,144,255,0.2) ;
+    height: 120px;
+    background-color:rgba(30,144,255,0.15) ;
+    border: 1px solid rgba(30,144,255,0.2);
     color: rgb(30,144,255);
     padding: 16px;
     border-radius: 10px;
@@ -246,23 +247,41 @@
     margin-left: 2px;
     color: #4a4a4a;
 }
-.like{
-		border: 1px solid #ccc;
-		border-radius: 15px;
-		width: 33%;
-		padding: 5px 10px;
+.like-qna-share{
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    padding: 0;
+}
+.like-qna-share>div{
+    border: 1px solid #ccc;
+		border-radius: 10px;
+		width: 32%;
+		padding: 5px;
 		text-align: center;
-        cursor:pointer
+        cursor:pointer;
+        height : 41px;
+        background-color:  rgba(30,144,255,0.15) ;
+}
 
-	}
+
 .like>span{
-		width: 25px; height: 25px;
+		width: 25px;
+        height: 25px;
 		text-align: center;
 	}
 .like>span:first-child{
 		font-size: 1.5em;
 	}
-	
+.modal-open-btn{
+    display: flex;
+    height: 35px;
+    line-height: 35px;
+    
+}
+.modal-open-btn span{
+    flex-direction: column-reverse;
+}
 </style>
 </head>
 <body>
@@ -352,8 +371,10 @@
 					        <span id="likeCount">${f.totallike}</span>
 						</div>
 
-                        <div class="qna"><button class="modal-open-btn" target="#test-modal"><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
-                        <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div>
+                        <div class="qna modal-open-btn" target="#test-modal"><span class="material-symbols-outlined modal-open-btn"><span class="material-symbols-rounded">
+                            sms
+                            </span></span><span>문의하기</span></div>
+                        <div class="share"><span class="material-symbols-outlined">share</span><span>공유하기</span></div>
                     </div>
                 </div>
                 <div class="funding-rank">펀딩랭크</div>

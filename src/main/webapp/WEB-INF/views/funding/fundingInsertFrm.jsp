@@ -119,13 +119,16 @@ table{
 	margin-top: 40px;
 	margin-bottom: 20px;
 	color: #555;
-
+	display: flex;
 	
 }
-
 .chrome>span:nth-child(2n){
 	font-weight: 900;
-
+	
+	
+}
+.chrome>span{
+	margin-left: 3px;
 }
 #precaution{
 	font-size: 17px;

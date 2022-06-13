@@ -258,7 +258,7 @@
 
 	<div class="page-content">
 		<div class="funding-category">
-			<a href="">
+			<a href="/fundingListTech.kh/selectedInquire=1&&fundingCategory=테크가전">
 			<div class="sq">
 				<div class="tech"></div>
 				<div><h3>테크·가전</h3></div>
@@ -351,6 +351,11 @@
 				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";
 				location.href = "/fundingAllList.kh?selectedInquire="+$("select#select-inquire").val()+"";
 			}
+			
+			
+			let url = "테크가전";
+
+			encodeURI(encodeURIComponent(name));
 			
 		});
 		</script>

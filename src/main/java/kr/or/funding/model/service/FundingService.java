@@ -51,6 +51,8 @@ public class FundingService {
 		}
 		return result2+result3;
 	}
+	
+	//리스트 불러오기
 
 	public ArrayList<FundingJoinFile> fundingAllList(int selectedInquire) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -61,6 +63,18 @@ public class FundingService {
 		//}
 		return (ArrayList<FundingJoinFile>)list;
 	}
+
+	public ArrayList<FundingJoinFile> fundingListTeck(int selectedInquire) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("selectedInquire", selectedInquire);
+		//if(selectedInquire==1||selectedInquire==2) {
+			ArrayList<FundingJoinFile> list  = dao.selectListTeck(map);		
+
+		//}
+		return (ArrayList<FundingJoinFile>)list;
+	}
+
+	
 	
 	public Funding selectOneFunding(int fundingNo) {
 		dao.checkViewCount(fundingNo);
@@ -233,6 +247,7 @@ public class FundingService {
 		// TODO Auto-generated method stub
 		return dao.selectFundingBoard(fundingNo);
 	}
+
 
 	 /*
 	 * public ArrayList<Funding> selectFundingListMember(int memberNo) { return

@@ -47,6 +47,12 @@ public class FundingDao {
 		return (ArrayList<FundingJoinFile>)list;
 	}
 	
+	public ArrayList<FundingJoinFile> selectListTeck(HashMap<String, Object> map) {
+		List list = sqlSession.selectList("funding.selectListTeck",map);
+		return  (ArrayList<FundingJoinFile>)list;
+	}
+
+	
 
 	public Funding selectOneFunding(int fundingNo) {
 		
@@ -169,5 +175,6 @@ public class FundingDao {
 		return (ArrayList<FundingBoard>)list;
 	}
 
+	
 
 }
