@@ -78,6 +78,9 @@ select{
 #tr-01>td:nth-child(3){
 	width: 55%;
 }
+a{
+	color: #000;
+}
 </style>
 </head>
 <body>
@@ -110,7 +113,13 @@ select{
 											<c:when test="${bo.divNo eq 4}"><td>경매</td></c:when>
 										</c:choose>
 										<td>${bo.projectNo }</td>
-										<td>${bo.projectName }</td>
+										<td>
+											<c:choose>
+												<c:when test="${bo.divNo eq 1}"><a href="/fundingDetailStory.kh?fundingNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 2}"><a href="/donationClick.kh?projectNo=${bo.projectNo}"></c:when>
+												<c:when test="${bo.divNo eq 4}"><a href="/auctionView.kh?projectNo=${bo.projectNo}"></c:when>
+											</c:choose>
+										${bo.projectName }</a></td>
 									</tr>
 								</table>
 							</c:forEach>

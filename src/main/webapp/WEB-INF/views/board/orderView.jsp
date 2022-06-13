@@ -203,7 +203,7 @@
 		}
 		
         function back(){
-            history.back();
+        	location.href = "/orderList.kh?reqPage=1&memberNo="+$("input[name=memberNo]").val();
         }
 	</script>
 </body>
