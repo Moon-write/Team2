@@ -93,6 +93,12 @@
 								<td></td>
 								<td><button type="submit" class="btn bc1 updateInfo-btn" value="비밀번호 변경하기">비밀번호 변경하기</button></td>
 							</tr>
+							<tr class="form-input">
+								<td colspan="4"><input type="button" class="bc2 bs4" id="join-check" value="체크버튼"></td>
+							</tr>
+							<tr class="form-input">
+								<td colspan="4"><input type="button" class="bc3 bs4" id="join-final" value="최종확인"></td>
+							</tr>
 						</table>
 					</form>
 				</div>
@@ -128,10 +134,10 @@
 			});
 		});
 		//새 비밀번호 정규식 및 현재비밀번호 일치여부 확인
-		const pw = $("#memberPwNew");
-		pw.on("change", function(){
+		$("#memberPwNew").on("change", function(){
 			const pwReg = /[a-zA-Z0-9]{4,6}/;
-			const pwVal = pw.val();
+			const pwVal = $("#memberPwNew").val();
+			const pwReVal = $("#memberPwNewRe").val();
 			const memberPw = $("#currentPw").val();
 			if(pwVal == memberPw){
 				$(".newPwChk").text("현재 비밀번호와 같은 비밀번호를 사용할 수 없습니다.");
@@ -142,6 +148,15 @@
 					$(".newPwChk").text("사용할 수 있는 패스워드 입니다.");
 					$(".newPwChk").css("color","blue");
 					checkArr[1] = true;
+					if(pwVal == pwReVal){
+						$(".newPwReChk").text("두 비밀번호가 일치합니다.");
+						$(".newPwReChk").css("color","blue");
+						checkArr[2] = true;
+					}else{
+						$(".newPwReChk").text("두 비밀번호가 일치하지 않습니다.");
+						$(".newPwReChk").css("color","red");
+						checkArr[2] = false;
+					}
 				}else{
 					$(".newPwChk").text("4자~6자 영어대소문자 또는 숫자를 사용하세요.");
 					$(".newPwChk").css("color","red");
@@ -149,25 +164,12 @@
 				}
 			}
 		});
-		//새 비밀번호 일치체크
-		$("#memberPwNewRe").on("change", function(){
-			const pwVal = $("#memberPwNew").val();
-			const pwReVal = $("#memberPwNewRe").val();
-			if(pwVal == pwReVal){
-				$(".newPwReChk").text("두 비밀번호가 일치합니다.");
-				$(".newPwReChk").css("color","blue");
-				checkArr[1] = true;//비밀번호 정규식에 넣기(나중에)
-				checkArr[2] = true;
-			}else{
-				$(".newPwReChk").text("두 비밀번호가 일치하지 않습니다.");
-				$(".newPwReChk").css("color","red");
-			}
-		});
 		//비번수정 버튼
 		$("#form").on("submit", e => function(){
 			let count = 0;
 			for(let i = 0;i<checkArr.length;i++){
 				if(checkArr[i]){
+					console.log(checkArr[i]);
 					count++;
 				}
 			}
@@ -176,6 +178,18 @@
 				alert("항목을 다시 확인해주세요.");
 			}
 		});
+		//arraycheck 버튼(회원가입 완성되면 삭제)
+		   $("#join-check").on("click",function(){
+			   for(let i=0;i<checkArr.length;i++){
+			   		console.log("checkArr"+i+"번째값: "+checkArr[i]);
+			   	}
+		   });
+		//arraycheck 버튼(회원가입 완성되면 삭제)
+		   $("#join-final").on("click",function(){
+			   console.log("1. 현재 비밀번호 : "+$("[name=currentPw]").val());
+			   console.log("2. 새 비밀번호 : "+$("[name=memberPwNew]").val());
+			   console.log("3. 새 비밀번호(확인) : "+$("[name=memberPwNewRe]").val());
+		   });   
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

@@ -141,7 +141,6 @@ select{
 											<c:when test="${bo.orderStatus eq 3}"><td>입찰완료</td></c:when>
 											<c:when test="${bo.orderStatus eq 4}"><td>결제대기</td></c:when>
 											<c:when test="${bo.orderStatus eq 5}"><td>주문취소</td></c:when>
-											
 										</c:choose>
 										 -->
 									</tr>

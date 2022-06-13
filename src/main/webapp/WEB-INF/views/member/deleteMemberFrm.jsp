@@ -61,12 +61,12 @@
 								<td><input type="password" class="input-form" name="memberPw" id="memberPw"></td>
 							</tr>
 							<tr>
-								<td><input type="hidden" id="memberId" name="memberId" value=${sessionScope.m.memberId }></td>
+								<td><input type="hidden" name="memberId" id="memberId" value=${sessionScope.m.memberId }></td>
 								<td><p class="fc-9" name="pwChk"></p></td>	
 							</tr>
 							<tr class="tr-3">
 								<td></td>
-								<td><button class="btn bc4 updateInfo-btn" value="탈퇴하기">탈퇴하기</td>
+								<td><button type="submit" class="btn bc4 updateInfo-btn" value="탈퇴하기">탈퇴하기</td>
 							</tr>
 						</table>
 					</form>
@@ -79,24 +79,6 @@
 	//비밀번호 확인
 	$(function(){
 		let inputCheck = false;
-		//탈퇴실행
-		$(".updateInfo-btn").on("click", function(){
-			console.log(inputCheck);
-			if(inputCheck == true){
-				const memberId = $("[name=memberId]").val();
-				$.ajax({
-					url: "/deleteMember.kh", // Controller의 mapping값
-					type: "get",  // get, post 방식 中
-					data: {memberId : memberId},  // Controller로 보낼 데이터
-					success: function(data) {
-						alert("탈퇴가 완료되었습니다.");
-						location.href = "/";
-					}  // 정상적으로 return 받았을 때 실행할 함수
-				})
-			}else{
-				alert("비밀번호를 확인해주세요"); 
-			}
-		});
 		$("[name=memberPw]").on("change", function(){
 			const memberId = $("#memberId").val();
 			const memberPw = $("#memberPw").val();
@@ -106,7 +88,7 @@
 				data: {memberId : memberId, memberPw : memberPw},  // Controller로 보낼 데이터
 				success: function(data) {
 					if(data == "0"){
-						$(".fc-9").text("비밀번호가 일치합니다.").css("color","blue");
+						$(".fc-9").text("");
 						inputCheck = true;
 					}else if(data == "1"){
 						$(".fc-9").text("비밀번호를 확인해주세요.").css("color","red");
@@ -114,10 +96,17 @@
 					}
 				}
 			});
+			console.log(inputCheck);
 		});
-	
+		//탈퇴실행
+		$(".updateInfo-btn").on("click", function(e){
+			const memberPw = $("#memberPw").val();
+			if(inputCheck == false){
+				e.preventDefault();
+				alert("비밀번호를 확인하세요"); 
+			}
+		});
 	});
-	
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
