@@ -105,6 +105,7 @@
 	 	padding-bottom : 20px;
 	 	width : 400px;
 		box-sizing: border-box;
+		margin-bottom : 30px;
 	}
 	
 	.img-box{
@@ -206,9 +207,12 @@
 		width: 150px;
 		height: 45px;
 		margin-right: 35px;
+		padding : 8px;
 		
 	}
-	
+	#precaution{
+		margin-top : 5px;
+	}
 	
 	
 </style>
@@ -325,13 +329,14 @@
 											</c:otherwise>
 										</c:choose>		
 										<div><span>${fjf.fundingSumRate}%</span><span>${fjf.fundingCurrentSum}원</span></div>	
-										<div><span>종료 ${fjf.fundingDeadline}일 남음</span></div>
+										<div><span>종료 ${fjf.fundingDeadline}일 남음</span><c:if test="${fjf.fundingDeadline lt 1}"><span class="badge-pink badge-pinkk">오늘마감</span></c:if></div>
 										<!--<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>-->						
 									</div>
 								</div>
 							</a>
 						</c:forEach>
 					</div> 
+					
 	</div>
 		<script>
 		$(function(){
@@ -351,4 +356,10 @@
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
+<style>
+	.badge-pinkk{
+
+			float:right;
+	}
+</style>
 </html>

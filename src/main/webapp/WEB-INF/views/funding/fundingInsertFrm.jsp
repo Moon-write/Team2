@@ -206,9 +206,9 @@ table{
 	font-size: 13px;
 }
 .summernote-detail{
-	width:780px;
-	padding-left: 60px;
-	padding-right: 19px;
+	margin-left: 60px;
+	width: 780px;
+	box-sizing: border-box;
 }
 </style>
 <link rel="stylesheet" href="/resources/css/summernote-lite.css"><!-- css헤더에 넣는다. -->
@@ -234,7 +234,7 @@ table{
 <script src="/resources/js/funding/jquery.datetimepicker.full.min.js"></script>
 
 	<div class="main">
-		<form action="/fundingInsertFrm.kh" method="post" enctype="multipart/form-data">
+		<form action="/fundingInsertFrm.kh" method="post" enctype="multipart/form-data" onsubmit="return checkAll()">
 	        <h1>펀딩상품 등록</h1>
 	        <hr>
 	        <div class="basic-information"><span>기본정보</span></div>
@@ -253,7 +253,7 @@ table{
 	                <table class="main-tbl">
 	                    <tr >
 	                        <th>펀딩 프로젝트명</th>
-							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text" value="펀딩"></td>
+							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text"></td>
 	                    </tr>
 	                    <tr>
 	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" readonly></td>
@@ -297,8 +297,8 @@ table{
 		                        <th>옵션명</th><th>옵션값</th>
 		                    </tr>
 		                    <tr id="option-table-tr">
-		                        <td><input type="text" class="input-form" name="fundingOptionName" value="사이즈"></td>
-		                        <td><input type="text" class="input-form" name="fundingOptionValue" value="M/L"></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionName" placeholder="사이즈" ></td>
+		                        <td><input type="text" class="input-form" name="fundingOptionValue" placeholder="M/L" ></td>
 								<td><button type="button" class="option-category btn bc1">옵션목록으로 적용</button></td>
 		                    </tr>
 	                	</tbody>
@@ -494,7 +494,7 @@ table{
 			type : "get",
 			data : {fundingOptionNameArr:fundingOptionNameArr,fundingOptionValueArr:fundingOptionValueArr},
 			success : function(data){
-				alert("성공이요");
+				
 				const trPrice = $("#optionListPrice-table-tr");
 				const addPrice = $(".addPrice");
 				addPrice.remove();
@@ -517,7 +517,7 @@ table{
 				
 			},
 			error : function(data){
-				alert("에러에요");
+				alert("옵션명과 옵션값을 입력해주세요");
 			}			 
 		 });
 	 });		
@@ -547,23 +547,69 @@ table{
 			console.log(typeof $("[name=fundingSum]").val());
 		});
 
-	});
-	
-	 
-	//제출버튼 눌렀을 때 조건
-	/* 	
-		$(function(){
-			$("#insertButton").on("click",function(){
-				var fundingOptionPrice = $("[name=fundingOptionPrice]");
-					if(fundingOptionPrice.val() == null){
-						alert("옵션눌러주세용");
+		  //정규 표현식
+		  $("form").on("submit",function(){
+					if(!check()){
+						event.preventDefault();
+						return false;
+					}else{
+						return true;
 					}
-					return false;
-				});	
-		});
-		 */
-		
-	
+				})
+			
+			  function check(){
+				  let regExp = /^[0-9]+$/;
+				  const category = $("select[name=fundingCategory]");
+					
+				  if( $("input[name=fundingName]").val()!=""){
+					  if(category.val()!="none"){
+						  if($("#fundingOptionName").val()!=""){
+							///
+						  		if(!$("input[name=fundingOptionList]").length==0){
+						  			
+						  			
+						  			if($("#preview").children().length!=0){
+						  				if($("#datetimepicker").val()!=""){
+						  					
+						  					if($("input[name=fundingSum]").val()!=""&&regExp.test($("input[name=fundingSum]").val())){
+						  						return true;
+						  						
+						  					}else{
+						  						alert("숫자를 입력해주세요")
+						  						return false;
+						  					}
+						  				}else{
+						  					alert("마감날짜를 선택해주세요")
+						  					return false;
+						  				}
+						  			}else{
+						  				alert("사진을올려주세요");
+						  				return false;
+						  			}
+						  		}else{
+						  			alert("'옵션개수'를 선택후 '옵션목록으로 적용' 버튼을 눌러주세요!");
+						  			return false;
+						  		}////
+						  }else{
+							  alert("옵션명을 입력해주세요");
+							  return false;
+						  }
+							
+					  	}else{
+							alert("'카테고리'를 선택해 주세요!");
+							return false;
+						}
+				  			
+					}else{
+			  			alert("'펀딩 프로젝트명'을 입력해 주세요!");
+						return false;
+			  		}
+			  }//check
+	});
+
+			  
+
+	 
 </script>
 <style>
     .input-form{
@@ -647,6 +693,8 @@ table{
     }
   });
   
+  
+ 
   
 </script>
 <style>

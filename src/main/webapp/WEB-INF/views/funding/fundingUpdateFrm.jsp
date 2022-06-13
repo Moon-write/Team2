@@ -80,8 +80,14 @@ table{
     border-collapse: separate;
      border-spacing: 10px 10px;
 }
+.main-img-wrap{
+	width: 100%;
+}
 .main-img{
 	background-color: rgba(30, 144, 255, 0.2);
+	padding: 20px 0;
+	padding-left: 30px;
+	width: 100%;
 }
 .main-img-div{
 	width:100px;
@@ -104,6 +110,9 @@ table{
 .pre-imgg:hover{
 	background-color: #ff82ab;
 }
+#previeww{
+	margin-bottom: 10px;
+}
 
 /*파일업로드 버튼 커스텀*/
 #uploadFile{
@@ -121,10 +130,10 @@ table{
     vertical-align: middle;
 	background-color: rgb(30,144,255);
 	font-size: 16px;
-	line-height: 30px;
+	line-height: 25px;
 	border-radius: 5px;
     cursor: pointer;
-    height: 30px;
+
 	font-family: ns-light
 	
 }
@@ -188,10 +197,19 @@ table{
 }
 
 .optionListPrice{
+	width: 100%;
+	padding-bottom: 20px;
 	background-color: rgba(30, 144, 255, 0.2);
+	
+}
+.optionListPrice>table{
+	margin-left: 30px;
 }
 .funding-end-table{
 	background-color: rgba(30, 144, 255, 0.2);
+	padding: 30px;
+	width: 100%;
+
 }
 .note-editable{
 	background-color: rgba(30, 144, 255, 0.2);
@@ -200,8 +218,10 @@ table{
 	font-size: 13px;
 }
 .summernote-detail{
-	padding-left: 60px;
-	padding-right: 19px;
+	margin-left: 60px;
+	width: 780px;
+	box-sizing: border-box;
+
 }
 	
 </style>
@@ -274,7 +294,7 @@ table{
 	                </table>
 	            </div>
 	
-	            <div>
+	            <div class="main-img-wrap">
 	            
 	            
 	            <!-- <div><input type="text" name="fundingFileNo" value="${file.fundingFileNo}"><input type="text" name="fundingFilePath" value="${file.fundingFilePath}"></div> -->
@@ -284,7 +304,7 @@ table{
 						   
 						    <tr>
 						      <td>
-								<h4>사전 등록된 이미지</h4>
+								<h3>사전 등록된 이미지</h3>
 								<hr>
 						        <div id="previeww">
 						        	<c:forEach items="${filelist }" var="file">
@@ -299,7 +319,7 @@ table{
 
 									</c:forEach>
 						        </div>
-								<h4>추가이미지</h4>
+								<h3>추가이미지</h3>
 								<hr>
 								<br>
 								<label for="uploadFile" id="uploadFileLabel">추가 이미지 업로드</label>

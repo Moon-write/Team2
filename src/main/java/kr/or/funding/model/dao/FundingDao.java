@@ -141,6 +141,7 @@ public class FundingDao {
 */
 
 	public int insertOrder(Order o) {
+		System.out.println("아니 왜 펀딩이름이 200자가 드렁가지 : " +o.getProjectName());
 		return sqlSession.insert("funding.insertOrder",o);
 	}
 

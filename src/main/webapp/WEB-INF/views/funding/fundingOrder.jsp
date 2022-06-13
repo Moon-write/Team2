@@ -104,9 +104,10 @@
                 </thead>
                 <tbody>
                     <c:forEach items="${list}" var="pd" varStatus="i">
+                        <c:if test="${pd.amountNum2 ne 0}">
                         <input type="hidden" id="projectNo" value="${pd.fundingNo}" name="projectNo">
-                        <input type="hidden" id="projectNo" value="${pd.memberNo}" name="sellerNo">
-                        <input type="hidden" id="projectNo" value="${pd.fundingName }" name="projectName">
+                        <input type="hidden" id="sellerNo" value="${pd.memberNo}" name="sellerNo">
+                        <input type="hidden" id="projectName2" value="${pd.fundingName }" name="projectName2">
                         
                         <tr style="border-bottom: 1px dotted #ccc;">
                             <td>
@@ -124,6 +125,7 @@
                             </td>
                         </tr>
                         <input type="hidden" name="optionNo2" value="${pd.optionPriceNo2}">
+                        </c:if>
                     </c:forEach>
                     <tr>
                         <td colspan="2" style="text-align: left; height: 60px"><span style="padding-left:20px">배송비</span></td>

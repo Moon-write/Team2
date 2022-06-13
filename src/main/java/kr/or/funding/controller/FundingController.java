@@ -526,10 +526,12 @@ public class FundingController {
 		System.out.println(o.getOrderDelAddr1());
 		System.out.println(o.getOrderDelAddr2());
 		System.out.println(o.getOrderDelAsk());
+		System.out.println("프로젝트네임!!!!! : "+o.getProjectName());
 		System.out.println("세션번호 : "+m.getMemberNo());	
 		System.out.println(o.getProjectNo());
 		System.out.println("셀러번호 "+o.getSellerNo());
 		o.setMemberNo(m.getMemberNo());
+		o.setProjectName(o.getProjectName2()[0]);
 		int result = service.insertOrder(o,op);
 		System.out.println("인서트결과 서공? : "+result);
 		for(int i = 0 ; i<op.getProductPrice2().length;i++) {

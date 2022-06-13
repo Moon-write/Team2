@@ -18,7 +18,6 @@
 
 	.main{
 		width: 1200px;
-		
 		margin: 0 auto;
 		margin-top: 40px;
 		/*나중에 삭제*/
@@ -28,10 +27,12 @@
 		width: 100%;
 		padding: 30px 0;
 		overflow: hidden;
-		
+		background-color: rgba(30,144,255,0.2);
 		border: 2px solid rgba(30,144,255,0.15);
 		border-radius: 5px;
 		margin-bottom: 15px;
+		padding-left: 130px;
+		height: 240px;
 
 	}
 	.check-box-wrap{
@@ -100,6 +101,7 @@
 	color: white;
 	font-size: 20px;
 	float: left;
+	margin-bottom: 30px;
 	}
 	.dotted-line{
 		width: 120px;
@@ -188,19 +190,28 @@
 		<c:forEach items="${list}" var="sfop" varStatus="i">
 		<div class="option-price-select">
 
-			<div class="check-box-wrap">
-				<input type="checkbox" class="check-box" id="check-boxer">
-			</div>
+
 			<div class="funding-content">
 				<div><span>${sfop.fundingOptionPrice}</span><span>원 입니다</span></div>
 				<div><span>옵션 : </span><span>${sfop.fundingOptionList}</span></div>
-				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 07월 중순(11~20)일 예정</span>
-					<input type="hidden" value="${sfop.fundingOptionPriceNo }">
+				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 07월 중순(11~20)일 예정</span></div>
+				
+				<div class="addAmount">
+					<button class="amountB amount-decrease" type="button"><span class="material-symbols-rounded">remove</span></button>
+					<span class="amount-num"><input name="amountNum" value="0" readonly=""></span>
+					<button class="amountB amount-increase" type="button"><span class="material-symbols-rounded">add</span></button>
+				</div>
+				<div class="divPrice">
+					<span class="spanPrice">0</span><span class="spanPriceWon"> 원 펀딩합니다.</span>
+					<input type="hidden" name="amountNumPrice" value="${sfop.fundingOptionPrice}">
+					<input type="hidden" name="optionNameList" value="${sfop.fundingOptionList}">
+					<input type="hidden" name="optionPriceNo" value="${sfop.fundingOptionPriceNo }">
+					
 				</div>
 			</div>
 		</div>
 		</c:forEach>
-		<div class="funding-Name-price"><span class="total-price">${f.fundingName } 에 (개수*가격의 합)원 펀딩합니다</span></div>
+		<div class="funding-Name-price"><span>${f.fundingName } 에 </span><span class="total-price">0</span><span>원 펀딩합니다</span></div>
 		
 		<div class="submit-wrap">
 			<input type="submit" class="btn bc1 funding-btn"  value="다음 단계로 >">
@@ -227,8 +238,90 @@
 		});
 		*/
 		$(function(){
+
+			$(".amount-increase").each(function (index, item) {
+				/*증가할때*/
+				
+       			let amountNumber =  $(item).prev().children().val();
+				const spanPrice = $(item).parent().next().children().eq(0);
+				const spanPriceOne = $(item).parent().prev().prev().prev().children().eq(0);
+				$(item).on("click" ,function(){
+					console.log("+버튼눌렀읍니다");
+					amountNumber++;
+					$(item).prev().children().attr("value",amountNumber);
+					spanPrice.text(spanPriceOne.text()*amountNumber);
+					
+					let totalPrice = 0;
+					for(let i = 0 ; i < $(".spanPrice").length ; i ++){
+						console.log("스판프라이스배열값"+i+" : "+$(".spanPrice").eq(i).text());
+						totalPrice = totalPrice+Number($(".spanPrice").eq(i).text());
+					}
+					console.log("토탈가격 : "+totalPrice);
+					$(".total-price").text(totalPrice);
+					
+				});
+
+				/*감소할때*/
+				const decrease = $(item).prev().prev();
+				let decreaseSpanPrice = decrease.parent().next().children().eq(0);
+				let decreaseSpanPriceOne = decrease.parent().prev().prev().prev().children().eq(0);
+				
+				decrease.on("click" , function(){
+					
+					console.log("-버튼눌렀읍니다");
+						if(amountNumber != 0){
+						amountNumber--;
+						decrease.next().children().attr("value",amountNumber);
+						decreaseSpanPrice.text(decreaseSpanPriceOne.text()*amountNumber);	
+							
+						let totalPrice = 0;
+						for(let i = 0 ; i < $(".spanPrice").length ; i ++){
+							console.log("스판프라이스배열값"+i+" : "+$(".spanPrice").eq(i).text());
+							totalPrice = totalPrice+Number($(".spanPrice").eq(i).text());
+						}
+						console.log("토탈가격 : "+totalPrice);
+						$(".total-price").text(totalPrice);		
+						}else{
+							amountNumber=0;
+							
+						}
+
+				});
+		
+   			 });
+
+		});
+			
+
+
+		/*
+			let amountNumber = $("input[name=amountNum]").val();
+
+
+
+
+
+			$(".amount-increase").on("click",function(){
+					console.log("+버튼눌렀읍니다");
+					amountNumber++;
+					$(this).prev().children().attr("value",amountNumber);
+				});
+				$(".amount-decrease").on("click",function(){
+					console.log("-버튼눌렀읍니다");
+					if(amountNumber != 0){
+					amountNumber--;
+					$(this).next().children().attr("value",amountNumber);					
+					}else{
+						amountNumber=0;
+					}
+				});
+
+		});
+		*/
+		/*
+		$(function(){
 			$(".check-box").on("click",function(){
-				let amountNumber = 0;
+				
 				
 				if($(this).prop("checked")){
 				$(this).parent().parent().css("background-color","rgba(30,144,255,0.2)");//해당하는 체크박스 클릭시 백그라운드컬러 추가	
@@ -257,23 +350,10 @@
 						$(this).parent().next().children().eq(3).remove();
 					}
 				}
-				
+			*/	
 			//이게 왜 check-box함수 안에 있어야 할까 
-				$(".amount-increase").on("click",function(){
-					console.log("+버튼눌렀읍니다");
-					amountNumber++;
-					$(this).prev().children().attr("value",amountNumber);
-				});
-				$(".amount-decrease").on("click",function(){
-					console.log("-버튼눌렀읍니다");
-					if(amountNumber != 0){
-					amountNumber--;
-					$(this).next().children().attr("value",amountNumber);					
-					}else{
-						amountNumber=0;
-					}
-				});
 				
+				/*
 				$("#check-boxer:checked").each(function(){
 					$(".amount-increase").on("click",function(){
 					console.log($(this).prev().children().val());
@@ -299,8 +379,8 @@
 					standard.append(div);
 					
 					
-					});
-					
+					});*/
+					/*
 					$(".amount-decrease").on("click",function(){
 						console.log($(this).next().children().val());
 						console.log($(this).parent().prev().prev().prev().children().eq(0).text())
@@ -325,6 +405,7 @@
 						standard.append(div);
 					});
 				});
+				*/
 				/*
 				let chkArray = new Array();//배열 선언
 				let priceVal = 0;
@@ -363,7 +444,7 @@
 					spanPriceArr.push($(item).total());
 					console.log("spanPriceArr : "+spanPriceArr);
 				 });
-				 */
+				
 				$(".amountB ").on("click",function(){
 				
 				
@@ -373,16 +454,7 @@
 			
 
 		});//온로드
-		
-		$(function(){
-			/*
-			$(".spanPrice").on("DOMSubtreeModified", function() {
-				$(".total-price").text($(".spanPrice").text());
-			});
-			*/
-			
-		});//온로드
-
+		*/
 
 	</script>
     <style>
