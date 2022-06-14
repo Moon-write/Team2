@@ -498,7 +498,8 @@ table{
 			data : {fundingOptionNameArr:fundingOptionNameArr,fundingOptionValueArr:fundingOptionValueArr},
 			success : function(data){
 				
-				const trPrice = $("#optionListPrice-table-tr");
+				const trPrice = $("#optionListPrice-table-tr");//이거는 아님
+				const tableTest =  $("#optionListPrice-table-tr").parent();
 				const addPrice = $(".addPrice");
 				addPrice.remove();
 				
@@ -513,7 +514,7 @@ table{
 				optionListPrice.append(inputOptionListPrice);
 				
 				titleTrPrice.append(optionList).append(optionListPrice);
-				trPrice.after(titleTrPrice);
+				tableTest.append(titleTrPrice);
 				console.log("컨트롤러에서 보내준 데이터 : "+data[i]);
 				}
 			
