@@ -28,7 +28,7 @@
 
     text-align: center;
     height: 200px;
-    background-image: url("/resources/upload/funding/3311.jpg");
+    background-image: url("/resources/upload/funding/${list[0].fundingFilePath}");
     background-repeat: no-repeat;
     background-position: 50% 30%;
     background-size: cover;
@@ -54,6 +54,7 @@
     z-index: 1;
     font-size: 30px;
     color: white;
+    text-align: center;
 }
 .main{
     width: 1200px;
@@ -420,7 +421,22 @@
             let priceComma2 = $("#price-comma2").text();
             const cn2 = priceComma2.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
             $("#price-comma2").text(cn2);
-        })
+
+            $(".share").on("click", function(){
+
+                var url = '';
+                var textarea = document.createElement("textarea");
+                document.body.appendChild(textarea);
+                url = window.document.location.href;
+                textarea.value = url;
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("URL이 복사되었어요!!");
+                });
+            
+        });
+        
         
         /*
         $(function(){

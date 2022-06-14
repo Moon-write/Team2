@@ -10,7 +10,7 @@
 	.banner{
 		width: 100%;
 		height: 300px;
-		
+		margin-top: 40px;
 		background-position: center center;
 		background-size: 100% auto;
 	}
@@ -258,7 +258,7 @@
 	-->
 	<!------------------------------------------------------------------------------------------>	
 	<c:choose>
-		<c:when test="${categoryParameter eq'테크가전'}"><div class="banner" style="background-image: url('/resources/img/funding/techcategory.jpg');"></div></c:when>
+		<c:when test="${categoryParameter eq'테크가전'}"><div class="banner" style="background-image: url('/resources/img/funding/techcategory12.jpg');"></div></c:when>
 		<c:when test="${categoryParameter eq'패션잡화'}"><div class="banner" style="background-image: url('/resources/img/funding/fashioncategory.jpg');"></div></c:when>
 		<c:when test="${categoryParameter eq'홈리빙'}"><div class="banner" style="background-image: url('/resources/img/funding/homecategory.jpg');"></div></c:when>
 		<c:when test="${categoryParameter eq'식품'}"><div class="banner" style="background-image: url('/resources/img/funding/foodcategory.jpeg');"></div></c:when>
@@ -353,7 +353,7 @@
 												<div class="bar-back"><div class="bar" style="width: ${fjf.fundingSumRate}%;"></div></div>
 											</c:otherwise>
 										</c:choose>		
-										<div><span>${fjf.fundingSumRate}%</span><span><span id="price-comma1">${fjf.fundingCurrentSum}</span>원</span></div>	
+										<div><span>${fjf.fundingSumRate}%</span><span><span class="price-comma1">${fjf.fundingCurrentSum}</span>원</span></div>	
 										<div><span>종료 ${fjf.fundingDeadline}일 남음</span><c:if test="${fjf.fundingDeadline lt 1}"><span class="badge-pink badge-pinkk">오늘마감</span></c:if></div>
 										<!--<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>-->						
 									</div>
@@ -378,9 +378,11 @@
 				//location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory="+${categoryParameter}+"";
 				  location.href = "/fundingList.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
 			}
-			let priceComma1 = $("#price-comma1").text();
-			const cn1 = priceComma1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-			$("#price-comma1").text(cn1);
+			for(let i = 0 ; i < $(".price-comma1").length;i++){
+				let priceComma1 = $(".price-comma1").eq(i).text();
+				let cn1 = priceComma1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				$(".price-comma1").eq(i).text(cn1);
+			}
 		});
 	
 		</script>

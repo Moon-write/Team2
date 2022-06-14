@@ -568,7 +568,7 @@ table{
 				  if( $("input[name=fundingName]").val()!=""){
 					  if(category.val()!="none"){
 						  if($("#fundingOptionName").val()!=""){
-							///
+							//
 						  		if(!$("input[name=fundingOptionList]").length==0){
 						  			
 						  			
@@ -577,17 +577,16 @@ table{
 						  					
 						  					if($("input[name=fundingSum]").val()!=""&&regExp.test($("input[name=fundingSum]").val())){
 						  						return true;
-						  						
 						  					}else{
-						  						alert("숫자를 입력해주세요")
+						  						alert("숫자를 입력해주세요!");
 						  						return false;
 						  					}
 						  				}else{
-						  					alert("마감날짜를 선택해주세요")
+						  					alert("마감날짜를 선택해주세요!");
 						  					return false;
 						  				}
 						  			}else{
-						  				alert("사진을올려주세요");
+						  				alert("사진을 올려주세요!");
 						  				return false;
 						  			}
 						  		}else{
@@ -595,7 +594,7 @@ table{
 						  			return false;
 						  		}////
 						  }else{
-							  alert("옵션명을 입력해주세요");
+							  alert("옵션명을 입력해주세요!");
 							  return false;
 						  }
 							
@@ -608,7 +607,15 @@ table{
 			  			alert("'펀딩 프로젝트명'을 입력해 주세요!");
 						return false;
 			  		}
+					/*
+					  if($("input[name=fundingOptionList]").val()!=""){
+									return true;
+							  }else{
+								alert("펀딩합계 입력해주세요")
+								return false;
+							  }*/
 			  }//check
+			  
 	});
 
 			  

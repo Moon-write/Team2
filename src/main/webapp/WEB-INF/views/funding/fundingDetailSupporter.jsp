@@ -54,6 +54,7 @@
     z-index: 1;
     font-size: 30px;
     color: white;
+    text-align: center;
 }
 .main{
     width: 1200px;
@@ -103,7 +104,7 @@
 }
 .left-box{
     width: 65%;
-    background-color: aqua;
+
     float: left;
     height: 800px;
     
@@ -185,8 +186,7 @@
 }
 .funding-rank{
     width: 100%;
-    height: 500px;/*나중에 지워주기*/ 
-    background-color: indigo;
+
 }
 .funding-btn{
     width: 100%;
@@ -273,26 +273,48 @@
     margin-top: 100px;
     font-size: 33px;
     margin-bottom: 50px;
-    
+    font-family: ns-light;
+   
+}
+.count-member>span{
+    color: rgb(30,144,255);
 }
 .member-list{
     width: 100%;
     height: 100px;
-    border: 1px solid #e6eaed;
+
+    border-bottom: 1px solid #e6eaed;
     display: flex;
+
 }
 .member-img{
     width: 100px;
     height: 100px;
-    background-color: red;
     margin-left: 60px;
+    padding-top: 10px;
 }
 .member{
-    padding-left: 60px;
+    box-sizing: border-box;
+    padding-left: 10px;
     line-height: 100px;
     font-size: 24px;
+    color: #676363;
+}
+.tech{
+    display: inline-block;
+    line-height: 100px;
+	width:80px;
+	height:80px;
+	border-radius:40px;
+	text-align:center;
+	vertical-align:middle;
+    background-size: 100% auto;
+	background-image: url("/resources/img/auction/preview.jpg");
 }
 
+strong{
+    color: #0d0f12;
+}
 </style>
 </head>
 <body>
@@ -357,15 +379,15 @@
         <div class="box">
             <!--왼쪽-->
             <div class="left-box" >
-                <div class="count-member">현재 이 프로젝트에 <span>${f.orderCount}</span> 명 의 참여가 이루어 졌습니다.
+                <div class="count-member">현재 이 프로젝트에 <br> <span>${f.orderCount}명</span>  의 참여가 이루어 졌습니다.
                 </div>
                 <div class="member-list-wrap">
-                    <div class="member-list">
                     <c:forEach items="${f.orderList}" var="o">
-                        <div class="member-img"></div>
-                        <div class="member">${o.memberId}님이 ${o.orderPrice}원 펀딩을 참여 하셨습니다</div>
-                    </c:forEach>
+                    <div class="member-list">
+                        <div class="member-img"><div class="tech"></div></div>
+                        <div class="member"><strong>${o.memberId}</strong>님이 <strong class="price-comma1">${o.orderPrice}</strong>원으로 펀딩을 참여 하셨습니다.</div>
                     </div>
+                </c:forEach>
                 </div>
                 
 
@@ -384,7 +406,7 @@
 						</c:otherwise>
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
-                    <div class="funding-sum"><span>${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
+                    <div class="funding-sum"><span id="price-comma2">${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
                     <div class="supporter-num"><span>${f.orderCount}</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
@@ -421,7 +443,7 @@
                         <div class="share"><span class="material-symbols-outlined">share</span><span>공유하기</span></div>
                     </div>
                 </div>
-                <div class="funding-rank">펀딩랭크</div>
+                <div class="funding-rank"></div>
                 </div>
             </div>
         </div>
@@ -586,6 +608,30 @@
 			  });  
 			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
 		});
+
+        $(function(){
+            $(".share").on("click", function(){
+                var url = '';
+                var textarea = document.createElement("textarea");
+                document.body.appendChild(textarea);
+                url = window.document.location.href;
+                textarea.value = url;
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+                alert("URL이 복사되었어요!!");
+                });
+
+                for(let i = 0 ; i < $(".price-comma1").length;i++){
+				let priceComma1 = $(".price-comma1").eq(i).text();
+				let cn1 = priceComma1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+				$(".price-comma1").eq(i).text(cn1);
+
+                let priceComma2 = $("#price-comma2").text();
+                const cn2 = priceComma2.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+                $("#price-comma2").text(cn2);
+			}
+        })
 </script>
     <style>
         .funding-btn{

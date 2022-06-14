@@ -45,6 +45,7 @@
     z-index: 1;
     font-size: 30px;
     color: white;
+    text-align: center;
 }
 .main{
     width: 1200px;
@@ -474,6 +475,10 @@
         function login(){
 			location.href = "/loginFrmF.kh";
 		}
+        $(".share").on("click", function(){
+            copyToClipboard();
+            alert("주소가 복사되었어요!!")
+        });
 </script>
     <style>
         .funding-btn{
