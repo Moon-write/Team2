@@ -111,7 +111,7 @@
 						const sumTd=$("<td>");
 						const sdTd=$("<td>");
 						const edTd=$("<td>");
-						const modiTd=$("<td><button class=\"btn2 bc1\">수정하기</button></td>");
+						const modiTd=$("<td><button class=\"btn2 bc1 update\" id=\"update\">수정하기</button></td>");
 						const delTd=$("<td><button class=\"btn2 bc1\" id=\"delete\">삭제</button></td>");
 						const projectNo="<div style=\"display:none;\">"+list[i].PROJECTNO+"</div>";
 						const sum="<div style=\"display:none;\">"+list[i].DONATIONSUM+"</div>";
@@ -126,7 +126,7 @@
 						tr.append(noTd).append(pNameTd).append(cashTd).append(targetTd).append(sumTd).append(sdTd).append(edTd).append(modiTd).append(delTd).append(projectNo).append(sum).append(modal);
 						table.append(tr);						
 		            }
-				
+					
 					$(document).on("click", "td #delete",function(event){					
 						const projectNo=$(this).parent().next().text();
 						$.ajax({
@@ -357,6 +357,11 @@
 				});
 			}
 		}
+		$(document).on("click",".update",function(){
+			const value = $(this).parent().next().next("div").text();
+			const link = "/donationUpdateWriter.kh?projectNo="+value;
+			window.open(link,"_blank");
+		})
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

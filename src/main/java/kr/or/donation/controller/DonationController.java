@@ -194,7 +194,7 @@ public class DonationController {
 	
 	// delete
 	@RequestMapping(value="/donationCommentDelete.kh")
-	public String donationCommentDelete(int donationCommentNo) {
+	public String donationCommentDelete(int donationCommentNo,int projectNo) {
 		System.out.println(donationCommentNo);
 		DonationComment dc = new DonationComment();
 		dc.setDonationCommentNo(donationCommentNo);
@@ -206,11 +206,11 @@ public class DonationController {
 			request.setAttribute("msg", "댓글이 정상적으로 삭제되었습니다.");
 			request.setAttribute("icon", "success");
 		}else {
-			request.setAttribute("title", "수정실패");
+			request.setAttribute("title", "삭제실패");
 			request.setAttribute("msg", "댓글 삭제에 실패하셨습니다.");
 			request.setAttribute("icon", "error");
 		}
-		request.setAttribute("loc", "/donationList.kh");
+		request.setAttribute("loc", "donationClick.kh?projectNo="+projectNo);
 		return "common/msg";
 	}
 
