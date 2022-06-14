@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>배경사진 관리</title>
 <style>
 .posting-wrap {
 	display: flex;

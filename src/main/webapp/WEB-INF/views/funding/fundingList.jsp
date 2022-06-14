@@ -10,7 +10,7 @@
 	.banner{
 		width: 100%;
 		height: 300px;
-		background-image: url("/resources/upload/funding/3311.jpg");
+		
 		background-position: center center;
 		background-size: 100% auto;
 	}
@@ -89,7 +89,7 @@
 	background-image: url("https://static.wadiz.kr/assets/reward-category/reward_banner_thumb/reward_banner_thumb_311.jpg");
 }
 
-
+	a
 	.photoWriteBtn{
 		float:right; 
 	}
@@ -105,7 +105,7 @@
 	 	padding-bottom : 20px;
 	 	width : 400px;
 		box-sizing: border-box;
-		margin-bottom : 30px;
+		margin-bottom : 50px;
 	}
 	
 	.img-box{
@@ -132,6 +132,9 @@
 	}
 	.text-box{
 		margin-top: 15px;
+	}
+	.text-box>div:first-child{
+		height: 55px;
 	}
 	.text-box>div>span:nth-of-type(1){
 		font-size:19px;
@@ -254,7 +257,7 @@
 	</table>
 	-->
 	<!------------------------------------------------------------------------------------------>	
-	<div class="banner"></div>
+	<div class="banner" style="background-image: url('/resources/upload/funding/3311.jpg');"></div>
 
 
 
@@ -319,11 +322,12 @@
 							</c:otherwise>
 						</c:choose>
 						>
+						
 						<button class="btn bc11" id="searchBtn"><span class="material-symbols-outlined" >search</span></button>
 				</div>
 						<c:forEach items="${list }" var="fjf">
-							<a href="/fundingDetailStory.kh?fundingNo=${fjf.fundingNo }">
-								<div class="funding-simple-detail">
+							<div class="funding-simple-detail">
+									<a href="/fundingDetailStory.kh?fundingNo=${fjf.fundingNo }">
 									<div class="img-box">								
 										<img src="/resources/upload/funding/${fjf.fundingFilePath}">
 									</div>
@@ -338,12 +342,12 @@
 												<div class="bar-back"><div class="bar" style="width: ${fjf.fundingSumRate}%;"></div></div>
 											</c:otherwise>
 										</c:choose>		
-										<div><span>${fjf.fundingSumRate}%</span><span>${fjf.fundingCurrentSum}원</span></div>	
+										<div><span>${fjf.fundingSumRate}%</span><span><span id="price-comma1">${fjf.fundingCurrentSum}</span>원</span></div>	
 										<div><span>종료 ${fjf.fundingDeadline}일 남음</span><c:if test="${fjf.fundingDeadline lt 1}"><span class="badge-pink badge-pinkk">오늘마감</span></c:if></div>
 										<!--<div><a href="/fundingUpdateFrm.kh?fundingNo=${fjf.fundingNo }&&memberNo=${fjf.memberNo }">수정하기Test</a></div>-->						
 									</div>
+								</a>
 								</div>
-							</a>
 						</c:forEach>
 					</div> 
 					
@@ -363,9 +367,11 @@
 				//location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory="+${categoryParameter}+"";
 				  location.href = "/fundingList.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
 			}
-			
-
+			let priceComma1 = $("#price-comma1").text();
+			const cn1 = priceComma1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+			$("#price-comma1").text(cn1);
 		});
+	
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

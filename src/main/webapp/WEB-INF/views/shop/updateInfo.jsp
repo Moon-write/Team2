@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>마이페이지</title>
 <script src="https://www.w3schools.com/lib/w3.js"></script>
 <style>
 .shop-content{

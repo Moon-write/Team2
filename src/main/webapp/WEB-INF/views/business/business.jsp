@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>사업자 페이지</title>
 <style>
 .menu {
 	margin-top:30px;
