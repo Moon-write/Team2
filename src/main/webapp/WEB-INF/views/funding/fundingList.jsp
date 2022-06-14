@@ -320,8 +320,11 @@
 					<select id="select-inquire" name="selectedInquire" class="input-form">
 						<option value="1" <c:if test='${selectedInquire eq 1}'>selected="selected"</c:if>>최근등록순</option>
 						<option value="2" <c:if test='${selectedInquire eq 2}'>selected="selected"</c:if>>마감임박순</option>
-						<option value="3" <c:if test='${selectedInquire eq 3}'>selected="selected"</c:if>>좋아요순</option>
-						<option value="4" <c:if test='${selectedInquire eq 4}'>selected="selected"</c:if>>조회수순</option>
+						<!--
+							<option value="3" <c:if test='${selectedInquire eq 3}'>selected="selected"</c:if>>좋아요순</option>
+							<option value="4" <c:if test='${selectedInquire eq 4}'>selected="selected"</c:if>>조회수순</option>
+
+						-->
 					</select>
 					<input type="text" id="listSearch" name="searchKeyword" class="input-form"
 						<c:choose>
@@ -369,9 +372,9 @@
 				keywordLink();
 				//alert("${categoryParameter}");
 			});
-			/* $("button#searchBtn").on("click",function(){
-				keywordLink();
-			})  */
+			 $("button#searchBtn").on("click",function(){
+				alert("서비스 준비중입니다.")
+			})  
 			
 			function keywordLink(){
 				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";

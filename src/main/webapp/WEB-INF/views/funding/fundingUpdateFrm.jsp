@@ -260,12 +260,12 @@ table{
 	                        <th>펀딩 프로젝트명</th><td colspan="2"><input type="text" class="input-form" name="fundingName" type="text" value="${f.fundingName }"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text" name="bizName" value="${f.bizName}"></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text" name="bizName" value="${f.bizName}" readonly></td>
 	                    </tr>
 	                    <tr>
 	                        <th>카테고리</th>
 	                        <td><select class="input-form" name="fundingCategory">
-	                            <option value="카테고리선택" <c:if test="${f.fundingCategory eq '카테고리선택' }">selected </c:if>>카테고리 선택</option>
+	                            <option value="none" <c:if test="${f.fundingCategory eq '카테고리선택' }">selected </c:if>>카테고리 선택</option>
 	                            <option value="테크가전" <c:if test="${f.fundingCategory eq '테크가전' }">selected </c:if>>테크가전</option>
 	                            <option value="식품" <c:if test="${f.fundingCategory eq '식품' }">selected </c:if>>식품</option>
 	                            <option value="패션잡화" <c:if test="${f.fundingCategory eq '패션잡화' }">selected </c:if>>패션잡화</option>
@@ -337,7 +337,7 @@ table{
 	            <div class="funding-end-table">
 	                <table>
 	                    <tr>
-	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" value="${f.fundingEndDate }"></td>
+	                        <th>펀딩 종료일</th><td><input id="datetimepicker" type="text" class="input-form" name="fundingEndDate" value="${f.fundingEndDate }" readonly></td>
 	                    </tr>
 	                    <tr><td><br></td></tr>
 	                    <tr>
@@ -548,6 +548,56 @@ table{
 				$(".file-path-name").eq(i).text(bornToBeName);
 			}
 		}
+
+		//유효성검사
+		$("form").on("submit",function(){
+					if(!check()){
+						event.preventDefault();
+						return false;
+					}else{
+						return true;
+					}
+				})
+		function check(){
+				  let regExp = /^[0-9]+$/;
+				  const category = $("select[name=fundingCategory]");
+					
+				  if( $("input[name=fundingName]").val()!=""){
+					  if(category.val()!="none"){
+						  			if($("#preview").children().length!=0||$("#previeww").children().length!=0){
+						  				if($("#datetimepicker").val()!=""){
+						  					
+						  					if($("input[name=fundingSum]").val()!=""&&regExp.test($("input[name=fundingSum]").val())){
+						  						return true;
+						  					}else{
+						  						alert("숫자를 입력해주세요!");
+						  						return false;
+						  					}
+						  				}else{
+						  					alert("마감날짜를 선택해주세요!");
+						  					return false;
+						  				}
+						  			}else{
+						  				alert("사진을 올려주세요!");
+						  				return false;
+						  			}
+							
+					  	}else{
+							alert("'카테고리'를 선택해 주세요!");
+							return false;
+						}		
+					}else{
+			  			alert("'펀딩 프로젝트명'을 입력해 주세요!");
+						return false;
+			  		}
+					/*
+					  if($("input[name=fundingOptionList]").val()!=""){
+									return true;
+							  }else{
+								alert("펀딩합계 입력해주세요")
+								return false;
+							  }*/
+			  }//check
 
 
 

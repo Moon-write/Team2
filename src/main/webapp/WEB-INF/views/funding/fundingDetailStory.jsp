@@ -304,9 +304,9 @@
         <div class="link">
             <ul>
                 <a href="/fundingDetailStory.kh?fundingNo=${f.fundingNo }"><li>스토리</li></a>
-                <a href="/fundingDetailCommunity.kh?fundingNo=${f.fundingNo }"><li>커뮤니티</li></a>
-                <a href="/fundingDetailNotice.kh?fundingNo=${f.fundingNo }"><li>새소식</li></a>
                 <a href="/fundingDetailSupporter.kh?fundingNo=${f.fundingNo }"><li>서포터</li></a>
+                <a href=""><li>커뮤니티</li></a>
+                <a href=""><li>새소식</li></a>
             </ul>
         </div>
     </div>
@@ -346,7 +346,15 @@
                     <div class="supporter-num"><span>${f.orderCount}</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
-                    	<input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">          
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.m}">
+                                <input type="submit" class="btn bc1 funding-btn" id="funding-btn" value="펀딩하기">          
+                            </c:when>
+                            <c:when test="${empty sessionScope.m}">
+                                <input type="submit" class="btn bc1 funding-btn" id="funding-btn" value="로그인해주세요"> 
+                            </c:when>
+                        </c:choose>
+
                     </form>      	
                 	</div>
                     
@@ -408,6 +416,11 @@
 
     <%@include file="/WEB-INF/views/common/footer.jsp" %>
     <script>
+        /*
+        function login(){
+			location.href = "/loginFrm.kh";
+		}
+        */
         $(function(){
 
             let fundingEndDateString= $("#funding-end-date").text();
@@ -560,9 +573,7 @@
 				return true;
 			}
 		}
-        function login(){
-			location.href = "/loginFrmF.kh";
-		}
+        
         $(function () {
         	const modalContent=$(".modal-content");
         	const fundingNo=$("#fundingNo").val();
@@ -573,6 +584,13 @@
 			    $(this).parents(".modal-wrap").parent().css("display", "none");
 			  });  
 			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
+            
+              $(".link").children().children().eq(2).on("click" ,function(){
+                alert("서비스 준비중입니다.");
+                });
+               $(".link").children().children().eq(3).on("click" ,function(){
+                  alert("서비스 준비중입니다.");
+               });
 		});
 </script>
     <style>

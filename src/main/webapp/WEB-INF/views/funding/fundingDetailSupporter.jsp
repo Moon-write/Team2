@@ -90,7 +90,7 @@
     color: #4a4a4a;
     
 }
-.link>ul>a:nth-of-type(4)>li{
+.link>ul>a:nth-of-type(2)>li{
     border-bottom: 5px solid rgb(30,144,255);
 
 }
@@ -368,9 +368,9 @@ strong{
         <div class="link">
             <ul>
                 <a href="/fundingDetailStory.kh?fundingNo=${f.fundingNo }"><li>스토리</li></a>
-                <a href="/fundingDetailCommunity.kh?fundingNo=${f.fundingNo }"><li>커뮤니티</li></a>
-                <a href="/fundingDetailNotice.kh?fundingNo=${f.fundingNo }"><li>새소식</li></a>
                 <a href="/fundingDetailSupporter.kh?fundingNo=${f.fundingNo }"><li>서포터</li></a>
+                <a href=""><li>커뮤니티</li></a>
+                <a href=""><li>새소식</li></a>
             </ul>
         </div>
     </div>
@@ -631,6 +631,12 @@ strong{
                 const cn2 = priceComma2.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
                 $("#price-comma2").text(cn2);
 			}
+            $(".link").children().children().eq(2).on("click" ,function(){
+                alert("서비스 준비중입니다.");
+            });
+            $(".link").children().children().eq(3).on("click" ,function(){
+                alert("서비스 준비중입니다.");
+            });
         })
 </script>
     <style>
