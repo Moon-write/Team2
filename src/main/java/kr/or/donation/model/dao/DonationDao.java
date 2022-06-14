@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.vo.Donation;
@@ -105,6 +106,21 @@ public class DonationDao {
 	public int selectOneDonationOrder() {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("donation.selectOneDonationOrder");
+	}
+
+	public int insertComment(Comment donationCommentReal) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("donation.insertComment",donationCommentReal);
+	}
+
+	public int donationCommentDeleteReal(Comment donationComment) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("donation.donationCommentDeleteReal",donationComment);
+	}
+
+	public int donationMaxCommentNumber() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.donationMaxCommentNumber");
 	}
 
 

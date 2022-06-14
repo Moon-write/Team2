@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.dao.DonationDao;
@@ -100,5 +101,20 @@ public class DonationService {
 	public int selectOneDonationOrder() {
 		// TODO Auto-generated method stub
 		return dao.selectOneDonationOrder();
+	}
+
+	public int insertComment(Comment donationCommentReal) {
+		// TODO Auto-generated method stub
+		return dao.insertComment(donationCommentReal);
+	}
+
+	public int donationCommentDeleteReal(Comment donationComment) {
+		// TODO Auto-generated method stub
+		return dao.donationCommentDeleteReal(donationComment);
+	}
+
+	public int donationMaxCommentNumber() {
+		// TODO Auto-generated method stub
+		return dao.donationMaxCommentNumber();
 	}
 }

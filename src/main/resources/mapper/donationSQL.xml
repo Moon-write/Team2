@@ -8,6 +8,14 @@
   		SYSDATE, TO_DATE(#{donationEnddate}, 'YYYY-MM-DD'),2
   	)
   </insert>
+  <insert id="insertComment" parameterType="c">
+  	insert into comment_tbl values(
+  		COMMENT_SEQ.NEXTVAL, 2, #{projectNo}, #{memberNo}, #{commentContent}, TO_CHAR(SYSDATE, 'YYYY-MM-DD HH24:MI:SS'),#{commentRef} 
+  	)
+  </insert>
+  <select id="donationMaxCommentNumber" resultType="int">
+  	select max(donation_comment_no) from donationcomment
+  </select>
   <select id="">
 	select
 	    trunc(#{donationEnddate},'day')-trunc(sysdate,'day')
@@ -134,7 +142,9 @@
   <delete id="donationCommentDelete" parameterType="dc">
   	delete from donationcomment where donation_comment_no = ${donationCommentNo}
   </delete>
-  
+	<delete id="donationCommentDeleteReal" parameterType="c">
+		delete from comment_tbl where comment_ref = ${commentRef}
+	</delete>
   <select id="selectCashListPriceSum" resultType="int">
   	select 
   		sum(order_price) 
