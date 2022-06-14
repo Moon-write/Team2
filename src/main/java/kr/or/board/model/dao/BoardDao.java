@@ -49,7 +49,7 @@ import kr.or.common.model.vo.Qna;
 			return totalCount;
 		}
 		public int selectQnaCount(HashMap<String, Object> qnaMap) {
-			int totalCount = sqlSession.selectOne("board.selectQnaCount",qnaMap);
+			int totalCount = sqlSession.selectOne("board.selectQnaRealCount",qnaMap);
 			return totalCount;
 		}
 		public Order selectOneOrder(int orderNo) {

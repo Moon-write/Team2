@@ -99,61 +99,62 @@
 #tr-01>*{
 	padding: 1.0rem;
 }
-#my_book_list_tbl tr>th:nth-child(1){
+#my_book_list_tbl_head tr>th:nth-child(1){
 	width: 4%;
 }
-#my_book_list_tbl tr>td:nth-child(1){
+#my_book_list_tbl_body tr>td:nth-child(1){
 	width: 4%;
 }
-#my_book_list_tbl tr>th:nth-child(2){
+#my_book_list_tbl_head tr>th:nth-child(2){
 	width: 8%;
 }
-#my_book_list_tbl tr>td:nth-child(2){
+#my_book_list_tbl_body tr>td:nth-child(2){
 	width: 8%;
 	word-break: break-all
 }
-#my_book_list_tbl tr>th:nth-child(3){
+#my_book_list_tbl_head tr>th:nth-child(3){
 	width: 5%;
 }
-#my_book_list_tbl tr>td:nth-child(3){
+#my_book_list_tbl_body tr>td:nth-child(3){
 	width: 5%;
 }
-#my_book_list_tbl tr>th:nth-child(4){
+#my_book_list_tbl_head tr>th:nth-child(4){
 	width: 6%;
 }
-#my_book_list_tbl tr>td:nth-child(4){
+#my_book_list_tbl_body tr>td:nth-child(4){
 	width: 6%;
 }
-#my_book_list_tbl tr>th:nth-child(5){
+#my_book_list_tbl_head tr>th:nth-child(5){
 	width: 13%;
 }
-#my_book_list_tbl tr>td:nth-child(5){
+#my_book_list_tbl_body tr>td:nth-child(5){
 	width: 13%;
 }
-#my_book_list_tbl tr>th:nth-child(6){
+#my_book_list_tbl_head tr>th:nth-child(6){
 	width: 4%;
 }
-#my_book_list_tbl tr>td:nth-child(6){
+#my_book_list_tbl_body tr>td:nth-child(6){
 	width: 4%;
 }
-#my_book_list_tbl tr>th:nth-child(7){
+#my_book_list_tbl_head tr>th:nth-child(7){
 	width: 6%;
 }
-#my_book_list_tbl tr>td:nth-child(7){
+#my_book_list_tbl_body tr>td:nth-child(7){
 	width: 6%;
 }
-#my_book_list_tbl tr>th:nth-child(8){
+#my_book_list_tbl_head tr>th:nth-child(8){
 	width: 9%;
 }
-#my_book_list_tbl tr>td:nth-child(8){
+#my_book_list_tbl_body tr>td:nth-child(8){
 	width: 9%;
 }
-#my_book_list_tbl tr>th:nth-child(9){
+#my_book_list_tbl_head tr>th:nth-child(9){
 	width: 3%;
 }
-#my_book_list_tbl tr>td:nth-child(9){
+#my_book_list_tbl_body tr>td:nth-child(9){
 	width: 3%;
 }
+
 form{
 	margin-top: 20px; 
 	margin-bottom: 20px; 
@@ -166,6 +167,9 @@ table{
 }
 #searchBtn{
 	padding: 0 10px; 
+}
+.b{ 
+	display: none; height: 100px; background-color: #bbdefb; 
 }
 </style>
 </head>
@@ -182,22 +186,22 @@ table{
 					</form>
 				</div>
 					<!-- 헤더 테이블 -->
-					<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
+					<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl_head">
 						<tr class="tr-3">
-							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소<th>적립금</th><th>등급</th><th>삭제가능여부<th>삭제</th>
+							<th>번호</th><th>아이디</th><th>이름</th><th>핸드폰번호</th><th>주소</th><th>적립금</th><th>등급</th><th>삭제가능여부</th><th>삭제</th>
 						</tr>
 					</table>
 					<!-- 본문 테이블 -->	
 					<c:choose>
 						<c:when test="${not empty memberList}">
 							<c:forEach items="${memberList }" var="m" varStatus="i">
-								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl">
+								<table class="tbl tbl-hover my_book_tbl" id="my_book_list_tbl_body">
 									<tr class="tr-00" id="tr-01">
 										<td id="memberNo">${m.memberNo }</td>
 										<td id="memberId">${m.memberId }</td>
 										<td>${m.memberName }</td>
 										<td>${m.memberPhone }</td>
-										<td>(${m.memberPostcode })${m.memberAddr1 }&nbsp;${m.memberAddr2 }</td>
+										<td>(${m.memberPostcode })&nbsp;${m.memberAddr1 }&nbsp;${m.memberAddr2 }</td>
 										<td>${m.memberPoint }</td>
 										<c:choose>
 											<c:when test="${m.memberLevel eq 2}"><td>일반</td></c:when>
@@ -205,9 +209,7 @@ table{
 											<c:when test="${m.memberLevel eq 0}"><td>관리자</td></c:when>
 										</c:choose>
 										<td>
-											<button class="btn bc2 searchBtn" id="delOkBtn" style="padding: 0 10px;">
-											탈퇴가능
-											</button>
+											<button class="btn bc2 searchBtn" id="delOkBtn" style="padding: 0 10px;">삭제가능</button>
 										</td>
 										<td><input type="checkbox" id="delMemberChk"></td>
 									</tr>
@@ -225,51 +227,69 @@ table{
 	</div><!-- page-content -->
 
 	<script>
-$(function(){
-	$(".searchBtn").on("click",function(){
-		const keyword = $("#keyword").val();
-		if(keyword == null){
-			alert("검색어를 입력하세요.");
-			return;
-		}else{
-			location.href="/searchMemberList.kh?keyword="+keyword+"&reqPage=1";
-		}
-	});
-	$(".delBtn").on("click",function(){
-		const chk = $("#delMemberChk:checked");
-		if(chk.length == 0){
-			alert("선택된 회원이 없습니다.");
-			return;
-		}
-		if(confirm("정말 삭제하시겠습니까?")){
-			const memberIdArr = new Array();
-			chk.each(function(index,item){
-				memberIdArr.push($(item).parent().siblings("#memberId").text());
-			});
-			location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
-		}
-	});
-	/*
 	$(function(){
-		const delOk = $("#delOkBtn");
-		const memNo = delOk.parent().siblings("#memberNo").text();
-		console.log("memberNo : "+memNo);
-		$.ajax({
-			url : "/delCount.kh",
-			data : {memberNo : memNo},
-			type : "post",
-			success : function(data){
-				if(data == "-1"){
-					delOk.append("탈퇴불가");
-				}else{
-					delOk.append("탈퇴가능");
-				}
+		$(".searchBtn").on("click",function(){
+			const keyword = $("#keyword").val();
+			if(keyword == null){
+				alert("검색어를 입력하세요.");
+				return;
+			}else{
+				location.href="/searchMemberList.kh?keyword="+keyword+"&reqPage=1";
 			}
-		});//ajax끝
-	});
+		});
+		$(".delBtn").on("click",function(){
+			const chk = $("#delMemberChk:checked");
+			if(chk.length == 0){
+				alert("선택된 회원이 없습니다.");
+				return;
+			}
+			if(confirm("정말 삭제하시겠습니까?")){
+				const memberIdArr = new Array();
+				chk.each(function(index,item){
+					memberIdArr.push($(item).parent().siblings("#memberId").text());
+				});
+				location.href="/deleteMemberList.kh?memberIdArr="+memberIdArr.join("/");
+			}
+		});
+	});	
+	/*
+	//좋아요 / 리뷰 / qna / 누적주문금액 표기
+	$(function(){
+		$("#detailBtn").on("click", function(){
+			const detail = $("#detailBtn");
+			const b = $(".b");
+			const memberNo = $(this).parent().parent().children().first().text();
+			const memberNo2 = $(this).parent().parent().children().first().text();
+			const memberId = $(this).text();
+			console.log("memberNo : "+memberNo);
+			console.log("memberNo2 : "+memberNo);
+			console.log("memberId : "+memberId);
+			$.ajax({
+				url : "/adminCount.kh",
+				data : {memberNo : memberNo, memberId : memberId},
+				type : "post",
+				success : function(data){
+					const table = $("#my_book_list_tbl_body");
+					const div = $("<div>").addClass("b");
+					const tr = $("<tr>").addClass("tr-00").attr("id","tr-01");
+					const td = $("<td>");
+						//멤버데이터 ajax에서 읽어올떄마다 테이블 열 생성해서 데이터 넣는것
+						tr.append(div);
+						tr.append("<td>좋아요 갯수 : "+data[0]+"</td>");
+						tr.append("<td>댓글 갯수 : "+data[1]+"</td>");
+						tr.append("<td>Q&A 갯수 : "+data[2]+"</td>");
+						tr.append("<td>주문 갯수 : "+data[3]+"</td>");
+						console.log(data[0]);
+						console.log(data[1]);
+						console.log(data[2]);
+						console.log(data[3]);
+						table.append(tr);
+				}
+			});//ajax끝
+		$(".b").toggle(5*1000);
+		});
+	});		
 	*/
-});	
-	
 	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"  %>
 </body>

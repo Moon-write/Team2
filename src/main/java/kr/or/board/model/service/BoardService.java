@@ -363,5 +363,37 @@ public class BoardService {
 		
 		return dao.selectProjectList(memberNo);
 	}
+
+	public int selectLikeCount(int memberNo) {
+		String boardName = "like_tbl";
+		HashMap<String, Object> likeMap = new HashMap<String, Object>();
+		likeMap.put("boardName",boardName);
+		likeMap.put("memberNo", memberNo);
+		return dao.selectLikeCount(likeMap);
+	}
+	
+	public int selectCommentCount(int memberNo) {
+		String boardName = "comment_tbl";
+		HashMap<String, Object> commentMap = new HashMap<String, Object>();
+		commentMap.put("boardName",boardName);
+		commentMap.put("memberNo", memberNo);
+		return dao.selectCommentCount(commentMap);
+	}
+	
+	public int selectQnaCount(String memberId) {
+		String boardName = "qna";
+		HashMap<String, Object> qnaMap = new HashMap<String, Object>();
+		qnaMap.put("boardName",boardName);
+		qnaMap.put("memberId", memberId);
+		return dao.selectQnaCount(qnaMap);
+	}
+	
+	public int selectOrderCount(int memberNo) {
+		String boardName = "order_tbl";
+		HashMap<String, Object> orderMap = new HashMap<String, Object>();
+		orderMap.put("boardName",boardName);
+		orderMap.put("memberNo", memberNo);
+		return dao.selectOrderCount(orderMap);
+	}
 	
 }

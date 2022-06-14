@@ -115,4 +115,24 @@ public class BoardController {
 		ArrayList<String> list=service.getQnaList(reqPage, divNo, projectNo);
 		return new Gson().toJson(list);
 	}
+	@ResponseBody
+	@RequestMapping(value="/adminCount.kh",produces="application/json;charset=utf-8")
+	public String adminCount(int memberNo, String memberId, Model model) {
+		int likeCount = service.selectLikeCount(memberNo);
+		int commentCount = service.selectCommentCount(memberNo);
+		int qnaCount = service.selectQnaCount(memberId);
+		int orderCount = service.selectOrderCount(memberNo);
+		System.out.println("memberNo : "+memberNo);
+		System.out.println("memberId : "+memberId);
+		System.out.println("likeCount : "+likeCount);
+		System.out.println("commentCount : "+commentCount);
+		System.out.println("qnaCount : "+qnaCount);
+		System.out.println("orderCount : "+orderCount);
+		ArrayList<Integer> data = new ArrayList<Integer>();
+		data.add(likeCount);
+		data.add(commentCount);
+		data.add(qnaCount);
+		data.add(orderCount);
+		return new Gson().toJson(data);
+	}
 }

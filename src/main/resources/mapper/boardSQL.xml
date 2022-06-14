@@ -146,6 +146,10 @@
   	<select id="selectOrderCount" parameterType="map" resultType="int">
   		select count(*) from order_tbl where member_no=#{memberNo}
   	</select>
+  	<select id="selectQnaRealCount" parameterType="map" resultType="int">
+		select count(*) from qna where member_id=#{memberId}
+	</select>
+  	
   	<select id="selectQnaCount" parameterType="map" resultType="int">
 		select count(*) from 
 			<if test="boardName.equals('qna_tbl')"> 
