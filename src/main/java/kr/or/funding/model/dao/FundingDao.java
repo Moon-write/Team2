@@ -175,6 +175,18 @@ public class FundingDao {
 		return (ArrayList<FundingBoard>)list;
 	}
 
+	//카테고리 리스트 불러오기
+	public ArrayList<FundingJoinFile> selectFundingListCategory(HashMap<String, Object> map) {
+		List list = sqlSession.selectList("funding.selectFundingListCategory",map);
+		return (ArrayList<FundingJoinFile>)list;
+	}
+
+	public FundingBoard selectOneFundingBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("funding.selectOneFundingBoard",boardNo);
+	}
+
+
 	
 
 }

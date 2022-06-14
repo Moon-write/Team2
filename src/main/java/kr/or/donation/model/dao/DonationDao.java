@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.vo.Donation;
 import kr.or.donation.model.vo.DonationComment;
 import kr.or.member.model.vo.Member;
@@ -94,6 +95,16 @@ public class DonationDao {
 	public int insertDonationOrder(Order donationOrder) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("donation.insertDonationOrder",donationOrder);
+	}
+
+	public int insertDonationOrderProduct(OrderProduct donationOrderProduct) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("donation.insertDonationOrderProduct",donationOrderProduct);
+	}
+
+	public int selectOneDonationOrder() {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("donation.selectOneDonationOrder");
 	}
 
 

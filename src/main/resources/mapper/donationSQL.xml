@@ -20,8 +20,13 @@
   </insert>
   <insert id="insertDonationOrder" parameterType="o">
   	insert into order_tbl values(
-  		ORDER_SEQ.NEXTVAL, 2, #{projectNo}, #{memberNo}, #{sellerNo}, SYSDATE, #{orderPrice}, 0,'','','','','','',1,#{projectName}
+  		ORDER_SEQ.NEXTVAL, 2, #{projectNo}, #{memberNo}, #{sellerNo}, SYSDATE, #{orderPrice}, 0,#{orderDelName},#{orderDelPost},#{orderDelAddr1},#{orderDelAddr2},#{orderDelPhone},#{orderDelAsk},1,#{projectName}
   	)
+  </insert>
+  <insert id="insertDonationOrderProduct" parameterType="op">
+  	insert into order_product values(
+  		PRODUCT_SEQ.NEXTVAL,#{orderNo},#{optionNo},#{productPrice},#{productAmount}
+  		)
   </insert>
   <update id="updateDonation" parameterType="d">
   	update donation
@@ -49,7 +54,9 @@
   	from donation
   	ORDER BY DONATION_STARTDATE DESC
   </select>
-  
+  <select id="selectOneDonationOrder" resultType="int">
+  	select max(order_No) from order_tbl where div_no=2
+  </select>
   <select id="selectDonationCommentList" resultType="dc" parameterType="int">
   	select
   		DONATION_COMMENT_NO as donationCommentNo,

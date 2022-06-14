@@ -64,13 +64,12 @@ public class FundingService {
 		return (ArrayList<FundingJoinFile>)list;
 	}
 
-	public ArrayList<FundingJoinFile> fundingListTeck(int selectedInquire) {
+	public ArrayList<FundingJoinFile> selectFundingListCategory(int selectedInquire,Funding f) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("selectedInquire", selectedInquire);
-		//if(selectedInquire==1||selectedInquire==2) {
-			ArrayList<FundingJoinFile> list  = dao.selectListTeck(map);		
+		map.put("fundingCategory",f.getFundingCategory());
+		ArrayList<FundingJoinFile> list  = dao.selectFundingListCategory(map);		
 
-		//}
 		return (ArrayList<FundingJoinFile>)list;
 	}
 
@@ -247,6 +246,13 @@ public class FundingService {
 		// TODO Auto-generated method stub
 		return dao.selectFundingBoard(fundingNo);
 	}
+
+	public FundingBoard selectOneFundingBoard(int boardNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOneFundingBoard(boardNo);
+	}
+
+
 
 
 	 /*

@@ -47,10 +47,7 @@ public class FundingController {
 		return "funding/fundingInsertFrm";
 	}
 
-	@RequestMapping(value = "/fundingList.kh")
-	public String FundingList() {
-		return "funding/fundingList";
-	}
+	
 	@RequestMapping(value = "/test.kh")
 	public String test(MultipartFile[] upfile) {
 		System.out.println("파일길이 :"+upfile.length);
@@ -242,17 +239,20 @@ public class FundingController {
 		model.addAttribute("selectedInquire", selectedInquire);
 		return "funding/fundingAllList";		
 	}
-	@RequestMapping(value="/fundingListTech.kh")
+	@RequestMapping(value="/fundingList.kh")
 	public String FundingAllList(Model model,int selectedInquire,Funding f) {
 		System.out.println(f.getFundingCategory());
-		/*
-		ArrayList<FundingJoinFile> list = service.fundingListTeck(selectedInquire);
+		System.out.println(selectedInquire);
+		
+		ArrayList<FundingJoinFile> list = service.selectFundingListCategory(selectedInquire,f);
 		model.addAttribute("list",list);
 		model.addAttribute("selectedInquire", selectedInquire);
-		*/
-		return "funding/fundingAllList";		
+		model.addAttribute("categoryParameter",f.getFundingCategory());
+		return "funding/fundingList";		
 	}
-	///////////////////fundingDetail/////////
+	
+	
+	///////////////////fundingDetail////////////////////////////////////////////////////////////
 	@RequestMapping(value="/fundingDetailStory.kh")
 	public String FundingDetailStory(int fundingNo, Model model) { //int fundingNo대신 funding funding으로 받음
 		Funding f = service.selectOneFunding(fundingNo);
@@ -271,10 +271,16 @@ public class FundingController {
 	public String FundingDetailNotice(Funding funding, Model model) {
 		Funding f = service.selectOneFundingRight(funding.getFundingNo());
 		int fundingNo = f.getFundingNo();// 펀딩 번호입니다
-		ArrayList<FundingBoard> fb = service.selectFundingBoard(fundingNo); //게시판불러오기
+		ArrayList<FundingBoard> fb = service.selectFundingBoard(fundingNo); //게시판불러오기(임재형)
 		model.addAttribute("f",f);
 		model.addAttribute("fb",fb); //펀딩 디테일에 들어가는 테이블입니다.
 		return "funding/fundingDetailNotice";
+	}
+	@RequestMapping(value="/fundingBoardDetail.kh") //게시판 상세페이지 추가로직(임재형)
+	public String fundingBoardDetail(int boardNo,Model model) {
+		FundingBoard fb = service.selectOneFundingBoard(boardNo);
+		model.addAttribute("fb",fb);
+		return "funding/fundingBoardDetail";
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
 	public String FundingDetailSupporter(Funding funding, Model model) {

@@ -289,7 +289,7 @@
 		                <c:forEach items="${fb }" var="b">
 			                <tr>
 			                	<td>${b.boardNo }</td>
-			                	<td>${b.boardTitle }</td>
+			                	<td><a href="/fundingBoardDetail.kh?boardNo=${b.boardNo }" style="color: black;">${b.boardTitle }</a></td>
 			                	<td>${b.boardStartdate }</td>
 			                </tr>
 		                </c:forEach>

@@ -258,31 +258,31 @@
 
 	<div class="page-content">
 		<div class="funding-category">
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=테크가전">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=테크가전">
 			<div class="sq">
 				<div class="tech"></div>
 				<div><h3>테크·가전</h3></div>
 			</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=패션잡화">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=패션잡화">
 				<div class="sq">
 					<div class="fashion"></div>
 					<div><h3>패션·잡화</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=홈리빙">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=홈리빙">
 				<div class="sq">
 					<div class="home"></div>
 					<div><h3>홈·리빙</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=식품">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=식품">
 				<div class="sq">
 					<div class="food"></div>
 					<div><h3>식품</h3></div>
 				</div>
 			</a>
-			<a href="/fundingListTech.kh?selectedInquire=1&fundingCategory=뷰티">
+			<a href="/fundingList.kh?selectedInquire=1&fundingCategory=뷰티">
 				<div class="sq">
 					<div class="beauty"></div>
 					<div><h3>뷰티</h3></div>
@@ -290,7 +290,15 @@
 			</a>
 		</div>
 			<div class="funding-simple">
-				<h2>진행중인 펀딩</h2>
+			<c:choose>
+				<c:when test="${categoryParameter eq'테크가전'}"><h2>테크·가전</h2></c:when>
+				<c:when test="${categoryParameter eq'패션잡화'}"><h2>패션·잡화</h2></c:when>
+				<c:when test="${categoryParameter eq'홈리빙'}"><h2>홈·리빙</h2></c:when>
+				<c:when test="${categoryParameter eq'식품'}"><h2>식품</h2></c:when>
+				<c:when test="${categoryParameter eq'뷰티'}"><h2>뷰티</h2></c:when>
+				<c:otherwise><h2>진행중인 펀딩</h2></c:otherwise>
+			</c:choose>
+				
 				<br>
 				<div class=selected-search>
 					<select id="select-inquire" name="selectedInquire" class="input-form">
@@ -342,6 +350,7 @@
 		$(function(){
 			$("select#select-inquire").on("change",function(){
 				keywordLink();
+				//alert("${categoryParameter}");
 			});
 			/* $("button#searchBtn").on("click",function(){
 				keywordLink();
@@ -349,14 +358,11 @@
 			
 			function keywordLink(){
 				//location.href = "/fundingAllList.kh?searchKeyword="+$("input#listSearch").val()+"&&selectedInquire="+$("select#select-inquire").val()+"";
-				location.href = "/fundingAllList.kh?selectedInquire="+$("select#select-inquire").val()+"";
+				//location.href = "/fundingListTech.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory="+${categoryParameter}+"";
+				  location.href = "/fundingList.kh?selectedInquire="+$("select#select-inquire").val()+"&fundingCategory=${categoryParameter}";
 			}
 			
-			
-			let url = "테크가전";
 
-			encodeURI(encodeURIComponent(name));
-			
 		});
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp" %>

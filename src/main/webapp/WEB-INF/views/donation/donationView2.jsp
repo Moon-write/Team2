@@ -256,9 +256,9 @@ h5 {
 				<div style="width: 70%" class="donation-target">
 					<p> 총수량 <span id="resultView">1</span> </p>
 					<div>
-						<span class="material-icons plusMinus" onclick='count("plus")'>add_circle</span>
-						<span class="donation-count" id='result'>1</span>
 						<span class="material-icons plusMinus" onclick='count("minus")'>remove_circle</span>
+						<span class="donation-count" id="result">1</span>
+						<span class="material-icons plusMinus" onclick='count("plus")'>add_circle</span>
 					</div>
 				</div>
 				<div>

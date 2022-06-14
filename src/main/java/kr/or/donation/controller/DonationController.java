@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.or.common.model.vo.Order;
+import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.service.DonationService;
 import kr.or.donation.model.vo.Donation;
 import kr.or.donation.model.vo.DonationComment;
@@ -235,14 +236,30 @@ public class DonationController {
 
 	@RequestMapping(value="/donationPay.kh")
 	public String donationPay(Order donationOrder) {
-		System.out.println(donationOrder);
+		//System.out.println(donationOrder); 정상값출력 확인
+		OrderProduct donationOrderProduct = new OrderProduct();
+		
+
 		
 		int result = service.insertDonationOrder(donationOrder);
 		
-		if(result == 1) {
+		int orderNo = service.selectOneDonationOrder();
+		int optionNo = donationOrder.getProjectNo();
+		int ProductPrice = donationOrder.getOrderPrice();
+		
+		//값녛기
+		donationOrderProduct.setOrderNo(orderNo);
+		donationOrderProduct.setOptionNo(optionNo);
+		donationOrderProduct.setProductPrice(ProductPrice);
+		donationOrderProduct.setProductAmount(1);
+		
+		int result1 = service.insertDonationOrderProduct(donationOrderProduct);
+		
+		if(result == 1 && result1 == 1) {
 			request.setAttribute("title", "구매성공");
 			request.setAttribute("msg", "상품구매가 정상적으로 처리되었습니다.");
 			request.setAttribute("icon", "success");
+			
 		}else {
 			request.setAttribute("title", "구매실패");
 			request.setAttribute("msg", "싱픔구매에 실패하셨습니다.");

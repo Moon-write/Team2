@@ -194,6 +194,17 @@
 <select id="selectOrderMaxNo" resultType="int">
 		SELECT MAX(ORDER_NO) FROM ORDER_TBL
 </select>
+<select id="selectOneFundingBoard" parameterType="int" resultType="fb">
+	select
+  		board_no as boardNo,
+  		funding_no as fundingNo,
+  		member_no as memberNo,
+  		board_title as boardTitle,
+  		board_content as boardContent,
+  		board_startdate as boardStartdate
+  	from funding_board
+  	where board_no = #{boardNo}
+</select>
 <insert id="insertOrderProduct" parameterType="map">
 	INSERT INTO ORDER_PRODUCT VALUES(PRODUCT_SEQ.NEXTVAL,#{OrderMaxNo},#{optionNo},#{ProductPrice},#{productAmount})
 </insert>
@@ -207,4 +218,58 @@
 					   FUNDING_SUM_RATE = #{fundingSumRate} 
 	WHERE FUNDING_NO = #{fundingNo}
 </update>
+<select id="selectFundingListCategory" parameterType="map" resultType="fjf">
+	 SELECT * FROM (SELECT FUNDING.FUNDING_NO 			AS fundingNo,
+  	FUNDING_NAME 		AS fundingName,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	FUNDING_START_DATE	AS fundingStartDate,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	MEMBER_NO 			AS memberNo, 
+    FUNDING_FILE_PATH   AS fundingFilePath,
+    FUNDING_DEADLINE    AS fundingDeadline,
+    BIZ_NAME			AS bizName,
+    ROW_NUMBER() OVER(PARTITION BY FUNDING.FUNDING_NO ORDER BY FUNDING_FILE.FUNDING_FILE_NO) AS RN
+    FROM FUNDING JOIN FUNDING_FILE ON FUNDING.FUNDING_NO = FUNDING_FILE.FUNDING_NO) WHERE RN=1 AND FUNDINGDEADLINE >=0 
+    	<choose>
+    		<when test="fundingCategory.equals('테크가전') and selectedInquire==1">
+    			AND FUNDINGCATEGORY='테크가전' ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('테크가전') and selectedInquire==2">
+			 	AND FUNDINGCATEGORY='테크가전' AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+	  		<when test="fundingCategory.equals('패션잡화') and selectedInquire==1">
+    			AND FUNDINGCATEGORY='패션잡화' ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('패션잡화') and selectedInquire==2">
+			 	AND FUNDINGCATEGORY='패션잡화' AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+	  		<when test="fundingCategory.equals('홈리빙') and selectedInquire==1">
+    			AND FUNDINGCATEGORY='홈리빙' ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('홈리빙') and selectedInquire==2">
+			 	AND FUNDINGCATEGORY='홈리빙' AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+	  		<when test="fundingCategory.equals('식품') and selectedInquire==1">
+    			AND FUNDINGCATEGORY='식품' ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('식품') and selectedInquire==2">
+			 	AND FUNDINGCATEGORY='식품' AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+			<when test="fundingCategory.equals('뷰티') and selectedInquire==1">
+    			AND FUNDINGCATEGORY='뷰티' ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('뷰티') and selectedInquire==2">
+			 	AND FUNDINGCATEGORY='뷰티' AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+	  		<when test="fundingCategory.equals('') and selectedInquire==1">
+    			ORDER BY FUNDINGNO DESC
+	  		</when>
+	  		<when test="fundingCategory.equals('') and selectedInquire==2">
+			 	AND FUNDINGDEADLINE>=0 ORDER BY FUNDINGDEADLINE  			
+	  		</when>
+  		</choose>
+</select>
 </mapper>
