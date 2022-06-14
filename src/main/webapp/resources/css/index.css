@@ -98,8 +98,17 @@
 }
 .fundingProduct>div{
 	width:200px;
-	height:200px;
-	border: 1px solid black;
+	height:250px;
 	margin: 20px;
+	box-sizing: border-box;
+	background-color:red;
 }
-.
+.img-wrap{
+	width:200px;
+	height:200px;
+	background-color:pink;
+}
+.funding-span{
+	font-size:24px;
+	color :#191f28;
+}

@@ -257,7 +257,18 @@
 	</table>
 	-->
 	<!------------------------------------------------------------------------------------------>	
-	<div class="banner" style="background-image: url('/resources/upload/funding/3311.jpg');"></div>
+	<c:choose>
+		<c:when test="${categoryParameter eq'테크가전'}"><div class="banner" style="background-image: url('/resources/img/funding/techcategory.jpg');"></div></c:when>
+		<c:when test="${categoryParameter eq'패션잡화'}"><div class="banner" style="background-image: url('/resources/img/funding/fashioncategory.jpg');"></div></c:when>
+		<c:when test="${categoryParameter eq'홈리빙'}"><div class="banner" style="background-image: url('/resources/img/funding/homecategory.jpg');"></div></c:when>
+		<c:when test="${categoryParameter eq'식품'}"><div class="banner" style="background-image: url('/resources/img/funding/foodcategory.jpeg');"></div></c:when>
+		<c:when test="${categoryParameter eq'뷰티'}"><div class="banner" style="background-image: url('/resources/img/funding/beautycategory.jpg');"></div></c:when>
+		<c:otherwise><div class="banner" style="background-image: url('/resources/img/funding/3311.jpg');"></div></c:otherwise>
+	</c:choose>
+	
+	
+	
+	
 
 
 

@@ -13,11 +13,26 @@
 		<div class="page-content">
 			<div class="page-title">펀딩</div>
 				<div class="fundingProduct">
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
+					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
+						<div class="img-wrap"><img></div>
+						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					</div>
+					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
+						<div class="img-wrap"><img></div>
+						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					</div>
+					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
+						<div class="img-wrap"><img></div>
+						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					</div>
+					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
+						<div class="img-wrap"><img></div>
+						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					</div>
+					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
+						<div class="img-wrap"><img></div>
+						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					</div>
 				</div>
 			<div class="page-title">기부</div>
 				<div class="donation-main">
