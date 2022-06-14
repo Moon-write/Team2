@@ -28,4 +28,8 @@ public class Funding {
 	private int like;
 	// 좋아요갯수
 	private int totallike;
+	//멤버아이디 후원금액 가져오기
+	private String memberId;
+	private int orderPrice;
+	private int orderCount;
 }

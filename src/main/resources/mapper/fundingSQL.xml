@@ -272,4 +272,13 @@
 	  		</when>
   		</choose>
 </select>
+
+<select id="selectSurppoter" parameterType="int" resultType="o">
+	SELECT MEMBER_ID AS memberId,ORDER_PRICE AS orderPrice 
+	FROM ORDER_TBL INNER JOIN MEMBER ON ORDER_TBL.MEMBER_NO = MEMBER.MEMBER_NO 
+	WHERE PROJECT_NO = #{fundingNo} AND DIV_NO=1
+</select>
+<select id ="selectOrderCount" parameterType="int" resultType="int">
+	select count(*) FROM ORDER_TBL WHERE PROJECT_NO = #{fundingNo} AND DIV_NO=1
+</select>
 </mapper>

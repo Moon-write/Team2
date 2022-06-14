@@ -67,7 +67,12 @@
 		color: #686868;
 	}
 	.funding-Name-price{
-		margin: 0 auto;
+		margin: 60px auto;
+		font-size: 24px;
+		
+	}
+	.total-name-price{
+		color : rgba(30,144,255,0.8);
 	}
 	.submit-wrap{
 		margin: 0 auto;
@@ -144,7 +149,8 @@
 		margin-top: 5px;
 		color: rgb(30,144,255);
 	}
-	
+
+
 </style>
 </head>
 <body>
@@ -194,7 +200,7 @@
 			<div class="funding-content">
 				<div><span>${sfop.fundingOptionPrice}</span><span>원 입니다</span></div>
 				<div><span>옵션 : </span><span>${sfop.fundingOptionList}</span></div>
-				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 07월 중순(11~20)일 예정</span></div>
+				<div><span>배송비 무료 | 리워드 제공 예상일 : 2022년 펀딩종료일 이후 순차적 배송</span></div>
 				
 				<div class="addAmount">
 					<button class="amountB amount-decrease" type="button"><span class="material-symbols-rounded">remove</span></button>
@@ -211,7 +217,7 @@
 			</div>
 		</div>
 		</c:forEach>
-		<div class="funding-Name-price"><span>${f.fundingName } 에 </span><span class="total-price">0</span><span>원 펀딩합니다</span></div>
+		<div class="funding-Name-price"><span class="total-name-price">${f.fundingName } </span> 에 <span class="total-price total-name-price">0</span><span> 원 펀딩합니다.</span></div>
 		
 		<div class="submit-wrap">
 			<input type="submit" class="btn bc1 funding-btn"  value="다음 단계로 >">
@@ -470,7 +476,8 @@
 		}
 		.submit-wrap{
 			width: 220px;
-			height: 45px;
+			height: 60px;
+			margin-bottom: 40px;
 		}
 	[name=amountNum]{
 			width: 50px;

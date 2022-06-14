@@ -59,6 +59,50 @@
     div#productPrice{
         font-size: 0.9em;
     }
+    .select-buy-wrap{
+		background-color: red;
+		display: hidden;
+		margin-left:420px;
+		
+		
+	}
+	.dotted-circle{
+	background-color:rgb(30,144,255);
+	width:120px;
+	height:120px;
+	border-radius:60px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:120px;
+	color: white;
+	font-size: 20px;
+	float: left;
+	margin-bottom: 30px;
+	}
+	.dotted-line{
+		width: 120px;
+		height: 60px;
+		box-sizing: border-box;
+		border-bottom: 2px dotted #686868;
+		float: left;
+	}
+
+    .reward-select{
+	width:120px;
+	height:120px;
+	border: 2px dotted #686868;
+	border-radius:60px;
+	text-align:center;
+	margin:0 auto;
+	font-size:12px;
+	vertical-align:middle;
+	line-height:120px;
+	font-size: 20px;
+	float: left;
+	
+	}
 </style>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
@@ -103,6 +147,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <div class="select-buy-wrap">
+                        <div class="reward-select"><span>리워드 선택</span></div>
+                        <div class="dotted-line"></div>
+                        <div class="dotted-circle"><span>결제</span></div>
+                    </div>
                     <c:forEach items="${list}" var="pd" varStatus="i">
                         <c:if test="${pd.amountNum2 ne 0}">
                         <input type="hidden" id="projectNo" value="${pd.fundingNo}" name="projectNo">

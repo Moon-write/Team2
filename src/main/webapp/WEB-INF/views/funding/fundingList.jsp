@@ -219,6 +219,7 @@
 </head>
 <body>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
+<!--
 	<table border="1">
 		<tr>
 			<th>번호</th>
@@ -251,6 +252,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	-->
 	<!------------------------------------------------------------------------------------------>	
 	<div class="banner"></div>
 

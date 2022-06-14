@@ -311,7 +311,7 @@ table{
 				            				<div class="pre-imgg" style="display: inline-flex; padding: 10px;">
 				            				<span style="display:none;">${file.fundingFileNo }</span>
 				            					<div>
-				            						<span id="file-path-name">${file.fundingFilePath }</span>
+				            						<span class="file-path-name">${file.fundingFilePath }</span>
 				            						<br>
 				            						<img src="/resources/upload/funding/${file.fundingFilePath }" width="100" height="100">
 				            					</div>
@@ -341,7 +341,7 @@ table{
 	                    </tr>
 	                    <tr><td><br></td></tr>
 	                    <tr>
-	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="124567890"></td><td>원</td>
+	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="${f.fundingSum}"></td><td>원</td>
 	                    </tr>
 	                </table>
 	            </div>
@@ -535,15 +535,19 @@ table{
 </script>
 <script>
 	$(function(){
-		$('#file-path-name').each(function(){
-		var bornToBeName = $("#file-path-name").text();
-        console.log(bornToBeName);
-        if(bornToBeName.length > 10){
-        	bornToBeName = bornToBeName.substring(0,7)+"...";
-			$("#file-path-name").text(bornToBeName);
-    	}
+		console.log($(".file-path-name").length);
+		console.log($(".file-path-name").eq(1).text());
+		
+		for(let i = 0 ; i<$(".file-path-name").length ; i++){
+			let bornToBeName = $(".file-path-name").eq(i).text();
+			console.log($(".file-path-name").eq(i).text());
+			if(bornToBeName.length > 10){
+				bornToBeName = bornToBeName.substring(0,7)+"...";
+				$(".file-path-name").eq(i).text(bornToBeName);
+			}
+		}
 
-	});
+
 
 	});
 </script>

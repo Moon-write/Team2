@@ -186,6 +186,15 @@ public class FundingDao {
 		return sqlSession.selectOne("funding.selectOneFundingBoard",boardNo);
 	}
 
+	public ArrayList<Order> selectSurppoter(int fundingNo) {
+		List list = sqlSession.selectList("funding.selectSurppoter",fundingNo);
+		return (ArrayList<Order>)list;
+	}
+
+	public int selectOrderCount(int fundingNo) {
+		return sqlSession.selectOne("funding.selectOrderCount",fundingNo);
+	}
+
 
 	
 

@@ -252,6 +252,15 @@ public class FundingService {
 		return dao.selectOneFundingBoard(boardNo);
 	}
 
+	public ArrayList<Order> selectSupporter(int fundingNo) {
+		return (ArrayList<Order>)dao.selectSurppoter(fundingNo);
+	}
+
+	public int selectOrderCount(int fundingNo) {
+		// TODO Auto-generated method stub
+		return dao.selectOrderCount(fundingNo);
+	}
+
 
 
 

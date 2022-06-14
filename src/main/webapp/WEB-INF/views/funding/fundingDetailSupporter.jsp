@@ -6,7 +6,16 @@
 <head>
 <meta charset="UTF-8">
 <title>펀딩 디테일 페이지</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
+<script>
+    var seaho = $.noConflict(true); 
+  seaho(document).ready(function(){
+    seaho('.slider').bxSlider();
+  });
+</script>
 <style>
 .title{
     width: 100%;
@@ -64,6 +73,12 @@
     overflow: hidden;
     
 }
+/*
+.link>ul>a{
+    text-decoration: none;
+    color: #191F28;
+}
+*/
 .link>ul>a>li{
     display: block;
     float: left;
@@ -88,23 +103,22 @@
 }
 .left-box{
     width: 65%;
-    background-color: aquamarine;
-
-    height: 1000px;/*나중에 지우세요*/
+    background-color: aqua;
     float: left;
+    height: 800px;
     
 }
 
 .right-box{
     width: 30%;
-    height: 1000px; /*나중에 지워주기*/
+
 
     float: right;
     padding: 0 20px;
 }
 .funding{
     width: 100%;
-    height: 500px;  /*나중에 지워주기*/ 
+
   
     margin-bottom: 30px;
     
@@ -186,6 +200,7 @@
   'GRAD' 0,
   'opsz' 48
 }
+
 .like-qna-share{
 	overflow:hidden
 }
@@ -202,8 +217,9 @@
 .sum-date{
     margin-bottom: 25px;
     width: 100%;
-    height: 100px;
-    background-color:rgba(30,144,255,0.2) ;
+    height: 120px;
+    background-color:rgba(30,144,255,0.15) ;
+    border: 1px solid rgba(30,144,255,0.2);
     color: rgb(30,144,255);
     padding: 16px;
     border-radius: 10px;
@@ -216,27 +232,104 @@
     margin-left: 2px;
     color: #4a4a4a;
 }
-.like{
-		border: 1px solid #ccc;
-		border-radius: 15px;
-		width: 33%;
-		padding: 5px 10px;
+.like-qna-share{
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    padding: 0;
+}
+.like-qna-share>div{
+    border: 1px solid #ccc;
+		border-radius: 10px;
+		width: 32%;
+		padding: 5px;
 		text-align: center;
-        cursor:pointer
+        cursor:pointer;
+        height : 41px;
+        background-color:  rgba(30,144,255,0.15) ;
+}
 
-	}
+
 .like>span{
-		width: 25px; height: 25px;
+		width: 25px;
+        height: 25px;
 		text-align: center;
 	}
 .like>span:first-child{
 		font-size: 1.5em;
 	}
+.modal-open-btn{
+    display: flex;
+    height: 35px;
+    line-height: 35px;
+    
+}
+.modal-open-btn span{
+    flex-direction: column-reverse;
+}
+.count-member{
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 100px;
+    font-size: 33px;
+    margin-bottom: 50px;
+    
+}
+.member-list{
+    width: 100%;
+    height: 100px;
+    border: 1px solid #e6eaed;
+    display: flex;
+}
+.member-img{
+    width: 100px;
+    height: 100px;
+    background-color: red;
+    margin-left: 60px;
+}
+.member{
+    padding-left: 60px;
+    line-height: 100px;
+    font-size: 24px;
+}
 
 </style>
 </head>
 <body>
     <%@include file="/WEB-INF/views/common/header.jsp" %>
+    	<!--
+        <table border="1">
+		<tr>
+			<th>번호</th>
+			<th>이름</th>
+			<th>카테고리</th>
+			<th>시작날짜</th>
+			<th>끝난날짜</th>
+			<th>목표금액</th>
+			<th>현재모인금액</th>
+			<th>달성률</th>
+			<th>멤버넘버</th>
+			<th>파일패스</th>
+			<th>마감날짜</th>
+			<th>회사명</th>
+		</tr>
+		<c:forEach items="${list }" var="fjf">
+			<tr>
+				<td>${fjf.fundingNo }</td>
+				<td>${fjf.fundingName}</td>
+				<td>${fjf.fundingCategory}</td>
+				<td>${fjf.fundingStartDate}</td>
+				<td>${fjf.fundingEndDate}</td>
+				<td>${fjf.fundingSum}</td>
+				<td>${fjf.fundingCurrentSum}</td>
+				<td>${fjf.fundingSumRate}</td>
+				<td>${fjf.memberNo}</td>
+				<td>${fjf.fundingFilePath}</td>
+				<td>${fjf.fundingDeadline}</td>	
+				<td>${fjf.bizName }		
+			</tr>
+		</c:forEach>
+	</table>-->
 	<input type="hidden" id="fundingNo" value="${f.fundingNo}">
 
     <div class="title">
@@ -259,11 +352,26 @@
             </ul>
         </div>
     </div>
+    <!--메인-->
     <div class="main">
         <div class="box">
-            <div class="left-box">
+            <!--왼쪽-->
+            <div class="left-box" >
+                <div class="count-member">현재 이 프로젝트에 <span>xxx명</span>의 참여가 이루어 졌습니다.
+                </div>
+                <div class="member-list-wrap">
+                    <div class="member-list">
+                    <c:forEach items="${list}" var="o">
+                        <div class="member-img"></div>
+                        <div class="member">${o.memberId}님이 ${o.orderPrice}원 펀딩을 참여 하셨습니다</div>
+                    </c:forEach>
+                    </div>
+                </div>
+                
 
             </div>
+
+            <!--오른쪽-->
             <div class="right-box">
                 <div class="funding">
                     <div class="funding-deadline"><span>${f.fundingDeadline }</span><span>일 남음</span></div>
@@ -286,34 +394,58 @@
                     
                     <div class="like-qna-share">
                         <div class="like">
-                        <%-- <c:choose>
-							<c:when test="${f.like eq 0 }">
-								<span id="likestar" class="material-symbols-rounded likeB">star</span>									
-							</c:when>
-							<c:when test="${f.like eq 1 }">
-								<span class="material-symbols-rounded likeB-yellow">star</span>									
-							</c:when>
-						</c:choose>								
-							<span id="likeCount">${f.totallike}</span> --%>
+                        <%--<c:choose>
+                                <c:when test="${f.like eq 0 }">
+                                    <span id="likestar" class="material-symbols-rounded likeB">star</span>									
+                                </c:when>
+                                <c:when test="${f.like eq 1 }">
+                                    <span class="material-symbols-rounded likeB-yellow">star</span>									
+                                </c:when>
+						    </c:choose>								
+							<span id="likeCount">${f.totallike}</span>
+                             --%>
 							<c:choose>
-						<c:when test="${f.like eq 0 }">
-							<span class="material-symbols-rounded likeB">star</span>									
-						</c:when>
-						<c:when test="${f.like eq 1 }">
-							<span class="material-symbols-rounded likeB-yellow">star</span>									
-						</c:when>
-					</c:choose>
-					<span id="likeCount">${f.totallike}</span>
+                                <c:when test="${f.like eq 0 }">
+                                    <span class="material-symbols-rounded likeB">star</span>									
+                                </c:when>
+                                <c:when test="${f.like eq 1 }">
+                                    <span class="material-symbols-rounded likeB-yellow">star</span>									
+                                </c:when>
+					        </c:choose>
+					        <span id="likeCount">${f.totallike}</span>
 						</div>
 
-                        <div class="qna"><button><span class="material-symbols-outlined"><span class="material-symbols-outlined">speaker_notes_off</span></span><span>문의하기</span></button></div>
-                        <div class="share"><button><span class="material-symbols-outlined">share</span><span>공유하기</span></button></div></div>
+                        <div class="qna modal-open-btn" target="#test-modal"><span class="material-symbols-outlined modal-open-btn"><span class="material-symbols-rounded">
+                            sms
+                            </span></span><span>문의하기</span></div>
+                        <div class="share"><span class="material-symbols-outlined">share</span><span>공유하기</span></div>
                     </div>
-                    <div class="funding-rank">펀딩랭크</div>
+                </div>
+                <div class="funding-rank">펀딩랭크</div>
                 </div>
             </div>
-        </div>    
-    </div>
+        </div>
+        <div id="test-modal" class="modal-bg" style="z-index:88888;">
+			<div class="modal-wrap" style="width:800px;">
+				<div class="modal-head">
+					<h2 id="graph-title">문의하기</h2>					
+					<span class="material-icons close-icon modal-close">close</span>
+				</div>
+				<div class="modal-content">
+					<form action="/insertQna.kh">
+						<input type="hidden" name="memberId" value="${sessionScope.m.memberId }">
+						<input type="hidden" name="divNo" value="1">
+						<input type="hidden" name="projectNo" value="${f.fundingNo}">
+						<table class="tbl">
+							<tr><td><input type="text" class="input-form" name="qnaTitle" placeholder="제목을 입력하세요"></td></tr>
+							<tr><td><textarea class="input-form" name="qnaContent" placeholder="내용을 입력하세요"></textarea></td></tr>
+							<tr><td><button class="btn bc1">등록</button></td></tr>							
+						</table>						
+					</form>					
+				</div>
+			</div>
+		</div>
+    
 
 
     <%@include file="/WEB-INF/views/common/footer.jsp" %>
@@ -382,6 +514,7 @@
 			
 		})
         */
+       
         $(document).on("click","span.likeB",function(){
 			if(checkLogin()){
 				const value = $("input#fundingNo").val();			
@@ -442,6 +575,17 @@
         function login(){
 			location.href = "/loginFrmF.kh";
 		}
+        $(function () {
+        	const modalContent=$(".modal-content");
+        	const fundingNo=$("#fundingNo").val();
+			  $(document).on("click", ".modal-open-btn", function () {
+				  $($(this).attr("target")).css("display", "flex");					 
+			  });
+			  $(document).on("click", ".modal-close", function () {
+			    $(this).parents(".modal-wrap").parent().css("display", "none");
+			  });  
+			  $(".sub-navi").prev().after("<span class='material-icons dropdown'>expand_more</span>");
+		});
 </script>
     <style>
         .funding-btn{

@@ -202,7 +202,7 @@
 .funding-rank{
     width: 100%;
     height: 500px;/*나중에 지워주기*/ 
-    background-color: indigo;
+
 }
 .funding-btn{
     width: 100%;
@@ -216,6 +216,7 @@
   'GRAD' 0,
   'opsz' 48
 }
+
 .like-qna-share{
 	overflow:hidden
 }
@@ -236,7 +237,7 @@
     background-color:rgba(30,144,255,0.15) ;
     border: 1px solid rgba(30,144,255,0.2);
     color: rgb(30,144,255);
-    padding: 16px;
+    padding: 20px;
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 16px;
@@ -319,8 +320,8 @@
                     </c:forEach>    
                 </div>
                 <div class="sum-date">
-                    <p>목표 금액 ${f.fundingSum} 원</p>
-                    <p>펀딩 기간 ${f.fundingStartDate} 부터 ${f.fundingEndDate} 까지</p>
+                    <p>목표 금액 <span id="price-comma1">${f.fundingSum}</span> 원</p>
+                    <p>펀딩 종료 <span id="funding-end-date">${f.fundingEndDate}</span>  까지</p>
                     <p>100% 이상 모이면 펀딩이 성공되며, 펀딩 마감일까지 목표 금액이 100% 모이지 않으면 환불됩니다.</p>
                 </div>
                 <h3>펀딩 프로젝트 스토리</h3>
@@ -340,7 +341,7 @@
 						</c:otherwise>
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
-                    <div class="funding-sum"><span>${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
+                    <div class="funding-sum"><span id="price-comma2">${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
                     <div class="supporter-num"><span>131</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
@@ -377,7 +378,7 @@
                         <div class="share"><span class="material-symbols-outlined">share</span><span>공유하기</span></div>
                     </div>
                 </div>
-                <div class="funding-rank">펀딩랭크</div>
+                <div class="funding-rank"></div>
                 </div>
             </div>
         </div>
@@ -406,6 +407,21 @@
 
     <%@include file="/WEB-INF/views/common/footer.jsp" %>
     <script>
+        $(function(){
+
+            let fundingEndDateString= $("#funding-end-date").text();
+            fundingEndDateString = fundingEndDateString.substring(0,16);
+            $("#funding-end-date").text(fundingEndDateString);
+
+            let priceComma1 = $("#price-comma1").text();
+            const cn1 = priceComma1.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            $("#price-comma1").text(cn1);
+
+            let priceComma2 = $("#price-comma2").text();
+            const cn2 = priceComma2.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+            $("#price-comma2").text(cn2);
+        })
+        
         /*
         $(function(){
             $(".like").on("click",function(){

@@ -284,8 +284,13 @@ public class FundingController {
 	}
 	@RequestMapping(value="/fundingDetailSupporter.kh")
 	public String FundingDetailSupporter(Funding funding, Model model) {
+		System.out.println(funding.getFundingNo());
 		Funding f = service.selectOneFundingRight(funding.getFundingNo());
+		ArrayList<Order> list = service.selectSupporter(funding.getFundingNo());
+		int surppoterCount = service.selectOrderCount(funding.getFundingNo()) ;
 		model.addAttribute("f",f);
+		model.addAttribute("list",list);
+		model.addAttribute("surppoterCount",surppoterCount);
 
 		return "funding/fundingDetailSupporter";
 	}

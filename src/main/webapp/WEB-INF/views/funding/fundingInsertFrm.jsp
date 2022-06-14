@@ -259,7 +259,7 @@ table{
 							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" readonly></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" ></td>
 	                    </tr>
 	                    <tr> 
 	                        <th>카테고리</th>
@@ -383,11 +383,11 @@ table{
 			const optionNameTd2 = $("<td>");
 			const optionValueTd2 = $("<td>");
 			
-			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","색상");
-			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","블랙/화이트");
+			const inputName=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","색상");
+			const inputValue=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","블랙/화이트");
 			
-			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("value","맛");
-			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("value","딸기/포도");
+			const inputName2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionName").attr("placeholder","맛");
+			const inputValue2=$("<input>").attr("type","text").attr("class","input-form").attr("name","fundingOptionValue").attr("placeholder","딸기/포도");
 				
 			add.remove();
 			
