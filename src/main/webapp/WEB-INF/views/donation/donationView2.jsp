@@ -280,7 +280,7 @@ h5 {
 						<input type="hidden" id="projectNo" value="${donation.projectNo }" name="projectNo">
 						<input type="hidden" id="divNo" value="${donation.divNo }" name="divNo">
 						<input type="hidden" id="donationTitle" value="${donation.donationTitle }" name="donationTitle">
-						<input type="hidden" id="orderPrice" value="" name="orderPrice"> <!-- 총금액은 스크립트에서 jquery로 value값 전달 -->
+						<input type="hidden" id="orderPrice" value="${donation.donationCash }" name="orderPrice"> <!-- 총금액은 스크립트에서 jquery로 value값 전달 -->
 					</form>
 				</div>
 			</div>
