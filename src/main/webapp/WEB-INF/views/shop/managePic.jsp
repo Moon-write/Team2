@@ -44,15 +44,89 @@
 				<form action="/picUpload.kh" method="post" enctype="multipart/form-data" style="margin-top:50px;">
 					<fieldset style="border:0px solid black;width:500px; margin:0 auto; text-align:center;">										
 						<input type="file" name="upfile" id="imgUpload" accept=".jpg,.png,.jpeg,.gif" style="display:none;" multiple></input>	
-						<label class="btn bc1" for="imgUpload">사진 선택 (최대 4장)</label>				
+						<label class="btn bc1" for="imgUpload">사진 선택 (최대 4장)</label>
+						<span><input type="submit" class="btn bc1" name="submit" value="등록" style="float:none;"></span>	 
+						<div id="preview"></div>				
 		                <input type="hidden" name="memberNo" value="${sessionScope.m.memberNo }">
-		                <input type="hidden" name="shopNo" value="${shop.shopNo }">
-		                <span><input type="submit" class="btn bc1" name="submit" value="등록" style="float:none;"></span>	               
+		                <input type="hidden" name="shopNo" value="${shop.shopNo }">		                	               
 					</fieldset>
 				</form>
 			</c:if>			
 		</div>
 		<script>
+			let picLength=$(".img").length;	
+			$(document).ready(function (e){
+		    $("input[type='file']").change(function(e){
+
+		      //div 내용 비워주기
+		      $('#preview').empty();
+
+		      var files = e.target.files;
+		      var arr =Array.prototype.slice.call(files);
+		      if(arr.length+picLength>4){
+		    	  alert("최대 4장까지 선택가능합니다.")
+		    	  e.preventDefault();
+		      }else{
+		    	//업로드 가능 파일인지 체크
+			      for(var i=0;i<files.length;i++){
+			        if(!checkExtension(files[i].name,files[i].size)){
+			          return false;
+			        }
+			      }
+			      
+			      preview(arr);  
+		      }		      
+		    });//file change
+		    
+		    function checkExtension(fileName,fileSize){
+
+		      var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		      var maxSize = 20971520;  //20MB
+		      
+		      if(fileSize >= maxSize){
+		        alert('파일 사이즈 초과');
+		        $("input[type='file']").val("");  //파일 초기화
+		        return false;
+		      }
+		      
+		      if(regex.test(fileName)){
+		        alert('업로드 불가능한 파일이 있습니다.');
+		        $("input[type='file']").val("");  //파일 초기화
+		        return false;
+		      }
+		      return true;
+		    }
+		    
+		    function preview(arr){
+		      arr.forEach(function(f){
+		        
+		        //파일명이 길면 파일명...으로 처리
+		        var fileName = f.name;
+		        if(fileName.length > 10){
+		          fileName = fileName.substring(0,7)+"...";
+		        }
+		        
+		        //div에 이미지 추가
+		        var str = '<div class="pre-img" style="display: inline-flex; padding: 10px;"><div>';
+		        str += '<br>';
+		        
+		        //이미지 파일 미리보기
+		        if(f.type.match('image.*')){
+		          var reader = new FileReader(); //파일을 읽기 위한 FileReader객체 생성
+		          reader.onload = function (e) { //파일 읽어들이기를 성공했을때 호출되는 이벤트 핸들러
+		            //str += '<button type="button" class="delBtn" value="'+f.name+'" style="background: red">x</button><br>';
+		            str += '<img src="'+e.target.result+'" title="'+f.name+'" width=100 height=100 />';
+		            str += '</div></div>';
+		            $(str).appendTo('#preview');
+		          } 
+		          reader.readAsDataURL(f);
+		        }else{
+		          str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=100 height=100 />';
+		          $(str).appendTo('#preview');
+		        }
+		      });//arr.forEach
+		    }
+		  });
 			$(".deleteShopPic").on("click",function(){
 				const memberNo=$("input[name=memberNo]").val();
 				const check=$(".chk:checked");
@@ -65,19 +139,14 @@
 					shopPicNos.push($(item).parent().next().text());
 				});
 				location.href="/deleteShopPic.kh?memberNo="+memberNo+"&shopPicNos="+shopPicNos.join("/");
-			});
-			let picLength=$(".img").length;			
+			});				
 			$("input[name=submit]").on("click",function(e){
 				const file=$("input[name=upfile]").val();
 				if(file.length==0){
 					alert("선택된 사진이 없습니다.");
 					e.preventDefault();
 				}
-				if (($('#imgUpload')[0].files.length)+picLength>4) {	
-					alert("최대 4장까지 업로드 할 수 있습니다.");
-				    e.preventDefault();
-				}
-			});
+			});			
 		</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>

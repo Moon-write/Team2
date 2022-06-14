@@ -193,7 +193,7 @@
 		        to_char(funding_end_date,'yyyy-mm-dd') as fundingEndDate,
 		        funding_sum as fundingSum,
 		        nvl((select sum(order_price) from order_tbl where seller_no=f.member_no and project_no=funding_no),0) as fundingCurrentSum,
-		        trunc(funding_sum_rate*100,0) as fundingSumRate,
+		        trunc(funding_sum_rate,0) as fundingSumRate,
 		        f.member_no as memberNo
 		    from funding f 
 		    join order_tbl o on (f.member_no=o.seller_no)
