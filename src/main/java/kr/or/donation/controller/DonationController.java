@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.or.common.model.vo.Comment;
 import kr.or.common.model.vo.Order;
 import kr.or.common.model.vo.OrderProduct;
 import kr.or.donation.model.service.DonationService;
@@ -78,7 +79,21 @@ public class DonationController {
 		int result = service.insertDonationComment(dc); //insert 정상확인
 		int selectProjectNo = dc.getProjectNo(); //프로젝트번호(해당 프로젝트 상세페이지로 이동하기위해)
 		
-		if(result == 1) {
+		Comment donationCommentReal = new Comment();
+		donationCommentReal.setDivNo(2);
+		donationCommentReal.setProjectNo(selectProjectNo);
+		donationCommentReal.setMemberNo(m.getMemberNo());
+		donationCommentReal.setCommentContent(dc.getDonationCommentContent());
+		donationCommentReal.setCommentRef(selectProjectNo);
+		donationCommentReal.setMemberName(m.getMemberName());
+		
+		int donationMaxCommentNumber = service.donationMaxCommentNumber();
+		donationCommentReal.setCommentRef(donationMaxCommentNumber);
+		
+		int result1 = service.insertComment(donationCommentReal);
+		
+		
+		if(result == 1 && result1 == 1) {
 			request.setAttribute("title", "댓글등록성공");
 			request.setAttribute("msg", "글이 정상적으로 입력되었습니다.");
 			request.setAttribute("icon", "success");
@@ -196,12 +211,16 @@ public class DonationController {
 	@RequestMapping(value="/donationCommentDelete.kh")
 	public String donationCommentDelete(int donationCommentNo,int projectNo) {
 		System.out.println(donationCommentNo);
+		
 		DonationComment dc = new DonationComment();
+		Comment donationComment = new Comment();
 		dc.setDonationCommentNo(donationCommentNo);
+		donationComment.setCommentRef(donationCommentNo);
 		
 		int result = service.donationCommentDelete(dc);
+		int result1 = service.donationCommentDeleteReal(donationComment);
 		
-		if(result == 1) {
+		if(result == 1 && result1 == 1) {
 			request.setAttribute("title", "삭제성공");
 			request.setAttribute("msg", "댓글이 정상적으로 삭제되었습니다.");
 			request.setAttribute("icon", "success");
