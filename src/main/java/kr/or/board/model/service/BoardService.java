@@ -40,7 +40,7 @@ public class BoardService {
 		HashMap<String, Object> commentMap = new HashMap<String, Object>();
 		commentMap.put("boardName",boardName);
 		commentMap.put("memberNo", memberNo);
-		int totalCount = dao.selectLikeCount(commentMap);
+		int totalCount = dao.selectCommentCount(commentMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
@@ -114,7 +114,7 @@ public class BoardService {
 		HashMap<String, Object> orderMap = new HashMap<String, Object>();
 		orderMap.put("boardName",boardName);
 		orderMap.put("memberNo", memberNo);
-		int totalCount = dao.selectLikeCount(orderMap);
+		int totalCount = dao.selectOrderCount(orderMap);
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
