@@ -236,7 +236,15 @@
 .like>span:first-child{
 		font-size: 1.5em;
 	}
-
+.modal-wrap{
+	width: 700px;
+} 
+.modal-content,.modal-head,.modal-foot{
+	padding: 10px 40px;
+}
+.modal-wrap>.modal-content,.modal-head,.modal-foot {
+    padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -343,18 +351,19 @@
     </div>
 
     <div id="bidding-modal" class="modal-bg"  style="display: none;">
+    	
     
-        <div class="modal-wrap" style="width:700px ; background-color: aqua;" >
-            <div class="modal-head" style="padding-left: 40px;padding-right:40px ; background-color: #ff82ab;">
+        <div class="modal-wrap">
+            <div class="modal-head">
                 <h2>글 남기기</h2>
                 <span class="material-symbols-rounded close-icon modal-close">close</span>
             </div>
-            <div class="modal-content" style="padding-left: 40px;padding-right:40px ;">
+            <div class="modal-content">
                     <span>메이커에게 응원 메시지를 남겨주세요.</span>
                     <br>
                     <textarea id="commentContent"style="width: 100%; height: 250px;"></textarea>
             </div>
-                <div class="modal-foot" style="padding-left: 40px;padding-right:40px ; " >
+                <div class="modal-foot">
                     <h2 style="text-align: left;">게시물 이용 안내</h2>
                     <ol style="text-align: left;">
                         <li>본 프로젝트와 무관한 글, 광고성, 욕설, 비방, 도배 등의 글은 예고 없이 삭제 등 조치가 취해질 수 있으며, 해당 내용으로 인해 메이커, 서포터, 제3자에게 피해가 발생되지 않도록 유의하시기 바랍니다.</li>
@@ -501,7 +510,7 @@
         $(function(){//모달 종료버튼
             $("#bidBtn").on("click",function(){
 				$("#bidding-modal").css("display", "flex");
-                alert("등록버튼눌림");
+                console.log("등록버튼눌림");
 			});
         
             $(".modal-close").on("click", function () {

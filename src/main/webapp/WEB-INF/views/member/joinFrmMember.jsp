@@ -243,12 +243,6 @@
 					<tr class="form-input">
 						<td colspan="4"><input type="submit" class="bc5 bs4" id="join-submit" value="가입하기"></td>
 					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="button" class="bc2 bs4" id="join-check" value="체크버튼"></td>
-					</tr>
-					<tr class="form-input">
-						<td colspan="4"><input type="button" class="bc3 bs4" id="join-final" value="최종확인"></td>
-					</tr>
 				</table>
 			</form>
 		</div>

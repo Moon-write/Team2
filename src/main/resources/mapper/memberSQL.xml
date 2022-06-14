@@ -17,9 +17,15 @@
 		member_addr1 as memberAddr1,
 		member_addr2 as memberAddr2,
 		member_point as memberPoint
-	from member where member_id=#{memberId} 
+	from member 
+	<if test="memberId != null">	
+		where member_id=#{memberId} 
+	</if>
 	<if test="memberPw != null">
 	 	and member_pw=#{memberPw}
+	</if>
+	<if test="bizNo != null">
+		where biz_no=#{bizNo}
 	</if>
 	</select>
 	<select id="selectMemberList" parameterType="map" resultType="m">

@@ -213,4 +213,16 @@ public class MemberController {
 			return "0";
 		}
 	}
+	@ResponseBody
+	@RequestMapping(value="/checkBiz.kh")
+	public String selectOneBiz(long bizNo) {
+		Member m = new Member();
+		m.setBizNo(bizNo);
+		Member member = service.selectOneMember(m);
+		if(member != null) {
+			return "0";
+		}else {
+			return "1";
+		}
+	}
 }
