@@ -357,11 +357,11 @@
         <div class="box">
             <!--왼쪽-->
             <div class="left-box" >
-                <div class="count-member">현재 이 프로젝트에 <span>xxx명</span>의 참여가 이루어 졌습니다.
+                <div class="count-member">현재 이 프로젝트에 <span>${f.orderCount}</span> 명 의 참여가 이루어 졌습니다.
                 </div>
                 <div class="member-list-wrap">
                     <div class="member-list">
-                    <c:forEach items="${list}" var="o">
+                    <c:forEach items="${f.orderList}" var="o">
                         <div class="member-img"></div>
                         <div class="member">${o.memberId}님이 ${o.orderPrice}원 펀딩을 참여 하셨습니다</div>
                     </c:forEach>
@@ -385,7 +385,7 @@
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
                     <div class="funding-sum"><span>${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
-                    <div class="supporter-num"><span>131</span><span>명의 서포터</span></div>
+                    <div class="supporter-num"><span>${f.orderCount}</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
                     	<input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">          

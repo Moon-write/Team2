@@ -260,7 +260,7 @@ public class FundingController {
 		model.addAttribute("list",list);
 		model.addAttribute("f",f);
 		return "funding/fundingDetailStory";
-	}
+	}/*
 	@RequestMapping(value="/fundingDetailCommunity.kh")
 	public String FundingDetailCommunity(Funding funding, Model model) {
 		Funding f = service.selectOneFundingRight(funding.getFundingNo());
@@ -276,6 +276,7 @@ public class FundingController {
 		model.addAttribute("fb",fb); //펀딩 디테일에 들어가는 테이블입니다.
 		return "funding/fundingDetailNotice";
 	}
+	*/
 	@RequestMapping(value="/fundingBoardDetail.kh") //게시판 상세페이지 추가로직(임재형)
 	public String fundingBoardDetail(int boardNo,Model model) {
 		FundingBoard fb = service.selectOneFundingBoard(boardNo);
@@ -285,12 +286,10 @@ public class FundingController {
 	@RequestMapping(value="/fundingDetailSupporter.kh")
 	public String FundingDetailSupporter(Funding funding, Model model) {
 		System.out.println(funding.getFundingNo());
-		Funding f = service.selectOneFundingRight(funding.getFundingNo());
-		ArrayList<Order> list = service.selectSupporter(funding.getFundingNo());
-		int surppoterCount = service.selectOrderCount(funding.getFundingNo()) ;
+		Funding f = service.selectOneFundingSupporter(funding.getFundingNo());
+		
+		
 		model.addAttribute("f",f);
-		model.addAttribute("list",list);
-		model.addAttribute("surppoterCount",surppoterCount);
 
 		return "funding/fundingDetailSupporter";
 	}

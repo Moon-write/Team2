@@ -356,7 +356,7 @@ table{
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="수정하기">
 			        <input type="button" class="btn bc11" value="취소하기">
-			        <input type="button" class="btn bc2" value="미리보기(시간나면)">
+			        <!-- <input type="button" class="btn bc2" value="미리보기(시간나면)"> -->
 		        </div>
 	        </div>
 	    </form>

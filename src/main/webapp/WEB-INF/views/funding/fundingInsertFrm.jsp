@@ -345,7 +345,7 @@ table{
 								<span>왼쪽 박스를 클릭해 펀딩 종료일을 선택 해주세요.</span></td>
 	                    </tr>
 	                    <tr>
-	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" value="124567890"></td><td>원</td>
+	                        <th>펀딩 목표 금액</th><td><input type="text" class="input-form" name="fundingSum" ></td><td>원</td>
 	                    </tr>
 	                </table>
 	            </div>
@@ -360,7 +360,7 @@ table{
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="등록하기">
 			        <input type="button" class="btn bc11" value="취소하기">
-			        <input type="button" class="btn bc2" value="미리보기(시간나면)">
+			        <!-- <input type="button" class="btn bc2" value="미리보기(시간나면)"> -->
 		        </div>
 	        </div>
 	    </form>
@@ -535,7 +535,7 @@ table{
 		   timeDisplayFormat: "hh:mm:ss tt",
 		   width: '300px',
 		   minDate:'+1970/01/02',
-		   minTime:'today.getHours()'
+		   //minTime:'today.getHours()'
 		   
 		});
 		

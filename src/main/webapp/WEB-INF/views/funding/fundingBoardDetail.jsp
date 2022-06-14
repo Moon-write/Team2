@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>펀딩 공지사항 등록</title>
 </head>
 <style>
 	.board-table th{

@@ -12,7 +12,13 @@
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
 		<div class="page-content">
 			<div class="page-title">펀딩</div>
-			
+				<div class="fundingProduct">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
 			<div class="page-title">기부</div>
 				<div class="donation-main">
 					<div OnClick="location.href ='/donationHashtag.kh?donationCategory=pet'"><h1>#동물보호</h1></div>

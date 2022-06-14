@@ -2,6 +2,7 @@ package kr.or.funding.model.vo;
 
 import java.util.ArrayList;
 
+import kr.or.common.model.vo.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,12 @@ public class Funding {
 	// 좋아요갯수
 	private int totallike;
 	//멤버아이디 후원금액 가져오기
-	private String memberId;
-	private int orderPrice;
+	//private String memberId;
+	//private int orderPrice;
 	private int orderCount;
+	
+	//결제자 정보 불러오기
+	private ArrayList<String> memberId;
+	private ArrayList<String> orderPrice;
+	private ArrayList<Order> orderList;
 }

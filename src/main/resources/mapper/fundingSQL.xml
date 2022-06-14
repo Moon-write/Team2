@@ -59,7 +59,8 @@
   	FUNDING_SUM_RATE	AS fundingSumRate,
   	FUNDING_END			AS fundingEnd,
   	FUNDING_DEADLINE	AS fundingDeadline,
-  	BIZ_NAME			AS bizName
+  	BIZ_NAME			AS bizName,
+  	(select count(*) FROM ORDER_TBL WHERE PROJECT_NO =#{fundingNo} AND DIV_NO=1) AS orderCount
   	FROM FUNDING WHERE FUNDING_NO=#{fundingNo}
 
   </select>
@@ -272,6 +273,29 @@
 	  		</when>
   		</choose>
 </select>
+<select id="selectOneFundingSupporter" parameterType="int" resultType="f">
+	SELECT 
+    FUNDING_NO			AS fundingNo,
+  	FUNDING_NAME		AS fundingName,
+  	FUNDING_END_DATE	AS fundingEndDate,
+  	FUNDING_SUM			AS fundingSum,
+  	FUNDING_CATEGORY	AS fundingCategory,
+  	MEMBER_NO			AS memberNo,
+  	FUNDING_CURRENT_SUM	AS fundingCurrentSum,
+  	FUNDING_SUM_RATE	AS fundingSumRate,
+  	FUNDING_END			AS fundingEnd,
+  	FUNDING_DEADLINE	AS fundingDeadline,
+  	BIZ_NAME			AS bizName,
+  	 (select count(*) FROM ORDER_TBL WHERE PROJECT_NO =#{fundingNo} AND DIV_NO=1) AS orderCount
+    FROM FUNDING WHERE FUNDING_NO = #{fundingNo}
+</select>
+<select id="selectOrderListSupporter" parameterType="int" resultType="o">
+	SELECT MEMBER_ID AS memberId,
+	ORDER_PRICE AS orderPrice
+	FROM ORDER_TBL INNER JOIN MEMBER ON ORDER_TBL.MEMBER_NO = MEMBER.MEMBER_NO 
+	WHERE PROJECT_NO =#{fundingNo} AND DIV_NO=1
+</select>
+
 
 <select id="selectSurppoter" parameterType="int" resultType="o">
 	SELECT MEMBER_ID AS memberId,ORDER_PRICE AS orderPrice 

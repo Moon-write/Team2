@@ -191,9 +191,7 @@ public class FundingService {
 		return result;
 	}
 
-	public Funding selectOneFundingRight(int fundingNo) {
-		return dao.selectOneFundingRight(fundingNo);
-	}
+	
 
 	public Comment addComment(Comment c) {
 		int result = dao.addComment(c);
@@ -259,6 +257,13 @@ public class FundingService {
 	public int selectOrderCount(int fundingNo) {
 		// TODO Auto-generated method stub
 		return dao.selectOrderCount(fundingNo);
+	}
+
+	public Funding selectOneFundingSupporter(int fundingNo) {
+		Funding f = dao.selectOneFundingSupporter(fundingNo);
+		ArrayList<Order> o = dao.selectOrderListSupporter(fundingNo);
+		f.setOrderList(o);
+		return f;
 	}
 
 

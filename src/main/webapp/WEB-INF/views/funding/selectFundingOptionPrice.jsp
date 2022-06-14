@@ -156,26 +156,6 @@
 <body>
     <%@include file="/WEB-INF/views/common/header.jsp" %>
 
-	<table border="1">
-		<tr>
-			<th>펀딩옵션프라이스번호</th>
-			<th>펀딩옵션리스트</th>
-			<th>펀딩옵션가격</th>
-			<th>펀딩번호</th>
-			<th>펀딩이름</th>
-			<th>멤버이름</th>
-		</tr>
-		<c:forEach items="${list }" var="sfop" >
-			<tr>
-				<td>${sfop.fundingOptionPriceNo }</td>
-				<td>${sfop.fundingOptionList}</td>
-				<td>${sfop.fundingOptionPrice}</td>
-				<td>${sfop.fundingNo}</td>
-				<td>${f.fundingName }</td>
-				<td>${f.memberNo }</td>		
-			</tr>
-		</c:forEach>
-	</table>
 	
 	
 	<form action="/fundingOrder.kh" method="post">

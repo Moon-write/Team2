@@ -342,7 +342,7 @@
 					</c:choose>	
                     <div class="funding-sum-rate"><span>${f.fundingSumRate }</span><span>% 달성</span></div>
                     <div class="funding-sum"><span id="price-comma2">${f.fundingCurrentSum}</span><span>원 펀딩</span></div>
-                    <div class="supporter-num"><span>131</span><span>명의 서포터</span></div>
+                    <div class="supporter-num"><span>${f.orderCount}</span><span>명의 서포터</span></div>
                 	<div class="button-wrap">
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
                     	<input type="submit" class="btn bc1 funding-btn"  value="펀딩하기">          

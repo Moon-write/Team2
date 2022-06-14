@@ -109,28 +109,7 @@
 </head>
 <body>
 	<%@include file="/WEB-INF/views/common/header.jsp" %>
-    <table border="1">
-		<tr>
-			<th>펀딩이름</th>
-			<th>펀딩번호</th>
-			<th>판매자번호</th>
-			<th>개수</th>
-			<th>펀딩 가격</th>
-            <th>펀딩옵션이름리스트</th>
-            <th>펀딩옵션이름넘버</th>
-	
-		</tr>
-		<c:forEach items="${list }" var="pd" >
-			<tr>
-				<td>${pd.fundingName }</td>
-				<td>${pd.fundingNo}</td>
-				<td>${pd.memberNo}</td>
-				<td>${pd.amountNum2}</td>
-				<td>${pd.amountNumPrice2}</td>	
-                <td>${pd.optionNameList2}</td>
-                <td>${pd.optionPriceNo2}</td>
-			</tr>
-		</c:forEach>
+   
 	</table>
     <form action="/fundingPay.kh" method="post"> <!--insert 용 form이 필요한 경우 여기에 태그를 넣어주세요-->
         <!--<input type="hidden" id="orderNo" value="${order.orderNo}" name="orderNo">-->

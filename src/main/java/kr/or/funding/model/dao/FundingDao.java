@@ -195,6 +195,16 @@ public class FundingDao {
 		return sqlSession.selectOne("funding.selectOrderCount",fundingNo);
 	}
 
+	public Funding selectOneFundingSupporter(int fundingNo) {
+		return sqlSession.selectOne("funding.selectOneFundingSupporter",fundingNo);
+
+	}
+
+	public ArrayList<Order> selectOrderListSupporter(int fundingNo) {
+		List list = sqlSession.selectList("funding.selectOrderListSupporter",fundingNo);
+		return (ArrayList<Order>)list;
+	}
+
 
 	
 
