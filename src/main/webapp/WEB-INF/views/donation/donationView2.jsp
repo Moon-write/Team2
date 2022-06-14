@@ -249,8 +249,10 @@ h5 {
 				<div>
 					<span class="material-icons">account_circle</span>
 					<div>
-						<h3>${member.memberId }</h3>
-						<p>${member.memberName }</p>
+						<a href="/shopInfo.kh?memberNo=${member.memberNo }">
+							<h3>${member.memberId }</h3>
+							<p>${member.memberName }</p>
+						</a>
 					</div>
 				</div>
 				<div style="width: 70%" class="donation-target">

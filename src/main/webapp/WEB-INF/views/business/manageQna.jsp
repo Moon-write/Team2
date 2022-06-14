@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Q&A 관리</title>
 <style>
 .menu {
 	margin-top:30px;
