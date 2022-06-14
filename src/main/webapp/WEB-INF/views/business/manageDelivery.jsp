@@ -530,15 +530,19 @@ td:last-child{
 							
 							if(orderStatus==1 || orderStatus==2){
 								detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
-								table2.append(detailTr3).append(carrierTr);
+								table2.append(detailTr3);
 							}else{
 								detailTr3.append(opNoTh).append(opNoTd).append(opPrTh).append(opPrTd).append(amountTh).append(amountTd);
-								table2.append(detailTr3);	
 							}							
 						}
 						table.append(tr2).append(detailTr1);
 					}
-				});				
+				});	
+				if(orderStatus==1 || orderStatus==2){
+					table2.append(carrierTr);
+				}else{					
+					table2.append(detailTr3);	
+				}	
             }
 		}
 		/* if(e.value=="3"){
