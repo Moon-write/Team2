@@ -90,10 +90,16 @@
 	color:1e90ff;
 	
 }
-
+.fundingProduct{
+	display: flex;
+	width: 1200px;
+	justify-content: center;
+	
+}
 .fundingProduct>div{
 	width:200px;
 	height:200px;
-	borer : 1px solid red;
+	border: 1px solid black;
+	margin: 20px;
 }
 .
