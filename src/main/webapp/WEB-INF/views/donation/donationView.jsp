@@ -321,7 +321,7 @@ h2{
 						<c:set var="sessionScopeMemberId" value="${sessionScope.m.memberId}"/>
 						<c:set var="donationCommentMemberId" value="${comment.memberId}"/>
 						<c:if test="${sessionScopeMemberId eq donationCommentMemberId}">
-							<a href="/donationCommentDelete.kh?donationCommentNo=${comment.donationCommentNo }" class="btn-pulse">DELETE</a>
+							<a href="/donationCommentDelete.kh?donationCommentNo=${comment.donationCommentNo }&projectNo=${comment.projectNo}" class="btn-pulse">DELETE</a>
 						</c:if>
 					</div>
 				</c:forEach>

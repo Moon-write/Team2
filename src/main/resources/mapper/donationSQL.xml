@@ -64,7 +64,7 @@
   		MEMBER_ID as memberId,
   		DONATION_COMMENT_DATE as donationCommentDate,
   		DONATION_COMMENT_CONTENT as donationCommentContent
-  	from donationcomment where PROJECT_NO = #{projectNo}
+  	from donationcomment where PROJECT_NO = #{projectNo} order by donation_comment_no
   </select>
   
   <select id="selectOneDonation" resultType="d" parameterType="int">
