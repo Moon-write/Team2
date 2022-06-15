@@ -64,7 +64,7 @@
 				  var files = e.target.files;
 				  var arr =Array.prototype.slice.call(files);
 				  if(arr.length+picLength>4){
-					  alert("최대 4장까지 선택가능합니다.")
+					  alert("최대 4장까지 등록 가능합니다.")
 					  e.preventDefault();
 				  }else{
 					//업로드 가능 파일인지 체크
