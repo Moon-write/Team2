@@ -130,6 +130,7 @@ option{
 										<c:if test="${!empty bo.fundingPN }"><td><a href="/fundingDetailStory.kh?fundingNo=${bo.projectNo}" style="color:black;">${bo.fundingPN }</a></td></c:if>
 										<c:if test="${!empty bo.donationPN }"><td><a href="/donationClick.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.donationPN }</a></td></c:if>
 										<c:if test="${!empty bo.auctionPN }"><td><a href="/auctionView.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.auctionPN }</a></td></c:if>
+										<c:if test="${empty bo.auctionPN and empty bo.donationPN and empty bo.fundingPN}"><td>삭제된 프로젝트</td></c:if>
 										<td><a href="#" class="showContent" onclick="return false;" style="color:black;">${bo.qnaTitle }</a></td>
 										<td>${bo.memberId }</td>
 										<td>${bo.qnaDate }</td>																		
