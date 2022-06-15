@@ -86,6 +86,12 @@ option{
 	background-color:white;
 	color:black;
 }
+.projectName{
+ max-width: 132px;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
 </style>
 
 </head>
@@ -133,10 +139,10 @@ option{
 											<c:when test="${bo.qnaStatus eq 0}"><td>답변대기</td></c:when>
 											<c:when test="${bo.qnaStatus eq 1}"><td>답변완료</td></c:when>
 										</c:choose>
-										<c:if test="${!empty bo.fundingPN }"><td><a href="/fundingDetailStory.kh?fundingNo=${bo.projectNo}" style="color:black;">${bo.fundingPN }</a></td></c:if>
-										<c:if test="${!empty bo.donationPN }"><td><a href="/donationClick.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.donationPN }</a></td></c:if>
-										<c:if test="${!empty bo.auctionPN }"><td><a href="/auctionView.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.auctionPN }</a></td></c:if>
-										<c:if test="${empty bo.auctionPN and empty bo.donationPN and empty bo.fundingPN}"><td>삭제된 프로젝트</td></c:if>
+										<c:if test="${!empty bo.fundingPN }"><td class="projectName"><a href="/fundingDetailStory.kh?fundingNo=${bo.projectNo}" style="color:black;">${bo.fundingPN }</a></td></c:if>
+										<c:if test="${!empty bo.donationPN }"><td class="projectName"><a href="/donationClick.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.donationPN }</a></td></c:if>
+										<c:if test="${!empty bo.auctionPN }"><td class="projectName"><a href="/auctionView.kh?projectNo=${bo.projectNo}" style="color:black;">${bo.auctionPN }</a></td></c:if>
+										<c:if test="${empty bo.auctionPN and empty bo.donationPN and empty bo.fundingPN}"><td class="projectName">삭제된 프로젝트</td></c:if>
 										<td><a href="#" class="showContent" onclick="return false;" style="color:black;">${bo.qnaTitle }</a></td>
 										<td>${bo.memberId }</td>
 										<td>${bo.qnaDate }</td>																		
@@ -145,6 +151,12 @@ option{
 										<td colspan="7">
 											<table class="tbl" style="margin-bottom:0;">
 												<form action="/insertQnaRe.kh" method="post">
+													<tr>
+														<td style="width:100px;">
+															<div style="text-align:right;">문의제목 : </div>
+														</td>
+														<td><div style="text-align:left;">${bo.qnaTitle }</div></td>				
+													</tr>
 													<tr>
 														<td style="width:100px;">
 															<div style="text-align:right;">문의내용 : </div>

@@ -307,14 +307,14 @@ public class BusinessService {
 		map.put("sellerNo",sellerNo);
 		map.put("qnaStatus",qnaStatus);
 		ArrayList<Board> qnaList = bDao.selectQnaList(map);
-		System.out.println(qnaList);
+		
 		//pageNavi작성
 		//totalCount = 전체 게시물 수 
 		HashMap<String, Object> qnaMap = new HashMap<String, Object>();
 		qnaMap.put("boardName",boardName);		
 		qnaMap.put("sellerNo",sellerNo);
 		qnaMap.put("qnaStatus",qnaStatus);
-		int totalCount = bDao.selectQnaCount(qnaMap);
+		int totalCount = bDao.selectQnaCount(qnaMap);		
 		//totalPage = 전체 페이지 수
 		int totalPage = 0;
 		if(totalCount % numPerPage == 0) {
