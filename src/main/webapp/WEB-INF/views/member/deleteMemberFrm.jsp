@@ -35,7 +35,7 @@
 	}
 </style>
 <meta charset="UTF-8">
-<title>:: 회원 페이지 ::</title>
+<title>회원탈퇴</title>
 </head>
 <body>
 

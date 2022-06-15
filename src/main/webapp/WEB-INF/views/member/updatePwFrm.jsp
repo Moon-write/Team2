@@ -52,7 +52,7 @@
 }	
 </style>
 <meta charset="UTF-8">
-<title>:: 회원 페이지 ::</title>
+<title>비밀번호 수정</title>
 </head>
 <body>
 <!--  마이페이지 기본템플릿  -->

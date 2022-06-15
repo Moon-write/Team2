@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>:: 회원정보 ::</title>
+<title>회원정보 수정</title>
 <style>
 .info-tbl{
 	margin: 0 auto;

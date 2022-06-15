@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>찜 목록</title>
 <link rel="stylesheet" href="/resources/css/board/boardMain.css">
 <style>
 .content-title{
