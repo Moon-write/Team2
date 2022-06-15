@@ -2,6 +2,8 @@ package kr.or.board.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,8 @@ public class BoardController {
 	BoardService service;
 	@Autowired
 	MemberService mService;
+	@Autowired
+	private HttpServletRequest request;
 	
 	@RequestMapping(value="/commentList.kh")
 	public String commentList(int reqPage, Model model, Member m) {
@@ -65,7 +69,19 @@ public class BoardController {
 	public String insertQna(String memberId, int divNo, int projectNo, String qnaTitle, String qnaContent) {
 		int sellerNo=service.selectSeller(divNo, projectNo);
 		int result=service.insertQna(memberId, sellerNo, divNo, projectNo, qnaTitle, qnaContent);
-		return "redirect:fundingDetailStory.kh?fundingNo="+projectNo;
+		System.out.println(qnaTitle);
+		System.out.println(result);
+		if(result>0) {
+			request.setAttribute("title", "문의 등록 성공");
+			request.setAttribute("msg", "문의가 등록됐습니다.");
+			request.setAttribute("icon", "success");
+		}else{
+			request.setAttribute("title", "문의 등록 실패");
+			request.setAttribute("msg", "관리자에게 문의하세요.");
+			request.setAttribute("icon", "error");
+		}
+		request.setAttribute("loc", "fundingDetailStory.kh?fundingNo="+projectNo);
+		return "common/msg";
 	}
 	
 	@RequestMapping(value="/likeList.kh")

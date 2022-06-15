@@ -403,9 +403,9 @@
 						<input type="hidden" name="divNo" value="1">
 						<input type="hidden" name="projectNo" value="${f.fundingNo}">
 						<table class="tbl">
-							<tr><td><input type="text" class="input-form" name="qnaTitle" placeholder="제목을 입력하세요"></td></tr>
-							<tr><td><textarea class="input-form" name="qnaContent" placeholder="내용을 입력하세요"></textarea></td></tr>
-							<tr><td><button class="btn bc1">등록</button></td></tr>							
+							<tr><td><input type="text" class="input-form" name="qnaTitle" placeholder="제목을 입력하세요" value=""></td></tr>
+							<tr><td><textarea class="input-form" name="qnaContent" placeholder="내용을 입력하세요" value=""></textarea></td></tr>
+							<tr><td><button class="btn bc1 insertQna">등록</button></td></tr>							
 						</table>						
 					</form>					
 				</div>
@@ -421,6 +421,17 @@
 			location.href = "/loginFrm.kh";
 		}
         */
+        $(".insertQna").on("click", function(e){
+        	const qnaTitle=$("input[name=qnaTitle]").val();
+        	const qnaContent=$("textarea[name=qnaContent]").val();
+        	if(qnaTitle==""){
+        		alert("제목을 입력하세요.");
+        		e.preventDefault();
+        	}else if(qnaContent==""){
+        		alert("내용을 입력하세요.");
+        		e.preventDefault();
+        	}
+        });
         $(function(){
             $(".funding-log").on("click",function(){
                 alert("로그인 후 펀딩을 진행 해주세요!");
