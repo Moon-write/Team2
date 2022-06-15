@@ -69,8 +69,6 @@ public class BoardController {
 	public String insertQna(String memberId, int divNo, int projectNo, String qnaTitle, String qnaContent) {
 		int sellerNo=service.selectSeller(divNo, projectNo);
 		int result=service.insertQna(memberId, sellerNo, divNo, projectNo, qnaTitle, qnaContent);
-		System.out.println(qnaTitle);
-		System.out.println(result);
 		if(result>0) {
 			request.setAttribute("title", "문의 등록 성공");
 			request.setAttribute("msg", "문의가 등록됐습니다.");

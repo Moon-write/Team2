@@ -455,7 +455,7 @@ h2{
 					const div2=$(".funding-list");				
 					const fc=$(".funding-content2");
 					let length=0;
-					if(fc%3==0){
+					if(fc.length%3==0){
 						length=parseInt(fc.length/3)+1;
 					}else{
 						length=parseInt(fc.length/3)+2;
@@ -474,7 +474,7 @@ h2{
 					const div2=$(".donation-list");				
 					const dc=$(".donation-content2");
 					let length=0;
-					if(dc%3==0){
+					if(dc.length%3==0){
 						length=parseInt(dc.length/3)+1;
 					}else{
 						length=parseInt(dc.length/3)+2;
@@ -493,7 +493,7 @@ h2{
 					const div2=$(".auction-list");				
 					const ac=$(".auction-content2");
 					let length=0;
-					if(ac%3==0){
+					if(ac.length%3==0){
 						length=parseInt(ac.length/3)+1;
 					}else{
 						length=parseInt(ac.length/3)+2;
