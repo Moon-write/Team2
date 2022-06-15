@@ -250,7 +250,7 @@ h5 {
 					<span class="material-icons">account_circle</span>
 					<div>
 						<a href="/shopInfo.kh?memberNo=${member.memberNo }">
-							<h3>${member.memberId }</h3>
+							<h3>${member.bizName }</h3>
 							<p>${member.memberName }</p>
 						</a>
 					</div>
