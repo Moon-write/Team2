@@ -348,10 +348,10 @@
                 	<form action="/selectFundingOptionPrice.kh?fundingNo=${f.fundingNo }&&memberNo=${sessionScope.m.memberNo}" method="post" ><!-- 왜 get은안되고 post만되는지 질문 -->
                         <c:choose>
                             <c:when test="${not empty sessionScope.m}">
-                                <input type="submit" class="btn bc1 funding-btn" id="funding-btn" value="펀딩하기">          
+                                <input type="button" class="btn bc1 funding-btn funding-pay" value="펀딩하기">          
                             </c:when>
                             <c:when test="${empty sessionScope.m}">
-                                <input type="submit" class="btn bc1 funding-btn" id="funding-btn" value="로그인해주세요"> 
+                                <input type="button" class="btn bc1 funding-btn funding-log" value="로그인해주세요"> 
                             </c:when>
                         </c:choose>
 
@@ -422,6 +422,13 @@
 		}
         */
         $(function(){
+            $(".funding-log").on("click",function(){
+                alert("로그인 후 펀딩을 진행 해주세요!");
+                location.href = "/loginFrm.kh";
+            });
+            $(".funding-pay").on("click",function(){
+                $(".funding-pay").attr("type","submit");
+            });
 
             let fundingEndDateString= $("#funding-end-date").text();
             fundingEndDateString = fundingEndDateString.substring(0,16);

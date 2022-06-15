@@ -355,7 +355,7 @@ table{
 	            </div>
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="수정하기">
-			        <input type="button" class="btn bc11" value="취소하기">
+			        <input type="button" class="btn bc11" id="cancelButton" value="취소하기" >
 			        <!-- <input type="button" class="btn bc2" value="미리보기(시간나면)"> -->
 		        </div>
 	        </div>
@@ -369,6 +369,11 @@ table{
 
 	 //써머노트
 	 $(function(){
+		$("#cancelButton").on("click",function(){
+			alert("등록이 취소되었습니다");
+			window.close();
+		});
+
 	 $("#summernote").summernote({
 		height:800,
 		lang : "ko-KR",
@@ -564,7 +569,6 @@ table{
 					
 				  if( $("input[name=fundingName]").val()!=""){
 					  if(category.val()!="none"){
-						  			if($("#preview").children().length!=0||$("#previeww").children().length!=0){
 						  				if($("#datetimepicker").val()!=""){
 						  					
 						  					if($("input[name=fundingSum]").val()!=""&&regExp.test($("input[name=fundingSum]").val())){
@@ -577,11 +581,6 @@ table{
 						  					alert("마감날짜를 선택해주세요!");
 						  					return false;
 						  				}
-						  			}else{
-						  				alert("사진을 올려주세요!");
-						  				return false;
-						  			}
-							
 					  	}else{
 							alert("'카테고리'를 선택해 주세요!");
 							return false;

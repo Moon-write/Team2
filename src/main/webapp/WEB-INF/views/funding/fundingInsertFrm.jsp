@@ -359,7 +359,7 @@ table{
 	            </div>
 	            <div class="insert-button">
 			        <input type="submit" class="btn bc1" id="insertButton" value="등록하기">
-			        <input type="button" class="btn bc11" value="취소하기">
+			        <input type="button" class="btn bc11" id="cancelButton" value="취소하기">
 			        <!-- <input type="button" class="btn bc2" value="미리보기(시간나면)"> -->
 		        </div>
 	        </div>
@@ -451,6 +451,11 @@ table{
 		});
 	 //옵션목록으로 적용
 	$(function(){
+		$("#cancelButton").on("click",function(){
+			alert("등록이 취소되었습니다");
+			location.href = "/";
+		});
+
 	 $(".option-category").on("click",function(){
 		 var fundingOptionNameArr = new Array();//다음부터는 let으로 쓰자
 		 var fundingOptionValueArr = new Array();
@@ -551,6 +556,10 @@ table{
 			console.log(typeof $("[name=fundingSum]").val());
 		});
 
+		
+
+
+
 		  //정규 표현식
 		  $("form").on("submit",function(){
 					if(!check()){
@@ -615,7 +624,7 @@ table{
 								return false;
 							  }*/
 			  }//check
-			  
+			
 	});
 
 			  
