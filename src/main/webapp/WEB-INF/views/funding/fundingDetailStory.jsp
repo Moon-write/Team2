@@ -424,13 +424,21 @@
         $(".insertQna").on("click", function(e){
         	const qnaTitle=$("input[name=qnaTitle]").val();
         	const qnaContent=$("textarea[name=qnaContent]").val();
+        	var blank_pattern = /^\s+|\s+$/g;
         	if(qnaTitle==""){
         		alert("제목을 입력하세요.");
-        		e.preventDefault();
+        		e.preventDefault();        		
+        	}else if(qnaTitle.replace(blank_pattern, '')=="" ){
+        	    alert('제목에 공백만 입력할 수 없습니다');
+        	    e.preventDefault();
         	}else if(qnaContent==""){
         		alert("내용을 입력하세요.");
-        		e.preventDefault();
+        		e.preventDefault();        		
+        	}else if(qnaContent.replace(blank_pattern, '')=="" ){
+        	    alert('내용에 공백만 입력할 수 없습니다.');
+        	    e.preventDefault();
         	}
+        	
         });
         $(function(){
             $(".funding-log").on("click",function(){
