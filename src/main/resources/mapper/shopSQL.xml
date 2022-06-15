@@ -90,9 +90,8 @@
 	  	order by funding_deadline desc
 	</select>
 	<select id="selectFundingFile" parameterType="int" resultType="String">
-		select nvl(funding_file_path,0) as fundingFilepath
-		from funding_file 
-		right outer join dual on rownum=1 and funding_No=#{fundingNo}
+		select distinct first_value(nvl(funding_file_path,0)) over() as fundingFilepath
+		from funding_file where funding_No=#{fundingNo}
 	</select>
 	
 	<select id="selectShopPic" parameterType="int" resultType="sp">

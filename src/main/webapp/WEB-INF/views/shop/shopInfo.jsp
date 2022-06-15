@@ -255,7 +255,7 @@ h2{
 								url:"/selectFundingFile.kh",
 								data:{fundingNo:fundingNo},
 								async:false,
-								success:function(data){									
+								success:function(data){
 									filepath=data;									
 								}
 							});
@@ -288,16 +288,17 @@ h2{
 								data:{fundingNo:fundingNo},
 								async:false,
 								success:function(data){									
-									filepath=data;									
+									filepath=data;
+									console.log(data);
 								}
-							});							
+							});
 							const content =	$("<div class='funding-content2' style=\"display:none;\">");
 							const a=$("<a href='/fundingDetailStory.kh?fundingNo="+list[i].fundingNo+"'>");
 							const div3=$("<div>");
 							if(filepath=="0"){
 								div3.append("<img src=\"/resources/upload/common/위니쥬.jpg\">");
 							}else{
-								div3.append("<img src=\"/resources/upload/funding/filepath\">");
+								div3.append("<img src=\"/resources/upload/funding/"+filepath+"\">");
 							}
 							const textBox="<div class='auction-title'><h4 style=\"white-space:nowrap;overflow:hidden;text-overflow:ellipsis\">"+list[i].fundingName+"</h4></div>"+
 							  "<div class='auction-price'>"+
