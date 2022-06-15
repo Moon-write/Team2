@@ -31,7 +31,7 @@
 			$("div.msg-banner").slideDown();
 		}		
 		
-		ws = new WebSocket("ws://116.127.99.184/insertBid.kh");
+		ws = new WebSocket("ws://khdsa1.iptime.org:18082/insertBid.kh");
 		ws.onopen = onOpen;
 		ws.onmessage = receiveMsg;
 		ws.onclose = onClose;
