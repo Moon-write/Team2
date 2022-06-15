@@ -239,10 +239,10 @@ h2{
 				</div>
 				<div>
 					<span class="material-icons">account_circle</span>
-					<div>
+					<a href="/shopInfo.kh?memberNo=${member.memberNo }">
 						<h3>${member.bizName }</h3>
 						<p>${member.memberName }</p>
-					</div>
+					</a>
 				</div>
 				<div style="width: 70%" class="donation-target">
 					<p> 총수량 <span id="resultView">1</span> </p>
