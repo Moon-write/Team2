@@ -213,6 +213,7 @@ table{
 	width: 780px;
 	box-sizing: border-box;
 }
+
 </style>
 <link rel="stylesheet" href="/resources/css/summernote-lite.css"><!-- css헤더에 넣는다. -->
 </head>
@@ -259,7 +260,7 @@ table{
 							<td colspan="2"><input type="text" class="input-form" name="fundingName" type="text"></td>
 	                    </tr>
 	                    <tr>
-	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" ></td>
+	                        <th>회사명</th><td id="bizName"><input type="text" class="input-form" type="text"  name="bizName" value="${sessionScope.m.bizName}" readonly ></td>
 	                    </tr>
 	                    <tr> 
 	                        <th>카테고리</th>
@@ -278,7 +279,7 @@ table{
 							</td>
 	                    </tr>
 	                    <tr>
-	                        <th>옵션명 개수</th><td >
+	                        <th>옵션명 개수</th><td>
 	                            <select class="input-form" id="fundingOptionCount">
 	                                <option value="1">1개</option>
 	                                <option	value="2">2개</option>
@@ -302,7 +303,7 @@ table{
 		                    <tr id="option-table-tr">
 		                        <td><input type="text" class="input-form" name="fundingOptionName" placeholder="사이즈" ></td>
 		                        <td><input type="text" class="input-form" name="fundingOptionValue" placeholder="M/L" ></td>
-								<td><button type="button" class="option-category btn bc1">옵션목록으로 적용</button></td>
+								<td><button type="button" class="option-category btn bc1">옵션목록으로 적용</button></td><td class="token"><span id="precaution"class="material-symbols-outlined">error</span><span> 옵션값은 '/'로 구분됩니다</span></td>
 		                    </tr>
 	                	</tbody>
 	                </table>

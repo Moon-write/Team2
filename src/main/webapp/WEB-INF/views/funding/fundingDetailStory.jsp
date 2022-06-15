@@ -121,7 +121,7 @@
 }
 .funding-detail>p>img{
     width: 100%;
-    height: 300px;
+
     object-fit: cover;
 
 
@@ -351,7 +351,7 @@
                                 <input type="button" class="btn bc1 funding-btn funding-pay" value="펀딩하기">          
                             </c:when>
                             <c:when test="${empty sessionScope.m}">
-                                <input type="button" class="btn bc1 funding-btn funding-log" value="로그인해주세요"> 
+                                <input type="button" class="btn bc1 funding-btn funding-log" value="펀딩하기"> 
                             </c:when>
                         </c:choose>
 

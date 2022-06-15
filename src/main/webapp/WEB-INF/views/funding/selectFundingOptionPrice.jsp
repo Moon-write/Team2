@@ -200,7 +200,7 @@
 		<div class="funding-Name-price"><span class="total-name-price">${f.fundingName } </span> 에 <span class="total-price total-name-price">0</span><span> 원 펀딩합니다.</span></div>
 		
 		<div class="submit-wrap">
-			<input type="submit" class="btn bc1 funding-btn"  value="다음 단계로 >">
+			<input type="button" class="btn bc1 funding-btn"  value="다음 단계로 >">
 		</div>
 		</form>
 	</div>
@@ -224,6 +224,14 @@
 		});
 		*/
 		$(function(){
+			$(".funding-btn").on("click",function(){
+				if($(".total-price").text()!=0){
+					$(".funding-btn").attr("type","submit");
+				}else{
+					alert("옵션 수량을 선택해주세요");
+				}
+			});
+
 
 			$(".amount-increase").each(function (index, item) {
 				/*증가할때*/

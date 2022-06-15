@@ -13,25 +13,25 @@
 		<div class="page-content">
 			<div class="page-title">펀딩</div>
 				<div class="fundingProduct">
-					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
-						<div class="img-wrap"><img></div>
-						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					<div class="hover" OnClick="location.href ='/fundingDetailStory.kh?fundingNo=170'">
+						<div class="img-wrap"><img src="/resources/upload/funding/techimg0.png"></div>
+						<div><span class="funding-span">[프리미엄 강철팬] 무쇠팬에 코팅을 더하다! 건강한 요리를 시작하세요!</span></div>
 					</div>
-					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
-						<div class="img-wrap"><img></div>
-						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					<div class="hover" OnClick="location.href ='/fundingDetailStory.kh?fundingNo=171'">
+						<div class="img-wrap"><img src="/resources/upload/funding/fashionimg1.png"></div>
+						<div><span class="funding-span">슬리퍼에 러닝화의 최신 기술을 담다, 프리워터스 CLOUD9</span></div>
 					</div>
-					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
-						<div class="img-wrap"><img></div>
-						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					<div class="hover" OnClick="location.href ='/fundingDetailStory.kh?fundingNo=174'">
+						<div class="img-wrap"><img src="/resources/upload/funding/homeimg1.png"></div>
+						<div><span class="funding-span">커피의 시작이자 마침표,로스팅 | 커피생활을 확 바꿔줄 스마트APP로스터</span></div>
 					</div>
-					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
-						<div class="img-wrap"><img></div>
-						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					<div class="hover" OnClick="location.href ='/fundingDetailStory.kh?fundingNo=173'">
+						<div class="img-wrap"><img src="/resources/upload/funding/foodimg1.png"></div>
+						<div><span class="funding-span">푸드 [날짜지정 배송] 꾸덕달콤상큼! 만족도폭발 '과일' 그릭요거트 앵콜!</span></div>
 					</div>
-					<div OnClick="location.href ='/fundingDetailStory.kh?fundingNo=165'">
-						<div class="img-wrap"><img></div>
-						<div><span class="funding-span">펀딩상품테크가전</span></div>
+					<div class="hover" OnClick="location.href ='/fundingDetailStory.kh?fundingNo=172'">
+						<div class="img-wrap"><img src="/resources/upload/funding/beautyimg1.png"></div>
+						<div><span class="funding-span">[에센셜 오일 100%] 꼭 필요한 것만 남긴 인생 핸드워시</span></div>
 					</div>
 				</div>
 			<div class="page-title">기부</div>
