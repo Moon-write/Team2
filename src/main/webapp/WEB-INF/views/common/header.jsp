@@ -116,6 +116,7 @@
 	
 	window.onload=popKey();
 	
+	
 	function popKey(){
 		$.ajax({
 			url: "/popKey.kh",
@@ -124,7 +125,7 @@
 				for(let i=0;i<list.length;i++){
 					const keyword=$("#keyword");
 					const div=$("<div>");
-					const a=$("<a class=\"searchKeyword\" href=\"#\" style=\"color:black\">");
+					const a=$("<a class=\"searchKeyword\" href=\"#\" style=\"color:black;display: inline-block;height:20px;max-width: 90px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;vertical-align: top;\">");
 					a.append(list[i]);
 					div.append(a);
 					keyword.append(div);
